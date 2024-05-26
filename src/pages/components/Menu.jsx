@@ -22,7 +22,7 @@ export default function Menu() {
                 {isOpen && (
                     <div className="absolute top-15 right-5 bg-white p-4 rounded shadow-lg z-50 w-[150px]">
                         
-                        <ul className="space-y-2 p-4">
+                        <ul className="space-y-2">
                             <li><a href="/" className="hover:underline">Home</a></li>
                             <li><a href="/sobre" className="hover:underline">Sobre</a></li>
                             <li><a href="/blog" className="hover:underline">Blog</a></li>
