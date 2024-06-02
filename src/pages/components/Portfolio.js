@@ -12,7 +12,7 @@ const projects = [
     title: 'Busca CEP',
     description: 'Buscador de CEP desenvolvido com React utilizando a API da ViaCep',
     imageUrl: '/images/busca-cep.png',
-    projectUrl: 'https://link-do-projeto2.com',
+    projectUrl: 'https://buscador-cep-ecru.vercel.app/',
     repoUrl: 'https://github.com/juliano340/buscador-cep'
   },
   {
