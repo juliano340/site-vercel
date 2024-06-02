@@ -21,7 +21,7 @@ const HeroSection = () => {
         typingDelay={500}
         className="text-2xl"
       />
-      <p className="mt-6 text-lg text-gray-400">Criando soluções web eficientes e inovadoras.</p>
+      <p className="mt-6 text-lg text-center text-gray-400">Criando soluções web eficientes e inovadoras.</p>
     </div>
   );
 };

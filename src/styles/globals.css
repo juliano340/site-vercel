@@ -8,6 +8,11 @@
     padding: 0px;
 }
 
+html {
+    scroll-behavior: smooth;
+  }
+  
+
 @media (max-width: 600px) {
     /* Estilos para smartphones */
 

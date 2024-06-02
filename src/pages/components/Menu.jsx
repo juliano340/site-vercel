@@ -7,40 +7,39 @@ export default function Menu() {
 
     return (
         <>
-            <div className='sm:hidden p-2 bg-slate-300 font-semibold'>
-                <div className='flex items-center justify-between'>
-                    <a href="/">
-                        <h1>@JULIANO340</h1>
+            <div className="sm:hidden p-4 bg-slate-300 font-semibold">
+                <div className="flex items-center justify-between">
+                    <a href="/" className="text-xl font-bold">
+                        @JULIANO340
                     </a>
-                    <button onClick={toggle} className="text-2xl rounded-md p-0">
+                    <button onClick={toggle} className="text-2xl rounded-md p-2 bg-gray-200 hover:bg-gray-300 transition">
                         {isOpen ? (
-                            <i className="fa-solid fa-xmark p-1 fa-border border-gray-400"></i>
+                            <i className="fa-solid fa-xmark"></i>
                         ) : (
-                            <i className="fa-solid fa-bars p-1 fa-border border-gray-400"></i>
+                            <i className="fa-solid fa-bars"></i>
                         )}
                     </button>
                 </div>
 
                 {isOpen && (
-                    <div className="absolute top-15 right-5 bg-white p-4 rounded shadow-lg z-50 w-[150px]">
-
-                        <ul className="space-y-2">
-                            <li><a href="/" className="hover:underline">HOME</a></li>
-                            <li><a href="/sobre" className="hover:underline">SOBRE</a></li>
-                            <li><a href="/blog" className="hover:underline">Blog</a></li>
-                            <li><a href="/contato" className="hover:underline">Contato</a></li>
+                    <div className="absolute top-16 right-5 bg-white p-4 rounded shadow-lg z-50 w-[150px]">
+                        <ul className="space-y-2 text-gray-700">
+                            <li><a href="/" className="block hover:underline">HOME</a></li>
+                            <li><a href="#about" className="block hover:underline">SOBRE</a></li>
+                            <li><a href="/blog" className="block hover:underline">BLOG</a></li>
+                            <li><a href="/contato" className="block hover:underline">CONTATO</a></li>
                         </ul>
                     </div>
                 )}
             </div>
 
-            <div className='hidden sm:flex items-center justify-between bg-slate-300 font-semibold p-4'>
-                <a href="/">
-                    <h1>@JULIANO340</h1>
+            <div className="hidden sm:flex items-center justify-between bg-slate-300 font-semibold p-4">
+                <a href="/" className="text-xl font-bold">
+                    @JULIANO340
                 </a>
-                <ul className="flex justify-end space-x-4">
+                <ul className="flex space-x-4 text-gray-700">
                     <li><a href="/" className="hover:underline">HOME</a></li>
-                    <li><a href="/sobre" className="hover:underline">SOBRE</a></li>
+                    <li><a href="#about" className="hover:underline">SOBRE</a></li>
                     <li><a href="/blog" className="hover:underline">BLOG</a></li>
                     <li><a href="/contato" className="hover:underline">CONTATO</a></li>
                 </ul>
