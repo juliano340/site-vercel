@@ -1,21 +1,27 @@
 import React from 'react';
+import TypingEffect from 'react-typing-effect';
+import Image from 'next/image';
 
 const HeroSection = () => {
   return (
-    <div className="relative bg-cover bg-center h-screen" style={{ backgroundImage: "url('https://via.placeholder.com/1920x1080')" }}>
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white">
-        <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">Bem-vindo ao Meu Site</h1>
-        <p className="mt-4 text-lg sm:text-xl lg:text-2xl max-w-2xl">
-          Aqui você encontra as melhores soluções para suas necessidades. Explore nossos serviços e produtos.
-        </p>
-        <a
-          href="#services"
-          className="mt-8 px-6 py-3 bg-teal-500 text-white rounded-md text-lg sm:text-xl lg:text-2xl transition duration-300 transform hover:bg-teal-700 hover:scale-105"
-        >
-          Explore Mais
-        </a>
-      </div>
+    <div className="bg-gray-800 text-white h-screen flex flex-col justify-center items-center">
+      <Image
+        src="https://avatars.githubusercontent.com/u/87342139?s=400&u=170c2c96bac22f65feb6a2b2602371dcfcd7841b&v=4"
+        alt="Profile Picture"
+        width={150}
+        height={150}
+        className="rounded-full mb-4"
+      />
+      <h1 className="text-5xl text-center font-bold mb-4">Olá, eu sou um Programador Web</h1>
+      <TypingEffect
+        text={["Desenvolvedor Front-end", "Desenvolvedor Back-end", "Desenvolvedor Full Stack"]}
+        speed={100}
+        eraseSpeed={50}
+        eraseDelay={2000}
+        typingDelay={500}
+        className="text-2xl"
+      />
+      <p className="mt-6 text-lg text-gray-400">Criando soluções web eficientes e inovadoras.</p>
     </div>
   );
 };

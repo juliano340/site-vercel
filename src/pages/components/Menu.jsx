@@ -25,8 +25,8 @@ export default function Menu() {
                     <div className="absolute top-15 right-5 bg-white p-4 rounded shadow-lg z-50 w-[150px]">
 
                         <ul className="space-y-2">
-                            <li><a href="/" className="hover:underline">Home</a></li>
-                            <li><a href="/sobre" className="hover:underline">Sobre</a></li>
+                            <li><a href="/" className="hover:underline">HOME</a></li>
+                            <li><a href="/sobre" className="hover:underline">SOBRE</a></li>
                             <li><a href="/blog" className="hover:underline">Blog</a></li>
                             <li><a href="/contato" className="hover:underline">Contato</a></li>
                         </ul>
@@ -39,10 +39,10 @@ export default function Menu() {
                     <h1>@JULIANO340</h1>
                 </a>
                 <ul className="flex justify-end space-x-4">
-                    <li><a href="/" className="hover:underline">Home</a></li>
-                    <li><a href="/sobre" className="hover:underline">Sobre</a></li>
-                    <li><a href="/blog" className="hover:underline">Blog</a></li>
-                    <li><a href="/contato" className="hover:underline">Contato</a></li>
+                    <li><a href="/" className="hover:underline">HOME</a></li>
+                    <li><a href="/sobre" className="hover:underline">SOBRE</a></li>
+                    <li><a href="/blog" className="hover:underline">BLOG</a></li>
+                    <li><a href="/contato" className="hover:underline">CONTATO</a></li>
                 </ul>
             </div>
         </>
