@@ -12,11 +12,16 @@ export default function Menu() {
                     <a href="/" className="text-xl font-bold">
                         @JULIANO340
                     </a>
-                    <button onClick={toggle} className="text-2xl rounded-md p-2 bg-gray-200 hover:bg-gray-300 transition">
+                    <button
+                        onClick={toggle}
+                        className="text-2xl rounded-md p-2 bg-gray-200 hover:bg-gray-300 transition"
+                        aria-expanded={isOpen}
+                        aria-label="Toggle menu"
+                    >
                         {isOpen ? (
-                            <i className="fa-solid fa-xmark"></i>
+                            <i className="fa-solid fa-xmark" aria-hidden="true"></i>
                         ) : (
-                            <i className="fa-solid fa-bars"></i>
+                            <i className="fa-solid fa-bars" aria-hidden="true"></i>
                         )}
                     </button>
                 </div>
@@ -41,7 +46,7 @@ export default function Menu() {
                     <li><a href="/" className="hover:underline">HOME</a></li>
                     <li><a href="#about" className="hover:underline">SOBRE</a></li>
                     <li><a href="/blog" className="hover:underline">BLOG</a></li>
-                    <li><a href="/contato" className="hover:underline">CONTATO</a></li>
+                    <li><a href="#" className="hover:underline">CONTATO</a></li>
                 </ul>
             </div>
         </>

@@ -5,7 +5,7 @@ import Image from 'next/image';
 const HeroSection = () => {
   return (
     <div className="bg-gray-800 text-white h-screen flex flex-col justify-center items-center">
-      <Image
+      <img
         src="https://avatars.githubusercontent.com/u/87342139?s=400&u=170c2c96bac22f65feb6a2b2602371dcfcd7841b&v=4"
         alt="Profile Picture"
         width={150}

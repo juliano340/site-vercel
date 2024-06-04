@@ -31,7 +31,7 @@ const Portfolio = () => {
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
           <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <Image
+            <img
               src={project.imageUrl}
               alt={project.title}
               width={500}
