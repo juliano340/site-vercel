@@ -3,20 +3,40 @@
 import { useState } from 'react';
 
 const Contato = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     nome: '',
     email: '',
     mensagem: ''
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [status, setStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica para enviar os dados do formulário
-    console.log('Dados do formulário:', formData);
+    setStatus('Enviando...');
+    try {
+      const response = await fetch('/api/contato', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setStatus('Mensagem enviada com sucesso!');
+        setFormData(initialFormData); // Limpar os campos do formulário
+      } else {
+        const errorData = await response.json();
+        setStatus(`Falha ao enviar mensagem: ${errorData.error}`);
+      }
+    } catch (error) {
+      setStatus(`Erro ao enviar mensagem: ${error.message}`);
+    }
   };
 
   return (
@@ -80,6 +100,7 @@ const Contato = () => {
             </button>
           </div>
         </form>
+        {status && <p className="mt-4 text-center text-sm text-gray-600">{status}</p>}
       </div>
     </div>
   );
