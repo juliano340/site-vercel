@@ -13,7 +13,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="text-center mt-4">
-          &copy; 2024 Juliano. Todos os direitos reservados.
+          &copy; 2024 juliano340.com - Todos os direitos reservados.
         </div>
       </div>
     </footer>
