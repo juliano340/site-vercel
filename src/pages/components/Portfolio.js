@@ -17,7 +17,7 @@ const projects = [
   },
   {
     title: 'J-FLIX',
-    description: 'Projeto de listagem de filmes utilizando a API da Themoviedb',
+    description: 'Top 10 Filmes do Momento desenvolvido com React utilizando a API da Themoviedb',
     imageUrl: '/images/j-flix.png',
     projectUrl: 'https://j-flix-ashen.vercel.app/',
     repoUrl: 'https://github.com/juliano340/j-flix'

@@ -1,6 +1,6 @@
 import React from 'react';
 import TypingEffect from 'react-typing-effect';
-import Image from 'next/image';
+import Link from 'next/link';
 
 const HeroSection = () => {
   return (
@@ -22,6 +22,11 @@ const HeroSection = () => {
         className="text-2xl"
       />
       <p className="mt-6 text-lg text-center text-gray-400">Criando soluções web eficientes e inovadoras.</p>
+      <Link href="/contato" passHref>
+        <div className="mt-8 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-700 cursor-pointer transition duration-300 ease-in-out">
+          Entre em Contato
+        </div>
+      </Link>
     </div>
   );
 };
