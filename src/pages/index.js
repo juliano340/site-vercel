@@ -4,6 +4,7 @@ import HeroSection from './components/HeroSection';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
 import Footer from './components/Footer';
+import CtaSection from './components/CtaSection';
 
 
 
@@ -16,6 +17,7 @@ export default function Home() {
       <HeroSection />
       <About />
       <Portfolio />
+      <CtaSection />
       
           
         
