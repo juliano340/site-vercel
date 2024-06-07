@@ -46,7 +46,7 @@ export default function Menu() {
                     <li><a href="/" className="hover:underline">HOME</a></li>
                     <li><a href="#about" className="hover:underline">SOBRE</a></li>
                     <li><a href="/blog" className="hover:underline">BLOG</a></li>
-                    <li><a href="#" className="hover:underline">CONTATO</a></li>
+                    <li><a href="contato" className="hover:underline">CONTATO</a></li>
                 </ul>
             </div>
         </>
