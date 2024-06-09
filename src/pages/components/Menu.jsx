@@ -7,7 +7,7 @@ export default function Menu() {
 
     return (
         <>
-            <div className="sm:hidden p-4 bg-slate-300 font-semibold">
+            <div className="fixed top-0 left-0 right-0 sm:hidden p-4 bg-slate-300 font-semibold z-50">
                 <div className="flex items-center justify-between">
                     <a href="/" className="text-xl font-bold">
                         @JULIANO340
@@ -38,7 +38,7 @@ export default function Menu() {
                 )}
             </div>
 
-            <div className="hidden sm:flex items-center justify-between bg-slate-300 font-semibold p-4">
+            <div className="fixed top-0 left-0 right-0 hidden sm:flex items-center justify-between bg-slate-300 font-semibold p-4 z-50">
                 <a href="/" className="text-xl font-bold">
                     @JULIANO340
                 </a>
@@ -49,6 +49,7 @@ export default function Menu() {
                     <li><a href="/contato" className="hover:underline">CONTATO</a></li>
                 </ul>
             </div>
+            <div className="pt-16 sm:pt-20"></div> {/* Spacing for fixed nav */}
         </>
     );
 }
