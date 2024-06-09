@@ -1,6 +1,7 @@
 // pages/contato.js
 
 import { useState } from 'react';
+import Breadcrumb from './components/Breadcrumb';
 
 const Contato = () => {
   const initialFormData = {
@@ -41,6 +42,7 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Breadcrumb paths={[{ label: 'Home', href: '/' },{ label: 'Contato', href: '/contato' }]} />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Entre em Contato</h2>

@@ -43,7 +43,7 @@ export async function getStaticProps({ params }) {
 }
 
 const renderBlock = (block) => {
-    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video } = block;
+    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video, code } = block;
 
     switch (type) {
         case 'paragraph':
@@ -111,6 +111,18 @@ const renderBlock = (block) => {
                         allowFullScreen
                     />
                 </div>
+            );
+        case 'code':
+            return (
+                <pre key={id} className="bg-gray-100 rounded p-4 my-4 overflow-x-auto">
+                    <code>
+                        {Array.isArray(code.rich_text) ? code.rich_text.map((text, index) => (
+                            <span key={index}>
+                                {text.text.content}
+                            </span>
+                        )) : code.rich_text?.[0]?.text.content || ''}
+                    </code>
+                </pre>
             );
         default:
             return <p key={id}>[Unsupported block type: {type}]</p>;
