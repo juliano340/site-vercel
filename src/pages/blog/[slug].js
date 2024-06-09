@@ -98,7 +98,7 @@ const renderBlock = (block) => {
                         title="Embedded Content" 
                         style={{ 
                             width: '100%',
-                            height: '500px',
+                            height: '100%',
                             border: 'none' 
                         }} 
                     />
