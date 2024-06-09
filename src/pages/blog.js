@@ -26,15 +26,14 @@ export async function getStaticProps() {
 const Blog = ({ posts }) => {
   return (
     <div className="container mx-auto px-4 py-8">
-      
-
+      <h1 className="text-4xl font-bold mb-12 text-center">Blog</h1>
       <div className="space-y-8">
         {posts
           .filter((post) => post.properties.Published.checkbox)
           .map((post) => {
             const { id, properties, authorDetails } = post;
             const title = properties.Page?.title?.[0]?.text?.content || 'Untitled';
-            const description = properties.Description?.multi_select?.[0]?.name || 'No description';
+            const description = properties.Description?.rich_text?.[0]?.text?.content || 'No description';
             const author = authorDetails?.name || 'Unknown author';
             const slug = properties.Slug?.rich_text?.[0]?.text?.content || '';
 
@@ -49,9 +48,9 @@ const Blog = ({ posts }) => {
                   <a className="text-2xl font-semibold text-blue-600 hover:underline block mb-2">{title}</a>
                 </Link>
                 <p className="text-gray-600 mb-4">{description}</p>
-                <p className="text-gray-500">Autor: {author}</p>
+                <p className="text-gray-500">Por {author}</p>
                 <Link href={`/blog/${slug}`} legacyBehavior>
-                  <a className="mt-4 inline-block text-blue-600 hover:underline">Leia mais</a>
+                  <a className="mt-4 inline-block text-blue-600 hover:underline">Ler mais</a>
                 </Link>
               </div>
             );
