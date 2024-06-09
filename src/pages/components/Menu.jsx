@@ -32,7 +32,7 @@ export default function Menu() {
                             <li><a href="/" className="block hover:underline">HOME</a></li>
                             <li><a href="#about" className="block hover:underline">SOBRE</a></li>
                             <li><a href="/blog" className="block hover:underline">BLOG</a></li>
-                            <li><a href="/http://localhost:3000/contato" className="block hover:underline">CONTATO</a></li>
+                            <li><a href="/contato" className="block hover:underline">CONTATO</a></li>
                         </ul>
                     </div>
                 )}
@@ -46,7 +46,7 @@ export default function Menu() {
                     <li><a href="/" className="hover:underline">HOME</a></li>
                     <li><a href="/#about" className="hover:underline">SOBRE</a></li>
                     <li><a href="/blog" className="hover:underline">BLOG</a></li>
-                    <li><a href="contato" className="hover:underline">CONTATO</a></li>
+                    <li><a href="/contato" className="hover:underline">CONTATO</a></li>
                 </ul>
             </div>
         </>
