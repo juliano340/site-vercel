@@ -1,11 +1,11 @@
 import { getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
-import Breadcrumb from './components/Breadcrumb';
+import Breadcrumb from './components/Breadcrumb'; // ajuste o caminho para o Breadcrumb
 
 export async function getStaticProps() {
     const database = await getDatabase();
 
-    // Fetch user details for cada post
+    // Fetch user details for each post
     for (const post of database) {
         const userId = post.properties.Person?.people?.[0]?.id;
         if (userId) {
@@ -31,9 +31,9 @@ const Blog = ({ posts }) => {
     ];
 
     return (
-        <div className="container mx-auto px-4 pt-24 mb-8">
+        <div className="container mx-auto px-4 pt-24 mb-8 min-h-screen">
             <Breadcrumb paths={breadcrumbPaths} />
-            <h1 className='text-2xl font-bold text-stone-7 my-5'>Postagens</h1>
+            <h1 className='text-3xl font-bold text-gray-800 my-5'>Posts</h1>
             <div className="space-y-8">
                 {posts
                     .filter((post) => post.properties.Published.checkbox)
@@ -62,12 +62,12 @@ const Blog = ({ posts }) => {
                         return (
                             <div key={id} className="p-6 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                                 <Link href={`/blog/${slug}`} legacyBehavior>
-                                    <a className="text-2xl font-semibold text-blue-600 hover:underline">{title}</a>
+                                    <a className="text-2xl font-semibold text-slate-700 hover:underline">{title}</a>
                                 </Link>
                                 <p className="mt-2 text-gray-600">{description}</p>
                                 <p className="mt-2 text-gray-500"><strong>Autor:</strong> {author}</p>
                                 <Link href={`/blog/${slug}`} legacyBehavior>
-                                    <a className="inline-block text-white hover:underline bg-blue-400 hover:bg-blue-500 rounded px-4 py-2 mt-4">Ler tudo</a>
+                                    <a className="inline-block text-white bg-blue-400 hover:bg-blue-500 rounded px-4 py-2 mt-4">Ler tudo 🔍</a>
                                 </Link>
                             </div>
                         );
