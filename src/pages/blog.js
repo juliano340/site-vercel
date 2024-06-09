@@ -27,7 +27,7 @@ const Blog = ({ posts }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="container mx-auto px-4 py-8 flex-grow">
-        <h1 className="text-4xl font-bold mb-12 text-center">Posts</h1>
+        <h1 className="text-4xl font-bold mb-12 text-center">POSTS</h1>
         <div className="space-y-8">
           {posts
             .filter((post) => post.properties.Published.checkbox)
