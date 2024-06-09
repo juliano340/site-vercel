@@ -19,7 +19,7 @@ export default function Menu() {
 
     return (
         <>
-            <div className={`fixed w-full top-0 left-0 font-semibold z-50 transition-all ${scrolled ? 'bg-slate-300/90 backdrop-blur-md shadow-md' : 'bg-slate-300'}`}>
+            <div className={`fixed w-full top-0 left-0 font-semibold z-50 transition-all ${scrolled ? 'bg-slate-300/70 backdrop-blur-md shadow-md' : 'bg-slate-300'}`}>
                 <div className="sm:hidden p-4">
                     <div className="flex items-center justify-between">
                         <a href="/" className="text-xl font-bold">
