@@ -40,7 +40,7 @@ export default function Menu() {
                     </div>
 
                     {isOpen && (
-                        <div className="absolute top-16 right-5 bg-white rounded shadow-lg z-50 w-[150px]">
+                        <div className="absolute top-16 right-5 p-4 bg-white rounded shadow-lg z-50 w-[150px]">
                             <ul className="space-y-2 text-gray-700">
                                 <li><a href="/" className="block hover:underline">HOME</a></li>
                                 <li><a href="/#about" className="block hover:underline">SOBRE</a></li>
