@@ -119,17 +119,15 @@ const renderBlock = (block) => {
 
 const Post = ({ post, blocks }) => {
 
-  console.log(post);
+    const breadcrumbPaths = [
+        { label: 'Home', href: '/' },
+        { label: 'Blog', href: '/blog' },
+        { label: post.properties.Page.title[0].text.content, href: '#' },
+    ];
 
-  const breadcrumbPaths = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Post', href: '#' },
-];
     return (
         <div className="container mx-auto px-4 py-8 min-h-screen">
-          <Breadcrumb paths={breadcrumbPaths} />
-          
+            <Breadcrumb paths={breadcrumbPaths} />
             <h1 className="text-4xl font-bold mb-6">{post.properties.Page.title[0].text.content}</h1>
             <div className="prose">
                 {blocks.map(block => renderBlock(block))}
