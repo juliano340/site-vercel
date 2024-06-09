@@ -30,7 +30,7 @@ export default function Menu() {
                     <div className="absolute top-16 right-5 bg-white p-4 rounded shadow-lg z-50 w-[150px]">
                         <ul className="space-y-2 text-gray-700">
                             <li><a href="/" className="block hover:underline">HOME</a></li>
-                            <li><a href="#about" className="block hover:underline">SOBRE</a></li>
+                            <li><a href="/#about" className="block hover:underline">SOBRE</a></li>
                             <li><a href="/blog" className="block hover:underline">BLOG</a></li>
                             <li><a href="/contato" className="block hover:underline">CONTATO</a></li>
                         </ul>
