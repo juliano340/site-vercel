@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
     return {
         paths,
-        fallback: false,
+        fallback: 'blocking', // Allow pages to be generated on-demand
     };
 }
 
@@ -37,12 +37,11 @@ export async function getStaticProps({ params }) {
             post: page,
             blocks,
         },
-        revalidate: 10,
+        revalidate: 10, // Revalidate page every 10 seconds
     };
 }
 
 const renderBlock = (block) => {
-    console.log('Rendering block:', block);
     const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed } = block;
 
     switch (type) {
