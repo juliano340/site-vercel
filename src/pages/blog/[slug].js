@@ -127,7 +127,7 @@ const Post = ({ post, blocks }) => {
     { label: 'Post', href: '#' },
 ];
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 min-h-screen">
           <Breadcrumb paths={breadcrumbPaths} />
           
             <h1 className="text-4xl font-bold mb-6">{post.properties.Page.title[0].text.content}</h1>

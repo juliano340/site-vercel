@@ -31,9 +31,9 @@ const Blog = ({ posts }) => {
     ];
 
     return (
-        <div className="container mx-auto px-4 pt-24 mb-8 min-h-screen">
+        <div className="container mx-auto px-4 py-8 min-h-screen">
             <Breadcrumb paths={breadcrumbPaths} />
-            <h1 className='text-3xl font-bold text-gray-800 my-5'>Posts</h1>
+            <h1 className="text-3xl font-bold text-gray-800 my-5 text-center">Posts</h1>
             <div className="space-y-8">
                 {posts
                     .filter((post) => post.properties.Published.checkbox)
