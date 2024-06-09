@@ -48,7 +48,7 @@ const renderBlock = (block) => {
     switch (type) {
         case 'paragraph':
             return (
-                <p key={id}>
+                <p key={id} className="mb-4">
                     {paragraph?.rich_text?.map((text, index) => (
                         <span key={index} style={{
                             fontWeight: text.annotations.bold ? 'bold' : 'normal',
@@ -88,9 +88,9 @@ const renderBlock = (block) => {
         case 'heading_3':
             return <h3 key={id} className="text-2xl font-semibold my-4">{heading_3.rich_text[0].text.content}</h3>;
         case 'bulleted_list_item':
-            return <li key={id} className="ml-4 list-disc">{bulleted_list_item.rich_text[0].text.content}</li>;
+            return <li key={id} className="ml-4 list-disc mb-2">{bulleted_list_item.rich_text[0].text.content}</li>;
         case 'numbered_list_item':
-            return <li key={id} className="ml-4 list-decimal">{numbered_list_item.rich_text[0].text.content}</li>;
+            return <li key={id} className="ml-4 list-decimal mb-2">{numbered_list_item.rich_text[0].text.content}</li>;
         case 'embed':
             return (
                 <div key={id} style={{ textAlign: 'center', margin: '20px 0' }}>
@@ -99,7 +99,7 @@ const renderBlock = (block) => {
                         title="Embedded Content" 
                         style={{ 
                             width: '100%',
-                            height: '100%',
+                            height: '500px',
                             border: 'none' 
                         }} 
                     />
@@ -114,7 +114,7 @@ const Post = ({ post, blocks }) => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold mb-6">{post.properties.Page.title[0].text.content}</h1>
-            <div className="prose">
+            <div className="prose prose-lg max-w-none">
                 {blocks.map(block => renderBlock(block))}
             </div>
         </div>
