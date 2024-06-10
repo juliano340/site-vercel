@@ -42,23 +42,41 @@ export async function getStaticProps({ params }) {
     };
 }
 
+const renderRichText = (richTextArray) => {
+    return richTextArray.map((text, index) => {
+        if (text.href) {
+            return (
+                <a key={index} href={text.href} className="text-blue-500 hover:underline" style={{
+                    fontWeight: text.annotations.bold ? 'bold' : 'normal',
+                    fontStyle: text.annotations.italic ? 'italic' : 'normal',
+                    textDecoration: `${text.annotations.underline ? 'underline' : ''} ${text.annotations.strikethrough ? 'line-through' : ''}`,
+                    color: text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
+                }}>
+                    {text.text.content}
+                </a>
+            );
+        }
+        return (
+            <span key={index} style={{
+                fontWeight: text.annotations.bold ? 'bold' : 'normal',
+                fontStyle: text.annotations.italic ? 'italic' : 'normal',
+                textDecoration: `${text.annotations.underline ? 'underline' : ''} ${text.annotations.strikethrough ? 'line-through' : ''}`,
+                color: text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
+            }}>
+                {text.text.content}
+            </span>
+        );
+    });
+};
+
 const renderBlock = (block) => {
-    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video, code } = block;
+    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video, code, to_do, child_database } = block;
 
     switch (type) {
         case 'paragraph':
             return (
                 <p key={id} className="my-4">
-                    {paragraph?.rich_text?.map((text, index) => (
-                        <span key={index} style={{
-                            fontWeight: text.annotations.bold ? 'bold' : 'normal',
-                            fontStyle: text.annotations.italic ? 'italic' : 'normal',
-                            textDecoration: `${text.annotations.underline ? 'underline' : ''} ${text.annotations.strikethrough ? 'line-through' : ''}`,
-                            color: text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
-                        }}>
-                            {text.text.content}
-                        </span>
-                    ))}
+                    {renderRichText(paragraph.rich_text)}
                 </p>
             );
         case 'image':
@@ -79,18 +97,41 @@ const renderBlock = (block) => {
                 </div>
             );
         case 'heading_1':
-            return <h1 key={id} className="text-4xl font-bold my-4">{heading_1.rich_text[0].text.content}</h1>;
+            return <h1 key={id} className="text-4xl font-bold my-4">{renderRichText(heading_1.rich_text)}</h1>;
         case 'heading_2':
-            return <h2 key={id} className="text-3xl font-semibold my-4">{heading_2.rich_text[0].text.content}</h2>;
+            return <h2 key={id} className="text-3xl font-semibold my-4">{renderRichText(heading_2.rich_text)}</h2>;
         case 'heading_3':
-            return <h3 key={id} className="text-2xl font-semibold my-4">{heading_3.rich_text[0].text.content}</h3>;
+            return <h3 key={id} className="text-2xl font-semibold my-4">{renderRichText(heading_3.rich_text)}</h3>;
         case 'bulleted_list_item':
-            return <li key={id} className="ml-4 list-disc">{bulleted_list_item.rich_text[0].text.content}</li>;
+            return <li key={id} className="ml-4 list-disc">{renderRichText(bulleted_list_item.rich_text)}</li>;
         case 'numbered_list_item':
-            return <li key={id} className="ml-4 list-decimal">{numbered_list_item.rich_text[0].text.content}</li>;
+            return <li key={id} className="ml-4 list-decimal">{renderRichText(numbered_list_item.rich_text)}</li>;
         case 'embed':
+            const embedUrl = embed.url;
+            const isImage = /\.(jpg|jpeg|png|gif)$/i.test(embedUrl);
+            if (isImage) {
+                return (
+                    <div key={id} className="text-center my-8">
+                        <img 
+                            src={embedUrl} 
+                            alt="Embedded Image" 
+                            className="max-w-full h-auto mx-auto"
+                        />
+                    </div>
+                );
+            }
+            return (
+                <div key={id} className="text-center my-8">
+                    <iframe
+                        src={embedUrl}
+                        title="Embed"
+                        className="w-full"
+                        style={{ height: 'auto' }}
+                    />
+                </div>
+            );
         case 'video':
-            let videoUrl = embed?.url || video?.external?.url;
+            let videoUrl = video.external.url;
             if (!videoUrl) {
                 console.error(`Video block with ID ${id} is missing a URL`);
                 return null;
@@ -123,6 +164,21 @@ const renderBlock = (block) => {
                         )) : code.rich_text?.[0]?.text.content || ''}
                     </code>
                 </pre>
+            );
+        case 'to_do':
+            return (
+                <div key={id} className="my-4 flex items-center">
+                    <input type="checkbox" checked={to_do.checked} readOnly className="mr-2" />
+                    <span>
+                        {renderRichText(to_do.rich_text)}
+                    </span>
+                </div>
+            );
+        case 'child_database':
+            return (
+                <div key={id} className="my-4">
+                    <strong>{child_database.title}</strong>
+                </div>
             );
         default:
             return <p key={id}>[Unsupported block type: {type}]</p>;

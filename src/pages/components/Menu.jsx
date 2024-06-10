@@ -20,7 +20,8 @@ export default function Menu() {
     return (
         <>
             <div className={`fixed w-full top-0 left-0 font-semibold z-50 transition-all ${scrolled ? 'bg-slate-300 bg-opacity-80 backdrop-blur-md shadow-md' : 'bg-slate-300'}`}>
-                <div className="sm:hidden p-4">
+                {/* Mobile Menu */}
+                <div className="sm:hidden p-4 container mx-auto">
                     <div className="flex items-center justify-between">
                         <a href="/" className="text-xl font-bold">
                             @JULIANO340
@@ -51,7 +52,8 @@ export default function Menu() {
                     )}
                 </div>
 
-                <div className="hidden sm:flex items-center justify-between p-6">
+                {/* Desktop Menu */}
+                <div className="hidden sm:flex items-center justify-between p-6 container mx-auto">
                     <a href="/" className="text-xl font-bold">
                         @JULIANO340
                     </a>

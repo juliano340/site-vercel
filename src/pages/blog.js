@@ -67,7 +67,7 @@ const Blog = ({ posts }) => {
                                 <p className="mt-2 text-gray-600">{description}</p>
                                 <p className="mt-2 text-gray-500"><strong>Autor:</strong> {author}</p>
                                 <Link href={`/blog/${slug}`} legacyBehavior>
-                                    <a className="inline-block text-white bg-blue-400 hover:bg-blue-500 rounded px-4 py-2 mt-4">Ler tudo 🔍</a>
+                                    <a className="inline-block text-white bg-blue-400 hover:bg-blue-500 rounded px-4 py-2 mt-4">Ler post! 📃 </a>
                                 </Link>
                             </div>
                         );
