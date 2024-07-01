@@ -32,7 +32,7 @@ const projects = [
   {
     title: 'CMS - BLOG',
     description: 'Sistema CMS para blog! Desenvolvido com NEXTJS utilizando a API do Notion.',
-    imageUrl: '/images/blog.png',
+    imageUrl: '/images/Blog.png',
     projectUrl: 'https://www.juliano340.com/blog',
     repoUrl: 'https://github.com/juliano340/site-vercel'
   },
