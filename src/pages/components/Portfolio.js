@@ -22,6 +22,20 @@ const projects = [
     projectUrl: 'https://j-flix-ashen.vercel.app/',
     repoUrl: 'https://github.com/juliano340/j-flix'
   },
+  {
+    title: 'PDV Web (Ponto de Venda)',
+    description: 'Sistema de Gestão de Vendas!',
+    imageUrl: '/images/pdv.png',
+    projectUrl: 'https://pdv-juliano340s-projects.vercel.app/',
+    repoUrl: 'https://github.com/juliano340/pdv'
+  },
+  {
+    title: 'CMS - BLOG',
+    description: 'Sistema CMS para blog! Desenvolvido com NEXTJS utilizando a API do Notion.',
+    imageUrl: '/images/blog.png',
+    projectUrl: 'https://www.juliano340.com/blog',
+    repoUrl: 'https://github.com/juliano340/site-vercel'
+  },
 ];
 
 const Portfolio = () => {
