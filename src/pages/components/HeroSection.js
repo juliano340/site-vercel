@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <div className="bg-gray-800 text-white h-screen flex flex-col justify-center items-center">
+    <div className="bg-gray-800 text-white h-[600px] flex flex-col justify-center items-center">
       <img
         src="https://avatars.githubusercontent.com/u/87342139?s=400&u=170c2c96bac22f65feb6a2b2602371dcfcd7841b&v=4"
         alt="Profile Picture"
