@@ -1,0 +1,13 @@
+.container {
+    text-align: center;
+    height: 500px;
+    margin-top: 200px;
+}
+
+.title {
+    color: blue;
+}
+
+.description {
+    font-size: 18px;
+}
