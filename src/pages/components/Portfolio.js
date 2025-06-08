@@ -2,6 +2,13 @@ import Image from 'next/image';
 
 const projects = [
   {
+    title: 'Vagas Voluntárias',
+    description: 'Plataforma de vagas voluntárias desenvolvida com Angular e NestJS',
+    imageUrl: '/images/VagasVoluntarias.png',
+    projectUrl: 'https://vagas.juliano340.com/',
+    repoUrl: 'https://github.com/juliano340/vagas-voluntarias'
+  },
+  {
     title: 'Meu Link',
     description: 'Encurtador de links desenvolvido em React utilizando API do Bitly',
     imageUrl: '/images/meu-link-snapshoot.png',

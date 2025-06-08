@@ -6,23 +6,14 @@ import About from './components/About';
 import Footer from './components/Footer';
 import CtaSection from './components/CtaSection';
 
-
-
 export default function Home() {
   
   return (
-    <main>
-      
-      
+    <main>           
       <HeroSection />
       <About />
       <Portfolio />
       <CtaSection />
-      
-          
-        
-
-
     </main>
   );
 }
