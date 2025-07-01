@@ -70,7 +70,7 @@ const renderRichText = (richTextArray) => {
 };
 
 const renderBlock = (block) => {
-    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video, code, to_do, child_database } = block;
+    const { type, id, paragraph, image, heading_1, heading_2, heading_3, bulleted_list_item, numbered_list_item, embed, video, code, to_do, child_database, quote, divider } = block;
 
     switch (type) {
         case 'paragraph':
@@ -88,9 +88,9 @@ const renderBlock = (block) => {
             const imageCaption = image.caption?.[0]?.plain_text || 'Image';
             return (
                 <div key={id} className="text-center my-8">
-                    <img 
-                        src={imageUrl} 
-                        alt={imageCaption} 
+                    <img
+                        src={imageUrl}
+                        alt={imageCaption}
                         className="max-w-full h-auto mx-auto"
                     />
                     {imageCaption && <p className="text-gray-600">{imageCaption}</p>}
@@ -112,9 +112,9 @@ const renderBlock = (block) => {
             if (isImage) {
                 return (
                     <div key={id} className="text-center my-8">
-                        <img 
-                            src={embedUrl} 
-                            alt="Embedded Image" 
+                        <img
+                            src={embedUrl}
+                            alt="Embedded Image"
                             className="max-w-full h-auto mx-auto"
                         />
                     </div>
@@ -180,6 +180,18 @@ const renderBlock = (block) => {
                     <strong>{child_database.title}</strong>
                 </div>
             );
+
+        case 'quote':
+            return (
+                <blockquote key={id} className="border-l-4 border-gray-400 pl-4 italic my-4 text-gray-700 bg-gray-50">
+                    {renderRichText(quote.rich_text)}
+                </blockquote>
+            );
+        case 'divider':
+            return (
+                <hr key={id} className="my-8 border-t-2 border-gray-200" />
+            );
+
         default:
             return <p key={id}>[Unsupported block type: {type}]</p>;
     }
