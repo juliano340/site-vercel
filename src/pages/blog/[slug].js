@@ -206,13 +206,15 @@ const Post = ({ post, blocks }) => {
     ];
 
     return (
-        <div className="container mx-auto px-4 py-8 min-h-screen">
+        <main className="container mx-auto px-4 py-8 min-h-screen">
             <Breadcrumb paths={breadcrumbPaths} />
-            <h1 className="text-4xl font-bold mb-6">{post.properties.Page.title[0].text.content}</h1>
-            <div className="prose">
-                {blocks.map(block => renderBlock(block))}
-            </div>
-        </div>
+            <section className="max-w-3xl mx-center px-4">
+                <h1 className="text-4xl font-bold mb-6 pt-6">{post.properties.Page.title[0].text.content}</h1>
+                <div className="prose">
+                    {blocks.map(block => renderBlock(block))}
+                </div>
+            </section>
+        </main>
     );
 };
 
