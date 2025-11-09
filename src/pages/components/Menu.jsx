@@ -45,6 +45,7 @@ export default function Menu() {
                             <ul className="space-y-2 text-gray-700">
                                 <li><a href="/" className="block hover:underline">HOME</a></li>
                                 <li><a href="/#about" className="block hover:underline">SOBRE</a></li>
+                                <li><a href="/#portfolio" className="block hover:underline">PORTFÓLIO</a></li>
                                 <li><a href="/blog" className="block hover:underline">BLOG</a></li>
                                 <li><a href="/contato" className="block hover:underline">CONTATO</a></li>
                             </ul>
@@ -60,6 +61,7 @@ export default function Menu() {
                     <ul className="flex space-x-4 text-gray-700">
                         <li><a href="/" className="hover:underline">HOME</a></li>
                         <li><a href="/#about" className="hover:underline">SOBRE</a></li>
+                        <li><a href="/#portfolio" className="block hover:underline">PORTFÓLIO</a></li>
                         <li><a href="/blog" className="hover:underline">BLOG</a></li>
                         <li><a href="/contato" className="hover:underline">CONTATO</a></li>
                     </ul>
