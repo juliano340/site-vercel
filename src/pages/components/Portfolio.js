@@ -2,6 +2,13 @@ import Image from 'next/image';
 
 const projects = [
   {
+    title: 'Barber Admin',
+    description: 'Sistema multiplataforma para gestão de barbearias, desenvolvida com Ionic/Angular e Firebase/Firestore',
+    imageUrl: '/images/barberadmin.png',
+    projectUrl: 'https://barber.juliano340.com/',
+    repoUrl: 'https://github.com/juliano340/barber-admin'
+  },
+  {
     title: 'Vagas Voluntárias',
     description: 'Plataforma de vagas voluntárias desenvolvida com Angular e NestJS',
     imageUrl: '/images/VagasVoluntarias.png',
