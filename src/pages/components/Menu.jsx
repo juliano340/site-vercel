@@ -113,9 +113,9 @@ export default function Menu() {
                             href="/"
                             className="group text-2xl font-bold flex items-center gap-2"
                         >
-                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
+                            {/* <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
                                 J
-                            </div>
+                            </div> */}
                             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-300">
                                 @JULIANO340
                             </span>
