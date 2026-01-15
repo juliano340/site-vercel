@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import Link from 'next/link';
 
@@ -6,6 +6,15 @@ const InteractiveHero = () => {
     const containerRef = useRef(null);
     const sceneRef = useRef(null);
     const particlesRef = useRef(null);
+
+    // Texto some ao scroll (suave)
+    const [hideText, setHideText] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setHideText(window.scrollY > 40);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -73,7 +82,7 @@ const InteractiveHero = () => {
                 uTime: { value: 0 },
                 uObserver: { value: new THREE.Vector3(0, 0, 0) },
                 uStrength: { value: 0 },
-                uPointSize: { value: 2.1 },
+                uPointSize: { value: 2.0 }, // leve ajuste
                 uColorA: { value: new THREE.Color(0x60a5fa) },
                 uColorB: { value: new THREE.Color(0xa78bfa) },
                 uResolution: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) }
@@ -110,7 +119,7 @@ const InteractiveHero = () => {
 
           p += dir * wave * amp;
 
-          // micro "flutuação" sempre ligada
+          // micro flutuação sempre ligada (bem leve)
           p.x += sin(uTime * 0.35 + aPhase) * 0.18;
           p.y += cos(uTime * 0.28 + aPhase) * 0.18;
           p.z += sin(uTime * 0.22 + aPhase) * 0.12;
@@ -121,7 +130,7 @@ const InteractiveHero = () => {
           vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
           gl_Position = projectionMatrix * mvPosition;
 
-          float size = uPointSize * (1.0 + vFade * 1.4);
+          float size = uPointSize * (1.0 + vFade * 1.2);
           gl_PointSize = size * (300.0 / -mvPosition.z);
         }
       `,
@@ -138,14 +147,18 @@ const InteractiveHero = () => {
           float r = length(uv);
 
           float core = smoothstep(0.5, 0.18, r);
-          float glow = smoothstep(0.5, 0.0, r) * 0.65;
+          float glow = smoothstep(0.5, 0.0, r) * 0.55;
 
           float t = 0.5 + 0.5 * sin(vWave + uTime * 0.15);
           vec3 col = mix(uColorA, uColorB, t);
 
-          col += vFade * 0.35;
+          // menos "estouro" quando observado
+          col += vFade * 0.25;
 
-          float alpha = (core * 0.55 + glow) * (0.55 + vFade * 0.6);
+          // 🔥 damp: quando o observador fica forte, reduz alpha pra não ofuscar o texto
+          float damp = 1.0 - (vFade * 0.45); // 0.55..1.0
+
+          float alpha = (core * 0.50 + glow) * (0.48 + vFade * 0.45) * damp;
 
           if (alpha < 0.01) discard;
 
@@ -264,8 +277,16 @@ const InteractiveHero = () => {
             {/* Three.js Canvas */}
             <div ref={containerRef} className="absolute inset-0 z-0" />
 
-            {/* Content Overlay */}
-            <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
+            {/* Content Overlay (some no scroll) */}
+            <div
+                className={
+                    "relative z-10 flex flex-col items-center justify-center h-full px-4 " +
+                    "transition-all duration-700 ease-out " +
+                    (hideText
+                        ? "opacity-0 translate-y-6 scale-95 pointer-events-none"
+                        : "opacity-100 translate-y-0 scale-100")
+                }
+            >
                 {/* Profile Image */}
                 <div className="mb-8 mt-8 relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-75 group-hover:opacity-100 blur transition duration-1000 group-hover:duration-200 animate-pulse"></div>
@@ -276,8 +297,11 @@ const InteractiveHero = () => {
                     />
                 </div>
 
-                {/* Text Content */}
-                <div className="text-center space-y-6 max-w-4xl">
+                {/* Text Content (glass panel) */}
+                <div
+                    className="text-center space-y-6 max-w-4xl rounded-3xl px-6 py-8 md:px-10 md:py-10
+                     bg-slate-900/35 backdrop-blur-md border border-white/10 shadow-2xl"
+                >
                     <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
                         Olá, eu sou um{' '}
                         <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
@@ -291,6 +315,7 @@ const InteractiveHero = () => {
                         Criando soluções web eficientes e inovadoras.
                     </p>
 
+                    {/* CTA Button */}
                     <Link href="/contato" passHref>
                         <div className="pt-8">
                             <button className="group relative px-8 py-4 bg-blue-500 text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50">
