@@ -10,7 +10,7 @@ const projects = [
     projectUrl: "https://tasks.juliano340.com/",
     repoUrl: "https://github.com/juliano340/gr-tasks",
     tags: ["Next.js", "TypeScript", "Prisma", "SQLite", "Stripe", "Auth.js", "Tailwind CSS", "PM2", "Nginx"],
-    category: "Fullstack"
+    category: "fullstack"
   },
   {
     title: 'Barber Admin',
@@ -64,7 +64,7 @@ const projects = [
     projectUrl: 'https://pdv-juliano340s-projects.vercel.app/',
     repoUrl: 'https://github.com/juliano340/pdv',
     tags: ['React', 'Sistema', 'Gestão'],
-    category: 'Frontend'
+    category: 'frontend'
   },
   {
     title: 'CMS - BLOG',
@@ -73,7 +73,7 @@ const projects = [
     projectUrl: 'https://www.juliano340.com/blog',
     repoUrl: 'https://github.com/juliano340/site-vercel',
     tags: ['Next.js', 'Notion', 'CMS'],
-    category: 'Frontend'
+    category: 'frontend'
   },
 ];
 
