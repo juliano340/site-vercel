@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 const projects = [
+
+  {
+    title: "TaskMaster",
+    description: "Aplicação SaaS para gerenciamento de tarefas com autenticação, planos free e premium, integração com Stripe e deploy completo em VPS Linux.",
+    imageUrl: "/images/tasks.png",
+    projectUrl: "https://tasks.juliano340.com/",
+    repoUrl: "https://github.com/juliano340/gr-tasks",
+    tags: ["Next.js", "TypeScript", "Prisma", "SQLite", "Stripe", "Auth.js", "Tailwind CSS", "PM2", "Nginx"],
+    category: "SaaS"
+  },
   {
     title: 'Barber Admin',
     description: 'Sistema multiplataforma para gestão de barbearias, desenvolvida com Ionic/Angular e Firebase/Firestore',
@@ -109,8 +119,8 @@ const Portfolio = () => {
               key={cat.id}
               onClick={() => setFilter(cat.id)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${filter === cat.id
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-105'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20 backdrop-blur-sm'
+                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-105'
+                : 'bg-white/10 text-gray-300 hover:bg-white/20 backdrop-blur-sm'
                 }`}
             >
               {cat.label}
