@@ -284,11 +284,11 @@ const InteractiveHero = () => {
     const onCardLeave = () => setSheen({ x: 50, y: 20 });
 
     return (
-        <div className="relative w-full h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+        <div className="relative w-full min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-5rem)] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-x-hidden overflow-y-visible">
             <div ref={containerRef} className="absolute inset-0 z-0" />
 
             <div
-                className="relative z-10 flex flex-col items-center justify-center h-full px-4"
+                className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-5rem)] px-4 py-4 sm:py-6"
                 style={{
                     opacity: 1 - fade,
                     transform: `translateY(${fade * 24}px) scale(${1 - fade * 0.06})`,
@@ -296,35 +296,35 @@ const InteractiveHero = () => {
                     transition: 'opacity 120ms linear, transform 120ms linear'
                 }}
             >
-                <div className="mb-8 mt-8 relative group">
+                <div className="mb-5 mt-2 sm:mb-6 sm:mt-4 relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-60 blur transition duration-1000 group-hover:opacity-90 group-hover:duration-200"></div>
                     <img
                         src="https://avatars.githubusercontent.com/u/87342139?v=4"
                         alt="Profile"
-                        className="relative w-40 h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
+                        className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
                 </div>
 
                 <div
-                    className="glass-card text-center space-y-6 max-w-4xl rounded-3xl px-6 py-8 md:px-10 md:py-10 shadow-2xl"
+                    className="glass-card text-center space-y-4 sm:space-y-5 max-w-4xl rounded-3xl px-5 py-6 sm:px-8 sm:py-7 lg:px-10 lg:py-9 shadow-2xl"
                     onMouseMove={onCardMove}
                     onMouseLeave={onCardLeave}
                 >
-                    <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
+                    <h1 className="text-4xl sm:text-5xl xl:text-7xl font-bold text-white leading-tight">
                         Olá, eu sou um{' '}
                         <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                             Programador Web!
                         </span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-blue-200 font-light">Desenvolvedor Full Stack!</p>
+                    <p className="text-lg sm:text-xl md:text-2xl text-blue-200 font-light">Desenvolvedor Full Stack!</p>
 
-                    <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
                         Criando soluções web eficientes e inovadoras.
                     </p>
 
                     <Link href="/contato" passHref>
-                        <div className="pt-8">
+                        <div className="pt-4 sm:pt-6">
                             <button className="group relative px-8 py-4 bg-blue-500 text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/40">
                                 <span className="relative z-10">Entre em Contato</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
