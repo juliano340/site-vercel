@@ -1,15 +1,17 @@
 import React from 'react';
 import TypingEffect from 'react-typing-effect';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const HeroSection = () => {
   return (
     <div className="bg-gray-800 text-white h-[600px] flex flex-col justify-center items-center">
-      <img
-        src="https://avatars.githubusercontent.com/u/87342139?s=400&u=170c2c96bac22f65feb6a2b2602371dcfcd7841b&v=4"
+      <Image
+        src="https://avatars.githubusercontent.com/u/87342139?v=4"
         alt="Profile Picture"
         width={150}
         height={150}
+        priority
         className="rounded-full mb-4"
       />
       <h1 className="text-5xl text-center font-bold mb-4">Olá, eu sou um Programador Web!</h1>

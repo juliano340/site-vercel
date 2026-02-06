@@ -299,7 +299,7 @@ const InteractiveHero = () => {
                 <div className="mb-8 mt-8 relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-60 blur transition duration-1000 group-hover:opacity-90 group-hover:duration-200"></div>
                     <img
-                        src="https://media.licdn.com/dms/image/v2/D4D03AQHlmedGmdAk-g/profile-displayphoto-scale_400_400/B4DZu348JpIAAg-/0/1768316741138?e=1770249600&v=beta&t=5s32tcMIMJfPk9fGuDCk3RgcagsMNRvD3I3tUaFiU3k"
+                        src="https://avatars.githubusercontent.com/u/87342139?v=4"
                         alt="Profile"
                         className="relative w-40 h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
