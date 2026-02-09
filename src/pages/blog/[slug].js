@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Breadcrumb from '../components/Breadcrumb';
 import { getDatabase, getPage, getBlocks } from '../../lib/notion';
 
@@ -42,8 +43,40 @@ export async function getStaticProps({ params }) {
     };
 }
 
+const countWeirdChars = (value = '') => (value.match(/[�ǭǜǦ��]/g) || []).length;
+
+const repairText = (value = '') => {
+    if (!value || typeof value !== 'string') return value;
+
+    const candidates = [value];
+
+    try {
+        candidates.push(Buffer.from(value, 'latin1').toString('utf8'));
+    } catch (_) { }
+
+    try {
+        candidates.push(decodeURIComponent(escape(value)));
+    } catch (_) { }
+
+    let best = value;
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    for (const candidate of candidates) {
+        const weird = countWeirdChars(candidate);
+        const replacement = (candidate.match(/�/g) || []).length;
+        const score = weird * 3 + replacement * 5;
+        if (score < bestScore) {
+            best = candidate;
+            bestScore = score;
+        }
+    }
+
+    return best;
+};
+
 const renderRichText = (richTextArray) => {
     return richTextArray.map((text, index) => {
+        const content = repairText(text?.text?.content || '');
         if (text.href) {
             return (
                 <a key={index} href={text.href} className="text-blue-500 hover:underline" style={{
@@ -52,7 +85,7 @@ const renderRichText = (richTextArray) => {
                     textDecoration: `${text.annotations.underline ? 'underline' : ''} ${text.annotations.strikethrough ? 'line-through' : ''}`,
                     color: text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
                 }}>
-                    {text.text.content}
+                    {content}
                 </a>
             );
         }
@@ -63,7 +96,7 @@ const renderRichText = (richTextArray) => {
                 textDecoration: `${text.annotations.underline ? 'underline' : ''} ${text.annotations.strikethrough ? 'line-through' : ''}`,
                 color: text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
             }}>
-                {text.text.content}
+                {content}
             </span>
         );
     });
@@ -198,23 +231,49 @@ const renderBlock = (block) => {
 };
 
 const Post = ({ post, blocks }) => {
+    const slug = post?.properties?.Slug?.rich_text?.[0]?.text?.content || '';
+    const rawTitle = post?.properties?.Page?.title?.[0]?.text?.content || 'Post';
+    const pageTitle = repairText(rawTitle);
+
+    const descriptionRaw = post?.properties?.Description?.rich_text?.map((t) => t?.text?.content || '').join(' ') || '';
+    const firstParagraph = blocks?.find((b) => b.type === 'paragraph')?.paragraph?.rich_text?.map((t) => t?.text?.content || '').join(' ') || '';
+    const metaDescription = repairText(descriptionRaw || firstParagraph).slice(0, 160) || 'Artigo sobre tecnologia, empreendedorismo e IA aplicada a negócios.';
+
+    const canonical = `https://www.juliano340.com/blog/${slug}`;
 
     const breadcrumbPaths = [
         { label: 'Home', href: '/' },
         { label: 'Blog', href: '/blog' },
-        { label: post.properties.Page.title[0].text.content, href: '#' },
+        { label: pageTitle, href: '#' },
     ];
 
     return (
-        <main className="container mx-auto px-4 py-8 min-h-screen">
-            <Breadcrumb paths={breadcrumbPaths} />
-            <section className="max-w-3xl mx-center px-4">
-                <h1 className="text-4xl font-bold mb-6 pt-6">{post.properties.Page.title[0].text.content}</h1>
-                <div className="prose">
-                    {blocks.map(block => renderBlock(block))}
-                </div>
-            </section>
-        </main>
+        <>
+            <Head>
+                <title>{`${pageTitle} | @JULIANO340`}</title>
+                <meta name="description" content={metaDescription} />
+                <link rel="canonical" href={canonical} />
+
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:url" content={canonical} />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={pageTitle} />
+                <meta name="twitter:description" content={metaDescription} />
+            </Head>
+
+            <main className="container mx-auto px-4 py-8 min-h-screen">
+                <Breadcrumb paths={breadcrumbPaths} />
+                <section className="max-w-3xl mx-center px-4">
+                    <h1 className="text-4xl font-bold mb-6 pt-6">{pageTitle}</h1>
+                    <div className="prose">
+                        {blocks.map(block => renderBlock(block))}
+                    </div>
+                </section>
+            </main>
+        </>
     );
 };
 
