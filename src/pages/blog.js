@@ -109,11 +109,7 @@ const STOCK_IMAGES = [
 ];
 
 const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
-    const notionCover = post?.cover;
-
-    // Usa apenas capas externas estáveis; URLs de file do Notion expiram e quebram no frontend.
-    if (notionCover?.type === 'external' && notionCover?.external?.url) return notionCover.external.url;
-
+    // Força fonte estável local para eliminar quebras intermitentes de CDN externa.
     const query = getTopicFromPost(post) || fallbackQuery;
     const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}-${query}`);
     return STOCK_IMAGES[seed % STOCK_IMAGES.length];
