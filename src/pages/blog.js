@@ -232,29 +232,6 @@ const Blog = ({ posts, generatedAt }) => {
                                         })}
                                     </ul>
                                 </section>
-
-                                <section className="bg-white rounded-xl p-5 shadow-sm">
-                                    <h3 className="text-base font-bold text-[#111111] mb-4">Temas do blog</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {allTags.slice(0, 12).map((tag) => (
-                                            <button
-                                                key={tag}
-                                                onClick={() => {
-                                                    setSelectedTag(tag);
-                                                    setVisibleCount(9);
-                                                }}
-                                                className="text-xs px-3 py-1.5 rounded-full bg-[#00B140]/10 text-[#00B140] font-medium hover:bg-[#00B140]/20 transition-colors"
-                                            >
-                                                {tag}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </section>
-
-                                <section className="bg-[#111111] rounded-xl p-5 shadow-sm text-white">
-                                    <p className="text-xs uppercase tracking-wider text-[#9BE8B1] mb-2">Navegação rápida</p>
-                                    <p className="text-sm text-gray-200">Use os filtros abaixo para ver as postagens mais novas, mais antigas ou por tema específico.</p>
-                                </section>
                             </aside>
                         </section>
 
@@ -276,14 +253,14 @@ const Blog = ({ posts, generatedAt }) => {
                                         </Link>
                                         <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
                                         <p className="text-xs text-gray-400 mt-3">
-                                            {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')}
+                                            {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')} · Por Juliano Pereira
                                         </p>
                                     </article>
                                 );
                             })}
                         </section>
 
-                        <section className="mt-10 bg-white rounded-2xl shadow-sm p-5 md:p-6">
+                        <section id="todas-postagens" className="mt-10 bg-white rounded-2xl shadow-sm p-5 md:p-6">
                             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                                 <div>
                                     <h2 className="text-2xl font-bold text-[#111111]">Todas as postagens</h2>
@@ -292,7 +269,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 <p className="text-sm text-gray-500">{filteredPosts.length} resultados</p>
                             </div>
 
-                            <div className="mt-5 grid grid-cols-1 lg:grid-cols-4 gap-3">
+                            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <input
                                     type="text"
                                     value={searchTerm}
@@ -301,7 +278,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         setVisibleCount(9);
                                     }}
                                     placeholder="Buscar por título, resumo ou tag"
-                                    className="lg:col-span-2 px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140]"
+                                    className="md:col-span-1 px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140]"
                                 />
 
                                 <select
@@ -333,6 +310,28 @@ const Blog = ({ posts, generatedAt }) => {
                                 </select>
                             </div>
 
+                            <div className="mt-4 pt-4 border-t border-gray-100">
+                                <p className="text-sm text-gray-600 mb-3">Temas do blog:</p>
+                                <div className="flex flex-wrap gap-2">
+                                    {allTags.map((tag) => (
+                                        <button
+                                            key={tag}
+                                            onClick={() => {
+                                                setSelectedTag(tag === selectedTag ? 'all' : tag);
+                                                setVisibleCount(9);
+                                            }}
+                                            className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
+                                                selectedTag === tag
+                                                    ? 'bg-[#00B140] text-white'
+                                                    : 'bg-[#00B140]/10 text-[#00B140] hover:bg-[#00B140]/20'
+                                            }`}
+                                        >
+                                            {tag}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 {visiblePosts.map((post) => {
                                     const slug = getPostSlug(post);
@@ -357,7 +356,7 @@ const Blog = ({ posts, generatedAt }) => {
                                                 </a>
                                             </Link>
                                             <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
-                                            <p className="text-xs text-gray-400 mt-3">{getPostDate(post).toLocaleDateString('pt-BR')}</p>
+                                            <p className="text-xs text-gray-400 mt-3">{getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira</p>
                                         </article>
                                     );
                                 })}

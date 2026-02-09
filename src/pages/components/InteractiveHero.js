@@ -37,7 +37,7 @@ const InteractiveHero = () => {
         };
     }, []);
 
-    // Three.js (mesmo efeito “quântico” e alpha controlado)
+    // Three.js (mesmo efeito "quântico" e alpha controlado)
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
@@ -165,7 +165,7 @@ const InteractiveHero = () => {
           float t = 0.5 + 0.5 * sin(vWave + uTime * 0.15);
           vec3 col = mix(uColorA, uColorB, t);
 
-          // menos “estouro” quando observado
+          // menos "estouro" quando observado
           col += vFade * 0.20;
 
           // reduz alpha quando observador está forte (não ofusca o texto)
@@ -309,6 +309,10 @@ const InteractiveHero = () => {
                     className="glass-card text-center space-y-4 sm:space-y-5 max-w-4xl rounded-3xl px-5 py-6 sm:px-8 sm:py-7 lg:px-10 lg:py-9 shadow-2xl"
                     onMouseMove={onCardMove}
                     onMouseLeave={onCardLeave}
+                    style={{
+                        '--sheen-x': `${sheen.x}%`,
+                        '--sheen-y': `${sheen.y}%`
+                    }}
                 >
                     <h1 className="text-4xl sm:text-5xl xl:text-7xl font-bold text-white leading-tight">
                         Olá, eu sou um{' '}
@@ -331,51 +335,6 @@ const InteractiveHero = () => {
                             </button>
                         </div>
                     </Link>
-
-                    <style jsx>{`
-            .glass-card {
-              position: relative;
-              overflow: hidden;
-              border: 1px solid rgba(255, 255, 255, 0.14);
-              background: rgba(15, 23, 42, 0.28);
-              backdrop-filter: blur(18px);
-              -webkit-backdrop-filter: blur(18px);
-              box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
-            }
-
-            /* borda “premium” suave (sem neon) */
-            .glass-card::before {
-              content: '';
-              position: absolute;
-              inset: 0;
-              pointer-events: none;
-              background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.14),
-                rgba(255, 255, 255, 0.02) 40%,
-                rgba(96, 165, 250, 0.05) 65%,
-                rgba(167, 139, 250, 0.05)
-              );
-              opacity: 0.65;
-            }
-
-            /* sheen interativo (reflexo de vidro) */
-            .glass-card::after {
-              content: '';
-              position: absolute;
-              inset: -60px;
-              pointer-events: none;
-              background: radial-gradient(
-                420px 180px at ${sheen.x}% ${sheen.y}%,
-                rgba(255, 255, 255, 0.20),
-                rgba(255, 255, 255, 0.06) 35%,
-                rgba(255, 255, 255, 0.0) 70%
-              );
-              opacity: 0.8;
-              mix-blend-mode: screen;
-              transition: background 80ms linear;
-            }
-          `}</style>
                 </div>
 
                 <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">

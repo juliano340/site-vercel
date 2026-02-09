@@ -10,8 +10,93 @@
 
 html {
     scroll-behavior: smooth;
-  }
-  
+}
+
+/* Keyframe animations - defined globally to avoid hydration issues */
+@keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes pulse-opacity {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+
+.animate-pulse-scale {
+    animation: pulse-scale 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-opacity {
+    animation: pulse-opacity 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Glass card styles for InteractiveHero */
+.glass-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(15, 23, 42, 0.28);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+}
+
+/* borda "premium" suave (sem neon) */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.14),
+        rgba(255, 255, 255, 0.02) 40%,
+        rgba(96, 165, 250, 0.05) 65%,
+        rgba(167, 139, 250, 0.05)
+    );
+    opacity: 0.65;
+}
+
+/* sheen interativo (reflexo de vidro) */
+.glass-card::after {
+    content: '';
+    position: absolute;
+    inset: -60px;
+    pointer-events: none;
+    background: radial-gradient(
+        420px 180px at var(--sheen-x, 50%) var(--sheen-y, 20%),
+        rgba(255, 255, 255, 0.20),
+        rgba(255, 255, 255, 0.06) 35%,
+        rgba(255, 255, 255, 0.0) 70%
+    );
+    opacity: 0.8;
+    mix-blend-mode: screen;
+    transition: background 80ms linear;
+}
 
 @media (max-width: 600px) {
     /* Estilos para smartphones */
