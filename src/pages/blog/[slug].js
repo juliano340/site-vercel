@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
 import Breadcrumb from '../components/Breadcrumb';
-import { getDatabase, getPage, getBlocks } from '../../lib/notion';
+import { getDatabase, getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
 
 const AUTHOR_NAME = 'Juliano Pereira';
 const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
@@ -38,8 +38,10 @@ const extractTableOfContents = (blocks) => {
 };
 
 export async function getStaticPaths() {
-  const database = await getDatabase();
-  const paths = database.map(post => {
+  // Busca apenas posts publicados do Notion
+  const publishedPosts = await getPublishedPosts();
+  
+  const paths = publishedPosts.map(post => {
     const slug = post.properties.Slug?.rich_text?.[0]?.text?.content;
     if (!slug) {
       console.error(`Post with ID ${post.id} is missing a slug`);
@@ -56,24 +58,32 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const database = await getDatabase();
+  
+  // Busca apenas posts publicados do Notion
+  const publishedPosts = await getPublishedPosts();
 
-  const post = database.find(post => post.properties.Slug?.rich_text?.[0]?.text?.content === slug);
+  const post = publishedPosts.find(post => post.properties.Slug?.rich_text?.[0]?.text?.content === slug);
 
+  // Se o post não estiver publicado ou não existir, redireciona para o blog
   if (!post) {
-    return { notFound: true };
+    return {
+      redirect: {
+        destination: '/blog',
+        permanent: true, // 301 redirect - SEO friendly
+      },
+    };
   }
 
   const page = await getPage(post.id);
   const blocks = await getBlocks(post.id);
   
-  const currentIndex = database.findIndex(p => p.id === post.id);
-  const prevPost = currentIndex > 0 ? database[currentIndex - 1] : null;
-  const nextPost = currentIndex < database.length - 1 ? database[currentIndex + 1] : null;
+  const currentIndex = publishedPosts.findIndex(p => p.id === post.id);
+  const prevPost = currentIndex > 0 ? publishedPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < publishedPosts.length - 1 ? publishedPosts[currentIndex + 1] : null;
   
-  // Posts relacionados (mesmas tags)
+  // Posts relacionados (mesmas tags) - apenas entre posts publicados
   const currentTags = post.properties.Tags?.multi_select?.map(t => t.name) || [];
-  const relatedPosts = database
+  const relatedPosts = publishedPosts
     .filter(p => {
       if (p.id === post.id) return false;
       const pTags = p.properties.Tags?.multi_select?.map(t => t.name) || [];
@@ -85,8 +95,8 @@ export async function getStaticProps({ params }) {
       slug: p.properties.Slug?.rich_text?.[0]?.text?.content,
     }));
   
-  // Últimas publicações
-  const recentPosts = database
+  // Últimas publicações - apenas posts publicados
+  const recentPosts = publishedPosts
     .filter(p => p.id !== post.id)
     .slice(0, 5)
     .map(p => ({

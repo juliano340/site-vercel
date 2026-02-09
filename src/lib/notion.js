@@ -7,6 +7,20 @@ export const getDatabase = async () => {
     return response.results;
 };
 
+// Busca apenas posts com status "Published" (checkbox marcado)
+export const getPublishedPosts = async () => {
+    const response = await notion.databases.query({
+        database_id: process.env.NOTION_DATABASE_ID,
+        filter: {
+            property: 'Published',
+            checkbox: {
+                equals: true,
+            },
+        },
+    });
+    return response.results;
+};
+
 export const getPage = async (pageId) => {
     const response = await notion.pages.retrieve({ page_id: pageId });
     return response;
