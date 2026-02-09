@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
@@ -95,33 +95,56 @@ const getTopicFromPost = (post) => {
     return 'technology,business,innovation';
 };
 
+const STOCK_IMAGES = [
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
+];
+
 const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
     const notionCover = post?.cover;
     if (notionCover?.type === 'external') return notionCover.external.url;
     if (notionCover?.type === 'file') return notionCover.file.url;
 
     const query = getTopicFromPost(post) || fallbackQuery;
-    const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}`);
-
-    // Picsum é mais estável para fallback público que source.unsplash
-    return `https://picsum.photos/seed/${encodeURIComponent(`${query}-${seed}`)}/1200/800`;
+    const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}-${query}`);
+    return STOCK_IMAGES[seed % STOCK_IMAGES.length];
 };
 
 const SmartImage = ({ src, alt, className, fallbackSeed = 'tech-default' }) => {
     const [loaded, setLoaded] = useState(false);
-    const [errored, setErrored] = useState(false);
+    const [currentSrc, setCurrentSrc] = useState(src);
 
-    const safeFallback = `https://picsum.photos/seed/${encodeURIComponent(fallbackSeed)}/1200/800`;
+    const safeFallback = STOCK_IMAGES[hashString(fallbackSeed) % STOCK_IMAGES.length] || '/images/Blog.png';
+
+    useEffect(() => {
+        setLoaded(false);
+        setCurrentSrc(src);
+    }, [src]);
 
     return (
         <div className={`relative overflow-hidden ${className}`}>
             {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200" />}
             <img
-                src={errored ? safeFallback : src}
+                src={currentSrc}
                 alt={alt}
                 onLoad={() => setLoaded(true)}
                 onError={() => {
-                    setErrored(true);
+                    if (currentSrc !== safeFallback) {
+                        setCurrentSrc(safeFallback);
+                        return;
+                    }
+                    if (currentSrc !== '/images/Blog.png') {
+                        setCurrentSrc('/images/Blog.png');
+                        return;
+                    }
                     setLoaded(true);
                 }}
                 className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
