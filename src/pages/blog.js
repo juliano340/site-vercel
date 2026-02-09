@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
@@ -95,57 +95,34 @@ const getTopicFromPost = (post) => {
     return 'technology,business,innovation';
 };
 
-const STOCK_IMAGES = [
-    '/images/Blog.png',
-    '/images/image1.png',
-    '/images/icon.png',
-    '/images/tasks.png',
-    '/images/busca-cep.png',
-    '/images/j-flix.png',
-    '/images/meu-link-snapshoot.png',
-    '/images/pdv.png',
-    '/images/VagasVoluntarias.png',
-    '/images/barberadmin.png',
-];
-
 const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
-    // Força fonte estável local para eliminar quebras intermitentes de CDN externa.
+    // Usa Lorem Picsum para imagens aleatórias baseadas no post
     const query = getTopicFromPost(post) || fallbackQuery;
     const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}-${query}`);
-    return STOCK_IMAGES[seed % STOCK_IMAGES.length];
+    // Lorem Picsum: imagens randomicas gratuitas com seed para consistência
+    return `https://picsum.photos/seed/${seed}/800/600`;
 };
 
-const SmartImage = ({ src, alt, className, fallbackSeed = 'tech-default' }) => {
-    const [loaded, setLoaded] = useState(false);
-    const [currentSrc, setCurrentSrc] = useState(src);
-
-    const safeFallback = STOCK_IMAGES[hashString(fallbackSeed) % STOCK_IMAGES.length] || '/images/Blog.png';
-
-    useEffect(() => {
-        setLoaded(false);
-        setCurrentSrc(src);
-    }, [src]);
-
+const SmartImage = ({ src, alt, className }) => {
+    const [error, setError] = useState(false);
+    
+    // Garante que temos uma URL válida
+    const imageUrl = src || 'https://picsum.photos/seed/default/800/600';
+    
     return (
         <div className={`relative overflow-hidden ${className}`}>
-            {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200" />}
             <img
-                src={currentSrc}
+                src={imageUrl}
                 alt={alt}
-                onLoad={() => setLoaded(true)}
-                onError={() => {
-                    if (currentSrc !== safeFallback) {
-                        setCurrentSrc(safeFallback);
-                        return;
-                    }
-                    if (currentSrc !== '/images/Blog.png') {
-                        setCurrentSrc('/images/Blog.png');
-                        return;
-                    }
-                    setLoaded(true);
-                }}
-                className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+                onError={() => setError(true)}
+                className="h-full w-full object-cover"
+                loading="lazy"
             />
+            {error && (
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00B140]/20 to-[#00B140]/40 flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">{alt || 'Imagem'}</span>
+                </div>
+            )}
         </div>
     );
 };
@@ -217,7 +194,6 @@ const Blog = ({ posts, generatedAt }) => {
                                         src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
                                         alt={getPostTitle(heroPost)}
                                         className="absolute inset-0 h-full w-full"
-                                        fallbackSeed={`hero-${heroPost.id}`}
                                     />
                                 </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30" />
@@ -291,8 +267,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         <SmartImage
                                             src={getPostImage(post)}
                                             alt={getPostTitle(post)}
-                                            className="w-full aspect-[4/3] rounded-lg"
-                                            fallbackSeed={`footer-${post.id}`}
+                                            className="w-full h-48 rounded-lg"
                                         />
                                         <Link href={`/blog/${slug}`} legacyBehavior>
                                             <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
@@ -369,8 +344,7 @@ const Blog = ({ posts, generatedAt }) => {
                                             <SmartImage
                                                 src={getPostImage(post)}
                                                 alt={getPostTitle(post)}
-                                                className="w-full h-44 rounded-lg"
-                                                fallbackSeed={`all-${post.id}`}
+                                                className="w-full h-48 rounded-lg"
                                             />
                                             <div className="mt-3 flex flex-wrap gap-2 min-h-[1.75rem]">
                                                 {tags.slice(0, 3).map((tag) => (
