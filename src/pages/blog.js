@@ -167,7 +167,7 @@ const Blog = ({ posts, generatedAt }) => {
     const sortedPosts = [...posts].sort((a, b) => getPostDate(b) - getPostDate(a));
 
     const heroPost = sortedPosts[0] || null;
-    const sidePosts = sortedPosts.slice(1, 4);
+    const widgetPosts = sortedPosts.slice(1, 6);
     const footerPosts = sortedPosts.slice(4, 7);
 
     const allTags = Array.from(new Set(sortedPosts.flatMap((post) => getPostTags(post)))).sort((a, b) => a.localeCompare(b));
@@ -213,7 +213,7 @@ const Blog = ({ posts, generatedAt }) => {
                     </div>
                 ) : (
                     <>
-                        <section className="grid grid-cols-1 lg:grid-cols-5 items-stretch gap-7 mb-8">
+                        <section className="grid grid-cols-1 lg:grid-cols-5 items-start gap-7 mb-8">
                             <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
                                 <div className="absolute inset-0">
                                     <SmartImage
@@ -239,30 +239,49 @@ const Blog = ({ posts, generatedAt }) => {
                                 </div>
                             </article>
 
-                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6 auto-rows-fr">
-                                {sidePosts.map((post) => {
-                                    const slug = getPostSlug(post);
-                                    if (!slug) return null;
-                                    return (
-                                        <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
-                                            <SmartImage
-                                                src={getPostImage(post)}
-                                                alt={getPostTitle(post)}
-                                                className="w-full h-32 rounded-lg"
-                                                fallbackSeed={`side-${post.id}`}
-                                            />
-                                            <Link href={`/blog/${slug}`} legacyBehavior>
-                                                <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
-                                                    {getPostTitle(post)}
-                                                </a>
-                                            </Link>
-                                            <p className="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">{getPostDescription(post)}</p>
-                                            <p className="text-xs text-gray-400 mt-3">
-                                                {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')}
-                                            </p>
-                                        </article>
-                                    );
-                                })}
+                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6">
+                                <section className="bg-white rounded-xl p-5 shadow-sm">
+                                    <h3 className="text-base font-bold text-[#111111] mb-4">Últimas publicações</h3>
+                                    <ul className="space-y-3">
+                                        {widgetPosts.map((post) => {
+                                            const slug = getPostSlug(post);
+                                            if (!slug) return null;
+                                            return (
+                                                <li key={post.id} className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
+                                                    <Link href={`/blog/${slug}`} legacyBehavior>
+                                                        <a className="text-sm font-semibold text-[#00B140] leading-snug hover:opacity-80 line-clamp-2">
+                                                            {getPostTitle(post)}
+                                                        </a>
+                                                    </Link>
+                                                    <p className="text-xs text-gray-400 mt-1">{getPostDate(post).toLocaleDateString('pt-BR')}</p>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </section>
+
+                                <section className="bg-white rounded-xl p-5 shadow-sm">
+                                    <h3 className="text-base font-bold text-[#111111] mb-4">Temas do blog</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {allTags.slice(0, 12).map((tag) => (
+                                            <button
+                                                key={tag}
+                                                onClick={() => {
+                                                    setSelectedTag(tag);
+                                                    setVisibleCount(9);
+                                                }}
+                                                className="text-xs px-3 py-1.5 rounded-full bg-[#00B140]/10 text-[#00B140] font-medium hover:bg-[#00B140]/20 transition-colors"
+                                            >
+                                                {tag}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+
+                                <section className="bg-[#111111] rounded-xl p-5 shadow-sm text-white">
+                                    <p className="text-xs uppercase tracking-wider text-[#9BE8B1] mb-2">Navegação rápida</p>
+                                    <p className="text-sm text-gray-200">Use os filtros abaixo para ver as postagens mais novas, mais antigas ou por tema específico.</p>
+                                </section>
                             </aside>
                         </section>
 
