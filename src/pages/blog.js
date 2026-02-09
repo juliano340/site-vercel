@@ -63,12 +63,12 @@ const getPostDescription = (post) => {
 
 const getPostSlug = (post) => post.properties?.Slug?.rich_text?.[0]?.text?.content || '';
 
-const getPostImage = (post, fallbackQuery = 'futebol') => {
+const getPostImage = (post, fallbackQuery = 'tecnologia') => {
     const notionCover = post?.cover;
     if (notionCover?.type === 'external') return notionCover.external.url;
     if (notionCover?.type === 'file') return notionCover.file.url;
 
-    return `https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=1200&q=80`;
+    return `https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80`;
 };
 
 const Blog = ({ posts, generatedAt }) => {
@@ -91,12 +91,12 @@ const Blog = ({ posts, generatedAt }) => {
                 <Breadcrumb paths={breadcrumbPaths} />
 
                 <header className="mt-6 mb-8">
-                    <p className="text-sm font-medium tracking-[0.2em] text-[#00B140] uppercase">Portal Esportivo</p>
+                    <p className="text-sm font-medium tracking-[0.2em] text-[#00B140] uppercase">Blog Editorial</p>
                     <h1 className="mt-2 text-3xl md:text-5xl font-black text-[#111111] leading-tight">
-                        Capa de Notícias
+                        Tecnologia, Empreendedorismo e IA Aplicada
                     </h1>
                     <p className="mt-3 text-gray-600 max-w-2xl">
-                        Atualizações, análises e bastidores com linguagem editorial moderna e foco no que importa no esporte.
+                        Insights práticos, tendências e análises para quem constrói negócios na nova economia digital.
                     </p>
                 </header>
 
@@ -110,7 +110,7 @@ const Blog = ({ posts, generatedAt }) => {
                         <section className="grid grid-cols-1 lg:grid-cols-5 gap-7 mb-8">
                             <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
                                 <img
-                                    src={getPostImage(heroPost, 'jogador de futebol em ação')}
+                                    src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
                                     alt={getPostTitle(heroPost)}
                                     className="absolute inset-0 h-full w-full object-cover"
                                 />
