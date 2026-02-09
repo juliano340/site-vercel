@@ -64,6 +64,16 @@ const getPostDescription = (post) => {
 
 const getPostSlug = (post) => post.properties?.Slug?.rich_text?.[0]?.text?.content || '';
 
+const getPostDate = (post) => new Date(post.last_edited_time || post.created_time || 0);
+
+const getPostTags = (post) => {
+    const tagsProperty = post.properties?.Tags;
+    if (tagsProperty?.type === 'multi_select' && tagsProperty.multi_select?.length) {
+        return tagsProperty.multi_select.map((tag) => tag.name);
+    }
+    return [];
+};
+
 const hashString = (value = '') => {
     let hash = 0;
     for (let i = 0; i < value.length; i += 1) {
@@ -121,18 +131,42 @@ const SmartImage = ({ src, alt, className, fallbackSeed = 'tech-default' }) => {
 };
 
 const Blog = ({ posts, generatedAt }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortBy, setSortBy] = useState('newest');
+    const [selectedTag, setSelectedTag] = useState('all');
+    const [visibleCount, setVisibleCount] = useState(9);
+
     const breadcrumbPaths = [
         { label: 'Home', href: '/' },
         { label: 'Blog', href: '/blog' },
     ];
 
-    const sortedPosts = [...posts].sort(
-        (a, b) => new Date(b.last_edited_time || b.created_time || 0) - new Date(a.last_edited_time || a.created_time || 0)
-    );
+    const sortedPosts = [...posts].sort((a, b) => getPostDate(b) - getPostDate(a));
 
     const heroPost = sortedPosts[0] || null;
     const sidePosts = sortedPosts.slice(1, 4);
     const footerPosts = sortedPosts.slice(4, 7);
+
+    const allTags = Array.from(new Set(sortedPosts.flatMap((post) => getPostTags(post)))).sort((a, b) => a.localeCompare(b));
+
+    const filteredPosts = sortedPosts
+        .filter((post) => {
+            if (selectedTag === 'all') return true;
+            return getPostTags(post).includes(selectedTag);
+        })
+        .filter((post) => {
+            if (!searchTerm.trim()) return true;
+            const searchable = `${getPostTitle(post)} ${getPostDescription(post)} ${getPostTags(post).join(' ')}`.toLowerCase();
+            return searchable.includes(searchTerm.toLowerCase());
+        })
+        .sort((a, b) => {
+            if (sortBy === 'oldest') return getPostDate(a) - getPostDate(b);
+            if (sortBy === 'title-asc') return getPostTitle(a).localeCompare(getPostTitle(b));
+            if (sortBy === 'title-desc') return getPostTitle(b).localeCompare(getPostTitle(a));
+            return getPostDate(b) - getPostDate(a);
+        });
+
+    const visiblePosts = filteredPosts.slice(0, visibleCount);
 
     return (
         <div className="min-h-screen bg-[#F6F7F8]">
@@ -233,6 +267,103 @@ const Blog = ({ posts, generatedAt }) => {
                                     </article>
                                 );
                             })}
+                        </section>
+
+                        <section className="mt-10 bg-white rounded-2xl shadow-sm p-5 md:p-6">
+                            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-[#111111]">Todas as postagens</h2>
+                                    <p className="text-gray-600 text-sm mt-1">Navegue por data, tema e relevância para encontrar conteúdo com mais rapidez.</p>
+                                </div>
+                                <p className="text-sm text-gray-500">{filteredPosts.length} resultados</p>
+                            </div>
+
+                            <div className="mt-5 grid grid-cols-1 lg:grid-cols-4 gap-3">
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setVisibleCount(9);
+                                    }}
+                                    placeholder="Buscar por título, resumo ou tag"
+                                    className="lg:col-span-2 px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140]"
+                                />
+
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => {
+                                        setSortBy(e.target.value);
+                                        setVisibleCount(9);
+                                    }}
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white"
+                                >
+                                    <option value="newest">Mais novas</option>
+                                    <option value="oldest">Mais antigas</option>
+                                    <option value="title-asc">Título A-Z</option>
+                                    <option value="title-desc">Título Z-A</option>
+                                </select>
+
+                                <select
+                                    value={selectedTag}
+                                    onChange={(e) => {
+                                        setSelectedTag(e.target.value);
+                                        setVisibleCount(9);
+                                    }}
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white"
+                                >
+                                    <option value="all">Todos os temas</option>
+                                    {allTags.map((tag) => (
+                                        <option key={tag} value={tag}>{tag}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                                {visiblePosts.map((post) => {
+                                    const slug = getPostSlug(post);
+                                    if (!slug) return null;
+                                    const tags = getPostTags(post);
+
+                                    return (
+                                        <article key={post.id} className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow flex flex-col h-full">
+                                            <SmartImage
+                                                src={getPostImage(post)}
+                                                alt={getPostTitle(post)}
+                                                className="w-full h-44 rounded-lg"
+                                                fallbackSeed={`all-${post.id}`}
+                                            />
+                                            <div className="mt-3 flex flex-wrap gap-2 min-h-[1.75rem]">
+                                                {tags.slice(0, 3).map((tag) => (
+                                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-[#00B140]/10 text-[#00B140] font-medium">{tag}</span>
+                                                ))}
+                                            </div>
+                                            <Link href={`/blog/${slug}`} legacyBehavior>
+                                                <a className="mt-2 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 line-clamp-2 min-h-[3.25rem]">
+                                                    {getPostTitle(post)}
+                                                </a>
+                                            </Link>
+                                            <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
+                                            <p className="text-xs text-gray-400 mt-3">{getPostDate(post).toLocaleDateString('pt-BR')}</p>
+                                        </article>
+                                    );
+                                })}
+                            </div>
+
+                            {visiblePosts.length === 0 && (
+                                <p className="mt-6 text-center text-gray-500">Nenhuma postagem encontrada com esses filtros.</p>
+                            )}
+
+                            {visibleCount < filteredPosts.length && (
+                                <div className="mt-6 text-center">
+                                    <button
+                                        onClick={() => setVisibleCount((prev) => prev + 9)}
+                                        className="px-5 py-2.5 rounded-lg bg-[#111111] text-white font-medium hover:bg-black transition-colors"
+                                    >
+                                        Carregar mais postagens
+                                    </button>
+                                </div>
+                            )}
                         </section>
                     </>
                 )}
