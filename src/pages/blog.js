@@ -96,22 +96,23 @@ const getTopicFromPost = (post) => {
 };
 
 const STOCK_IMAGES = [
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
+    '/images/Blog.png',
+    '/images/image1.png',
+    '/images/icon.png',
+    '/images/tasks.png',
+    '/images/busca-cep.png',
+    '/images/j-flix.png',
+    '/images/meu-link-snapshoot.png',
+    '/images/pdv.png',
+    '/images/VagasVoluntarias.png',
+    '/images/barberadmin.png',
 ];
 
 const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
     const notionCover = post?.cover;
-    if (notionCover?.type === 'external') return notionCover.external.url;
-    if (notionCover?.type === 'file') return notionCover.file.url;
+
+    // Usa apenas capas externas estáveis; URLs de file do Notion expiram e quebram no frontend.
+    if (notionCover?.type === 'external' && notionCover?.external?.url) return notionCover.external.url;
 
     const query = getTopicFromPost(post) || fallbackQuery;
     const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}-${query}`);
