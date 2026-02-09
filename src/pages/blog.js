@@ -63,12 +63,35 @@ const getPostDescription = (post) => {
 
 const getPostSlug = (post) => post.properties?.Slug?.rich_text?.[0]?.text?.content || '';
 
-const getPostImage = (post, fallbackQuery = 'tecnologia') => {
+const hashString = (value = '') => {
+    let hash = 0;
+    for (let i = 0; i < value.length; i += 1) {
+        hash = (hash << 5) - hash + value.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash);
+};
+
+const getTopicFromPost = (post) => {
+    const text = `${getPostTitle(post)} ${getPostDescription(post)}`.toLowerCase();
+
+    if (text.includes('finan') || text.includes('mercado') || text.includes('invest')) return 'fintech,business,analytics';
+    if (text.includes('empreendedor') || text.includes('startup') || text.includes('growth')) return 'startup,entrepreneur,business';
+    if (text.includes('produto') || text.includes('ux') || text.includes('design')) return 'product,design,technology';
+    if (text.includes('dados') || text.includes('bi') || text.includes('métrica')) return 'data,analytics,dashboard';
+    if (text.includes('ia') || text.includes('ai') || text.includes('inteligência')) return 'artificial-intelligence,technology,future';
+
+    return 'technology,business,innovation';
+};
+
+const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
     const notionCover = post?.cover;
     if (notionCover?.type === 'external') return notionCover.external.url;
     if (notionCover?.type === 'file') return notionCover.file.url;
 
-    return `https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80`;
+    const query = getTopicFromPost(post) || fallbackQuery;
+    const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}`) % 999;
+    return `https://source.unsplash.com/1200x800/?${encodeURIComponent(query)}&sig=${seed}`;
 };
 
 const Blog = ({ posts, generatedAt }) => {
@@ -107,7 +130,7 @@ const Blog = ({ posts, generatedAt }) => {
                     </div>
                 ) : (
                     <>
-                        <section className="grid grid-cols-1 lg:grid-cols-5 gap-7 mb-8">
+                        <section className="grid grid-cols-1 lg:grid-cols-5 items-stretch gap-7 mb-8">
                             <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
                                 <img
                                     src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
@@ -130,46 +153,52 @@ const Blog = ({ posts, generatedAt }) => {
                                 </div>
                             </article>
 
-                            <aside className="lg:col-span-2 flex flex-col gap-6">
+                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6 auto-rows-fr">
                                 {sidePosts.map((post) => {
                                     const slug = getPostSlug(post);
                                     if (!slug) return null;
                                     return (
-                                        <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                                        <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
                                             <img
                                                 src={getPostImage(post)}
                                                 alt={getPostTitle(post)}
                                                 className="w-full h-32 object-cover rounded-lg"
                                             />
                                             <Link href={`/blog/${slug}`} legacyBehavior>
-                                                <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity">
+                                                <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
                                                     {getPostTitle(post)}
                                                 </a>
                                             </Link>
-                                            <p className="text-sm text-gray-600 mt-2 line-clamp-2">{getPostDescription(post)}</p>
+                                            <p className="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">{getPostDescription(post)}</p>
+                                            <p className="text-xs text-gray-400 mt-3">
+                                                {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')}
+                                            </p>
                                         </article>
                                     );
                                 })}
                             </aside>
                         </section>
 
-                        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <section className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-6">
                             {footerPosts.map((post) => {
                                 const slug = getPostSlug(post);
                                 if (!slug) return null;
                                 return (
-                                    <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                                    <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
                                         <img
                                             src={getPostImage(post)}
                                             alt={getPostTitle(post)}
                                             className="w-full aspect-[4/3] object-cover rounded-lg"
                                         />
                                         <Link href={`/blog/${slug}`} legacyBehavior>
-                                            <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity">
+                                            <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
                                                 {getPostTitle(post)}
                                             </a>
                                         </Link>
-                                        <p className="text-sm text-gray-600 mt-2 line-clamp-2">{getPostDescription(post)}</p>
+                                        <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
+                                        <p className="text-xs text-gray-400 mt-3">
+                                            {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')}
+                                        </p>
                                     </article>
                                 );
                             })}
