@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
@@ -90,8 +91,33 @@ const getPostImage = (post, fallbackQuery = 'technology,business,innovation') =>
     if (notionCover?.type === 'file') return notionCover.file.url;
 
     const query = getTopicFromPost(post) || fallbackQuery;
-    const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}`) % 999;
-    return `https://source.unsplash.com/1200x800/?${encodeURIComponent(query)}&sig=${seed}`;
+    const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}`);
+
+    // Picsum é mais estável para fallback público que source.unsplash
+    return `https://picsum.photos/seed/${encodeURIComponent(`${query}-${seed}`)}/1200/800`;
+};
+
+const SmartImage = ({ src, alt, className, fallbackSeed = 'tech-default' }) => {
+    const [loaded, setLoaded] = useState(false);
+    const [errored, setErrored] = useState(false);
+
+    const safeFallback = `https://picsum.photos/seed/${encodeURIComponent(fallbackSeed)}/1200/800`;
+
+    return (
+        <div className={`relative overflow-hidden ${className}`}>
+            {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200" />}
+            <img
+                src={errored ? safeFallback : src}
+                alt={alt}
+                onLoad={() => setLoaded(true)}
+                onError={() => {
+                    setErrored(true);
+                    setLoaded(true);
+                }}
+                className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+        </div>
+    );
 };
 
 const Blog = ({ posts, generatedAt }) => {
@@ -132,11 +158,14 @@ const Blog = ({ posts, generatedAt }) => {
                     <>
                         <section className="grid grid-cols-1 lg:grid-cols-5 items-stretch gap-7 mb-8">
                             <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
-                                <img
-                                    src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
-                                    alt={getPostTitle(heroPost)}
-                                    className="absolute inset-0 h-full w-full object-cover"
-                                />
+                                <div className="absolute inset-0">
+                                    <SmartImage
+                                        src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
+                                        alt={getPostTitle(heroPost)}
+                                        className="absolute inset-0 h-full w-full"
+                                        fallbackSeed={`hero-${heroPost.id}`}
+                                    />
+                                </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30" />
 
                                 <div className="relative z-10 h-full p-7 md:p-10 flex flex-col justify-end">
@@ -159,10 +188,11 @@ const Blog = ({ posts, generatedAt }) => {
                                     if (!slug) return null;
                                     return (
                                         <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
-                                            <img
+                                            <SmartImage
                                                 src={getPostImage(post)}
                                                 alt={getPostTitle(post)}
-                                                className="w-full h-32 object-cover rounded-lg"
+                                                className="w-full h-32 rounded-lg"
+                                                fallbackSeed={`side-${post.id}`}
                                             />
                                             <Link href={`/blog/${slug}`} legacyBehavior>
                                                 <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
@@ -185,10 +215,11 @@ const Blog = ({ posts, generatedAt }) => {
                                 if (!slug) return null;
                                 return (
                                     <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
-                                        <img
+                                        <SmartImage
                                             src={getPostImage(post)}
                                             alt={getPostTitle(post)}
-                                            className="w-full aspect-[4/3] object-cover rounded-lg"
+                                            className="w-full aspect-[4/3] rounded-lg"
+                                            fallbackSeed={`footer-${post.id}`}
                                         />
                                         <Link href={`/blog/${slug}`} legacyBehavior>
                                             <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
