@@ -61,8 +61,8 @@ const InteractiveHero = () => {
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setClearColor(0x000000, 0);
         renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
+        const isMobile = window.innerWidth < 768;
+        renderer.setPixelRatio(isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2));
 
         const particlesCount = isMobile ? 800 : 3000;
         const particlesGeometry = new THREE.BufferGeometry();
