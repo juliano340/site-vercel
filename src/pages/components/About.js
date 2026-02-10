@@ -139,7 +139,7 @@ const About = () => {
           </div>
 
           {/* Education */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm bg-opacity-90">
+          <div className="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm bg-opacity-90 flex flex-col">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
               <svg className="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -148,7 +148,7 @@ const About = () => {
               </svg>
               Formação
             </h3>
-            <div className="space-y-6">
+            <div className="space-y-6 flex-1 flex flex-col justify-between">
               <div>
                 <h4 className="font-bold text-gray-900 mb-2">Sistemas para Internet</h4>
                 <p className="text-gray-600 mb-3">Unisinos</p>

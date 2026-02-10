@@ -187,7 +187,7 @@ const Blog = ({ posts, generatedAt }) => {
                     </div>
                 ) : (
                     <>
-                        <section className="grid grid-cols-1 lg:grid-cols-5 items-start gap-7 mb-8">
+                        <section className="grid grid-cols-1 lg:grid-cols-5 items-stretch gap-7 mb-8">
                             <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
                                 <div className="absolute inset-0">
                                     <SmartImage
@@ -196,41 +196,43 @@ const Blog = ({ posts, generatedAt }) => {
                                         className="absolute inset-0 h-full w-full"
                                     />
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30" />
+<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20" />
 
-                                <div className="relative z-10 h-full p-7 md:p-10 flex flex-col justify-end">
-                                    <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-[#9BE8B1] mb-3">Matéria principal</p>
-                                    <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
-                                        <a className="text-3xl md:text-5xl font-extrabold text-white leading-tight hover:opacity-90 transition-opacity">
-                                            {getPostTitle(heroPost)}
-                                        </a>
-                                    </Link>
-                                    
-                                    {/* Descrição maior e mais espaço aproveitado */}
-                                    <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed max-w-2xl">
-                                        {getPostDescription(heroPost).slice(0, 280)}{getPostDescription(heroPost).length > 280 ? '...' : ''}
-                                    </p>
-                                    
-                                    {/* Tags do post */}
-                                    {getPostTags(heroPost).length > 0 && (
-                                        <div className="mt-4 flex flex-wrap gap-2">
-                                            {getPostTags(heroPost).slice(0, 4).map(tag => (
-                                                <span key={tag} className="text-xs px-3 py-1 rounded-full bg-white/20 text-white font-medium">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    )}
+                                <div className="relative z-10 h-full p-8 md:p-10 flex flex-col justify-between">
+                                    <div>
+                                        <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-[#9BE8B1] mb-4">Matéria principal</p>
+                                        <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
+                                            <a className="text-3xl md:text-5xl font-extrabold text-white leading-[1.1] hover:opacity-90 transition-opacity" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+                                                {getPostTitle(heroPost)}
+                                            </a>
+                                        </Link>
+                                        
+                                        {/* Descrição maior e mais espaço aproveitado */}
+                                        <p className="mt-5 text-white text-base md:text-xl leading-relaxed max-w-2xl" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
+                                            {getPostDescription(heroPost).slice(0, 320)}{getPostDescription(heroPost).length > 320 ? '...' : ''}
+                                        </p>
+                                        
+                                        {/* Tags do post */}
+                                        {getPostTags(heroPost).length > 0 && (
+                                            <div className="mt-5 flex flex-wrap gap-2">
+                                                {getPostTags(heroPost).slice(0, 4).map(tag => (
+                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-white/25 text-white font-medium">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                     
                                     {/* Meta info e CTA */}
-                                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-2">
                                         <div className="text-[#9BE8B1] text-sm font-medium">
                                             <span>📅 {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
                                             <span>⏱️ {Math.ceil(getPostDescription(heroPost).length / 200)} min de leitura</span>
                                         </div>
                                         <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
-                                            <a className="inline-flex items-center px-6 py-2.5 bg-[#00B140] text-white text-sm font-semibold rounded-full hover:bg-[#009130] transition-colors">
+                                            <a className="inline-flex items-center px-7 py-3 bg-[#00B140] text-white text-sm font-semibold rounded-full hover:bg-[#009130] transition-colors">
                                                 Ler artigo completo →
                                             </a>
                                         </Link>
@@ -238,10 +240,10 @@ const Blog = ({ posts, generatedAt }) => {
                                 </div>
                             </article>
 
-                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6">
-                                <section className="bg-white rounded-xl p-5 shadow-sm">
+                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6 h-full">
+                                <section className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col">
                                     <h3 className="text-base font-bold text-[#111111] mb-4">Últimas publicações</h3>
-                                    <ul className="space-y-3">
+                                    <ul className="space-y-3 flex-1">
                                         {widgetPosts.map((post) => {
                                             const slug = getPostSlug(post);
                                             if (!slug) return null;

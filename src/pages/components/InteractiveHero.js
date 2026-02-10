@@ -63,6 +63,7 @@ const InteractiveHero = () => {
         renderer.setSize(container.clientWidth, container.clientHeight);
         const isMobile = window.innerWidth < 768;
         renderer.setPixelRatio(isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
 
         const particlesCount = isMobile ? 800 : 3000;
         const particlesGeometry = new THREE.BufferGeometry();
@@ -269,7 +270,7 @@ const InteractiveHero = () => {
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('resize', handleResize);
 
-            if (containerRef.current && renderer.domElement) {
+            if (containerRef.current && renderer.domElement && containerRef.current.contains(renderer.domElement)) {
                 containerRef.current.removeChild(renderer.domElement);
             }
 
