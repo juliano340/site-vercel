@@ -6,8 +6,7 @@ import Image from 'next/image';
 const InteractiveHero = () => {
     const containerRef = useRef(null);
 
-    // 0 = visível, 1 = escondido
-    const [fade, setFade] = useState(0);
+    const fadeRef = useRef(null);
 
     // sheen (reflexo) seguindo o mouse dentro do card
     const [sheen, setSheen] = useState({ x: 50, y: 20 });
@@ -21,7 +20,13 @@ const InteractiveHero = () => {
         const update = () => {
             const y = window.scrollY || 0;
             const t = (y - START) / (END - START);
-            setFade(Math.max(0, Math.min(1, t)));
+            const fadeValue = Math.max(0, Math.min(1, t));
+
+            if (fadeRef.current) {
+                fadeRef.current.style.opacity = (1 - fadeValue).toString();
+                fadeRef.current.style.transform = `translateY(${fadeValue * 24}px) scale(${1 - fadeValue * 0.06})`;
+                fadeRef.current.style.pointerEvents = fadeValue > 0.85 ? 'none' : 'auto';
+            }
             raf = 0;
         };
 
@@ -59,8 +64,7 @@ const InteractiveHero = () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        const isMobile = window.innerWidth < 768;
-        const particlesCount = isMobile ? 1200 : 3000;
+        const particlesCount = isMobile ? 800 : 3000;
         const particlesGeometry = new THREE.BufferGeometry();
 
         const positions = new Float32Array(particlesCount * 3);
@@ -290,11 +294,11 @@ const InteractiveHero = () => {
             <div ref={containerRef} className="absolute inset-0 z-0" />
 
             <div
+                ref={fadeRef}
                 className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-5rem)] px-4 py-4 sm:py-6"
                 style={{
-                    opacity: 1 - fade,
-                    transform: `translateY(${fade * 24}px) scale(${1 - fade * 0.06})`,
-                    pointerEvents: fade > 0.85 ? 'none' : 'auto',
+                    opacity: 1,
+                    transform: 'translateY(0px) scale(1)',
                     transition: 'opacity 120ms linear, transform 120ms linear'
                 }}
             >
