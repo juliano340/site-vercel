@@ -205,10 +205,36 @@ const Blog = ({ posts, generatedAt }) => {
                                             {getPostTitle(heroPost)}
                                         </a>
                                     </Link>
-                                    <ul className="mt-5 space-y-2 text-[#9BE8B1] text-sm md:text-base font-medium list-disc list-inside">
-                                        <li>{getPostDescription(heroPost).slice(0, 90)}...</li>
-                                        <li>Atualizado em {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</li>
-                                    </ul>
+                                    
+                                    {/* Descrição maior e mais espaço aproveitado */}
+                                    <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed max-w-2xl">
+                                        {getPostDescription(heroPost).slice(0, 280)}{getPostDescription(heroPost).length > 280 ? '...' : ''}
+                                    </p>
+                                    
+                                    {/* Tags do post */}
+                                    {getPostTags(heroPost).length > 0 && (
+                                        <div className="mt-4 flex flex-wrap gap-2">
+                                            {getPostTags(heroPost).slice(0, 4).map(tag => (
+                                                <span key={tag} className="text-xs px-3 py-1 rounded-full bg-white/20 text-white font-medium">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                    
+                                    {/* Meta info e CTA */}
+                                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                                        <div className="text-[#9BE8B1] text-sm font-medium">
+                                            <span>📅 {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</span>
+                                            <span className="mx-2">·</span>
+                                            <span>⏱️ {Math.ceil(getPostDescription(heroPost).length / 200)} min de leitura</span>
+                                        </div>
+                                        <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
+                                            <a className="inline-flex items-center px-6 py-2.5 bg-[#00B140] text-white text-sm font-semibold rounded-full hover:bg-[#009130] transition-colors">
+                                                Ler artigo completo →
+                                            </a>
+                                        </Link>
+                                    </div>
                                 </div>
                             </article>
 
