@@ -7,17 +7,26 @@ import Footer from './components/Footer';
 import CtaSection from './components/CtaSection';
 import InteractiveHero from './components/InteractiveHero';
 
+import Head from 'next/head';
 
 export default function Home() {
 
   return (
-    <main>
+    <>
+      <Head>
+        <title>Juliano - Programador Web Full Stack</title>
+        <meta name="description" content="Portfolio de Juliano, desenvolvedor Full Stack especializado em soluções web eficientes e inovadoras. Veja meus projetos e entre em contato." />
+        <meta name="keywords" content="desenvolvedor web, full stack, next.js, react, portfolio, juliano" />
+        <meta name="author" content="Juliano" />
+      </Head>
+      <main>
 
-      <InteractiveHero />
+        <InteractiveHero />
 
-      <About />
-      <Portfolio />
-      <CtaSection />
-    </main>
+        <About />
+        <Portfolio />
+        <CtaSection />
+      </main>
+    </>
   );
 }

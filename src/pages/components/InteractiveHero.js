@@ -313,6 +313,8 @@ const InteractiveHero = () => {
                         width={160}
                         height={160}
                         priority
+                        loading="eager"
+                        fetchPriority="high"
                         sizes="(max-width: 768px) 112px, (max-width: 1024px) 144px, 160px"
                         className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
