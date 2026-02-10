@@ -103,9 +103,9 @@ const Portfolio = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Meu Portfólio
-          </h1>
+          </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-6"></div>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Confira alguns dos projetos que desenvolvi utilizando as mais modernas tecnologias

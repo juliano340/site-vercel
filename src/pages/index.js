@@ -5,7 +5,11 @@ import Portfolio from './components/Portfolio';
 import About from './components/About';
 import Footer from './components/Footer';
 import CtaSection from './components/CtaSection';
-import InteractiveHero from './components/InteractiveHero';
+import dynamic from 'next/dynamic';
+
+const InteractiveHero = dynamic(() => import('./components/InteractiveHero'), {
+  ssr: false,
+});
 
 import Head from 'next/head';
 
