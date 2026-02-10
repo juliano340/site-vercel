@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const InteractiveHero = () => {
     const containerRef = useRef(null);
@@ -298,9 +299,12 @@ const InteractiveHero = () => {
             >
                 <div className="mb-5 mt-2 sm:mb-6 sm:mt-4 relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-60 blur transition duration-1000 group-hover:opacity-90 group-hover:duration-200"></div>
-                    <img
+                    <Image
                         src="https://avatars.githubusercontent.com/u/87342139?v=4"
                         alt="Profile"
+                        width={160}
+                        height={160}
+                        priority
                         className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
                 </div>
