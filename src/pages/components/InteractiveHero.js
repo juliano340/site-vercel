@@ -8,10 +8,8 @@ const InteractiveHero = () => {
 
     const fadeRef = useRef(null);
 
-    // sheen (reflexo) seguindo o mouse dentro do card
     const [sheen, setSheen] = useState({ x: 50, y: 20 });
 
-    // Fade progressivo por faixa de scroll (mais lento)
     useEffect(() => {
         const START = 220;
         const END = 820;
@@ -43,7 +41,6 @@ const InteractiveHero = () => {
         };
     }, []);
 
-    // Three.js (mesmo efeito "quântico" e alpha controlado)
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
@@ -175,10 +172,8 @@ const InteractiveHero = () => {
               float t = 0.5 + 0.5 * sin(vWave + uTime * 0.15);
               vec3 col = mix(uColorA, uColorB, t);
 
-              // menos "estouro" quando observado
               col += vFade * 0.20;
 
-              // reduz alpha quando observador está forte (não ofusca o texto)
               float damp = 1.0 - (vFade * 0.50);
               float alpha = (core * 0.48 + glow) * (0.42 + vFade * 0.38) * damp;
 
@@ -262,7 +257,6 @@ const InteractiveHero = () => {
 
         window.addEventListener('resize', handleResize);
 
-        // Lazy init
         timeoutId = setTimeout(init, 100);
 
         return () => {

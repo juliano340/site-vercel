@@ -15,7 +15,16 @@ class MyDocument extends Document {
           <link rel="icon" href="/favicon.png" type="image/png" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
           <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+          <link 
+            rel="preload" 
+            href="https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8jHgSpXLz8IU.woff2" 
+            as="font" 
+            type="font/woff2" 
+            crossOrigin="anonymous" 
+          />
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         </Head>
         <body>
@@ -24,7 +33,6 @@ class MyDocument extends Document {
           <Script src="https://kit.fontawesome.com/0934ea43d0.js" crossOrigin="anonymous" strategy="lazyOnload" />
           <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8578901708699710" crossOrigin="anonymous" strategy="lazyOnload" />
 
-          {/* Google Analytics */}
           <Script async src="https://www.googletagmanager.com/gtag/js?id=G-GT25VEZ912" strategy="lazyOnload" />
           <Script id="google-analytics" strategy="lazyOnload">
             {`
