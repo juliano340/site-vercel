@@ -1,12 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import Breadcrumb from '../components/Breadcrumb';
 import { getDatabase, getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
-
-const Prism = dynamic(() => import('prismjs'), { ssr: false });
-import 'prismjs/themes/prism-tomorrow.css';
 
 const AUTHOR_NAME = 'Juliano Pereira';
 const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
@@ -333,12 +329,31 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
     
     const [activeSection, setActiveSection] = useState('');
     const [copied, setCopied] = useState(false);
+    const [prismLoaded, setPrismLoaded] = useState(false);
 
     useEffect(() => {
-      if (typeof window !== 'undefined') {
-        Prism.highlightAll();
+      const loadPrism = async () => {
+        const link = document.createElement('link');
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
+
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js';
+        script.async = true;
+        script.onload = () => {
+          setPrismLoaded(true);
+        };
+        document.body.appendChild(script);
+      };
+      loadPrism();
+    }, []);
+
+    useEffect(() => {
+      if (prismLoaded && typeof window !== 'undefined' && window.Prism) {
+        window.Prism.highlightAll();
       }
-    }, [blocks]);
+    }, [blocks, prismLoaded]);
     
     useEffect(() => {
       const handleScroll = () => {
