@@ -47,16 +47,6 @@ const Contato = () => {
   };
 
   const contactInfo = [
-    // {
-    //   icon: (
-    //     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    //     </svg>
-    //   ),
-    //   title: 'Email',
-    //   content: 'juliano340@gmail.com',
-    //   link: 'mailto:juliano340@gmail.com'
-    // },
     {
       icon: (
         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -76,6 +66,16 @@ const Contato = () => {
       title: 'GitHub',
       content: 'github.com/juliano340',
       link: 'https://github.com/juliano340'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+      title: 'Email',
+      content: 'contato@juliano340.com',
+      link: 'mailto:contato@juliano340.com'
     }
   ];
 
@@ -106,22 +106,25 @@ const Contato = () => {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Informações de Contato</h3>
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
-                  <a
-                    key={index}
-                    href={info.link}
-                    {...(info.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="group flex items-start gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 border border-transparent hover:border-blue-200"
-                  >
-                    <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                      {info.icon}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 mb-1">{info.title}</h4>
-                      <p className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors break-all">
-                        {info.content}
-                      </p>
-                    </div>
-                  </a>
+                  <div key={index}>
+                    <div dangerouslySetInnerHTML={{ __html: '<!--email_off-->' }} />
+                    <a
+                      href={info.link}
+                      {...(info.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="group flex items-start gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 border border-transparent hover:border-blue-200"
+                    >
+                      <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        {info.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 mb-1">{info.title}</h4>
+                        <p className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors break-all">
+                          {info.content}
+                        </p>
+                      </div>
+                    </a>
+                    <div dangerouslySetInnerHTML={{ __html: '<!--/email_off-->' }} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -270,8 +273,6 @@ const Contato = () => {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 };

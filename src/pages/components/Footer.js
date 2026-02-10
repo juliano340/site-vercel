@@ -30,7 +30,7 @@ const Footer = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       )
-    }
+    },
   ];
 
   const quickLinks = [
@@ -104,6 +104,7 @@ const Footer = () => {
           <div className="text-center md:text-right">
             <h4 className="text-lg font-semibold text-white mb-4">Contato</h4>
             <div className="space-y-3 text-gray-400">
+              <div dangerouslySetInnerHTML={{ __html: '<!--email_off-->' }} className="hidden" />
               <a
                 href="mailto:contato@juliano340.com"
                 className="flex items-center justify-center md:justify-end gap-2 hover:text-blue-400 transition-colors"
@@ -113,6 +114,7 @@ const Footer = () => {
                 </svg>
                 contato@juliano340.com
               </a>
+              <div dangerouslySetInnerHTML={{ __html: '<!--/email_off-->' }} className="hidden" />
               <div className="flex items-center justify-center md:justify-end gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -145,9 +147,9 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center gap-4">
-              <span className="flex items-center gap-2">
-                Feito com
-                <svg className="w-4 h-4 text-red-500 animate-pulse-scale" fill="currentColor" viewBox="0 0 20 20">
+            <span className="flex items-center gap-2">
+              Feito com
+              <svg className="w-4 h-4 text-red-500 animate-pulse-scale" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
               </svg>
               e
