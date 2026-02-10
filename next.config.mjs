@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
   experimental: {
-    optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect'],
+    optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect', 'prismjs'],
   },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -18,7 +18,10 @@ const nextConfig = {
       },
     ],
   },
-
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 };
 
 export default nextConfig;

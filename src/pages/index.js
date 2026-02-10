@@ -1,17 +1,21 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Menu from './components/Menu';
-import HeroSection from './components/HeroSection';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
 import Footer from './components/Footer';
 import CtaSection from './components/CtaSection';
-import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 const InteractiveHero = dynamic(() => import('./components/InteractiveHero'), {
   ssr: false,
+  loading: () => <div className="min-h-[calc(100dvh-4rem)] bg-slate-900 animate-pulse" />
 });
 
-import Head from 'next/head';
+const HeroSection = dynamic(() => import('./components/HeroSection'), {
+  ssr: false,
+  loading: () => <div className="h-[600px] bg-gray-800 animate-pulse" />
+});
 
 export default function Home() {
 

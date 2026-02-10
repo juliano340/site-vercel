@@ -1,10 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism-tomorrow.css';
+import dynamic from 'next/dynamic';
 import Breadcrumb from '../components/Breadcrumb';
 import { getDatabase, getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
+
+const Prism = dynamic(() => import('prismjs'), { ssr: false });
+import 'prismjs/themes/prism-tomorrow.css';
 
 const AUTHOR_NAME = 'Juliano Pereira';
 const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
