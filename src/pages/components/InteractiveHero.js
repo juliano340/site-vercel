@@ -59,8 +59,9 @@ const InteractiveHero = () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
+        const isMobile = window.innerWidth < 768;
+        const particlesCount = isMobile ? 1200 : 3000;
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 3000;
 
         const positions = new Float32Array(particlesCount * 3);
         const home = new Float32Array(particlesCount * 3);
@@ -305,6 +306,7 @@ const InteractiveHero = () => {
                         width={160}
                         height={160}
                         priority
+                        sizes="(max-width: 768px) 112px, (max-width: 1024px) 144px, 160px"
                         className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
                 </div>

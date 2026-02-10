@@ -161,6 +161,7 @@ const Portfolio = () => {
                       href={project.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Ver demonstração de ${project.title}`}
                       className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-110"
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -173,6 +174,7 @@ const Portfolio = () => {
                       href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Ver repositório de ${project.title} no GitHub`}
                       className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-110"
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -211,6 +213,7 @@ const Portfolio = () => {
                     href={project.projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Ver projeto ${project.title} ao vivo`}
                     className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,6 +225,7 @@ const Portfolio = () => {
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Ver código fonte de ${project.title} no GitHub`}
                     className="p-2.5 bg-white/10 text-gray-300 rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
                     title="Ver código fonte"
                   >
