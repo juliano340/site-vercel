@@ -74,8 +74,8 @@ const Contato = () => {
         </svg>
       ),
       title: 'Email',
-      content: 'contato@juliano340.com',
-      link: 'mailto:contato@juliano340.com'
+      content: ['contato', 'juliano340.com'].join('@'),
+      link: `mailto:${['contato', 'juliano340.com'].join('@')}`
     }
   ];
 
@@ -107,7 +107,6 @@ const Contato = () => {
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <div key={index}>
-                    <div dangerouslySetInnerHTML={{ __html: '<!--email_off-->' }} />
                     <a
                       href={info.link}
                       {...(info.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
@@ -123,7 +122,6 @@ const Contato = () => {
                         </p>
                       </div>
                     </a>
-                    <div dangerouslySetInnerHTML={{ __html: '<!--/email_off-->' }} />
                   </div>
                 ))}
               </div>

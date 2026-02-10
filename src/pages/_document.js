@@ -13,19 +13,6 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="UTF-8" />
           <link rel="icon" href="/favicon.png" type="image/png" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-          <link rel="preconnect" href="https://avatars.githubusercontent.com" />
-          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-          <link 
-            rel="preload" 
-            href="https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8jHgSpXLz8IU.woff2" 
-            as="font" 
-            type="font/woff2" 
-            crossOrigin="anonymous" 
-          />
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         </Head>
         <body>
           <Main />

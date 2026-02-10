@@ -24,13 +24,13 @@ const Footer = () => {
     },
     {
       name: 'Email',
-      url: 'mailto:contato@juliano340.com',
+      url: `mailto:${['contato', 'juliano340.com'].join('@')}`,
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       )
-    },
+    }
   ];
 
   const quickLinks = [
@@ -104,17 +104,15 @@ const Footer = () => {
           <div className="text-center md:text-right">
             <h4 className="text-lg font-semibold text-white mb-4">Contato</h4>
             <div className="space-y-3 text-gray-400">
-              <div dangerouslySetInnerHTML={{ __html: '<!--email_off-->' }} className="hidden" />
               <a
-                href="mailto:contato@juliano340.com"
+                href={`mailto:${['contato', 'juliano340.com'].join('@')}`}
                 className="flex items-center justify-center md:justify-end gap-2 hover:text-blue-400 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                contato@juliano340.com
+                {['contato', 'juliano340.com'].join('@')}
               </a>
-              <div dangerouslySetInnerHTML={{ __html: '<!--/email_off-->' }} className="hidden" />
               <div className="flex items-center justify-center md:justify-end gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

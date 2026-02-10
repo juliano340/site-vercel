@@ -11,18 +11,25 @@ export default function Menu() {
     const toggle = () => setIsOpen(!isOpen);
 
     useEffect(() => {
+        let rafId;
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+            const y = window.scrollY;
+            setScrolled(y > 20);
 
-            // Calculate scroll progress
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const currentProgress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
-            setScrollProgress(Math.min(currentProgress, 100));
+            if (rafId) return;
+
+            rafId = requestAnimationFrame(() => {
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const currentProgress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+                setScrollProgress(Math.min(currentProgress, 100));
+                rafId = null;
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            if (rafId) cancelAnimationFrame(rafId);
         };
     }, []);
 
