@@ -80,21 +80,21 @@ const Contato = () => {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       {/* Background Decorations */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-100 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-100 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <Breadcrumb paths={[{ label: 'Home', href: '/' }, { label: 'Contato', href: '/contato' }]} />
 
         {/* Header */}
         <div className="text-center mb-16 mt-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Vamos Conversar?
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Estou sempre aberto a discutir novos projetos, ideias criativas ou oportunidades de fazer parte da sua visão.
           </p>
         </div>
@@ -102,22 +102,22 @@ const Contato = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Info Cards */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm bg-opacity-90">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Informações de Contato</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm bg-opacity-90">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Informações de Contato</h3>
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <div key={index}>
                     <a
                       href={info.link}
                       {...(info.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-start gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 border border-transparent hover:border-blue-200"
+                      className="group flex items-start gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300 border border-transparent hover:border-blue-200 dark:hover:border-gray-600"
                     >
                       <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">
                         {info.icon}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900 mb-1">{info.title}</h4>
-                        <p className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors break-all">
+                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">{info.title}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors break-all">
                           {info.content}
                         </p>
                       </div>
@@ -144,11 +144,11 @@ const Contato = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 backdrop-blur-sm bg-opacity-90">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 backdrop-blur-sm bg-opacity-90">
               <div className="space-y-6">
                 {/* Nome */}
                 <div>
-                  <label htmlFor="nome" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label htmlFor="nome" className="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     Nome Completo
                   </label>
                   <div className="relative">
@@ -164,7 +164,7 @@ const Contato = () => {
                       required
                       value={formData.nome}
                       onChange={handleChange}
-                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400"
+                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-400 bg-white dark:bg-gray-700"
                       placeholder="Seu nome"
                     />
                   </div>
@@ -172,7 +172,7 @@ const Contato = () => {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     Email
                   </label>
                   <div className="relative">
@@ -188,7 +188,7 @@ const Contato = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400"
+                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-400 bg-white dark:bg-gray-700"
                       placeholder="seu@email.com"
                     />
                   </div>
@@ -196,7 +196,7 @@ const Contato = () => {
 
                 {/* Mensagem */}
                 <div>
-                  <label htmlFor="mensagem" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label htmlFor="mensagem" className="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     Mensagem
                   </label>
                   <div className="relative">
@@ -212,7 +212,7 @@ const Contato = () => {
                       value={formData.mensagem}
                       onChange={handleChange}
                       rows="6"
-                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 resize-none"
+                      className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-400 resize-none bg-white dark:bg-gray-700"
                       placeholder="Escreva sua mensagem aqui..."
                     />
                   </div>
@@ -245,25 +245,25 @@ const Contato = () => {
 
               {/* Status Messages */}
               {status === 'success' && (
-                <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-start gap-3 animate-fadeIn">
+                <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl flex items-start gap-3 animate-fadeIn">
                   <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h4 className="font-semibold text-green-900">Mensagem enviada com sucesso!</h4>
-                    <p className="text-sm text-green-700 mt-1">Obrigado pelo contato. Responderei em breve!</p>
+                    <h4 className="font-semibold text-green-900 dark:text-green-100">Mensagem enviada com sucesso!</h4>
+                    <p className="text-sm text-green-700 dark:text-green-300 mt-1">Obrigado pelo contato. Responderei em breve!</p>
                   </div>
                 </div>
               )}
 
               {status === 'error' && (
-                <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 animate-fadeIn">
+                <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl flex items-start gap-3 animate-fadeIn">
                   <svg className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h4 className="font-semibold text-red-900">Erro ao enviar mensagem</h4>
-                    <p className="text-sm text-red-700 mt-1">Por favor, tente novamente ou entre em contato por email.</p>
+                    <h4 className="font-semibold text-red-900 dark:text-red-100">Erro ao enviar mensagem</h4>
+                    <p className="text-sm text-red-700 dark:text-red-300 mt-1">Por favor, tente novamente ou entre em contato por email.</p>
                   </div>
                 </div>
               )}

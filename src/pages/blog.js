@@ -166,24 +166,24 @@ const Blog = ({ posts, generatedAt }) => {
     const visiblePosts = filteredPosts.slice(0, visibleCount);
 
     return (
-        <div className="min-h-screen bg-[#F6F7F8]">
+        <div className="min-h-screen bg-[#F6F7F8] dark:bg-gray-900">
             <div className="container mx-auto px-4 py-8 lg:py-10">
                 <Breadcrumb paths={breadcrumbPaths} />
 
                 <header className="mt-6 mb-8">
                     <p className="text-sm font-medium tracking-[0.2em] text-[#00B140] uppercase">Blog Editorial</p>
-                    <h1 className="mt-2 text-3xl md:text-5xl font-black text-[#111111] leading-tight">
+                    <h1 className="mt-2 text-3xl md:text-5xl font-black text-[#111111] dark:text-white leading-tight">
                         Tecnologia, Empreendedorismo e IA Aplicada
                     </h1>
-                    <p className="mt-3 text-gray-600 max-w-2xl">
+                    <p className="mt-3 text-gray-600 dark:text-gray-300 max-w-2xl">
                         Insights práticos, tendências e análises para quem constrói negócios na nova economia digital.
                     </p>
                 </header>
 
                 {!heroPost ? (
-                    <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-bold text-gray-700">Nenhuma publicação disponível</h2>
-                        <p className="text-gray-500 mt-2">Publique novos conteúdos para montar sua capa automaticamente.</p>
+                    <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+                        <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">Nenhuma publicação disponível</h2>
+                        <p className="text-gray-500 dark:text-gray-400 mt-2">Publique novos conteúdos para montar sua capa automaticamente.</p>
                     </div>
                 ) : (
                     <>
@@ -216,7 +216,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         {getPostTags(heroPost).length > 0 && (
                                             <div className="mt-5 flex flex-wrap gap-2">
                                                 {getPostTags(heroPost).slice(0, 4).map(tag => (
-                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-white/25 text-white font-medium">
+                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800/25 text-white font-medium">
                                                         {tag}
                                                     </span>
                                                 ))}
@@ -241,14 +241,14 @@ const Blog = ({ posts, generatedAt }) => {
                             </article>
 
                             <aside className="lg:col-span-2 grid grid-cols-1 gap-6 h-full">
-                                <section className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-                                    <h3 className="text-base font-bold text-[#111111] mb-4">Últimas publicações</h3>
+                                <section className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                                    <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4">Últimas publicações</h3>
                                     <ul className="space-y-3 flex-1">
                                         {widgetPosts.map((post) => {
                                             const slug = getPostSlug(post);
                                             if (!slug) return null;
                                             return (
-                                                <li key={post.id} className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
+                                                <li key={post.id} className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0">
                                                     <Link href={`/blog/${slug}`} legacyBehavior>
                                                         <a className="text-sm font-semibold text-[#00B140] leading-snug hover:opacity-80 line-clamp-2">
                                                             {getPostTitle(post)}
@@ -268,7 +268,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 const slug = getPostSlug(post);
                                 if (!slug) return null;
                                 return (
-                                    <article key={post.id} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                                    <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
                                         <SmartImage
                                             src={getPostImage(post)}
                                             alt={getPostTitle(post)}
@@ -279,7 +279,7 @@ const Blog = ({ posts, generatedAt }) => {
                                                 {getPostTitle(post)}
                                             </a>
                                         </Link>
-                                        <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
                                         <p className="text-xs text-gray-400 mt-3">
                                             {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')} · Por Juliano Pereira
                                         </p>
@@ -288,13 +288,13 @@ const Blog = ({ posts, generatedAt }) => {
                             })}
                         </section>
 
-                        <section id="todas-postagens" className="mt-10 bg-white rounded-2xl shadow-sm p-5 md:p-6">
+                        <section id="todas-postagens" className="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 md:p-6">
                             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-[#111111]">Todas as postagens</h2>
-                                    <p className="text-gray-600 text-sm mt-1">Navegue por data, tema e relevância para encontrar conteúdo com mais rapidez.</p>
+                                    <h2 className="text-2xl font-bold text-[#111111] dark:text-white">Todas as postagens</h2>
+                                    <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Navegue por data, tema e relevância para encontrar conteúdo com mais rapidez.</p>
                                 </div>
-                                <p className="text-sm text-gray-500">{filteredPosts.length} resultados</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{filteredPosts.length} resultados</p>
                             </div>
 
                             <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -315,7 +315,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         setSortBy(e.target.value);
                                         setVisibleCount(9);
                                     }}
-                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white"
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white dark:bg-gray-800"
                                 >
                                     <option value="newest">Mais novas</option>
                                     <option value="oldest">Mais antigas</option>
@@ -329,7 +329,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         setSelectedTag(e.target.value);
                                         setVisibleCount(9);
                                     }}
-                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white"
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white dark:bg-gray-800"
                                 >
                                     <option value="all">Todos os temas</option>
                                     {allTags.map((tag) => (
@@ -338,8 +338,8 @@ const Blog = ({ posts, generatedAt }) => {
                                 </select>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-gray-100">
-                                <p className="text-sm text-gray-600 mb-3">Temas do blog:</p>
+                            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Temas do blog:</p>
                                 <div className="flex flex-wrap gap-2">
                                     {allTags.map((tag) => (
                                         <button
@@ -367,7 +367,7 @@ const Blog = ({ posts, generatedAt }) => {
                                     const tags = getPostTags(post);
 
                                     return (
-                                        <article key={post.id} className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow flex flex-col h-full">
+                                        <article key={post.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-md transition-shadow flex flex-col h-full">
                                             <SmartImage
                                                 src={getPostImage(post)}
                                                 alt={getPostTitle(post)}
@@ -383,7 +383,7 @@ const Blog = ({ posts, generatedAt }) => {
                                                     {getPostTitle(post)}
                                                 </a>
                                             </Link>
-                                            <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
                                             <p className="text-xs text-gray-400 mt-3">{getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira</p>
                                         </article>
                                     );
@@ -391,7 +391,7 @@ const Blog = ({ posts, generatedAt }) => {
                             </div>
 
                             {visiblePosts.length === 0 && (
-                                <p className="mt-6 text-center text-gray-500">Nenhuma postagem encontrada com esses filtros.</p>
+                                <p className="mt-6 text-center text-gray-500 dark:text-gray-400">Nenhuma postagem encontrada com esses filtros.</p>
                             )}
 
                             {visibleCount < filteredPosts.length && (

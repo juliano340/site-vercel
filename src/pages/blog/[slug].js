@@ -186,7 +186,7 @@ const renderBlock = (block, addId = false) => {
   switch (type) {
     case 'paragraph':
       return (
-        <p key={id} className="text-lg text-gray-700 leading-relaxed my-6">
+        <p key={id} className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed my-6">
           {renderRichText(paragraph.rich_text)}
         </p>
       );
@@ -204,19 +204,19 @@ const renderBlock = (block, addId = false) => {
             alt={imageCaption || 'Image'}
             className="w-full h-auto"
           />
-          {imageCaption && <p className="text-center text-sm text-gray-600 py-3 bg-gray-50">{imageCaption}</p>}
+          {imageCaption && <p className="text-center text-sm text-gray-600 dark:text-gray-400 py-3 bg-gray-50 dark:bg-gray-800">{imageCaption}</p>}
         </div>
       );
     case 'heading_1':
-      return <h1 key={id} className="text-4xl font-bold text-[#111111] my-8">{renderRichText(heading_1.rich_text)}</h1>;
+      return <h1 key={id} className="text-4xl font-bold text-[#111111] dark:text-white my-8">{renderRichText(heading_1.rich_text)}</h1>;
     case 'heading_2':
-      return <h2 key={id} id={addId ? `heading-${block.index}` : undefined} className="text-2xl font-semibold text-[#111111] mt-10 mb-4 border-l-4 border-[#00B140] pl-4 scroll-mt-24">{renderRichText(heading_2.rich_text)}</h2>;
+      return <h2 key={id} id={addId ? `heading-${block.index}` : undefined} className="text-2xl font-semibold text-[#111111] dark:text-white mt-10 mb-4 border-l-4 border-[#00B140] pl-4 scroll-mt-24">{renderRichText(heading_2.rich_text)}</h2>;
     case 'heading_3':
       return <h3 key={id} id={addId ? `heading-${block.index}` : undefined} className="text-xl font-semibold text-[#00B140] mt-8 mb-3 scroll-mt-24">{renderRichText(heading_3.rich_text)}</h3>;
     case 'bulleted_list_item':
-      return <li key={id} className="ml-4 list-disc text-lg text-gray-700">{renderRichText(bulleted_list_item.rich_text)}</li>;
+      return <li key={id} className="ml-4 list-disc text-lg text-gray-700 dark:text-gray-300">{renderRichText(bulleted_list_item.rich_text)}</li>;
     case 'numbered_list_item':
-      return <li key={id} className="ml-4 list-decimal text-lg text-gray-700">{renderRichText(numbered_list_item.rich_text)}</li>;
+      return <li key={id} className="ml-4 list-decimal text-lg text-gray-700 dark:text-gray-300">{renderRichText(numbered_list_item.rich_text)}</li>;
     case 'embed':
       const embedUrl = embed.url;
       const isImage = /\.(jpg|jpeg|png|gif)$/i.test(embedUrl);
@@ -292,13 +292,13 @@ const renderBlock = (block, addId = false) => {
       );
     case 'quote':
       return (
-        <blockquote key={id} className="border-l-4 border-[#00B140] bg-[#00B140]/5 pl-6 py-4 my-8 italic text-gray-700 text-lg">
+        <blockquote key={id} className="border-l-4 border-[#00B140] bg-[#00B140]/5 dark:bg-[#00B140]/10 pl-6 py-4 my-8 italic text-gray-700 dark:text-gray-300 text-lg">
           {renderRichText(quote.rich_text)}
         </blockquote>
       );
     case 'divider':
       return (
-        <hr key={id} className="my-8 border-t-2 border-gray-200" />
+        <hr key={id} className="my-8 border-t-2 border-gray-200 dark:border-gray-700" />
       );
     default:
       return <p key={id}>[Unsupported block type: {type}]</p>;
@@ -403,7 +403,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                 <meta name="twitter:description" content={metaDescription} />
             </Head>
 
-            <main className="container mx-auto px-4 py-8 min-h-screen bg-[#F6F7F8]">
+            <main className="container mx-auto px-4 py-8 min-h-screen bg-[#F6F7F8] dark:bg-gray-900 transition-colors duration-300">
               {/* Link voltar ao topo */}
               <div className="mb-6">
                 <Link href="/blog" legacyBehavior>
@@ -419,7 +419,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
                 {/* Coluna principal (70%) */}
                 <div className="lg:col-span-8">
-                  <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                  <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
                     {/* Imagem de capa */}
                     <div className="relative h-64 md:h-80 w-full">
                       <img 
@@ -433,24 +433,24 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                     {/* Conteúdo */}
                     <div className="p-6 md:p-10">
                       {/* Título */}
-                      <h1 className="text-3xl md:text-5xl font-bold text-[#111111] mb-6 leading-tight">
+                      <h1 className="text-3xl md:text-5xl font-bold text-[#111111] dark:text-white mb-6 leading-tight">
                         {pageTitle}
                       </h1>
                       
                       {/* Autor e meta */}
-                      <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gray-200">
+                      <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
                         <img 
                           src={AUTHOR_AVATAR} 
                           alt={AUTHOR_NAME}
                           className="w-12 h-12 rounded-full object-cover border-2 border-[#00B140]"
                         />
                         <div className="flex-1">
-                          <p className="text-base font-semibold text-[#111111]">{AUTHOR_NAME}</p>
+                          <p className="text-base font-semibold text-[#111111] dark:text-white">{AUTHOR_NAME}</p>
                           <Link href="/contato" legacyBehavior>
                             <a className="text-sm text-[#00B140] hover:underline">Enviar email</a>
                           </Link>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                           <span>📅 {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')}</span>
                           <span>⏱️ {readingTime} min de leitura</span>
                         </div>
@@ -473,8 +473,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                       </div>
                       
                       {/* Compartilhamento */}
-                      <div className="flex flex-wrap items-center gap-4 mt-12 pt-8 border-t border-gray-200">
-                        <span className="text-gray-600 font-medium">Compartilhar:</span>
+                      <div className="flex flex-wrap items-center gap-4 mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                        <span className="text-gray-600 dark:text-gray-400 font-medium">Compartilhar:</span>
                         <div className="flex gap-3">
                           <a 
                             href={`https://twitter.com/intent/tweet?text=${shareTitle}&url=${encodeURIComponent(shareUrl)}`}
@@ -513,17 +513,17 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
                         {prevPost && (
                           <Link href={`/blog/${prevPost.slug}`} legacyBehavior>
-                            <a className="p-4 border border-gray-200 rounded-xl hover:border-[#00B140] hover:shadow-md transition-all group">
-                              <span className="text-sm text-gray-500 group-hover:text-[#00B140]">← Post anterior</span>
-                              <p className="font-semibold text-[#111111] mt-1 line-clamp-2">{prevPost.title}</p>
+                            <a className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#00B140] hover:shadow-md transition-all group">
+                              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-[#00B140]">← Post anterior</span>
+                              <p className="font-semibold text-[#111111] dark:text-white mt-1 line-clamp-2">{prevPost.title}</p>
                             </a>
                           </Link>
                         )}
                         {nextPost && (
                           <Link href={`/blog/${nextPost.slug}`} legacyBehavior>
-                            <a className={`p-4 border border-gray-200 rounded-xl hover:border-[#00B140] hover:shadow-md transition-all group ${!prevPost ? 'md:col-start-2' : ''}`}>
-                              <span className="text-sm text-gray-500 group-hover:text-[#00B140]">Próximo post →</span>
-                              <p className="font-semibold text-[#111111] mt-1 line-clamp-2">{nextPost.title}</p>
+                            <a className={`p-4 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#00B140] hover:shadow-md transition-all group ${!prevPost ? 'md:col-start-2' : ''}`}>
+                              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-[#00B140]">Próximo post →</span>
+                              <p className="font-semibold text-[#111111] dark:text-white mt-1 line-clamp-2">{nextPost.title}</p>
                             </a>
                           </Link>
                         )}
@@ -537,8 +537,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                   <div className="sticky top-8 space-y-6">
                     {/* Índice do artigo */}
                     {tableOfContents.length > 0 && (
-                      <div className="bg-white rounded-xl p-5 shadow-sm">
-                        <h3 className="text-base font-bold text-[#111111] mb-4 flex items-center gap-2">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm">
+                        <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4 flex items-center gap-2">
                           <span>📑</span> Neste artigo
                         </h3>
                         <nav className="space-y-2">
@@ -551,11 +551,11 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                 document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
                               }}
                               className={`block text-sm transition-colors ${
-                                item.level === 2 ? 'font-medium' : 'pl-4 text-gray-600'
+                                item.level === 2 ? 'font-medium' : 'pl-4 text-gray-600 dark:text-gray-400'
                               } ${
                                 activeSection === item.id 
                                   ? 'text-[#00B140] font-semibold' 
-                                  : 'text-gray-700 hover:text-[#00B140]'
+                                  : 'text-gray-700 dark:text-gray-300 hover:text-[#00B140]'
                               }`}
                             >
                               {item.text}
@@ -566,8 +566,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                     )}
                     
                     {/* Compartilhamento fixo */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm">
-                      <h3 className="text-base font-bold text-[#111111] mb-4 flex items-center gap-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm">
+                      <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4 flex items-center gap-2">
                         <span>🔗</span> Compartilhar
                       </h3>
                       <div className="grid grid-cols-2 gap-2">
@@ -640,8 +640,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                     
                     {/* Tags do post */}
                     {post.properties?.Tags?.multi_select && (
-                      <div className="bg-white rounded-xl p-5 shadow-sm">
-                        <h3 className="text-base font-bold text-[#111111] mb-4 flex items-center gap-2">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm">
+                        <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4 flex items-center gap-2">
                           <span>🏷️</span> Tags
                         </h3>
                         <div className="flex flex-wrap gap-2">
@@ -658,8 +658,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                     
                     {/* Posts relacionados */}
                     {relatedPosts.length > 0 && (
-                      <div className="bg-white rounded-xl p-5 shadow-sm">
-                        <h3 className="text-base font-bold text-[#111111] mb-4 flex items-center gap-2">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm">
+                        <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4 flex items-center gap-2">
                           <span>📚</span> Leia também
                         </h3>
                         <ul className="space-y-3">
@@ -677,15 +677,15 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                     )}
                     
                     {/* Últimas publicações */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm">
-                      <h3 className="text-base font-bold text-[#111111] mb-4 flex items-center gap-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm">
+                      <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4 flex items-center gap-2">
                         <span>🕐</span> Últimas publicações
                       </h3>
                       <ul className="space-y-3">
                         {recentPosts.map((recentPost, index) => (
-                          <li key={index} className="border-b border-gray-100 pb-2 last:border-0 last:pb-0">
+                          <li key={index} className="border-b border-gray-100 dark:border-gray-700 pb-2 last:border-0 last:pb-0">
                             <Link href={`/blog/${recentPost.slug}`} legacyBehavior>
-                              <a className="text-sm text-gray-700 hover:text-[#00B140] transition-colors line-clamp-2">
+                              <a className="text-sm text-gray-700 dark:text-gray-300 hover:text-[#00B140] transition-colors line-clamp-2">
                                 {recentPost.title}
                               </a>
                             </Link>
