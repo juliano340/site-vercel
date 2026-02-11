@@ -22,6 +22,14 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap.xml',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
