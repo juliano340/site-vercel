@@ -49,3 +49,10 @@ agents*.md
 /public/sitemap-*.xml
 *.sitemap
 /public/sitemap-0.xml
+
+*skill.md
+
+# Backup files
+*.backup
+*.bak
+*~

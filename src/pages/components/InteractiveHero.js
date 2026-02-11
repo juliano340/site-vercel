@@ -1,15 +1,66 @@
 import React, { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
 import Link from 'next/link';
 import Image from 'next/image';
 
+// Componente de Typing Effect
+const TypingText = ({ texts, speed = 100, deleteSpeed = 50, delay = 2000 }) => {
+    const [displayText, setDisplayText] = useState('');
+    const [textIndex, setTextIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        const currentText = texts[textIndex];
+        
+        if (isPaused) {
+            const pauseTimer = setTimeout(() => {
+                setIsPaused(false);
+                setIsDeleting(true);
+            }, delay);
+            return () => clearTimeout(pauseTimer);
+        }
+
+        if (isDeleting) {
+            if (displayText === '') {
+                setIsDeleting(false);
+                setTextIndex((prev) => (prev + 1) % texts.length);
+            } else {
+                const timer = setTimeout(() => {
+                    setDisplayText(displayText.slice(0, -1));
+                }, deleteSpeed);
+                return () => clearTimeout(timer);
+            }
+        } else {
+            if (displayText === currentText) {
+                setIsPaused(true);
+            } else {
+                const timer = setTimeout(() => {
+                    setDisplayText(currentText.slice(0, displayText.length + 1));
+                }, speed);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [displayText, textIndex, isDeleting, isPaused, texts, speed, deleteSpeed, delay]);
+
+    return (
+        <span className="inline-flex items-center">
+            {displayText}
+            <span className="animate-pulse ml-1">|</span>
+        </span>
+    );
+};
+
 const InteractiveHero = () => {
-    const containerRef = useRef(null);
-
     const fadeRef = useRef(null);
-
     const [sheen, setSheen] = useState({ x: 50, y: 20 });
+    
+    const typingTexts = [
+        "Desenvolvedor Front-end",
+        "Desenvolvedor Back-end", 
+        "Desenvolvedor Full Stack!"
+    ];
 
+    // Efeito de fade no scroll
     useEffect(() => {
         const START = 220;
         const END = 820;
@@ -41,241 +92,6 @@ const InteractiveHero = () => {
         };
     }, []);
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        let renderer, scene, camera, particlesGeometry, material, particles, raf;
-        let timeoutId;
-
-        const init = () => {
-            scene = new THREE.Scene();
-
-            camera = new THREE.PerspectiveCamera(
-                75,
-                container.clientWidth / container.clientHeight,
-                0.1,
-                1000
-            );
-            camera.position.z = 50;
-
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setClearColor(0x000000, 0);
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            const isMobile = window.innerWidth < 768;
-            renderer.setPixelRatio(isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
-
-            const particlesCount = isMobile ? 500 : 1500;
-            particlesGeometry = new THREE.BufferGeometry();
-
-            const positions = new Float32Array(particlesCount * 3);
-            const home = new Float32Array(particlesCount * 3);
-            const phase = new Float32Array(particlesCount);
-
-            for (let i = 0; i < particlesCount; i++) {
-                const i3 = i * 3;
-                const r = Math.pow(Math.random(), 0.65) * 50;
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.acos(2 * Math.random() - 1);
-
-                const x = r * Math.sin(phi) * Math.cos(theta);
-                const y = r * Math.sin(phi) * Math.sin(theta);
-                const z = (Math.random() - 0.5) * 40;
-
-                positions[i3 + 0] = x;
-                positions[i3 + 1] = y;
-                positions[i3 + 2] = z;
-
-                home[i3 + 0] = x;
-                home[i3 + 1] = y;
-                home[i3 + 2] = z;
-
-                phase[i] = Math.random() * Math.PI * 2;
-            }
-
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particlesGeometry.setAttribute('aHome', new THREE.BufferAttribute(home, 3));
-            particlesGeometry.setAttribute('aPhase', new THREE.BufferAttribute(phase, 1));
-
-            material = new THREE.ShaderMaterial({
-                transparent: true,
-                depthWrite: false,
-                blending: THREE.AdditiveBlending,
-                uniforms: {
-                    uTime: { value: 0 },
-                    uObserver: { value: new THREE.Vector3(0, 0, 0) },
-                    uStrength: { value: 0 },
-                    uPointSize: { value: 2.0 },
-                    uColorA: { value: new THREE.Color(0x60a5fa) },
-                    uColorB: { value: new THREE.Color(0xa78bfa) }
-                },
-                vertexShader: `
-            uniform float uTime;
-            uniform vec3 uObserver;
-            uniform float uStrength;
-            uniform float uPointSize;
-
-            attribute vec3 aHome;
-            attribute float aPhase;
-
-            varying float vWave;
-            varying float vFade;
-
-            void main() {
-              vec3 p = aHome;
-
-              float d = length(p.xy - uObserver.xy);
-              float field = uStrength * smoothstep(55.0, 0.0, d);
-
-              float k1 = 0.33;
-              float k2 = 0.18;
-
-              float w1 = sin(d * k1 - uTime * 2.3 + aPhase);
-              float w2 = sin((p.x + p.y) * k2 + uTime * 1.6 + aPhase * 0.7);
-              float wave = (w1 * 0.75 + w2 * 0.55);
-
-              vec3 dir = normalize(vec3(p.xy - uObserver.xy, 14.0));
-              float amp = field * 3.0;
-
-              p += dir * wave * amp;
-
-              p.x += sin(uTime * 0.35 + aPhase) * 0.18;
-              p.y += cos(uTime * 0.28 + aPhase) * 0.18;
-              p.z += sin(uTime * 0.22 + aPhase) * 0.12;
-
-              vWave = wave;
-              vFade = field;
-
-              vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
-              gl_Position = projectionMatrix * mvPosition;
-
-              float size = uPointSize * (1.0 + vFade * 1.2);
-              gl_PointSize = size * (300.0 / -mvPosition.z);
-            }
-          `,
-                fragmentShader: `
-            uniform float uTime;
-            uniform vec3 uColorA;
-            uniform vec3 uColorB;
-
-            varying float vWave;
-            varying float vFade;
-
-            void main() {
-              vec2 uv = gl_PointCoord.xy - 0.5;
-              float r = length(uv);
-
-              float core = smoothstep(0.5, 0.18, r);
-              float glow = smoothstep(0.5, 0.0, r) * 0.55;
-
-              float t = 0.5 + 0.5 * sin(vWave + uTime * 0.15);
-              vec3 col = mix(uColorA, uColorB, t);
-
-              col += vFade * 0.20;
-
-              float damp = 1.0 - (vFade * 0.50);
-              float alpha = (core * 0.48 + glow) * (0.42 + vFade * 0.38) * damp;
-
-              if (alpha < 0.01) discard;
-              gl_FragColor = vec4(col, alpha);
-            }
-          `
-            });
-
-            particles = new THREE.Points(particlesGeometry, material);
-            scene.add(particles);
-
-            const clock = new THREE.Clock();
-
-            const animate = () => {
-                const elapsed = clock.getElapsedTime();
-                const now = performance.now();
-                if (now - lastMoveAt > 700) strengthTarget = 0;
-
-                observerCurrent.lerp(observerTarget, 0.08);
-                strengthCurrent = THREE.MathUtils.lerp(strengthCurrent, strengthTarget, 0.06);
-
-                material.uniforms.uTime.value = elapsed;
-                material.uniforms.uObserver.value.copy(observerCurrent);
-                material.uniforms.uStrength.value = strengthCurrent;
-
-                particles.rotation.y = elapsed * 0.06;
-                particles.rotation.x = Math.sin(elapsed * 0.15) * 0.06;
-
-                renderer.render(scene, camera);
-                raf = requestAnimationFrame(animate);
-            };
-
-            animate();
-        };
-
-        const mouseNDC = new THREE.Vector2(0, 0);
-        const observerTarget = new THREE.Vector3(0, 0, 0);
-        const observerCurrent = new THREE.Vector3(0, 0, 0);
-        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-        const raycaster = new THREE.Raycaster();
-
-        let strengthTarget = 0;
-        let strengthCurrent = 0;
-        let lastMoveAt = performance.now();
-
-        const setPointerFromEvent = (clientX, clientY) => {
-            const rect = container.getBoundingClientRect();
-            const x = ((clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -(((clientY - rect.top) / rect.height) * 2 - 1);
-
-            mouseNDC.set(x, y);
-            raycaster.setFromCamera(mouseNDC, camera);
-            const hit = new THREE.Vector3();
-            const ok = raycaster.ray.intersectPlane(plane, hit);
-            if (ok) observerTarget.copy(hit);
-
-            lastMoveAt = performance.now();
-            strengthTarget = 1;
-        };
-
-        const onMouseMove = (e) => setPointerFromEvent(e.clientX, e.clientY);
-        const onTouchMove = (e) => {
-            if (!e.touches || e.touches.length === 0) return;
-            const t = e.touches[0];
-            setPointerFromEvent(t.clientX, t.clientY);
-        };
-
-        window.addEventListener('mousemove', onMouseMove, { passive: true });
-        window.addEventListener('touchmove', onTouchMove, { passive: true });
-
-        const handleResize = () => {
-            if (!containerRef.current || !renderer) return;
-            const w = containerRef.current.clientWidth;
-            const h = containerRef.current.clientHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        timeoutId = setTimeout(init, 100);
-
-        return () => {
-            clearTimeout(timeoutId);
-            if (raf) cancelAnimationFrame(raf);
-            window.removeEventListener('mousemove', onMouseMove);
-            window.removeEventListener('touchmove', onTouchMove);
-            window.removeEventListener('resize', handleResize);
-
-            if (containerRef.current && renderer && renderer.domElement && containerRef.current.contains(renderer.domElement)) {
-                containerRef.current.removeChild(renderer.domElement);
-            }
-
-            if (renderer) renderer.dispose();
-            if (particlesGeometry) particlesGeometry.dispose();
-            if (material) material.dispose();
-        };
-    }, []);
-
     const onCardMove = (e) => {
         const el = e.currentTarget;
         const rect = el.getBoundingClientRect();
@@ -287,8 +103,90 @@ const InteractiveHero = () => {
     const onCardLeave = () => setSheen({ x: 50, y: 20 });
 
     return (
-        <div className="relative w-full min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-5rem)] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-x-hidden overflow-y-visible">
-            <div ref={containerRef} className="absolute inset-0 z-0" />
+        <div className="relative w-full min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-5rem)] overflow-x-hidden overflow-y-visible">
+            {/* Background Animado com CSS - 0KB JS! */}
+            <div className="absolute inset-0 z-0">
+                {/* Camada 1: Gradiente base animado */}
+                <div 
+                    className="absolute inset-0"
+                    style={{
+                        background: 'linear-gradient(-45deg, #00B140, #0f172a, #1e3a5f, #00B140)',
+                        backgroundSize: '400% 400%',
+                        animation: 'gradientShift 15s ease infinite'
+                    }}
+                />
+                
+                {/* Camada 2: Blob animado 1 */}
+                <div 
+                    className="absolute w-96 h-96 rounded-full opacity-40 blur-3xl"
+                    style={{
+                        background: 'radial-gradient(circle, rgba(0,177,64,0.6) 0%, rgba(0,177,64,0) 70%)',
+                        top: '10%',
+                        left: '10%',
+                        animation: 'blob1 20s infinite'
+                    }}
+                />
+                
+                {/* Camada 3: Blob animado 2 */}
+                <div 
+                    className="absolute w-96 h-96 rounded-full opacity-30 blur-3xl"
+                    style={{
+                        background: 'radial-gradient(circle, rgba(59,130,246,0.6) 0%, rgba(59,130,246,0) 70%)',
+                        bottom: '20%',
+                        right: '10%',
+                        animation: 'blob2 25s infinite'
+                    }}
+                />
+                
+                {/* Camada 4: Blob animado 3 */}
+                <div 
+                    className="absolute w-80 h-80 rounded-full opacity-30 blur-3xl"
+                    style={{
+                        background: 'radial-gradient(circle, rgba(139,92,246,0.5) 0%, rgba(139,92,246,0) 70%)',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        animation: 'blob3 18s infinite'
+                    }}
+                />
+                
+                {/* Camada 5: Grade sutil */}
+                <div 
+                    className="absolute inset-0 opacity-[0.03]"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                        `,
+                        backgroundSize: '50px 50px'
+                    }}
+                />
+            </div>
+
+            <style jsx>{`
+                @keyframes gradientShift {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+                
+                @keyframes blob1 {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    33% { transform: translate(50px, -50px) scale(1.1); }
+                    66% { transform: translate(-30px, 30px) scale(0.9); }
+                }
+                
+                @keyframes blob2 {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    33% { transform: translate(-40px, 40px) scale(1.2); }
+                    66% { transform: translate(30px, -30px) scale(0.8); }
+                }
+                
+                @keyframes blob3 {
+                    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+                    50% { transform: translate(-50%, -50%) scale(1.3); }
+                }
+            `}</style>
 
             <div
                 ref={fadeRef}
@@ -308,7 +206,7 @@ const InteractiveHero = () => {
                         height={160}
                         priority
                         loading="eager"
-                        fetchpriority="high"
+                        fetchPriority="high"
                         sizes="(max-width: 768px) 112px, (max-width: 1024px) 144px, 160px"
                         className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full object-cover border-4 border-white/90 shadow-2xl"
                     />
@@ -330,7 +228,9 @@ const InteractiveHero = () => {
                         </span>
                     </h1>
 
-                    <p className="text-lg sm:text-xl md:text-2xl text-blue-200 font-light">Desenvolvedor Full Stack!</p>
+                    <p className="text-lg sm:text-xl md:text-2xl text-blue-200 font-light min-h-[2rem]">
+                        <TypingText texts={typingTexts} speed={80} deleteSpeed={40} delay={1500} />
+                    </p>
 
                     <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
                         Criando soluções web eficientes e inovadoras.

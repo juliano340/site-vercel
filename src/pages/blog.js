@@ -216,7 +216,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         {getPostTags(heroPost).length > 0 && (
                                             <div className="mt-5 flex flex-wrap gap-2">
                                                 {getPostTags(heroPost).slice(0, 4).map(tag => (
-                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800/25 text-white font-medium">
+                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-[#00B140]/20 dark:bg-[#00B140]/50 text-[#00B140] dark:text-white font-semibold shadow-sm">
                                                         {tag}
                                                     </span>
                                                 ))}
@@ -351,9 +351,8 @@ const Blog = ({ posts, generatedAt }) => {
                                             className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
                                                 selectedTag === tag
                                                     ? 'bg-[#00B140] text-white'
-                                                    : 'bg-[#00B140]/10 text-[#00B140] hover:bg-[#00B140]/20'
-                                            }`}
-                                        >
+                                                    : 'bg-[#00B140]/10 text-[#00B140] dark:bg-[#00B140]/50 dark:text-white hover:bg-[#00B140]/20'
+                                            }`}>
                                             {tag}
                                         </button>
                                     ))}
@@ -375,7 +374,9 @@ const Blog = ({ posts, generatedAt }) => {
                                             />
                                             <div className="mt-3 flex flex-wrap gap-2 min-h-[1.75rem]">
                                                 {tags.slice(0, 3).map((tag) => (
-                                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-[#00B140]/10 text-[#00B140] font-medium">{tag}</span>
+                                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-[#00B140]/10 dark:bg-[#00B140]/50 dark:text-white font-medium">
+                                                        {tag}
+                                                    </span>
                                                 ))}
                                             </div>
                                             <Link href={`/blog/${slug}`} legacyBehavior>
