@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import ThemeToggle from './ThemeToggle';
 
 export default function Menu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -63,16 +64,16 @@ export default function Menu() {
     return (
         <>
             <nav className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50'
-                : 'bg-white/95 backdrop-blur-md shadow-sm'
+                ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-gray-700/50'
+                : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm'
                 }`}>
                 <div className="container mx-auto px-4">
                     {/* Mobile Menu */}
                     <div className="sm:hidden py-4">
                         <div className="flex items-center justify-between">
-                            {/* Logo */}
+                        {/* Logo */}
                             <Link href="/" legacyBehavior>
-                                <a className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                <a className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-300 dark:hover:to-purple-300 transition-all duration-300">
                                     @JULIANO340
                                 </a>
                             </Link>
@@ -94,14 +95,14 @@ export default function Menu() {
 
                         {/* Mobile Dropdown Menu */}
                         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
-                            <div className="bg-gradient-to-br from-blue-50/50 to-purple-50/50 backdrop-blur-xl rounded-2xl border border-blue-200/50 shadow-xl p-2">
+                            <div className="bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-gray-800/50 dark:to-gray-900/50 backdrop-blur-xl rounded-2xl border border-blue-200/50 dark:border-gray-700/50 shadow-xl p-2">
                                 <ul className="space-y-1">
                                     {navItems.map((item) => (
                                         <li key={item.name}>
                                             <Link href={item.href} legacyBehavior>
                                                 <a className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive(item.href)
                                                     ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                                                    : 'text-gray-700 hover:bg-white/80 hover:text-blue-600'
+                                                    : 'text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-700/80 hover:text-blue-600 dark:hover:text-blue-400'
                                                     }`}>
                                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
@@ -112,6 +113,9 @@ export default function Menu() {
                                         </li>
                                     ))}
                                 </ul>
+                                <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                    <ThemeToggle />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,7 +128,7 @@ export default function Menu() {
                                 {/* <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
                                     J
                                 </div> */}
-                                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-300">
+                                <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 dark:hover:from-blue-300 dark:hover:to-purple-300 transition-all duration-300">
                                     @JULIANO340
                                 </span>
                             </a>
@@ -134,10 +138,10 @@ export default function Menu() {
                         <ul className="flex items-center gap-2">
                             {navItems.map((item) => (
                                 <li key={item.name}>
-                                    <Link href={item.href} legacyBehavior>
+                            <Link href={item.href} legacyBehavior>
                                         <a className={`group relative px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${isActive(item.href)
                                             ? 'text-white'
-                                            : 'text-gray-700 hover:text-blue-600'
+                                            : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                                             }`}>
                                             {/* Active Background */}
                                             {isActive(item.href) && (
@@ -146,7 +150,7 @@ export default function Menu() {
 
                                             {/* Hover Background */}
                                             {!isActive(item.href) && (
-                                                <span className="absolute inset-0 bg-blue-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                                <span className="absolute inset-0 bg-blue-50 dark:bg-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                                             )}
 
                                             {/* Icon - Desktop only on hover */}
@@ -169,15 +173,18 @@ export default function Menu() {
                             ))}
                         </ul>
 
-                        {/* CTA Button */}
-                        <Link href="/contato" legacyBehavior>
-                            <a className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                                <span>Fale Comigo</span>
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </a>
-                        </Link>
+                        {/* Theme Toggle + CTA Button */}
+                        <div className="flex items-center gap-3">
+                            <ThemeToggle />
+                            <Link href="/contato" legacyBehavior>
+                                <a className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                                    <span>Fale Comigo</span>
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </Link>
+                        </div>
                     </div>
                 </div>
 

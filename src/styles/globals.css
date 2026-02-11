@@ -12,6 +12,16 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Dark mode base styles */
+html.dark {
+    color-scheme: dark;
+}
+
+body {
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* Keyframe animations - defined globally to avoid hydration issues */
 @keyframes blob {
     0%, 100% { transform: translate(0, 0) scale(1); }
