@@ -29,7 +29,7 @@ export default function Home() {
       </Head>
       <main>
 
-        <InteractiveHero />
+        <HeroSection />
 
         <About />
         <Portfolio />

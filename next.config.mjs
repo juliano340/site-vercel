@@ -30,6 +30,13 @@ const nextConfig = {
       },
     ];
   },
+  // Configuração de cache (30 segundos = 30000 milissegundos)
+  poweredByHeader: false,
+  generateEtags: true,
+  onDemandEntries: {
+    maxInactiveAge: 30000, // 30 segundos em milissegundos
+    pagesBufferLength: 2,
+  },
 };
 
 export default nextConfig;
