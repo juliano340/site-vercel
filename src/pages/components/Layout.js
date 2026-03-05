@@ -2,12 +2,12 @@ import React from 'react';
 import Menu from './Menu';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
-import LinksPage from '../links'; // Certifique-se de importar o LinksPage corretamente
 
 const Layout = ({ children }) => {
   const router = useRouter();
+  const noLayoutRoutes = ['/', '/links', '/terminal'];
 
-  if (router.pathname === '/links') {
+  if (noLayoutRoutes.includes(router.pathname)) {
     return (
       <>
         {children}

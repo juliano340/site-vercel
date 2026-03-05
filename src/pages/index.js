@@ -1,40 +1,36 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
-import Menu from './components/Menu';
-import Portfolio from './components/Portfolio';
-import About from './components/About';
-import Footer from './components/Footer';
-import CtaSection from './components/CtaSection';
+import { useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-const InteractiveHero = dynamic(() => import('./components/InteractiveHero'), {
-  ssr: false,
-  loading: () => <div className="min-h-[calc(100dvh-4rem)] bg-slate-900 animate-pulse" />
-});
+const IndexGatePage = () => {
+  const router = useRouter();
+  const { isReady, query } = router;
 
-const HeroSection = dynamic(() => import('./components/HeroSection'), {
-  ssr: false,
-  loading: () => <div className="h-[600px] bg-gray-800 animate-pulse" />
-});
+  useEffect(() => {
+    if (!isReady || typeof window === 'undefined') return;
 
-export default function Home() {
+    const skipLanding = query.skip === '1';
+    if (skipLanding) {
+      localStorage.setItem('pl_done', 'true');
+      router.replace('/home');
+      return;
+    }
+
+    const jaViuLanding = localStorage.getItem('pl_done') === 'true';
+    router.replace(jaViuLanding ? '/home' : '/terminal');
+  }, [isReady, query.skip, router]);
 
   return (
     <>
       <Head>
-        <title>Juliano - Programador Web Full Stack</title>
-        <meta name="description" content="Portfolio de Juliano, desenvolvedor Full Stack especializado em soluções web eficientes e inovadoras. Veja meus projetos e entre em contato." />
-        <meta name="keywords" content="desenvolvedor web, full stack, next.js, react, portfolio, juliano" />
-        <meta name="author" content="Juliano" />
+        <title>Carregando | Juliano</title>
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <main>
-
-        <HeroSection />
-
-        <About />
-        <Portfolio />
-        <CtaSection />
+      <main className="flex min-h-screen items-center justify-center bg-[#0a120c] text-[#9df4b8]">
+        <p className="font-mono text-sm uppercase tracking-[0.16em]">carregando...</p>
       </main>
     </>
   );
-}
+};
+
+export default IndexGatePage;
