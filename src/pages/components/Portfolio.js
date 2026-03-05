@@ -135,7 +135,7 @@ const Portfolio = () => {
               key={index}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
             >
               {/* Image Container */}
               <div className="relative h-56 overflow-hidden">
@@ -180,7 +180,7 @@ const Portfolio = () => {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-6">
                 <h2 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
                   {project.title}
                 </h2>
@@ -189,7 +189,7 @@ const Portfolio = () => {
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="mb-4 flex flex-wrap gap-2">
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
@@ -201,7 +201,7 @@ const Portfolio = () => {
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-3">
+                <div className="mt-auto flex gap-3 pt-2">
                   <a
                     href={project.projectUrl}
                     target="_blank"

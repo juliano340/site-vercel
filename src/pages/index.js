@@ -1,24 +1,5 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-
 const IndexGatePage = () => {
-  const router = useRouter();
-  const { isReady, query } = router;
-
-  useEffect(() => {
-    if (!isReady || typeof window === 'undefined') return;
-
-    const skipLanding = query.skip === '1';
-    if (skipLanding) {
-      localStorage.setItem('pl_done', 'true');
-      router.replace('/home');
-      return;
-    }
-
-    const jaViuLanding = localStorage.getItem('pl_done') === 'true';
-    router.replace(jaViuLanding ? '/home' : '/terminal');
-  }, [isReady, query.skip, router]);
 
   return (
     <>
@@ -34,3 +15,30 @@ const IndexGatePage = () => {
 };
 
 export default IndexGatePage;
+
+export async function getServerSideProps({ req, res, query }) {
+  const skipLanding = query.skip === '1';
+
+  if (skipLanding) {
+    res.setHeader('Set-Cookie', 'pl_done=true; Path=/; Max-Age=31536000; SameSite=Lax');
+    return {
+      redirect: {
+        destination: '/home',
+        permanent: false,
+      },
+    };
+  }
+
+  const cookies = req.headers.cookie || '';
+  const jaViuLanding = cookies
+    .split(';')
+    .map((cookie) => cookie.trim())
+    .some((cookie) => cookie === 'pl_done=true');
+
+  return {
+    redirect: {
+      destination: jaViuLanding ? '/home' : '/terminal',
+      permanent: false,
+    },
+  };
+}

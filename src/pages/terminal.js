@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -13,7 +13,10 @@ const TerminalPage = () => {
   const [progressoInicial, setProgressoInicial] = useState(0);
   const [progressoProjeto, setProgressoProjeto] = useState(0);
   const [mostrarTerminal, setMostrarTerminal] = useState(false);
-  const [erroComandoAtivo, setErroComandoAtivo] = useState(false);
+  const [tentativasInvalidas, setTentativasInvalidas] = useState(0);
+  const [aguardandoQualquerTecla, setAguardandoQualquerTecla] = useState(false);
+  const [contadorAutoInicio, setContadorAutoInicio] = useState(15);
+  const terminalScrollRef = useRef(null);
 
   const introSequence = useMemo(
     () => [
@@ -124,6 +127,42 @@ const TerminalPage = () => {
   }, [phase]);
 
   useEffect(() => {
+    if (phase !== 'idle') return undefined;
+
+    const timer = setInterval(() => {
+      setContadorAutoInicio((current) => {
+        if (current <= 1) {
+          clearInterval(timer);
+          setLogs((currentLogs) => [
+            ...currentLogs,
+            '[SISTEMA] tempo limite atingido. Inicializacao automatica em andamento...',
+          ]);
+          setTimeout(() => {
+            iniciarProjeto('auto');
+          }, 220);
+          return 0;
+        }
+
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== 'idle' || !aguardandoQualquerTecla) return undefined;
+
+    const handleAnyKey = () => {
+      setLogs((current) => [...current, '[SISTEMA] tecla detectada. Continuando inicializacao...']);
+      iniciarProjeto('atalho');
+    };
+
+    window.addEventListener('keydown', handleAnyKey);
+    return () => window.removeEventListener('keydown', handleAnyKey);
+  }, [aguardandoQualquerTecla, phase]);
+
+  useEffect(() => {
     if (phase !== 'booting') return undefined;
 
     let cancelled = false;
@@ -179,7 +218,7 @@ const TerminalPage = () => {
 
     const timer = setTimeout(() => {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('pl_done', 'true');
+        document.cookie = 'pl_done=true; Path=/; Max-Age=31536000; SameSite=Lax';
       }
       router.push('/home');
     }, 420);
@@ -187,30 +226,65 @@ const TerminalPage = () => {
     return () => clearTimeout(timer);
   }, [phase, router]);
 
+  useEffect(() => {
+    const terminalScroll = terminalScrollRef.current;
+    if (!terminalScroll) return;
+
+    terminalScroll.scrollTop = terminalScroll.scrollHeight;
+  }, [logs, linhaDigitando, progressoProjeto, phase]);
+
+  const iniciarProjeto = (origem = 'manual') => {
+    if (phase !== 'idle') return;
+
+    if (origem === 'atalho') {
+      setLogs((current) => [...current, '[SISTEMA] comando sera executado automaticamente.']);
+    }
+
+    if (origem === 'auto') {
+      setLogs((current) => [...current, '[SISTEMA] executando npm start automaticamente.']);
+    }
+
+    setLogs((current) => [...current, `$ ${REQUIRED_COMMAND}`]);
+    setLogs((current) => [...current, '[SISTEMA] inicializando projeto...']);
+    setAguardandoQualquerTecla(false);
+    setTentativasInvalidas(0);
+    setContadorAutoInicio(15);
+    setCommand('');
+    setProgressoProjeto(0);
+    setPhase('loadingProject');
+  };
+
   const handleRunCommand = (event) => {
     event.preventDefault();
 
     if (phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting') return;
+    if (aguardandoQualquerTecla) return;
 
     if (command.trim().toLowerCase() !== REQUIRED_COMMAND) {
-      if (erroComandoAtivo) return;
+      const proximaTentativa = tentativasInvalidas + 1;
+      setTentativasInvalidas(proximaTentativa);
+
+      if (proximaTentativa >= 2) {
+        setLogs((current) => [
+          ...current,
+          '[SISTEMA] voce errou mais de uma vez ou nao digitou comando valido.',
+          '[SISTEMA] Pressione qualquer tecla para continuar.',
+        ]);
+        setAguardandoQualquerTecla(true);
+        setCommand('');
+        return;
+      }
 
       setLogs((current) => [
         ...current,
         `[ERRO] comando invalido: ${command || '(vazio)'}`,
         `[DICA] use: ${REQUIRED_COMMAND}`,
       ]);
-      setErroComandoAtivo(true);
       setCommand('');
       return;
     }
 
-    setLogs((current) => [...current, `$ ${REQUIRED_COMMAND}`]);
-    setLogs((current) => [...current, '[SISTEMA] inicializando projeto...']);
-    setErroComandoAtivo(false);
-    setCommand('');
-    setProgressoProjeto(0);
-    setPhase('loadingProject');
+    iniciarProjeto('manual');
   };
 
   return (
@@ -252,7 +326,7 @@ const TerminalPage = () => {
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ad091]/80">convidado@portfolio</p>
           </header>
 
-          <div className="terminal-scroll flex-1 space-y-2 overflow-y-auto px-4 py-4 font-mono text-sm">
+          <div ref={terminalScrollRef} className="terminal-scroll flex-1 space-y-2 overflow-y-auto px-4 py-4 font-mono text-sm">
             <p className="text-[#b8ffcf]">README.md</p>
             <p className="text-[#89dd9f]">Execute <strong>npm start</strong> para abrir o site.</p>
             {logs.map((line, index) => (
@@ -284,6 +358,20 @@ const TerminalPage = () => {
               </div>
             ) : null}
             {phase === 'redirecting' ? <p className="glitch-text mt-3 text-[#b8ffcf]">[FALHA] redirecionando para /home</p> : null}
+
+            {phase === 'idle' ? (
+              <div className="mt-4 rounded border border-[#295138] bg-[#0a1a11]/80 p-3">
+                <p className="text-xs uppercase tracking-[0.12em] text-[#89dd9f]">
+                  [SISTEMA] auto-inicio em <strong>{contadorAutoInicio}s</strong> - digite <strong>npm start</strong> ou aguarde.
+                </p>
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-[#0b130e]">
+                  <div
+                    className="h-full bg-[#8cf5b0] transition-all"
+                    style={{ width: `${((15 - contadorAutoInicio) / 15) * 100}%` }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <form onSubmit={handleRunCommand} className="flex items-center gap-2 border-t border-[#295138]/70 bg-[#07140d] px-4 py-3">
@@ -295,14 +383,14 @@ const TerminalPage = () => {
               value={command}
               onChange={(event) => {
                 setCommand(event.target.value);
-                if (erroComandoAtivo) setErroComandoAtivo(false);
+                if (aguardandoQualquerTecla) setAguardandoQualquerTecla(false);
               }}
-              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting'}
+              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting' || aguardandoQualquerTecla}
             />
             <button
               type="submit"
               className="rounded border border-[#3f9a5c] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#bfffd2] transition hover:bg-[#0f2417] disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting'}
+              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting' || aguardandoQualquerTecla}
             >
               executar
             </button>
