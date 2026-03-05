@@ -36,16 +36,52 @@ const MailIcon = () => (
 );
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-function DotGrid({ isDark }) {
+function MatrixRain({ isDark }) {
+  const columns = Array.from({ length: 26 }, (_, i) => i);
+
+  const buildStream = (seed) => {
+    const length = 20 + ((seed * 11) % 14);
+    return Array.from({ length }, (_, idx) => ((seed + idx * 3) % 2 === 0 ? '1' : '0')).join('\n');
+  };
+
   return (
     <div style={{
       position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-      backgroundImage: `radial-gradient(${isDark ? '#ffffff1a' : '#00000014'} 1px, transparent 1px)`,
-      backgroundSize: '30px 30px',
+      overflow: 'hidden',
+      background: isDark
+        ? 'linear-gradient(180deg, rgba(6,10,18,0.15) 0%, rgba(2,7,12,0.28) 100%)'
+        : 'linear-gradient(180deg, rgba(2,132,199,0.06) 0%, rgba(15,23,42,0.04) 100%)',
       maskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)',
       WebkitMaskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)',
-      transition: 'background-image 0.4s',
-    }} />
+      transition: 'background 0.4s',
+    }}>
+      {columns.map((col) => {
+        const duration = 8 + (col % 6);
+        const delay = -col * 0.55;
+        const left = (col / (columns.length - 1)) * 100;
+        return (
+          <span
+            key={col}
+            style={{
+              position: 'absolute',
+              top: '-140%',
+              left: `${left}%`,
+              whiteSpace: 'pre',
+              lineHeight: 1.08,
+              letterSpacing: '0.02em',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 12,
+              color: isDark ? 'rgba(34,197,94,0.55)' : 'rgba(2,132,199,0.35)',
+              textShadow: isDark ? '0 0 8px rgba(34,197,94,0.32)' : '0 0 5px rgba(2,132,199,0.24)',
+              opacity: 0.45 + ((col * 7) % 40) / 100,
+              animation: `hu-matrixFall ${duration}s linear ${delay}s infinite, hu-matrixFlicker ${2.2 + (col % 4)}s ease-in-out ${delay}s infinite`,
+            }}
+          >
+            {buildStream(col)}
+          </span>
+        );
+      })}
+    </div>
   );
 }
 
@@ -202,6 +238,15 @@ export default function HeroSection() {
         @keyframes hu-orb2    { from { transform:translate(0,0) scale(1.05); } to { transform:translate(-22px,-28px) scale(1); } }
         @keyframes hu-scrollX { from { transform:translateX(0); } to { transform:translateX(-50%); } }
         @keyframes hu-spin    { to { transform:rotate(360deg); } }
+        @keyframes hu-matrixFall {
+          from { transform: translate3d(0, -6%, 0); }
+          to { transform: translate3d(0, 210%, 0); }
+        }
+        @keyframes hu-matrixFlicker {
+          0%, 100% { opacity: 0.35; }
+          45% { opacity: 0.88; }
+          70% { opacity: 0.5; }
+        }
 
         .hu-root {
           font-family: 'DM Sans', sans-serif;
@@ -313,7 +358,7 @@ export default function HeroSection() {
       <div className="hu-root">
 
         {/* Background layers */}
-        <DotGrid isDark={isDark} />
+        <MatrixRain isDark={isDark} />
         <Orb style={{
           width: 420, height: 420, top: '-100px', left: '-80px',
           background: p.orb1,

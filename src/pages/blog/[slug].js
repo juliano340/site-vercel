@@ -2,24 +2,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
-import { getDatabase, getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
+import { getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
+import { calculateReadingTimeFromBlocks } from '@/lib/readingTime';
 
 const AUTHOR_NAME = 'Juliano Pereira';
 const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
 const AUTHOR_BIO = 'Desenvolvedor Full Stack apaixonado por tecnologia, empreendedorismo e IA aplicada a negócios.';
-
-const calculateReadingTime = (blocks) => {
-  const text = blocks.map(b => {
-    if (b.type === 'paragraph') return b.paragraph?.rich_text?.map(t => t.text?.content).join('') || '';
-    if (b.type === 'heading_1') return b.heading_1?.rich_text?.map(t => t.text?.content).join('') || '';
-    if (b.type === 'heading_2') return b.heading_2?.rich_text?.map(t => t.text?.content).join('') || '';
-    return '';
-  }).join(' ');
-  
-  const wordsPerMinute = 200;
-  const words = text.split(/\s+/).filter(w => w.length > 0).length;
-  return Math.ceil(words / wordsPerMinute);
-};
 
 const extractTableOfContents = (blocks) => {
   return blocks
@@ -74,33 +62,65 @@ export async function getStaticProps({ params }) {
 
   const page = await getPage(post.id);
   const blocks = await getBlocks(post.id);
-  
+
   const currentIndex = publishedPosts.findIndex(p => p.id === post.id);
   const prevPost = currentIndex > 0 ? publishedPosts[currentIndex - 1] : null;
   const nextPost = currentIndex < publishedPosts.length - 1 ? publishedPosts[currentIndex + 1] : null;
   
   // Posts relacionados (mesmas tags) - apenas entre posts publicados
   const currentTags = post.properties.Tags?.multi_select?.map(t => t.name) || [];
-  const relatedPosts = publishedPosts
+  const rawRelatedPosts = publishedPosts
     .filter(p => {
       if (p.id === post.id) return false;
       const pTags = p.properties.Tags?.multi_select?.map(t => t.name) || [];
       return pTags.some(tag => currentTags.includes(tag));
     })
-    .slice(0, 3)
-    .map(p => ({
-      title: p.properties.Page?.title?.[0]?.text?.content || 'Post',
-      slug: p.properties.Slug?.rich_text?.[0]?.text?.content,
-    }));
+    .slice(0, 3);
   
   // Últimas publicações - apenas posts publicados
-  const recentPosts = publishedPosts
+  const rawRecentPosts = publishedPosts
     .filter(p => p.id !== post.id)
-    .slice(0, 5)
-    .map(p => ({
-      title: p.properties.Page?.title?.[0]?.text?.content || 'Post',
-      slug: p.properties.Slug?.rich_text?.[0]?.text?.content,
-    }));
+    .slice(0, 5);
+
+  const readingTimeByPostId = new Map();
+  readingTimeByPostId.set(post.id, calculateReadingTimeFromBlocks(blocks));
+
+  const readingTimeCandidates = Array.from(
+    new Map(
+      [...rawRelatedPosts, ...rawRecentPosts].map((candidate) => [candidate.id, candidate])
+    ).values()
+  );
+
+  const readingTimeResults = await Promise.allSettled(
+    readingTimeCandidates.map(async (candidate) => {
+      const candidateBlocks = await getBlocks(candidate.id);
+      return [candidate.id, calculateReadingTimeFromBlocks(candidateBlocks)];
+    })
+  );
+
+  readingTimeResults.forEach((result, index) => {
+    const postId = readingTimeCandidates[index]?.id;
+    if (!postId) return;
+
+    if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+      readingTimeByPostId.set(postId, result.value[1] || 1);
+      return;
+    }
+
+    readingTimeByPostId.set(postId, 1);
+  });
+
+  const relatedPosts = rawRelatedPosts.map((p) => ({
+    title: p.properties.Page?.title?.[0]?.text?.content || 'Post',
+    slug: p.properties.Slug?.rich_text?.[0]?.text?.content,
+    readingTime: readingTimeByPostId.get(p.id) || 1,
+  }));
+
+  const recentPosts = rawRecentPosts.map((p) => ({
+    title: p.properties.Page?.title?.[0]?.text?.content || 'Post',
+    slug: p.properties.Slug?.rich_text?.[0]?.text?.content,
+    readingTime: readingTimeByPostId.get(p.id) || 1,
+  }));
 
   return {
     props: {
@@ -322,7 +342,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
         { label: pageTitle, href: '#' },
     ];
 
-    const readingTime = calculateReadingTime(blocks);
+    const readingTime = calculateReadingTimeFromBlocks(blocks);
     const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://www.juliano340.com/blog/${slug}`;
     const shareTitle = encodeURIComponent(pageTitle);
     const tableOfContents = extractTableOfContents(blocks);
@@ -670,6 +690,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                   {relatedPost.title}
                                 </a>
                               </Link>
+                              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{relatedPost.readingTime || 1} min de leitura</p>
                             </li>
                           ))}
                         </ul>
@@ -689,6 +710,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                 {recentPost.title}
                               </a>
                             </Link>
+                            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{recentPost.readingTime || 1} min de leitura</p>
                           </li>
                         ))}
                       </ul>

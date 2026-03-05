@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { getDatabase, getUserDetails } from '../lib/notion';
+import { getBlocks, getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
+import { calculateReadingTimeFromBlocks } from '@/lib/readingTime';
 
 export async function getStaticProps() {
     const database = await getDatabase();
@@ -36,9 +37,35 @@ export async function getStaticProps() {
         };
     });
 
+    const readingTimeResults = await Promise.allSettled(
+        postsWithAuthors.map(async (post) => {
+            if (!post?.id) return [post?.id, 1];
+            const blocks = await getBlocks(post.id);
+            return [post.id, calculateReadingTimeFromBlocks(blocks)];
+        })
+    );
+
+    const readingTimeMap = new Map();
+    readingTimeResults.forEach((result, index) => {
+        const postId = postsWithAuthors[index]?.id;
+        if (!postId) return;
+
+        if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+            readingTimeMap.set(postId, result.value[1] || 1);
+            return;
+        }
+
+        readingTimeMap.set(postId, 1);
+    });
+
+    const postsWithAuthorsAndReadingTime = postsWithAuthors.map((post) => ({
+        ...post,
+        readingTime: readingTimeMap.get(post.id) || 1,
+    }));
+
     return {
         props: {
-            posts: JSON.parse(JSON.stringify(postsWithAuthors)),
+            posts: JSON.parse(JSON.stringify(postsWithAuthorsAndReadingTime)),
             generatedAt: new Date().toISOString(),
         },
         revalidate: 10,
@@ -229,7 +256,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         <div className="text-[#9BE8B1] text-sm font-medium">
                                             <span>📅 {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
-                                            <span>⏱️ {Math.ceil(getPostDescription(heroPost).length / 200)} min de leitura</span>
+                                            <span>⏱️ {heroPost.readingTime || 1} min de leitura</span>
                                         </div>
                                         <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
                                             <a className="inline-flex items-center px-7 py-3 bg-[#00B140] text-white text-sm font-semibold rounded-full hover:bg-[#009130] transition-colors">
@@ -385,7 +412,9 @@ const Blog = ({ posts, generatedAt }) => {
                                                 </a>
                                             </Link>
                                             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
-                                            <p className="text-xs text-gray-400 mt-3">{getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira</p>
+                                            <p className="text-xs text-gray-400 mt-3">
+                                                {getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira · {post.readingTime || 1} min
+                                            </p>
                                         </article>
                                     );
                                 })}
