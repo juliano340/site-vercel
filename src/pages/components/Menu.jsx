@@ -79,7 +79,7 @@ export default function Menu() {
                     {/* Mobile Menu */}
                     <div className="sm:hidden py-4">
                         <div className="flex items-center justify-between">
-                        {/* Logo */}
+                            {/* Logo */}
                             <Link href="/home" legacyBehavior>
                                 <a className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-300 dark:hover:to-purple-300 transition-all duration-300">
                                     @JULIANO340
@@ -146,7 +146,7 @@ export default function Menu() {
                         <ul className="flex items-center gap-2">
                             {navItems.map((item) => (
                                 <li key={item.name}>
-                            <Link href={item.href} legacyBehavior>
+                                    <Link href={item.href} legacyBehavior>
                                         <a className={`group relative px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${isActive(item.href)
                                             ? 'text-white'
                                             : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'

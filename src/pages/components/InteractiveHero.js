@@ -11,7 +11,7 @@ const TypingText = ({ texts, speed = 100, deleteSpeed = 50, delay = 2000 }) => {
 
     useEffect(() => {
         const currentText = texts[textIndex];
-        
+
         if (isPaused) {
             const pauseTimer = setTimeout(() => {
                 setIsPaused(false);
@@ -53,10 +53,10 @@ const TypingText = ({ texts, speed = 100, deleteSpeed = 50, delay = 2000 }) => {
 const InteractiveHero = () => {
     const fadeRef = useRef(null);
     const [sheen, setSheen] = useState({ x: 50, y: 20 });
-    
+
     const typingTexts = [
         "Desenvolvedor Front-end",
-        "Desenvolvedor Back-end", 
+        "Desenvolvedor Back-end",
         "Desenvolvedor Full Stack!"
     ];
 
@@ -107,7 +107,7 @@ const InteractiveHero = () => {
             {/* Background Animado com CSS - 0KB JS! */}
             <div className="absolute inset-0 z-0">
                 {/* Camada 1: Gradiente base animado */}
-                <div 
+                <div
                     className="absolute inset-0"
                     style={{
                         background: 'linear-gradient(-45deg, #00B140, #0f172a, #1e3a5f, #00B140)',
@@ -115,9 +115,9 @@ const InteractiveHero = () => {
                         animation: 'gradientShift 15s ease infinite'
                     }}
                 />
-                
+
                 {/* Camada 2: Blob animado 1 */}
-                <div 
+                <div
                     className="absolute w-96 h-96 rounded-full opacity-40 blur-3xl"
                     style={{
                         background: 'radial-gradient(circle, rgba(0,177,64,0.6) 0%, rgba(0,177,64,0) 70%)',
@@ -126,9 +126,9 @@ const InteractiveHero = () => {
                         animation: 'blob1 20s infinite'
                     }}
                 />
-                
+
                 {/* Camada 3: Blob animado 2 */}
-                <div 
+                <div
                     className="absolute w-96 h-96 rounded-full opacity-30 blur-3xl"
                     style={{
                         background: 'radial-gradient(circle, rgba(59,130,246,0.6) 0%, rgba(59,130,246,0) 70%)',
@@ -137,9 +137,9 @@ const InteractiveHero = () => {
                         animation: 'blob2 25s infinite'
                     }}
                 />
-                
+
                 {/* Camada 4: Blob animado 3 */}
-                <div 
+                <div
                     className="absolute w-80 h-80 rounded-full opacity-30 blur-3xl"
                     style={{
                         background: 'radial-gradient(circle, rgba(139,92,246,0.5) 0%, rgba(139,92,246,0) 70%)',
@@ -149,9 +149,9 @@ const InteractiveHero = () => {
                         animation: 'blob3 18s infinite'
                     }}
                 />
-                
+
                 {/* Camada 5: Grade sutil */}
-                <div 
+                <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
                         backgroundImage: `
