@@ -24,8 +24,8 @@ const PrivacidadeRunLab = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <Link 
-              href="/links" 
+            <Link
+              href="/links"
               className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-colors"
             >
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,7 +33,7 @@ const PrivacidadeRunLab = () => {
               </svg>
               Voltar para Links
             </Link>
-            
+
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                 <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@ const PrivacidadeRunLab = () => {
                 RunLab
               </h1>
             </div>
-            
+
             <p className="text-gray-600 dark:text-gray-300">Política de Privacidade</p>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               Última atualização: {lastUpdated}
@@ -53,7 +53,7 @@ const PrivacidadeRunLab = () => {
 
           {/* Content */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-10 space-y-8">
-            
+
             {/* Introdução */}
             <section>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -61,8 +61,8 @@ const PrivacidadeRunLab = () => {
                 1. Introdução
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                Esta Política de Privacidade descreve como o RunLab coleta, usa e protege suas informações. 
-                O RunLab é um aplicativo que armazena todos os dados de suas corridas <strong>exclusivamente no seu dispositivo</strong>. 
+                Esta Política de Privacidade descreve como o RunLab coleta, usa e protege suas informações.
+                O RunLab é um aplicativo que armazena todos os dados de suas corridas <strong>exclusivamente no seu dispositivo</strong>.
                 Não coletamos, transmitimos ou compartilhamos nenhuma informação pessoal com terceiros.
               </p>
             </section>
@@ -84,7 +84,7 @@ const PrivacidadeRunLab = () => {
                 <li>Data e hora das atividades</li>
               </ul>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-4">
-                <strong>Importante:</strong> Todos esses dados ficam armazenados exclusivamente no seu dispositivo. 
+                <strong>Importante:</strong> Todos esses dados ficam armazenados exclusivamente no seu dispositivo.
                 O aplicativo não possui servidor próprio nem banco de dados externo.
               </p>
             </section>
@@ -115,13 +115,13 @@ const PrivacidadeRunLab = () => {
                 4. Publicidade e Anúncios
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                O RunLab exibe anúncios para manter o aplicativo gratuito. Esses anúncios são fornecidos por redes 
-                de publicidade terceiras (como Google AdMob) e <strong>não têm acesso</strong> aos seus dados pessoais 
+                O RunLab exibe anúncios para manter o aplicativo gratuito. Esses anúncios são fornecidos por redes
+                de publicidade terceiras (como Google AdMob) e <strong>não têm acesso</strong> aos seus dados pessoais
                 ou dados de corrida armazenados no aplicativo.
               </p>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-3">
-                Os anúncios podem coletar informações básicas do dispositivo (como tipo de dispositivo e idioma) 
-                para exibir anúncios relevantes, mas <strong>nenhuma informação sobre suas corridas ou localização</strong> 
+                Os anúncios podem coletar informações básicas do dispositivo (como tipo de dispositivo e idioma)
+                para exibir anúncios relevantes, mas <strong>nenhuma informação sobre suas corridas ou localização</strong>
                 é compartilhada com os anunciantes.
               </p>
             </section>
@@ -133,13 +133,13 @@ const PrivacidadeRunLab = () => {
                 5. Armazenamento e Segurança
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                <strong>Todos os dados são armazenados localmente</strong> no seu dispositivo móvel. 
-                O RunLab não possui acesso aos seus dados, não mantém servidores e não realiza backup 
+                <strong>Todos os dados são armazenados localmente</strong> no seu dispositivo móvel.
+                O RunLab não possui acesso aos seus dados, não mantém servidores e não realiza backup
                 na nuvem de suas informações.
               </p>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-3">
-                <strong>Sua responsabilidade:</strong> Como os dados ficam armazenados apenas no seu dispositivo, 
-                a segurança e o backup desses dados são de sua responsabilidade. Recomendamos fazer backups 
+                <strong>Sua responsabilidade:</strong> Como os dados ficam armazenados apenas no seu dispositivo,
+                a segurança e o backup desses dados são de sua responsabilidade. Recomendamos fazer backups
                 regulares do seu dispositivo.
               </p>
             </section>
@@ -207,7 +207,7 @@ const PrivacidadeRunLab = () => {
               </p>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                 <p className="text-gray-700 dark:text-gray-300">
-                  <strong>Email:</strong> contato@juliano340.com
+                  <strong>Email:</strong> juliano340@gmail.com
                 </p>
               </div>
             </section>
@@ -219,8 +219,8 @@ const PrivacidadeRunLab = () => {
                 10. Alterações na Política
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                Esta política pode ser atualizada periodicamente. Qualquer alteração será comunicada 
-                através de uma notificação no aplicativo ou pela atualização desta página. 
+                Esta política pode ser atualizada periodicamente. Qualquer alteração será comunicada
+                através de uma notificação no aplicativo ou pela atualização desta página.
                 Recomendamos que você revise esta política regularmente.
               </p>
             </section>
