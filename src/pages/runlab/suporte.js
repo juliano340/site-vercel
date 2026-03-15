@@ -51,6 +51,7 @@ const RunLabSuportePage = () => {
           <div className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl dark:bg-emerald-900/20" />
 
           <div className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+
             <Link
               href="/runlab"
               className="mb-8 inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-green-600 dark:text-gray-400 dark:hover:text-green-400"
@@ -60,8 +61,9 @@ const RunLabSuportePage = () => {
               </svg>
               Voltar para RunLab
             </Link>
+            <br />
 
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-green-700 dark:border-green-800/60 dark:bg-green-900/30 dark:text-green-300">
+            <div className="mt-8 mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-green-700 dark:border-green-800/60 dark:bg-green-900/30 dark:text-green-300">
               Suporte oficial
             </div>
 
