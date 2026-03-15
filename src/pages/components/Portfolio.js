@@ -77,7 +77,7 @@ const projects = [
   },
   {
     title: 'RunLab',
-    description: 'App de corridas com acompanhamento de treinos, backup em JSON, importacao de dados e pagina de suporte dedicada.',
+    description: 'Aplicativo mobile desenvolvido com Flutter para gerenciamento de corridas com acompanhamento de treinos, backup em JSON, importacao de dados e pagina de suporte dedicada.',
     imageUrl: '/images/RUNLAB_SCREEN.jpg',
     projectUrl: 'https://www.juliano340.com/runlab',
     repoUrl: 'https://github.com/juliano340/RunLabAG',
@@ -120,10 +120,10 @@ const Portfolio = () => {
             <button
               key={cat.id}
               onClick={() => setFilter(cat.id)}
-               className={`rounded-full px-6 py-3 font-semibold transition-all duration-300 ${filter === cat.id
-                 ? 'scale-105 bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40'
-                 : 'border border-slate-300 bg-white/80 text-slate-700 backdrop-blur-sm hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'
-                 }`}
+              className={`rounded-full px-6 py-3 font-semibold transition-all duration-300 ${filter === cat.id
+                ? 'scale-105 bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40'
+                : 'border border-slate-300 bg-white/80 text-slate-700 backdrop-blur-sm hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'
+                }`}
             >
               {cat.label}
             </button>
