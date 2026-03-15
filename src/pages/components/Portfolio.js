@@ -75,6 +75,15 @@ const projects = [
     tags: ['Next.js', 'Notion', 'CMS'],
     category: 'frontend'
   },
+  {
+    title: 'RunLab',
+    description: 'App de corridas com acompanhamento de treinos, backup em JSON, importacao de dados e pagina de suporte dedicada.',
+    imageUrl: '/images/RUNLAB_SCREEN.jpg',
+    projectUrl: 'https://www.juliano340.com/runlab',
+    repoUrl: 'https://github.com/juliano340/RunLabAG',
+    tags: ['RunLab', 'Mobile', 'JSON Backup', 'Privacidade'],
+    category: 'frontend'
+  },
 ];
 
 const Portfolio = () => {
