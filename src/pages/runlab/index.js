@@ -56,7 +56,7 @@ const LandingRunLab = () => {
         </svg>
       ),
       title: 'Leve e Grátis',
-      description: 'App extremamente leve, sem anúncios intrusivos e gratuito para todos.'
+      description: 'App extremamente leve, com anúncios para manter o aplicativo gratuito para todos.'
     },
     {
       icon: (
@@ -72,7 +72,7 @@ const LandingRunLab = () => {
   return (
     <>
       <Head>
-        <title>RunLab - Seu Companion de Corridas</title>
+        <title>RunLab - Seu Parceiro de Corridas</title>
         <meta name="description" content="RunLab - App para registrar suas corridas. Estatísticas, GPS e muito mais. Grátis e 100% offline." />
       </Head>
 
@@ -99,7 +99,7 @@ const LandingRunLab = () => {
               </h1>
 
               <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                Seu companion de corridas. Simples, rápido e gratuito.
+                Seu parceiro de corridas. Simples, rápido e gratuito.
               </p>
 
               <p className="text-lg text-gray-500 dark:text-gray-400 mb-10 max-w-xl mx-auto">
