@@ -53,7 +53,7 @@ const projects = [
     description: 'Plataforma full-stack para gestão de barbearia, com agendamentos, painel administrativo e automações via WhatsApp, desenvolvida com Next.js, Prisma e NextAuth.',
     imageUrl: '/images/j-flix.png',
     imageUrls: ['/images/BarbeariaModerna1.png', '/images/BarbeariaModerna2.png'],
-    projectUrl: '#',
+    projectUrl: 'https://barbearia-moderna.juliano340.com/login',
     repoUrl: 'https://github.com/juliano340/webapp',
     tags: ['NextJS', 'SQLITE', 'PRISMA', 'NextAuth', 'WhatsApp BOT'],
     category: 'fullstack'
