@@ -49,13 +49,14 @@ const projects = [
     category: 'frontend'
   },
   {
-    title: 'J-FLIX',
-    description: 'Top 10 Filmes do Momento desenvolvido com React utilizando a API da Themoviedb',
+    title: 'Barbearia Moderna',
+    description: 'Plataforma full-stack para gestão de barbearia, com agendamentos, painel administrativo e automações via WhatsApp, desenvolvida com Next.js, Prisma e NextAuth.',
     imageUrl: '/images/j-flix.png',
-    projectUrl: 'https://j-flix-ashen.vercel.app/',
-    repoUrl: 'https://github.com/juliano340/j-flix',
-    tags: ['React', 'API', 'TMDB'],
-    category: 'frontend'
+    imageUrls: ['/images/BarbeariaModerna1.png', '/images/BarbeariaModerna2.png'],
+    projectUrl: '#',
+    repoUrl: 'https://github.com/juliano340/webapp',
+    tags: ['NextJS', 'SQLITE', 'PRISMA', 'NextAuth', 'WhatsApp BOT'],
+    category: 'fullstack'
   },
   {
     title: 'PDV Web',
@@ -79,6 +80,7 @@ const projects = [
     title: 'RunLab',
     description: 'Aplicativo mobile desenvolvido com Flutter para gerenciamento de corridas com acompanhamento de treinos, backup em JSON, importacao de dados e pagina de suporte dedicada.',
     imageUrl: '/images/RUNLAB_SCREEN.jpg',
+    imageUrls: ['/images/RUNLAB_SCREEN.jpg', '/images/RUNLAB_SCREEN2.jpg'],
     projectUrl: 'https://www.juliano340.com/runlab',
     repoUrl: 'https://github.com/juliano340/RunLabAG',
     tags: ['RunLab', 'Mobile', 'JSON Backup', 'Privacidade'],
@@ -89,6 +91,7 @@ const projects = [
 const Portfolio = () => {
   const [filter, setFilter] = useState('all');
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [activeImageIndexes, setActiveImageIndexes] = useState({});
 
   const categories = [
     { id: 'all', label: 'Todos' },
@@ -99,6 +102,24 @@ const Portfolio = () => {
   const filteredProjects = filter === 'all'
     ? projects
     : projects.filter(project => project.category === filter);
+
+  const getProjectImages = (project) => {
+    if (Array.isArray(project.imageUrls) && project.imageUrls.length > 0) {
+      return project.imageUrls;
+    }
+    return [project.imageUrl];
+  };
+
+  const changeProjectImage = (projectKey, totalImages, direction) => {
+    setActiveImageIndexes((prev) => {
+      const current = prev[projectKey] ?? 0;
+      const next = (current + direction + totalImages) % totalImages;
+      return {
+        ...prev,
+        [projectKey]: next,
+      };
+    });
+  };
 
   return (
     <div id="portfolio" className="relative overflow-hidden bg-gradient-to-br from-slate-100 via-white to-slate-100 py-20 px-4 sm:px-6 lg:px-8 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -139,109 +160,167 @@ const Portfolio = () => {
 
         {/* Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={index}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
-            >
-              {/* Image Container */}
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src={project.imageUrl}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                {/* Overlay on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-slate-100/95 via-slate-300/70 to-transparent transition-opacity duration-300 dark:from-slate-900 dark:via-slate-900/80 ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'
-                  }`}>
-                  <div className="absolute inset-0 flex items-center justify-center gap-4">
+          {filteredProjects.map((project, index) => {
+            const projectKey = project.title;
+            const projectImages = getProjectImages(project);
+            const currentImageIndex = activeImageIndexes[projectKey] ?? 0;
+            const currentImage = projectImages[currentImageIndex] || projectImages[0];
+
+            return (
+              <div
+                key={projectKey}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
+              >
+                {/* Image Container */}
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src={currentImage}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {projectImages.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label={`Ver imagem anterior de ${project.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          changeProjectImage(projectKey, projectImages.length, -1);
+                        }}
+                        className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 text-slate-700 shadow-md backdrop-blur-sm transition hover:scale-105 hover:bg-white dark:bg-slate-900/70 dark:text-white"
+                      >
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-label={`Ver próxima imagem de ${project.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          changeProjectImage(projectKey, projectImages.length, 1);
+                        }}
+                        className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 text-slate-700 shadow-md backdrop-blur-sm transition hover:scale-105 hover:bg-white dark:bg-slate-900/70 dark:text-white"
+                      >
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+
+                      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm">
+                        {projectImages.map((image, imageIndex) => (
+                          <button
+                            key={`${projectKey}-${image}`}
+                            type="button"
+                            aria-label={`Ver imagem ${imageIndex + 1} de ${project.title}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndexes((prev) => ({
+                                ...prev,
+                                [projectKey]: imageIndex,
+                              }));
+                            }}
+                            className={`h-2.5 w-2.5 rounded-full transition ${currentImageIndex === imageIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/70'}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  {/* Overlay on hover */}
+                  <div className={`absolute inset-0 z-10 bg-gradient-to-t from-slate-100/95 via-slate-300/70 to-transparent transition-opacity duration-300 dark:from-slate-900 dark:via-slate-900/80 ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'
+                    }`}>
+                    <div className="absolute inset-0 flex items-center justify-center gap-4">
+                      <a
+                        href={project.projectUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Ver demonstração de ${project.title}`}
+                        className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </a>
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Ver repositório de ${project.title} no GitHub`}
+                        className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
+                    {project.title}
+                  </h2>
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-gray-400">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div className="mt-auto flex gap-3 pt-2">
                     <a
                       href={project.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Ver demonstração de ${project.title}`}
-                      className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
-                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`Ver projeto ${project.title} ao vivo`}
+                      className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
                     >
-                      <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
+                      Ver Projeto
                     </a>
                     <a
                       href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Ver repositório de ${project.title} no GitHub`}
-                      className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
-                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`Ver código fonte de ${project.title} no GitHub`}
+                      className="rounded-lg border border-slate-300 bg-white/80 p-2.5 text-slate-600 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
+                      title="Ver código fonte"
                     >
-                      <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
                       </svg>
                     </a>
                   </div>
                 </div>
+
+                {/* Decorative corner */}
+                <div className="absolute top-0 right-0 h-20 w-20 rounded-bl-full bg-gradient-to-br from-sky-500/20 to-cyan-500/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
               </div>
-
-              {/* Content */}
-              <div className="flex flex-1 flex-col p-6">
-                <h2 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
-                  {project.title}
-                </h2>
-                <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-gray-400">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Links */}
-                <div className="mt-auto flex gap-3 pt-2">
-                  <a
-                    href={project.projectUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ver projeto ${project.title} ao vivo`}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Ver Projeto
-                  </a>
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ver código fonte de ${project.title} no GitHub`}
-                    className="rounded-lg border border-slate-300 bg-white/80 p-2.5 text-slate-600 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
-                    title="Ver código fonte"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 h-20 w-20 rounded-bl-full bg-gradient-to-br from-sky-500/20 to-cyan-500/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Empty State */}
