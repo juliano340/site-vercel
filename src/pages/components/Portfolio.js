@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const projects = [
@@ -90,8 +90,9 @@ const projects = [
 
 const Portfolio = () => {
   const [filter, setFilter] = useState('all');
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [activeImageIndexes, setActiveImageIndexes] = useState({});
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
 
   const categories = [
     { id: 'all', label: 'Todos' },
@@ -120,6 +121,34 @@ const Portfolio = () => {
       };
     });
   };
+
+  const openProjectModal = (project) => {
+    setSelectedProject(project);
+    setModalImageIndex(0);
+  };
+
+  const closeProjectModal = () => {
+    setSelectedProject(null);
+    setModalImageIndex(0);
+  };
+
+  useEffect(() => {
+    if (!selectedProject) return undefined;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') closeProjectModal();
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [selectedProject]);
 
   return (
     <div id="portfolio" className="relative overflow-hidden bg-gradient-to-br from-slate-100 via-white to-slate-100 py-20 px-4 sm:px-6 lg:px-8 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -169,8 +198,16 @@ const Portfolio = () => {
             return (
               <div
                 key={projectKey}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Abrir detalhes do projeto ${project.title}`}
+                onClick={() => openProjectModal(project)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openProjectModal(project);
+                  }
+                }}
                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
               >
                 {/* Image Container */}
@@ -233,37 +270,6 @@ const Portfolio = () => {
                     </>
                   )}
 
-                  {/* Overlay on hover */}
-                  <div className={`absolute inset-0 z-10 bg-gradient-to-t from-slate-100/95 via-slate-300/70 to-transparent transition-opacity duration-300 dark:from-slate-900 dark:via-slate-900/80 ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'
-                    }`}>
-                    <div className="absolute inset-0 flex items-center justify-center gap-4">
-                      <a
-                        href={project.projectUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Ver demonstração de ${project.title}`}
-                        className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </a>
-                      <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Ver repositório de ${project.title} no GitHub`}
-                        className="rounded-full bg-slate-900/15 p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-900/25 dark:bg-white/20 dark:hover:bg-white/30"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <svg className="h-6 w-6 text-slate-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Content */}
@@ -294,6 +300,7 @@ const Portfolio = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Ver projeto ${project.title} ao vivo`}
+                      onClick={(e) => e.stopPropagation()}
                       className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,6 +313,7 @@ const Portfolio = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Ver código fonte de ${project.title} no GitHub`}
+                      onClick={(e) => e.stopPropagation()}
                       className="rounded-lg border border-slate-300 bg-white/80 p-2.5 text-slate-600 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
                       title="Ver código fonte"
                     >
@@ -322,6 +330,116 @@ const Portfolio = () => {
             );
           })}
         </div>
+
+        {selectedProject && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 px-4 py-6 backdrop-blur-sm"
+            onClick={closeProjectModal}
+          >
+            <div
+              className="relative max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-slate-900"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={closeProjectModal}
+                aria-label="Fechar detalhes do projeto"
+                className="absolute right-4 top-4 z-20 rounded-full bg-black/60 p-2 text-white transition hover:scale-105 hover:bg-black/75"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              <div className="grid max-h-[92vh] grid-cols-1 overflow-y-auto lg:grid-cols-5">
+                <div className="relative h-72 lg:col-span-3 lg:h-full lg:min-h-[560px]">
+                  <Image
+                    src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
+                    alt={selectedProject.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="object-contain bg-slate-950 p-2"
+                  />
+
+                  {getProjectImages(selectedProject).length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label={`Imagem anterior de ${selectedProject.title}`}
+                        onClick={() => setModalImageIndex((prev) => (prev - 1 + getProjectImages(selectedProject).length) % getProjectImages(selectedProject).length)}
+                        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition hover:bg-black/70"
+                      >
+                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={`Próxima imagem de ${selectedProject.title}`}
+                        onClick={() => setModalImageIndex((prev) => (prev + 1) % getProjectImages(selectedProject).length)}
+                        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition hover:bg-black/70"
+                      >
+                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+
+                      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-black/40 px-3 py-1.5">
+                        {getProjectImages(selectedProject).map((img, imgIndex) => (
+                          <button
+                            key={`${selectedProject.title}-modal-${img}`}
+                            type="button"
+                            aria-label={`Abrir imagem ${imgIndex + 1} de ${selectedProject.title}`}
+                            onClick={() => setModalImageIndex(imgIndex)}
+                            className={`h-2.5 w-2.5 rounded-full transition ${modalImageIndex === imgIndex ? 'bg-white' : 'bg-white/55 hover:bg-white/80'}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="flex flex-col p-6 lg:col-span-2 lg:p-8">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">
+                    Detalhes do projeto
+                  </p>
+                  <h3 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{selectedProject.title}</h3>
+                  <p className="mb-6 text-sm leading-relaxed text-slate-600 dark:text-gray-300">{selectedProject.description}</p>
+
+                  <div className="mb-6 flex flex-wrap gap-2">
+                    {selectedProject.tags.map((tag) => (
+                      <span
+                        key={`${selectedProject.title}-tag-${tag}`}
+                        className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto grid gap-3 sm:grid-cols-2">
+                    <a
+                      href={selectedProject.projectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
+                    >
+                      Ver Projeto
+                    </a>
+                    <a
+                      href={selectedProject.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white/80 px-4 py-2.5 font-medium text-slate-700 transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
+                    >
+                      Ver Código
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (
