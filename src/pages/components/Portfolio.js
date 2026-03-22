@@ -333,31 +333,34 @@ const Portfolio = () => {
 
         {selectedProject && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 px-4 py-6 backdrop-blur-sm"
+            className="fixed inset-0 z-[120] flex items-start justify-center bg-slate-950/75 px-4 pb-6 pt-24 backdrop-blur-sm lg:items-center lg:py-6"
             onClick={closeProjectModal}
           >
             <div
-              className="relative max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-slate-900"
+              className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-slate-900 lg:max-h-[92vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
                 onClick={closeProjectModal}
                 aria-label="Fechar detalhes do projeto"
-                className="absolute right-4 top-4 z-20 rounded-full bg-black/60 p-2 text-white transition hover:scale-105 hover:bg-black/75"
+                className="absolute right-4 z-20 rounded-full bg-black/60 p-2 text-white transition hover:scale-105 hover:bg-black/75"
+                style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
 
-              <div className="grid max-h-[92vh] grid-cols-1 overflow-y-auto lg:grid-cols-5">
+              <div className="grid grid-cols-1 lg:grid-cols-5">
                 <div className="relative h-72 lg:col-span-3 lg:h-full lg:min-h-[560px]">
                   <Image
                     src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
                     alt={selectedProject.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"
+                    priority
+                    unoptimized
                     className="object-contain bg-slate-950 p-2"
                   />
 
