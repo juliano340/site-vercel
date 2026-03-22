@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const REQUIRED_COMMAND = 'npm start';
+const AUTO_START_SECONDS = 8;
 
 const TerminalPage = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const TerminalPage = () => {
   const [mostrarTerminal, setMostrarTerminal] = useState(false);
   const [tentativasInvalidas, setTentativasInvalidas] = useState(0);
   const [aguardandoQualquerTecla, setAguardandoQualquerTecla] = useState(false);
-  const [contadorAutoInicio, setContadorAutoInicio] = useState(15);
+  const [contadorAutoInicio, setContadorAutoInicio] = useState(AUTO_START_SECONDS);
   const terminalScrollRef = useRef(null);
 
   const introSequence = useMemo(
@@ -248,7 +249,7 @@ const TerminalPage = () => {
     setLogs((current) => [...current, '[SISTEMA] inicializando projeto...']);
     setAguardandoQualquerTecla(false);
     setTentativasInvalidas(0);
-    setContadorAutoInicio(15);
+    setContadorAutoInicio(AUTO_START_SECONDS);
     setCommand('');
     setProgressoProjeto(0);
     setPhase('loadingProject');
@@ -297,12 +298,12 @@ const TerminalPage = () => {
         />
       </Head>
 
-      <main className="relative min-h-screen overflow-hidden bg-[#0a120c] text-[#9df4b8]">
+      <main className="relative min-h-[100svh] overflow-hidden bg-[#0a120c] text-[#9df4b8]">
         <div className="grid-pattern pointer-events-none absolute inset-0 opacity-40" />
         <div className="crt-overlay pointer-events-none absolute inset-0 z-50" />
 
         {phase === 'preload' ? (
-          <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-lg items-center justify-center border-x border-[#295138]/70 bg-[#0d1810] px-5 md:my-6 md:min-h-0 md:h-[72vh] md:max-h-[680px] md:rounded-xl md:border">
+            <div className="relative z-10 mx-auto flex h-[100svh] w-full max-w-lg items-center justify-center border-x border-[#295138]/70 bg-[#0d1810] px-5 md:my-6 md:h-[72vh] md:max-h-[680px] md:rounded-xl md:border">
             <div className="w-full max-w-md space-y-4 font-mono">
               <p className="text-xs uppercase tracking-[0.18em] text-[#7ad091]">carregando ambiente do sistema</p>
               <div className="h-2 w-full overflow-hidden rounded border border-[#295138] bg-[#0a1a11]">
@@ -313,7 +314,7 @@ const TerminalPage = () => {
           </div>
         ) : null}
 
-        {phase !== 'preload' ? <div className={`cyberpunk-shell relative z-10 mx-auto flex min-h-screen w-full max-w-lg flex-col overflow-hidden border-x border-[#295138]/70 bg-[#0d1810] md:my-6 md:min-h-0 md:h-[72vh] md:max-h-[680px] md:rounded-xl md:border ${mostrarTerminal ? 'os-open' : 'os-hidden'} ${phase === 'closing' || phase === 'redirecting' ? 'os-close' : ''}`}>
+        {phase !== 'preload' ? <div className={`cyberpunk-shell relative z-10 mx-auto flex h-[100svh] w-full max-w-lg flex-col overflow-hidden border-x border-[#295138]/70 bg-[#0d1810] md:my-6 md:h-[72vh] md:max-h-[680px] md:rounded-xl md:border ${mostrarTerminal ? 'os-open' : 'os-hidden'} ${phase === 'closing' || phase === 'redirecting' ? 'os-close' : ''}`}>
           <header className="flex items-center justify-between border-b border-[#295138]/70 bg-[#13ec5b]/10 p-4">
             <div className="flex items-center gap-3">
               <div className="flex gap-1.5">
@@ -367,8 +368,8 @@ const TerminalPage = () => {
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-[#0b130e]">
                   <div
                     className="h-full bg-[#8cf5b0] transition-all"
-                    style={{ width: `${((15 - contadorAutoInicio) / 15) * 100}%` }}
-                  />
+                     style={{ width: `${((AUTO_START_SECONDS - contadorAutoInicio) / AUTO_START_SECONDS) * 100}%` }}
+                   />
                 </div>
               </div>
             ) : null}
