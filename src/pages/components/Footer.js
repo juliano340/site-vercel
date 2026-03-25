@@ -98,13 +98,13 @@ const Footer = () => {
             <h4 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Contato</h4>
             <div className="space-y-3 text-slate-600 dark:text-gray-400">
               <a
-                href={`mailto:${['contato', 'juliano340.com'].join('@')}`}
+                href={`mailto:${['juliano340', 'gmail.com'].join('@')}`}
                 className="flex items-center justify-center gap-2 transition-colors hover:text-cyan-700 dark:hover:text-cyan-300 md:justify-end"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                {['contato', 'juliano340.com'].join('@')}
+                {['juliano340', 'gmail.com'].join('@')}
               </a>
               <div className="flex items-center justify-center md:justify-end gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

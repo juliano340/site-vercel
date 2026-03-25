@@ -5,7 +5,7 @@ const CtaSection = () => {
   return (
     <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white py-24 overflow-hidden">
       {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse-opacity"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse-opacity animation-delay-2000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
@@ -75,7 +75,7 @@ const CtaSection = () => {
         <div className="mt-16 pt-12 border-t border-white/20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group">
-              <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform">7+</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform">5+</div>
               <div className="text-blue-100">Projetos Concluídos</div>
             </div>
             <div className="group">
