@@ -74,8 +74,8 @@ const Contato = () => {
         </svg>
       ),
       title: 'Email',
-      content: ['contato', 'juliano340.com'].join('@'),
-      link: `mailto:${['contato', 'juliano340.com'].join('@')}`
+      content: ['juliano340', 'gmail.com'].join('@'),
+      link: `mailto:${['juliano340', 'gmail.com'].join('@')}`
     }
   ];
 
