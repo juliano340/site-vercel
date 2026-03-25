@@ -30,24 +30,24 @@ const projects = [
     tags: ['Angular', 'NestJS', 'TypeScript'],
     category: 'fullstack'
   },
-  {
-    title: 'Meu Link',
-    description: 'Encurtador de links desenvolvido em React utilizando API do Bitly',
-    imageUrl: '/images/meu-link-snapshoot.png',
-    projectUrl: 'https://meu-link-xi.vercel.app/',
-    repoUrl: 'https://github.com/juliano340/meu-link',
-    tags: ['React', 'API', 'Bitly'],
-    category: 'frontend'
-  },
-  {
-    title: 'Busca CEP',
-    description: 'Buscador de CEP desenvolvido com React utilizando a API da ViaCep',
-    imageUrl: '/images/busca-cep.png',
-    projectUrl: 'https://buscador-cep-ecru.vercel.app/',
-    repoUrl: 'https://github.com/juliano340/buscador-cep',
-    tags: ['React', 'API', 'ViaCep'],
-    category: 'frontend'
-  },
+  // {
+  //   title: 'Meu Link',
+  //   description: 'Encurtador de links desenvolvido em React utilizando API do Bitly',
+  //   imageUrl: '/images/meu-link-snapshoot.png',
+  //   projectUrl: 'https://meu-link-xi.vercel.app/',
+  //   repoUrl: 'https://github.com/juliano340/meu-link',
+  //   tags: ['React', 'API', 'Bitly'],
+  //   category: 'frontend'
+  // },
+  // {
+  //   title: 'Busca CEP',
+  //   description: 'Buscador de CEP desenvolvido com React utilizando a API da ViaCep',
+  //   imageUrl: '/images/busca-cep.png',
+  //   projectUrl: 'https://buscador-cep-ecru.vercel.app/',
+  //   repoUrl: 'https://github.com/juliano340/buscador-cep',
+  //   tags: ['React', 'API', 'ViaCep'],
+  //   category: 'frontend'
+  // },
   {
     title: 'Barbearia Moderna',
     description: 'Plataforma full-stack para gestão de barbearia, com agendamentos, painel administrativo e automações via WhatsApp, desenvolvida com Next.js, Prisma e NextAuth.',
@@ -69,7 +69,7 @@ const projects = [
   },
   {
     title: 'CMS - BLOG',
-    description: 'Sistema CMS para blog desenvolvido com Next.js utilizando a API do Notion',
+    description: 'Sistema CMS para blog desenvolvido com Next.js utilizando a API do Notion como backend.',
     imageUrl: '/images/Blog.png',
     projectUrl: 'https://www.juliano340.com/blog',
     repoUrl: 'https://github.com/juliano340/site-vercel',
@@ -84,7 +84,7 @@ const projects = [
     projectUrl: 'https://www.juliano340.com/runlab',
     repoUrl: 'https://github.com/juliano340/RunLabAG',
     tags: ['RunLab', 'Mobile', 'JSON Backup', 'Privacidade'],
-    category: 'frontend'
+    category: ["fullstack", "mobile"]
   },
 ];
 
@@ -97,12 +97,19 @@ const Portfolio = () => {
   const categories = [
     { id: 'all', label: 'Todos' },
     { id: 'fullstack', label: 'Full Stack' },
-    { id: 'frontend', label: 'Frontend' }
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'mobile', label: 'Mobile' }
   ];
 
   const filteredProjects = filter === 'all'
     ? projects
-    : projects.filter(project => project.category === filter);
+    : projects.filter(project => {
+      if (Array.isArray(project.category)) {
+        return project.category.some(cat => cat === filter);
+      } else {
+        return project.category === filter;
+      }
+    });
 
   const getProjectImages = (project) => {
     if (Array.isArray(project.imageUrls) && project.imageUrls.length > 0) {
