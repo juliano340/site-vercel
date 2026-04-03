@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --color-background: #ffffff;
+    --color-surface: #f6f7f8;
+    --color-text: #111111;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-focus: #111111;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+}
+
 * {
     font-family: var(--font-poppins), sans-serif;
     margin: 0px;
@@ -15,11 +25,141 @@ html {
 /* Dark mode base styles */
 html.dark {
     color-scheme: dark;
+    --color-background: #111111;
+    --color-surface: #1f1f1f;
+    --color-text: #f6f7f8;
+    --color-muted: #9ca3af;
+    --color-border: #374151;
+    --color-focus: #ffffff;
+    --color-shadow: rgba(0, 0, 0, 0.5);
 }
 
 body {
-    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    @apply bg-background text-primary;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@layer components {
+    .mono-section {
+        @apply relative overflow-hidden px-4 py-20 transition-colors duration-300 sm:px-6 lg:px-8;
+        background: var(--color-background);
+        color: var(--color-text);
+    }
+
+    .mono-section-surface {
+        background: var(--color-surface);
+    }
+
+    .mono-container {
+        @apply relative z-10 mx-auto max-w-7xl;
+    }
+
+    .mono-section-header {
+        @apply mb-16 text-center;
+    }
+
+    .mono-section-rule {
+        @apply mx-auto mt-4 h-px w-24;
+        background: var(--color-border);
+    }
+
+    .mono-panel {
+        @apply border border-subtle bg-background p-8 shadow-soft transition-all duration-300 md:p-10;
+        border-radius: 1.5rem;
+    }
+
+    .mono-card {
+        @apply border border-subtle bg-background p-6 shadow-soft transition-all duration-300;
+        border-radius: 1.25rem;
+    }
+
+    .mono-frame {
+        @apply border border-subtle bg-background shadow-soft transition-all duration-300;
+        border-radius: 1.25rem;
+    }
+
+    .mono-frame-interactive {
+        @apply border border-subtle bg-background shadow-soft transition-all duration-300;
+        border-radius: 1.25rem;
+    }
+
+    .mono-frame-interactive:hover {
+        border-color: var(--color-text);
+        box-shadow: 0 20px 48px var(--color-shadow);
+        transform: translateY(-4px);
+    }
+
+    .mono-card-interactive {
+        @apply border border-subtle bg-background p-6 shadow-soft transition-all duration-300;
+        border-radius: 1.25rem;
+    }
+
+    .mono-card-interactive:hover {
+        border-color: var(--color-text);
+        box-shadow: 0 20px 48px var(--color-shadow);
+        transform: translateY(-4px);
+    }
+
+    .mono-button-primary {
+        @apply inline-flex items-center justify-center gap-2 border border-primary bg-primary px-5 py-3 font-semibold text-background transition-all duration-300;
+        border-radius: 1rem;
+        box-shadow: 0 12px 28px var(--color-shadow);
+    }
+
+    .mono-button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 36px var(--color-shadow);
+    }
+
+    .mono-button-secondary {
+        @apply inline-flex items-center justify-center gap-2 border border-subtle bg-background px-5 py-3 font-semibold text-primary transition-all duration-300;
+        border-radius: 1rem;
+    }
+
+    .mono-button-secondary:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text);
+        transform: translateY(-2px);
+    }
+
+    .mono-icon-button {
+        @apply inline-flex items-center justify-center border border-subtle bg-background text-primary transition-all duration-300;
+        border-radius: 9999px;
+    }
+
+    .mono-icon-button:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text);
+    }
+
+    .mono-chip {
+        @apply inline-flex items-center gap-2 border border-subtle bg-surface px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-muted;
+        border-radius: 9999px;
+    }
+
+    .mono-tag {
+        @apply inline-flex items-center border border-subtle bg-surface px-3 py-1 text-xs font-medium text-primary;
+        border-radius: 9999px;
+    }
+
+    .mono-progress-track {
+        @apply h-2.5 w-full overflow-hidden rounded-full bg-surface;
+    }
+
+    .mono-progress-bar {
+        @apply h-full rounded-full bg-primary transition-all duration-1000 ease-out;
+    }
+}
+
+@layer utilities {
+    .mono-focus-ring {
+        outline: none;
+    }
+
+    .mono-focus-ring:focus-visible {
+        outline: 2px solid var(--color-focus);
+        outline-offset: 3px;
+    }
 }
 
 /* Keyframe animations - defined globally to avoid hydration issues */

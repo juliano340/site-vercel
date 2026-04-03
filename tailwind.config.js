@@ -14,11 +14,18 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        // Cores customizadas para ambos os temas
-        primary: {
-          DEFAULT: '#00B140',
-          dark: '#00d94d',
-        },
+        background: 'var(--color-background)',
+        surface: 'var(--color-surface)',
+        primary: 'var(--color-text)',
+        muted: 'var(--color-muted)',
+        subtle: 'var(--color-border)',
+        focus: 'var(--color-focus)',
+      },
+      borderColor: {
+        subtle: 'var(--color-border)',
+      },
+      boxShadow: {
+        soft: '0 12px 36px var(--color-shadow)',
       },
     },
   },

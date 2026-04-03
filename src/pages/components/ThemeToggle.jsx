@@ -46,8 +46,9 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={cycleTheme}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+      className="mono-focus-ring mono-button-secondary px-3 py-2 text-sm"
       title={`Tema: ${getLabel()} (clique para alternar)`}
     >
       {getIcon()}

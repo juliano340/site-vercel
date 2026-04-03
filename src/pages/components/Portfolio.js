@@ -118,6 +118,15 @@ const Portfolio = () => {
     return [project.imageUrl];
   };
 
+  const getProjectCategoryLabel = (project) => {
+    const category = Array.isArray(project.category) ? project.category[0] : project.category;
+
+    if (category === 'fullstack') return 'Full Stack';
+    if (category === 'frontend') return 'Frontend';
+    if (category === 'mobile') return 'Mobile';
+    return 'Projeto';
+  };
+
   const changeProjectImage = (projectKey, totalImages, direction) => {
     setActiveImageIndexes((prev) => {
       const current = prev[projectKey] ?? 0;
@@ -158,28 +167,32 @@ const Portfolio = () => {
   }, [selectedProject]);
 
   return (
-    <div id="portfolio" className="relative overflow-hidden bg-gradient-to-br from-slate-100 via-white to-slate-100 py-20 px-4 sm:px-6 lg:px-8 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section id="portfolio" className="mono-section">
+      <div className="mono-container">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="mb-4 text-4xl font-bold text-slate-900 md:text-5xl dark:text-white">
+        <div className="mono-section-header">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+            Projetos selecionados
+          </p>
+          <h2 className="mb-4 text-4xl font-bold text-primary md:text-5xl">
             Meu Portfólio
           </h2>
-          <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400"></div>
-          <p className="mx-auto max-w-2xl text-xl text-slate-600 dark:text-gray-300">
+          <div className="mono-section-rule mb-6"></div>
+          <p className="mx-auto max-w-2xl text-xl text-muted">
             Confira alguns dos projetos que desenvolvi utilizando as mais modernas tecnologias
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center gap-4 mb-12 flex-wrap">
+        <div className="mx-auto mb-12 flex max-w-3xl flex-wrap justify-center gap-3 rounded-[1.5rem] border border-subtle bg-surface p-3">
           {categories.map((cat) => (
             <button
+              type="button"
               key={cat.id}
               onClick={() => setFilter(cat.id)}
-              className={`rounded-full px-6 py-3 font-semibold transition-all duration-300 ${filter === cat.id
-                ? 'scale-105 bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40'
-                : 'border border-slate-300 bg-white/80 text-slate-700 backdrop-blur-sm hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'
+              className={`mono-focus-ring ${filter === cat.id
+                ? 'mono-button-primary px-4 py-2.5 text-sm'
+                : 'mono-button-secondary px-4 py-2.5 text-sm'
                 }`}
             >
               {cat.label}
@@ -188,8 +201,8 @@ const Portfolio = () => {
         </div>
 
         {/* Projects Counter */}
-        <div className="text-center mb-8">
-          <p className="text-slate-500 dark:text-gray-400">
+        <div className="mb-8 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
             {filteredProjects.length} {filteredProjects.length === 1 ? 'projeto' : 'projetos'}
           </p>
         </div>
@@ -215,17 +228,23 @@ const Portfolio = () => {
                     openProjectModal(project);
                   }
                 }}
-                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/85 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/20 dark:border-white/10 dark:bg-white/5"
+                className="mono-focus-ring mono-frame-interactive group relative flex h-full flex-col overflow-hidden"
               >
                 {/* Image Container */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-56 overflow-hidden border-b border-subtle bg-surface">
                   <Image
                     src={currentImage}
                     alt={project.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
+
+                  <div className="absolute left-4 top-4 z-10">
+                    <span className="mono-tag bg-background">
+                      {getProjectCategoryLabel(project)}
+                    </span>
+                  </div>
 
                   {projectImages.length > 1 && (
                     <>
@@ -236,7 +255,7 @@ const Portfolio = () => {
                           e.stopPropagation();
                           changeProjectImage(projectKey, projectImages.length, -1);
                         }}
-                        className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 text-slate-700 shadow-md backdrop-blur-sm transition hover:scale-105 hover:bg-white dark:bg-slate-900/70 dark:text-white"
+                        className="mono-focus-ring mono-icon-button absolute left-3 top-1/2 z-20 -translate-y-1/2 p-2"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -250,14 +269,14 @@ const Portfolio = () => {
                           e.stopPropagation();
                           changeProjectImage(projectKey, projectImages.length, 1);
                         }}
-                        className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 text-slate-700 shadow-md backdrop-blur-sm transition hover:scale-105 hover:bg-white dark:bg-slate-900/70 dark:text-white"
+                        className="mono-focus-ring mono-icon-button absolute right-3 top-1/2 z-20 -translate-y-1/2 p-2"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
 
-                      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm">
+                      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-subtle bg-background px-2 py-1">
                         {projectImages.map((image, imageIndex) => (
                           <button
                             key={`${projectKey}-${image}`}
@@ -270,7 +289,7 @@ const Portfolio = () => {
                                 [projectKey]: imageIndex,
                               }));
                             }}
-                            className={`h-2.5 w-2.5 rounded-full transition ${currentImageIndex === imageIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/70'}`}
+                            className={`mono-focus-ring h-2.5 w-2.5 rounded-full transition ${currentImageIndex === imageIndex ? 'bg-primary' : 'bg-muted opacity-50 hover:opacity-80'}`}
                           />
                         ))}
                       </div>
@@ -281,10 +300,13 @@ const Portfolio = () => {
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <h2 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                    Case digital
+                  </p>
+                  <h2 className="mb-3 text-xl font-bold text-primary">
                     {project.title}
                   </h2>
-                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-gray-400">
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted">
                     {project.description}
                   </p>
 
@@ -293,7 +315,7 @@ const Portfolio = () => {
                     {project.tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
-                        className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-300"
+                        className="mono-tag"
                       >
                         {tag}
                       </span>
@@ -301,19 +323,19 @@ const Portfolio = () => {
                   </div>
 
                   {/* Links */}
-                  <div className="mt-auto flex gap-3 pt-2">
+                  <div className="mt-auto grid gap-3 pt-2 sm:grid-cols-2">
                     <a
                       href={project.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Ver projeto ${project.title} ao vivo`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
+                      className="mono-focus-ring mono-button-primary flex-1 px-4 py-2.5 text-sm"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
-                      Ver Projeto
+                      Abrir projeto
                     </a>
                     <a
                       href={project.repoUrl}
@@ -321,18 +343,16 @@ const Portfolio = () => {
                       rel="noopener noreferrer"
                       aria-label={`Ver código fonte de ${project.title} no GitHub`}
                       onClick={(e) => e.stopPropagation()}
-                      className="rounded-lg border border-slate-300 bg-white/80 p-2.5 text-slate-600 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
+                      className="mono-focus-ring mono-button-secondary justify-center px-4 py-2.5 text-sm"
                       title="Ver código fonte"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
                       </svg>
+                      Ver código
                     </a>
                   </div>
                 </div>
-
-                {/* Decorative corner */}
-                <div className="absolute top-0 right-0 h-20 w-20 rounded-bl-full bg-gradient-to-br from-sky-500/20 to-cyan-500/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
               </div>
             );
           })}
@@ -340,18 +360,18 @@ const Portfolio = () => {
 
         {selectedProject && (
           <div
-            className="fixed inset-0 z-[120] flex items-start justify-center bg-slate-950/75 px-4 pb-6 pt-24 backdrop-blur-sm lg:items-center lg:py-6"
+            className="fixed inset-0 z-[120] flex items-start justify-center bg-black/70 px-4 pb-6 pt-24 backdrop-blur-sm lg:items-center lg:py-6"
             onClick={closeProjectModal}
           >
             <div
-              className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-slate-900 lg:max-h-[92vh]"
+              className="mono-frame relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto lg:max-h-[92vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
                 onClick={closeProjectModal}
                 aria-label="Fechar detalhes do projeto"
-                className="absolute right-4 z-20 rounded-full bg-black/60 p-2 text-white transition hover:scale-105 hover:bg-black/75"
+                className="mono-focus-ring mono-icon-button absolute right-4 z-20 p-2"
                 style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -360,7 +380,7 @@ const Portfolio = () => {
               </button>
 
               <div className="grid grid-cols-1 lg:grid-cols-5">
-                <div className="relative h-72 lg:col-span-3 lg:h-full lg:min-h-[560px]">
+                <div className="relative h-72 border-b border-subtle bg-surface lg:col-span-3 lg:h-full lg:min-h-[560px] lg:border-b-0 lg:border-r">
                   <Image
                     src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
                     alt={selectedProject.title}
@@ -368,7 +388,7 @@ const Portfolio = () => {
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     priority
                     unoptimized
-                    className="object-contain bg-slate-950 p-2"
+                    className="object-contain bg-surface p-2"
                   />
 
                   {getProjectImages(selectedProject).length > 1 && (
@@ -377,7 +397,7 @@ const Portfolio = () => {
                         type="button"
                         aria-label={`Imagem anterior de ${selectedProject.title}`}
                         onClick={() => setModalImageIndex((prev) => (prev - 1 + getProjectImages(selectedProject).length) % getProjectImages(selectedProject).length)}
-                        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition hover:bg-black/70"
+                        className="mono-focus-ring mono-icon-button absolute left-4 top-1/2 z-10 -translate-y-1/2 p-2"
                       >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -387,21 +407,21 @@ const Portfolio = () => {
                         type="button"
                         aria-label={`Próxima imagem de ${selectedProject.title}`}
                         onClick={() => setModalImageIndex((prev) => (prev + 1) % getProjectImages(selectedProject).length)}
-                        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition hover:bg-black/70"
+                        className="mono-focus-ring mono-icon-button absolute right-4 top-1/2 z-10 -translate-y-1/2 p-2"
                       >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
 
-                      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-black/40 px-3 py-1.5">
+                      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full border border-subtle bg-background px-3 py-1.5">
                         {getProjectImages(selectedProject).map((img, imgIndex) => (
                           <button
                             key={`${selectedProject.title}-modal-${img}`}
                             type="button"
                             aria-label={`Abrir imagem ${imgIndex + 1} de ${selectedProject.title}`}
                             onClick={() => setModalImageIndex(imgIndex)}
-                            className={`h-2.5 w-2.5 rounded-full transition ${modalImageIndex === imgIndex ? 'bg-white' : 'bg-white/55 hover:bg-white/80'}`}
+                            className={`mono-focus-ring h-2.5 w-2.5 rounded-full transition ${modalImageIndex === imgIndex ? 'bg-primary' : 'bg-muted opacity-50 hover:opacity-80'}`}
                           />
                         ))}
                       </div>
@@ -409,18 +429,22 @@ const Portfolio = () => {
                   )}
                 </div>
 
-                <div className="flex flex-col p-6 lg:col-span-2 lg:p-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">
+                <div className="flex flex-col bg-background p-6 lg:col-span-2 lg:p-8">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                     Detalhes do projeto
                   </p>
-                  <h3 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{selectedProject.title}</h3>
-                  <p className="mb-6 text-sm leading-relaxed text-slate-600 dark:text-gray-300">{selectedProject.description}</p>
+                  <h3 className="mb-4 text-2xl font-bold text-primary">{selectedProject.title}</h3>
+                  <div className="mb-6 rounded-2xl border border-subtle bg-surface p-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Resumo</p>
+                    <p className="text-sm leading-relaxed text-muted">{selectedProject.description}</p>
+                  </div>
 
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Tecnologias</p>
                   <div className="mb-6 flex flex-wrap gap-2">
                     {selectedProject.tags.map((tag) => (
                       <span
                         key={`${selectedProject.title}-tag-${tag}`}
-                        className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-300"
+                        className="mono-tag"
                       >
                         {tag}
                       </span>
@@ -432,17 +456,17 @@ const Portfolio = () => {
                       href={selectedProject.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2.5 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/40"
+                      className="mono-focus-ring mono-button-primary"
                     >
-                      Ver Projeto
+                      Abrir projeto
                     </a>
                     <a
                       href={selectedProject.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white/80 px-4 py-2.5 font-medium text-slate-700 transition-all duration-300 hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
+                      className="mono-focus-ring mono-button-secondary"
                     >
-                      Ver Código
+                      Ver código
                     </a>
                   </div>
                 </div>
@@ -454,15 +478,15 @@ const Portfolio = () => {
         {/* Empty State */}
         {filteredProjects.length === 0 && (
           <div className="text-center py-20">
-            <svg className="mx-auto mb-6 h-24 w-24 text-slate-500 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="mx-auto mb-6 h-24 w-24 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
-            <h3 className="mb-2 text-2xl font-bold text-slate-600 dark:text-gray-400">Nenhum projeto encontrado</h3>
-            <p className="text-slate-500 dark:text-gray-500">Tente selecionar outra categoria</p>
+            <h3 className="mb-2 text-2xl font-bold text-primary">Nenhum projeto encontrado</h3>
+            <p className="text-muted">Tente selecionar outra categoria</p>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

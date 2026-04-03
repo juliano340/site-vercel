@@ -4,7 +4,7 @@ import Portfolio from './components/Portfolio';
 import About from './components/About';
 import CtaSection from './components/CtaSection';
 
-const HeroSection = dynamic(() => import('./components/HeroSection'), {
+const HeroSection = dynamic(() => import('./components/HeroSectionView'), {
   ssr: false,
   loading: () => <div className="h-[600px] bg-gray-800 animate-pulse" />,
 });
