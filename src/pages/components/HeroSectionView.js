@@ -11,15 +11,15 @@ const HeroSectionView = () => {
 
       <div className="mono-container grid items-center gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]">
         <div className="relative z-10 max-w-3xl">
-          <span className="mono-chip mb-6">Disponivel para projetos</span>
+          <span className="mono-chip mb-6">Disponível para projetos</span>
 
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-primary md:text-6xl md:leading-[1.05]">
-            Programacao web com foco em clareza, performance e resultado.
+            Programação web com foco em clareza, performance e resultado.
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-            Sou desenvolvedor full stack e construo solucoes digitais do design ao deploy,
-            com codigo limpo, experiencia consistente e prioridade no que realmente importa.
+            Sou desenvolvedor full stack e construo soluções digitais do design ao deploy,
+            com código limpo, experiência consistente e prioridade no que realmente importa.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -86,12 +86,12 @@ const HeroSectionView = () => {
 
               <div className="mono-card bg-surface p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Entrega</p>
-                <p className="mt-3 text-base font-semibold text-primary">Design consistente e implementacao objetiva</p>
+                <p className="mt-3 text-base font-semibold text-primary">Design consistente e implementação objetiva</p>
               </div>
             </div>
 
             <div className="mt-6 border-t border-subtle pt-6 text-sm text-muted">
-              Tambem voce encontra meu trabalho em{' '}
+              Você também encontra meu trabalho no{' '}
               <a
                 href="https://linkedin.com/in/juliano340"
                 target="_blank"

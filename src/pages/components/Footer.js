@@ -39,7 +39,8 @@ const Footer = () => {
     { name: 'Sobre', href: '/home#about' },
     { name: 'Portfólio', href: '/home#portfolio' },
     { name: 'Blog', href: '/blog' },
-    { name: 'Contato', href: '/contato' }
+    { name: 'Contato', href: '/contato' },
+    { name: 'Política de Privacidade', href: '/politica-de-privacidade' }
   ];
 
   return (
