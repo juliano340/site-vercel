@@ -127,41 +127,33 @@ export default function Menu() {
                                 style={{ background: '#0D0D0D', border: '1px solid #1a1a1a', borderRadius: '4px' }}
                             >
                                 <ul className="space-y-1">
-                                    {navItems.map((item) => (
-                                        <li key={item.name}>
-                                            <Link href={item.href} legacyBehavior>
-                                                <a
-                                                    className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-all duration-300"
-                                                    style={{
-                                                        borderRadius: '4px',
-                                                        color: isActive(item.href) ? '#C8FF00' : '#7A7A7A',
-                                                        background: isActive(item.href) ? 'rgba(200,255,0,0.08)' : 'transparent',
-                                                        fontSize: '0.7rem',
-                                                        fontWeight: 700,
-                                                        textTransform: 'uppercase',
-                                                        letterSpacing: '0.15em',
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                        if (!isActive(item.href)) {
-                                                            e.currentTarget.style.background = 'rgba(200,255,0,0.08)';
-                                                            e.currentTarget.style.color = '#FFFFFF';
-                                                        }
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                        if (!isActive(item.href)) {
-                                                            e.currentTarget.style.background = 'transparent';
-                                                            e.currentTarget.style.color = '#7A7A7A';
-                                                        }
-                                                    }}
-                                                >
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                                                    </svg>
-                                                    <span>{item.name}</span>
-                                                </a>
-                                            </Link>
-                                        </li>
-                                    ))}
+                                    {navItems.map((item) => {
+                                        const active = isActive(item.href);
+                                        return (
+                                            <li key={item.name}>
+                                                <Link href={item.href} legacyBehavior>
+                                                    <a
+                                                        className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
+                                                        style={{
+                                                            borderRadius: '4px',
+                                                            color: active ? '#C8FF00' : '#7A7A7A',
+                                                            background: active ? 'rgba(200,255,0,0.08)' : 'transparent',
+                                                            borderLeft: active ? '2px solid #C8FF00' : '2px solid transparent',
+                                                            fontSize: '0.7rem',
+                                                            fontWeight: 700,
+                                                            textTransform: 'uppercase',
+                                                            letterSpacing: '0.15em',
+                                                        }}
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                                                        </svg>
+                                                        <span>{item.name}</span>
+                                                    </a>
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                                 <div className="mt-3 pt-3" style={{ borderTop: '1px solid #1a1a1a' }}>
                                     <ThemeToggle />
