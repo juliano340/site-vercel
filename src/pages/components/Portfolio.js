@@ -167,33 +167,67 @@ const Portfolio = () => {
   }, [selectedProject]);
 
   return (
-    <section id="portfolio" className="mono-section">
-      <div className="mono-container">
+    <section
+      id="portfolio"
+      className="relative overflow-hidden px-4 py-20 transition-colors duration-300 sm:px-6 lg:px-8"
+      style={{ background: '#080808' }}
+    >
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mono-section-header">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+        <div className="mb-16 text-center">
+          <p
+            style={{
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: '#C8FF00',
+              marginBottom: '12px',
+            }}
+          >
             Projetos selecionados
           </p>
-          <h2 className="mb-4 text-4xl font-bold text-primary md:text-5xl">
-            Meu Portfólio
+          <h2
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              color: '#FFFFFF',
+              lineHeight: 0.95,
+              marginBottom: '16px',
+            }}
+          >
+            MEU PORTFÓLIO
           </h2>
-          <div className="mono-section-rule mb-6"></div>
-          <p className="mx-auto max-w-2xl text-xl text-muted">
+          <div style={{ height: '1px', width: '96px', background: '#1e1e1e', margin: '0 auto 24px' }} />
+          <p className="mx-auto max-w-2xl text-xl" style={{ color: '#7A7A7A' }}>
             Confira alguns dos projetos que desenvolvi utilizando as mais modernas tecnologias
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="mx-auto mb-12 flex max-w-3xl flex-wrap justify-center gap-3 rounded-[1.5rem] border border-subtle bg-surface p-3">
+        <div
+          className="mx-auto mb-12 flex max-w-3xl flex-wrap justify-center gap-3 p-3"
+          style={{ border: '1px solid #1e1e1e', background: '#111', borderRadius: '4px' }}
+        >
           {categories.map((cat) => (
             <button
               type="button"
               key={cat.id}
               onClick={() => setFilter(cat.id)}
-              className={`mono-focus-ring ${filter === cat.id
-                ? 'mono-button-primary px-4 py-2.5 text-sm'
-                : 'mono-button-secondary px-4 py-2.5 text-sm'
-                }`}
+              className="mono-focus-ring transition-all duration-300"
+              style={{
+                padding: '8px 20px',
+                borderRadius: '999px',
+                fontSize: '0.7rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                cursor: 'pointer',
+                border: 'none',
+                background: filter === cat.id ? '#C8FF00' : '#111',
+                color: filter === cat.id ? '#000' : '#7A7A7A',
+                outline: filter !== cat.id ? '1px solid #222' : 'none',
+              }}
             >
               {cat.label}
             </button>
@@ -202,14 +236,22 @@ const Portfolio = () => {
 
         {/* Projects Counter */}
         <div className="mb-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+          <p
+            style={{
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: '#5A5A5A',
+            }}
+          >
             {filteredProjects.length} {filteredProjects.length === 1 ? 'projeto' : 'projetos'}
           </p>
         </div>
 
         {/* Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project, index) => {
+          {filteredProjects.map((project) => {
             const projectKey = project.title;
             const projectImages = getProjectImages(project);
             const currentImageIndex = activeImageIndexes[projectKey] ?? 0;
@@ -228,10 +270,27 @@ const Portfolio = () => {
                     openProjectModal(project);
                   }
                 }}
-                className="mono-focus-ring mono-frame-interactive group relative flex h-full flex-col overflow-hidden"
+                className="mono-focus-ring group relative flex h-full flex-col overflow-hidden transition-all duration-300"
+                style={{
+                  background: '#0D0D0D',
+                  border: '1px solid #1e1e1e',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#1e1e1e';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
-                {/* Image Container */}
-                <div className="relative h-56 overflow-hidden border-b border-subtle bg-surface">
+                {/* Image Container — aspect ratio 16/9 */}
+                <div
+                  className="relative overflow-hidden"
+                  style={{ aspectRatio: '16/9', background: '#111', borderBottom: '1px solid #1e1e1e' }}
+                >
                   <Image
                     src={currentImage}
                     alt={project.title}
@@ -240,8 +299,23 @@ const Portfolio = () => {
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
 
+                  {/* Category badge */}
                   <div className="absolute left-4 top-4 z-10">
-                    <span className="mono-tag bg-background">
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        background: 'rgba(200,255,0,0.1)',
+                        border: '1px solid rgba(200,255,0,0.3)',
+                        color: '#C8FF00',
+                        borderRadius: '999px',
+                        fontSize: '0.6rem',
+                        padding: '3px 10px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                      }}
+                    >
                       {getProjectCategoryLabel(project)}
                     </span>
                   </div>
@@ -276,7 +350,10 @@ const Portfolio = () => {
                         </svg>
                       </button>
 
-                      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-subtle bg-background px-2 py-1">
+                      <div
+                        className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 px-2 py-1"
+                        style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '999px' }}
+                      >
                         {projectImages.map((image, imageIndex) => (
                           <button
                             key={`${projectKey}-${image}`}
@@ -289,24 +366,45 @@ const Portfolio = () => {
                                 [projectKey]: imageIndex,
                               }));
                             }}
-                            className={`mono-focus-ring h-2.5 w-2.5 rounded-full transition ${currentImageIndex === imageIndex ? 'bg-primary' : 'bg-muted opacity-50 hover:opacity-80'}`}
+                            className="mono-focus-ring h-2.5 w-2.5 rounded-full transition"
+                            style={{
+                              background: currentImageIndex === imageIndex ? '#C8FF00' : '#3A3A3A',
+                              opacity: currentImageIndex === imageIndex ? 1 : 0.5,
+                            }}
                           />
                         ))}
                       </div>
                     </>
                   )}
-
                 </div>
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                  <p
+                    style={{
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.18em',
+                      color: '#5A5A5A',
+                      marginBottom: '8px',
+                    }}
+                  >
                     Case digital
                   </p>
-                  <h2 className="mb-3 text-xl font-bold text-primary">
+                  <h2
+                    className="mb-3"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: '1.4rem',
+                      color: '#FFFFFF',
+                      lineHeight: 1.1,
+                      letterSpacing: '0.04em',
+                    }}
+                  >
                     {project.title}
                   </h2>
-                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted">
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed" style={{ color: '#7A7A7A' }}>
                     {project.description}
                   </p>
 
@@ -315,7 +413,10 @@ const Portfolio = () => {
                     {project.tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
-                        className="mono-tag"
+                        className="mono-tag transition-colors duration-200"
+                        style={{ cursor: 'default' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = '#5A5A5A'; e.currentTarget.style.borderColor = '#222'; }}
                       >
                         {tag}
                       </span>
@@ -343,7 +444,19 @@ const Portfolio = () => {
                       rel="noopener noreferrer"
                       aria-label={`Ver código fonte de ${project.title} no GitHub`}
                       onClick={(e) => e.stopPropagation()}
-                      className="mono-focus-ring mono-button-secondary justify-center px-4 py-2.5 text-sm"
+                      className="mono-focus-ring justify-center px-4 py-2.5 text-sm transition-all duration-200 flex items-center gap-2"
+                      style={{
+                        color: '#5A5A5A',
+                        background: 'transparent',
+                        border: '1px solid #222',
+                        borderRadius: '999px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        fontSize: '0.7rem',
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = '#5A5A5A'; e.currentTarget.style.borderColor = '#222'; }}
                       title="Ver código fonte"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -358,13 +471,16 @@ const Portfolio = () => {
           })}
         </div>
 
+        {/* Modal */}
         {selectedProject && (
           <div
-            className="fixed inset-0 z-[120] flex items-start justify-center bg-black/70 px-4 pb-6 pt-24 backdrop-blur-sm lg:items-center lg:py-6"
+            className="fixed inset-0 z-[120] flex items-start justify-center px-4 pb-6 pt-24 backdrop-blur-sm lg:items-center lg:py-6"
+            style={{ background: 'rgba(0,0,0,0.85)' }}
             onClick={closeProjectModal}
           >
             <div
-              className="mono-frame relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto lg:max-h-[92vh]"
+              className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto lg:max-h-[92vh]"
+              style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '4px' }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -380,7 +496,10 @@ const Portfolio = () => {
               </button>
 
               <div className="grid grid-cols-1 lg:grid-cols-5">
-                <div className="relative h-72 border-b border-subtle bg-surface lg:col-span-3 lg:h-full lg:min-h-[560px] lg:border-b-0 lg:border-r">
+                <div
+                  className="relative h-72 lg:col-span-3 lg:h-full lg:min-h-[560px]"
+                  style={{ background: '#0D0D0D', borderBottom: '1px solid #1e1e1e' }}
+                >
                   <Image
                     src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
                     alt={selectedProject.title}
@@ -388,7 +507,8 @@ const Portfolio = () => {
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     priority
                     unoptimized
-                    className="object-contain bg-surface p-2"
+                    className="object-contain p-2"
+                    style={{ background: '#0D0D0D' }}
                   />
 
                   {getProjectImages(selectedProject).length > 1 && (
@@ -414,14 +534,21 @@ const Portfolio = () => {
                         </svg>
                       </button>
 
-                      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full border border-subtle bg-background px-3 py-1.5">
+                      <div
+                        className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 px-3 py-1.5"
+                        style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '999px' }}
+                      >
                         {getProjectImages(selectedProject).map((img, imgIndex) => (
                           <button
                             key={`${selectedProject.title}-modal-${img}`}
                             type="button"
                             aria-label={`Abrir imagem ${imgIndex + 1} de ${selectedProject.title}`}
                             onClick={() => setModalImageIndex(imgIndex)}
-                            className={`mono-focus-ring h-2.5 w-2.5 rounded-full transition ${modalImageIndex === imgIndex ? 'bg-primary' : 'bg-muted opacity-50 hover:opacity-80'}`}
+                            className="mono-focus-ring h-2.5 w-2.5 rounded-full transition"
+                            style={{
+                              background: modalImageIndex === imgIndex ? '#C8FF00' : '#3A3A3A',
+                              opacity: modalImageIndex === imgIndex ? 1 : 0.5,
+                            }}
                           />
                         ))}
                       </div>
@@ -429,23 +556,67 @@ const Portfolio = () => {
                   )}
                 </div>
 
-                <div className="flex flex-col bg-background p-6 lg:col-span-2 lg:p-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                <div
+                  className="flex flex-col p-6 lg:col-span-2 lg:p-8"
+                  style={{ background: '#111' }}
+                >
+                  <p
+                    style={{
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.2em',
+                      color: '#5A5A5A',
+                      marginBottom: '8px',
+                    }}
+                  >
                     Detalhes do projeto
                   </p>
-                  <h3 className="mb-4 text-2xl font-bold text-primary">{selectedProject.title}</h3>
-                  <div className="mb-6 rounded-2xl border border-subtle bg-surface p-4">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Resumo</p>
-                    <p className="text-sm leading-relaxed text-muted">{selectedProject.description}</p>
+                  <h3
+                    className="mb-4"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: '2rem',
+                      color: '#FFFFFF',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {selectedProject.title}
+                  </h3>
+                  <div
+                    className="mb-6 p-4"
+                    style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '4px' }}
+                  >
+                    <p
+                      style={{
+                        fontSize: '0.6rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.18em',
+                        color: '#5A5A5A',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      Resumo
+                    </p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#7A7A7A' }}>{selectedProject.description}</p>
                   </div>
 
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Tecnologias</p>
+                  <p
+                    style={{
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.18em',
+                      color: '#5A5A5A',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    Tecnologias
+                  </p>
                   <div className="mb-6 flex flex-wrap gap-2">
                     {selectedProject.tags.map((tag) => (
-                      <span
-                        key={`${selectedProject.title}-tag-${tag}`}
-                        className="mono-tag"
-                      >
+                      <span key={`${selectedProject.title}-tag-${tag}`} className="mono-tag">
                         {tag}
                       </span>
                     ))}
@@ -478,11 +649,11 @@ const Portfolio = () => {
         {/* Empty State */}
         {filteredProjects.length === 0 && (
           <div className="text-center py-20">
-            <svg className="mx-auto mb-6 h-24 w-24 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="mx-auto mb-6 h-24 w-24" style={{ color: '#3A3A3A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
-            <h3 className="mb-2 text-2xl font-bold text-primary">Nenhum projeto encontrado</h3>
-            <p className="text-muted">Tente selecionar outra categoria</p>
+            <h3 className="mb-2 text-2xl font-bold" style={{ color: '#FFFFFF' }}>Nenhum projeto encontrado</h3>
+            <p style={{ color: '#7A7A7A' }}>Tente selecionar outra categoria</p>
           </div>
         )}
       </div>

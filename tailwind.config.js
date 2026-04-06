@@ -20,6 +20,10 @@ module.exports = {
         muted: 'var(--color-muted)',
         subtle: 'var(--color-border)',
         focus: 'var(--color-focus)',
+        acid: '#C8FF00',
+      },
+      fontFamily: {
+        bebas: ['Bebas Neue', 'sans-serif'],
       },
       borderColor: {
         subtle: 'var(--color-border)',

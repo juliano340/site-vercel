@@ -71,17 +71,29 @@ export default function Menu() {
 
     return (
         <>
-            <nav className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${scrolled
-                ? 'border-b border-subtle bg-background shadow-soft backdrop-blur-xl'
-                : 'border-b border-transparent bg-background shadow-sm backdrop-blur-md'
-                }`}>
+            <nav
+                className="fixed w-full top-0 left-0 z-50 transition-all duration-300"
+                style={{
+                    background: '#080808',
+                    borderBottom: scrolled ? '1px solid #1a1a1a' : '1px solid transparent',
+                }}
+            >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Mobile Menu */}
                     <div className="sm:hidden py-4">
                         <div className="flex items-center justify-between">
                             {/* Logo */}
                             <Link href="/home" legacyBehavior>
-                                <a className="mono-focus-ring text-xl font-bold tracking-[0.18em] text-primary transition-opacity duration-300 hover:opacity-70">
+                                <a
+                                    className="mono-focus-ring"
+                                    style={{
+                                        fontFamily: "'Bebas Neue', sans-serif",
+                                        color: '#C8FF00',
+                                        fontSize: '1.5rem',
+                                        letterSpacing: '0.2em',
+                                        textDecoration: 'none',
+                                    }}
+                                >
                                     @JULIANO340
                                 </a>
                             </Link>
@@ -90,7 +102,13 @@ export default function Menu() {
                             <button
                                 type="button"
                                 onClick={toggle}
-                                className="mono-focus-ring relative flex h-10 w-10 items-center justify-center rounded-xl border border-subtle bg-background text-primary transition-all duration-300 hover:bg-surface"
+                                className="mono-focus-ring relative flex h-10 w-10 items-center justify-center transition-all duration-300"
+                                style={{
+                                    border: '1px solid #1e1e1e',
+                                    background: '#111',
+                                    borderRadius: '4px',
+                                    color: '#7A7A7A',
+                                }}
                                 aria-expanded={isOpen}
                                 aria-label="Toggle menu"
                             >
@@ -104,25 +122,48 @@ export default function Menu() {
 
                         {/* Mobile Dropdown Menu */}
                         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
-                            <div className="mono-frame p-2">
+                            <div
+                                className="p-2"
+                                style={{ background: '#0D0D0D', border: '1px solid #1a1a1a', borderRadius: '4px' }}
+                            >
                                 <ul className="space-y-1">
                                     {navItems.map((item) => (
                                         <li key={item.name}>
                                             <Link href={item.href} legacyBehavior>
-                                                <a className={`mono-focus-ring flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive(item.href)
-                                                    ? 'bg-primary text-background shadow-soft'
-                                                    : 'text-primary hover:bg-surface'
-                                                    }`}>
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <a
+                                                    className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-all duration-300"
+                                                    style={{
+                                                        borderRadius: '4px',
+                                                        color: isActive(item.href) ? '#C8FF00' : '#7A7A7A',
+                                                        background: isActive(item.href) ? 'rgba(200,255,0,0.08)' : 'transparent',
+                                                        fontSize: '0.7rem',
+                                                        fontWeight: 700,
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.15em',
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (!isActive(item.href)) {
+                                                            e.currentTarget.style.background = 'rgba(200,255,0,0.08)';
+                                                            e.currentTarget.style.color = '#FFFFFF';
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (!isActive(item.href)) {
+                                                            e.currentTarget.style.background = 'transparent';
+                                                            e.currentTarget.style.color = '#7A7A7A';
+                                                        }
+                                                    }}
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                                                     </svg>
-                                                    <span className="font-medium">{item.name}</span>
+                                                    <span>{item.name}</span>
                                                 </a>
                                             </Link>
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="mt-3 border-t border-subtle pt-3">
+                                <div className="mt-3 pt-3" style={{ borderTop: '1px solid #1a1a1a' }}>
                                     <ThemeToggle />
                                 </div>
                             </div>
@@ -132,47 +173,49 @@ export default function Menu() {
                     {/* Desktop Menu */}
                     <div className="hidden sm:flex items-center justify-between py-4">
                         {/* Logo */}
-                            <Link href="/home" legacyBehavior>
-                                <a className="mono-focus-ring group text-2xl font-bold flex items-center gap-2">
-                                    <span className="tracking-[0.2em] text-primary transition-opacity duration-300 group-hover:opacity-70">
-                                        @JULIANO340
-                                    </span>
-                                </a>
-                            </Link>
+                        <Link href="/home" legacyBehavior>
+                            <a
+                                className="mono-focus-ring"
+                                style={{
+                                    fontFamily: "'Bebas Neue', sans-serif",
+                                    color: '#C8FF00',
+                                    fontSize: '1.5rem',
+                                    letterSpacing: '0.2em',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                @JULIANO340
+                            </a>
+                        </Link>
 
                         {/* Navigation Links */}
-                        <ul className="flex items-center gap-2">
+                        <ul className="flex items-center gap-1">
                             {navItems.map((item) => (
                                 <li key={item.name}>
                                     <Link href={item.href} legacyBehavior>
-                                        <a className={`mono-focus-ring group relative px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${isActive(item.href)
-                                            ? 'text-background'
-                                            : 'text-primary hover:text-primary'
-                                            }`}>
-                                            {/* Active Background */}
-                                            {isActive(item.href) && (
-                                                <span className="absolute inset-0 rounded-lg bg-primary shadow-soft"></span>
-                                            )}
-
-                                            {/* Hover Background */}
-                                            {!isActive(item.href) && (
-                                                <span className="absolute inset-0 rounded-lg bg-surface opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-                                            )}
-
-                                            {/* Icon - Desktop only on hover */}
-                                            <svg className={`w-4 h-4 relative z-10 transition-all duration-300 ${isActive(item.href)
-                                                ? 'opacity-100'
-                                                : 'opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0'
-                                                }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                                            </svg>
-
-                                            <span className="relative z-10">{item.name}</span>
-
-                                            {/* Active Indicator */}
-                                            {isActive(item.href) && (
-                                                <span className="absolute bottom-1 left-4 right-4 h-px bg-subtle"></span>
-                                            )}
+                                        <a
+                                            className="mono-focus-ring relative px-4 py-2 transition-all duration-300 flex items-center gap-2"
+                                            style={{
+                                                fontSize: '0.7rem',
+                                                fontWeight: 700,
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '0.15em',
+                                                color: isActive(item.href) ? '#C8FF00' : '#5A5A5A',
+                                                borderBottom: isActive(item.href) ? '2px solid #C8FF00' : '2px solid transparent',
+                                                textDecoration: 'none',
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (!isActive(item.href)) {
+                                                    e.currentTarget.style.color = '#FFFFFF';
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (!isActive(item.href)) {
+                                                    e.currentTarget.style.color = '#5A5A5A';
+                                                }
+                                            }}
+                                        >
+                                            <span>{item.name}</span>
                                         </a>
                                     </Link>
                                 </li>
@@ -183,7 +226,7 @@ export default function Menu() {
                         <div className="flex items-center gap-3">
                             <ThemeToggle />
                             <Link href="/contato" legacyBehavior>
-                                <a className="mono-focus-ring mono-button-primary px-6 py-2.5 flex items-center gap-2">
+                                <a className="mono-focus-ring mono-button-primary flex items-center gap-2">
                                     <span>Fale Comigo</span>
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -195,10 +238,10 @@ export default function Menu() {
                 </div>
 
                 {/* Progress Bar (scroll indicator) */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-full bg-surface">
+                <div className="absolute bottom-0 left-0 h-0.5 w-full" style={{ background: '#1a1a1a' }}>
                     <div
-                        className="h-full bg-primary transition-all duration-300"
-                        style={{ width: `${scrollProgress}%` }}
+                        className="h-full transition-all duration-300"
+                        style={{ width: `${scrollProgress}%`, background: '#C8FF00' }}
                     ></div>
                 </div>
             </nav>

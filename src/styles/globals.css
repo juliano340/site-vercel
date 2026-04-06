@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 :root {
-    --color-background: #ffffff;
-    --color-surface: #f6f7f8;
-    --color-text: #111111;
-    --color-muted: #6b7280;
-    --color-border: #e5e7eb;
-    --color-focus: #111111;
-    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-background: #080808;
+    --color-surface: #141414;
+    --color-text: #FFFFFF;
+    --color-muted: #7A7A7A;
+    --color-border: #1e1e1e;
+    --color-focus: #C8FF00;
+    --color-shadow: rgba(0,0,0,0.6);
+    --color-accent: #C8FF00;
 }
 
 * {
@@ -22,16 +23,28 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Dark mode base styles */
 html.dark {
     color-scheme: dark;
-    --color-background: #111111;
-    --color-surface: #1f1f1f;
-    --color-text: #f6f7f8;
-    --color-muted: #9ca3af;
-    --color-border: #374151;
-    --color-focus: #ffffff;
-    --color-shadow: rgba(0, 0, 0, 0.5);
+    --color-background: #080808;
+    --color-surface: #141414;
+    --color-text: #FFFFFF;
+    --color-muted: #7A7A7A;
+    --color-border: #1e1e1e;
+    --color-focus: #C8FF00;
+    --color-shadow: rgba(0,0,0,0.6);
+    --color-accent: #C8FF00;
+}
+
+html.light {
+    color-scheme: light;
+    --color-background: #F5F5F0;
+    --color-surface: #EAEAE5;
+    --color-text: #111111;
+    --color-muted: #6b7280;
+    --color-border: #D0D0C8;
+    --color-focus: #5A7800;
+    --color-shadow: rgba(0,0,0,0.12);
+    --color-accent: #5A7800;
 }
 
 body {
@@ -64,90 +77,129 @@ body {
     }
 
     .mono-panel {
-        @apply border border-subtle bg-background p-8 shadow-soft transition-all duration-300 md:p-10;
-        border-radius: 1.5rem;
+        @apply border p-8 transition-all duration-300 md:p-10;
+        background: #141414;
+        border-color: #1e1e1e;
+        border-radius: 4px;
     }
 
     .mono-card {
-        @apply border border-subtle bg-background p-6 shadow-soft transition-all duration-300;
-        border-radius: 1.25rem;
+        @apply border p-6 transition-all duration-300;
+        background: #141414;
+        border-color: #1e1e1e;
+        border-radius: 4px;
     }
 
     .mono-frame {
-        @apply border border-subtle bg-background shadow-soft transition-all duration-300;
-        border-radius: 1.25rem;
+        @apply border transition-all duration-300;
+        background: #141414;
+        border-color: #1e1e1e;
+        border-radius: 4px;
     }
 
     .mono-frame-interactive {
-        @apply border border-subtle bg-background shadow-soft transition-all duration-300;
-        border-radius: 1.25rem;
+        @apply border transition-all duration-300;
+        background: #0D0D0D;
+        border-color: #1e1e1e;
+        border-radius: 4px;
     }
 
     .mono-frame-interactive:hover {
-        border-color: var(--color-text);
+        border-color: rgba(200,255,0,0.3);
         box-shadow: 0 20px 48px var(--color-shadow);
-        transform: translateY(-4px);
+        transform: translateY(-3px);
     }
 
     .mono-card-interactive {
-        @apply border border-subtle bg-background p-6 shadow-soft transition-all duration-300;
-        border-radius: 1.25rem;
+        @apply border p-6 transition-all duration-300;
+        background: #0D0D0D;
+        border-color: #1e1e1e;
+        border-radius: 4px;
     }
 
     .mono-card-interactive:hover {
-        border-color: var(--color-text);
+        border-color: rgba(200,255,0,0.3);
         box-shadow: 0 20px 48px var(--color-shadow);
-        transform: translateY(-4px);
+        transform: translateY(-3px);
     }
 
     .mono-button-primary {
-        @apply inline-flex items-center justify-center gap-2 border border-primary bg-primary px-5 py-3 font-semibold text-background transition-all duration-300;
-        border-radius: 1rem;
-        box-shadow: 0 12px 28px var(--color-shadow);
+        @apply inline-flex items-center justify-center gap-2 px-5 py-3 transition-all duration-300;
+        background: #C8FF00;
+        color: #000;
+        border-radius: 999px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.75rem;
+        border: none;
     }
 
     .mono-button-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 18px 36px var(--color-shadow);
+        opacity: 0.9;
     }
 
     .mono-button-secondary {
-        @apply inline-flex items-center justify-center gap-2 border border-subtle bg-background px-5 py-3 font-semibold text-primary transition-all duration-300;
-        border-radius: 1rem;
+        @apply inline-flex items-center justify-center gap-2 px-5 py-3 transition-all duration-300;
+        border: 1px solid rgba(200,255,0,0.3);
+        color: #C8FF00;
+        background: transparent;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
     }
 
     .mono-button-secondary:hover {
-        background: var(--color-surface);
-        border-color: var(--color-text);
+        background: rgba(200,255,0,0.08);
+        border-color: rgba(200,255,0,0.6);
         transform: translateY(-2px);
     }
 
     .mono-icon-button {
-        @apply inline-flex items-center justify-center border border-subtle bg-background text-primary transition-all duration-300;
+        @apply inline-flex items-center justify-center border transition-all duration-300;
+        background: #141414;
+        border-color: #1e1e1e;
+        color: #7A7A7A;
         border-radius: 9999px;
     }
 
     .mono-icon-button:hover {
-        background: var(--color-surface);
-        border-color: var(--color-text);
+        background: #1a1a1a;
+        border-color: rgba(200,255,0,0.3);
+        color: #C8FF00;
     }
 
     .mono-chip {
-        @apply inline-flex items-center gap-2 border border-subtle bg-surface px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-muted;
-        border-radius: 9999px;
+        @apply inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em];
+        background: rgba(200,255,0,0.08);
+        border: 1px solid rgba(200,255,0,0.2);
+        color: #C8FF00;
+        border-radius: 4px;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
     }
 
     .mono-tag {
-        @apply inline-flex items-center border border-subtle bg-surface px-3 py-1 text-xs font-medium text-primary;
-        border-radius: 9999px;
+        @apply inline-flex items-center px-3 py-1 text-xs font-medium;
+        background: #1a1a1a;
+        border: 1px solid #222;
+        color: #5A5A5A;
+        border-radius: 4px;
     }
 
     .mono-progress-track {
-        @apply h-2.5 w-full overflow-hidden rounded-full bg-surface;
+        @apply h-2.5 w-full overflow-hidden;
+        background: #1e1e1e;
+        border-radius: 9999px;
     }
 
     .mono-progress-bar {
-        @apply h-full rounded-full bg-primary transition-all duration-1000 ease-out;
+        @apply h-full transition-all duration-1000 ease-out;
+        background: #C8FF00;
+        border-radius: 9999px;
     }
 }
 
@@ -246,6 +298,15 @@ body {
     opacity: 0.8;
     mix-blend-mode: screen;
     transition: background 80ms linear;
+}
+
+.acid-border-l { border-left: 2px solid rgba(200,255,0,0.4); padding-left: 1rem; }
+.noise-bg { position: relative; }
+.noise-bg::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.04; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 600px) {

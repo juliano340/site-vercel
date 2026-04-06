@@ -6,31 +6,92 @@ const STACK = ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docke
 
 const HeroSectionView = () => {
   return (
-    <section className="mono-section flex min-h-[72vh] items-center border-b border-subtle">
-      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] [background-size:72px_72px]"></div>
+    <section
+      className="relative flex min-h-[80vh] items-center overflow-hidden px-4 py-20 sm:px-6 lg:px-8"
+      style={{
+        background: '#080808',
+        backgroundImage: 'radial-gradient(ellipse at 50% 100%, rgba(200,255,0,0.03) 0%, transparent 70%)',
+      }}
+    >
+      {/* Vignette overlay */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
+        }}
+      />
 
-      <div className="mono-container grid items-center gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]">
-        <div className="relative z-10 max-w-3xl">
-          <span className="mono-chip mb-6">Disponível para projetos</span>
+      <div className="relative z-10 mx-auto w-full max-w-7xl grid items-center gap-12 lg:grid-cols-2">
+        {/* Coluna esquerda */}
+        <div>
+          {/* Badge */}
+          <div className="mb-6 inline-block">
+            <span
+              className="inline-flex items-center gap-2 px-4 py-2"
+              style={{
+                background: 'rgba(200,255,0,0.08)',
+                border: '1px solid rgba(200,255,0,0.2)',
+                borderRadius: '999px',
+                color: '#C8FF00',
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+              }}
+            >
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: '#C8FF00',
+                  animation: 'pulse 2s infinite',
+                }}
+              />
+              FULL STACK DEVELOPER
+            </span>
+          </div>
 
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight text-primary md:text-6xl md:leading-[1.05]">
-            Programação web com foco em clareza, performance e resultado.
+          {/* H1 */}
+          <h1
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(3rem, 6vw, 5rem)',
+              lineHeight: 0.9,
+              color: '#FFFFFF',
+              marginBottom: '1.5rem',
+              letterSpacing: '0.02em',
+            }}
+          >
+            PROGRAMAÇÃO WEB COM FOCO EM CLAREZA, PERFORMANCE E RESULTADO.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
+          {/* Paragraph */}
+          <p
+            style={{
+              color: '#7A7A7A',
+              fontSize: '1.1rem',
+              lineHeight: 1.7,
+              maxWidth: '540px',
+              marginBottom: '2rem',
+            }}
+          >
             Sou desenvolvedor full stack e construo soluções digitais do design ao deploy,
             com código limpo, experiência consistente e prioridade no que realmente importa.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          {/* Stack chips */}
+          <div className="mb-8 flex flex-wrap gap-2">
             {STACK.map((item) => (
-              <span key={item} className="mono-tag">
+              <span key={item} className="mono-chip">
                 {item}
               </span>
             ))}
           </div>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          {/* Buttons */}
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Link href="/contato" legacyBehavior>
               <a className="mono-focus-ring mono-button-primary">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,61 +107,137 @@ const HeroSectionView = () => {
               rel="noopener noreferrer"
               className="mono-focus-ring mono-button-secondary"
             >
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+              </svg>
               Ver GitHub
             </a>
           </div>
-
-          <p className="mt-6 text-sm uppercase tracking-[0.18em] text-muted">
-            Front-end, back-end e full stack.
-          </p>
         </div>
 
-        <div className="relative z-10">
-          <div className="mono-panel mx-auto max-w-md">
-            <div className="flex items-center gap-4 border-b border-subtle pb-6">
-              <div className="relative h-20 w-20 overflow-hidden rounded-2xl border border-subtle bg-surface">
+        {/* Coluna direita — card de perfil */}
+        <div className="flex justify-center lg:justify-end">
+          <div
+            className="w-full max-w-sm"
+            style={{
+              background: '#111',
+              border: '1px solid #1e1e1e',
+              borderRadius: '4px',
+              padding: '24px',
+            }}
+          >
+            {/* Card header — 3 colunas de texto */}
+            <div
+              className="mb-4 grid grid-cols-3 text-center"
+              style={{
+                fontSize: '8px',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                color: '#3A3A3A',
+              }}
+            >
+              <span>FULL STACK</span>
+              <span>@JULIANO340</span>
+              <span>2024</span>
+            </div>
+
+            {/* Separador */}
+            <div style={{ height: '1px', background: '#1e1e1e', marginBottom: '20px' }} />
+
+            {/* Avatar + info */}
+            <div className="flex items-center gap-4 mb-6">
+              <div
+                className="relative h-16 w-16 overflow-hidden flex-shrink-0"
+                style={{
+                  border: '2px solid rgba(200,255,0,0.3)',
+                  borderRadius: '50%',
+                }}
+              >
                 <Image
                   src="https://avatars.githubusercontent.com/u/87342139?v=4"
                   alt="Foto de perfil de Juliano"
                   fill
-                  sizes="80px"
+                  sizes="64px"
                   className="object-cover"
                   priority
                 />
               </div>
-
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                  Juliano340
+                <p
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    color: '#C8FF00',
+                    fontSize: '1.4rem',
+                    letterSpacing: '0.1em',
+                    lineHeight: 1,
+                  }}
+                >
+                  JULIANO340
                 </p>
-                <h2 className="mt-2 text-2xl font-bold text-primary">Desenvolvedor Web</h2>
-                <p className="mt-1 text-sm text-muted">Projetos sob medida para web e produtos digitais.</p>
+                <p style={{ color: '#FFFFFF', fontSize: '0.875rem', marginTop: '2px' }}>
+                  Desenvolvedor Web
+                </p>
+                <p style={{ color: '#7A7A7A', fontSize: '0.75rem', marginTop: '4px' }}>
+                  Projetos sob medida para web e produtos digitais.
+                </p>
               </div>
             </div>
 
-            <div className="grid gap-4 pt-6 sm:grid-cols-2">
-              <div className="mono-card bg-surface p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Escopo</p>
-                <p className="mt-3 text-base font-semibold text-primary">Landing pages, apps e sistemas web</p>
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <div style={{ background: '#0D0D0D', border: '1px solid #1e1e1e', borderRadius: '4px', padding: '12px' }}>
+                <p
+                  style={{
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    color: '#5A5A5A',
+                    marginBottom: '6px',
+                  }}
+                >
+                  Escopo
+                </p>
+                <p style={{ color: '#FFFFFF', fontSize: '0.8rem', fontWeight: 600 }}>
+                  Landing pages, apps e sistemas web
+                </p>
               </div>
-
-              <div className="mono-card bg-surface p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Entrega</p>
-                <p className="mt-3 text-base font-semibold text-primary">Design consistente e implementação objetiva</p>
+              <div style={{ background: '#0D0D0D', border: '1px solid #1e1e1e', borderRadius: '4px', padding: '12px' }}>
+                <p
+                  style={{
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    color: '#5A5A5A',
+                    marginBottom: '6px',
+                  }}
+                >
+                  Entrega
+                </p>
+                <p style={{ color: '#FFFFFF', fontSize: '0.8rem', fontWeight: 600 }}>
+                  Design consistente e implementação objetiva
+                </p>
               </div>
             </div>
 
-            <div className="mt-6 border-t border-subtle pt-6 text-sm text-muted">
-              Você também encontra meu trabalho no{' '}
-              <a
-                href="https://linkedin.com/in/juliano340"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mono-focus-ring font-semibold text-primary underline-offset-4 hover:underline"
-              >
-                LinkedIn
-              </a>
-              .
+            {/* Rodapé do card */}
+            <div style={{ height: '1px', background: '#1e1e1e', marginBottom: '16px' }} />
+            <div className="flex items-center gap-2">
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  background: '#C8FF00',
+                  animation: 'pulse 2s infinite',
+                  flexShrink: 0,
+                }}
+              />
+              <span style={{ color: '#7A7A7A', fontSize: '0.75rem' }}>
+                Disponível para projetos
+              </span>
             </div>
           </div>
         </div>
