@@ -5,12 +5,12 @@ const CtaSection = () => {
   return (
     <section
       className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8"
-      style={{ background: '#080808' }}
+      style={{ background: 'var(--color-background)' }}
     >
       <div className="relative z-10 mx-auto max-w-7xl">
         <div
           className="relative overflow-hidden p-8 md:p-14"
-          style={{ background: '#C8FF00', borderRadius: '4px' }}
+          style={{ background: 'var(--inv-bg)', borderRadius: '4px' }}
         >
           {/* Noise overlay */}
           <div
@@ -24,28 +24,28 @@ const CtaSection = () => {
 
           {/* Crosshairs nos 4 cantos */}
           {/* Top-left */}
-          <div className="pointer-events-none absolute left-4 top-4" style={{ color: 'rgba(0,0,0,0.15)' }}>
+          <div className="pointer-events-none absolute left-4 top-4" style={{ color: 'var(--inv-border)' }}>
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
           {/* Top-right */}
-          <div className="pointer-events-none absolute right-4 top-4" style={{ color: 'rgba(0,0,0,0.15)' }}>
+          <div className="pointer-events-none absolute right-4 top-4" style={{ color: 'var(--inv-border)' }}>
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
           {/* Bottom-left */}
-          <div className="pointer-events-none absolute bottom-4 left-4" style={{ color: 'rgba(0,0,0,0.15)' }}>
+          <div className="pointer-events-none absolute bottom-4 left-4" style={{ color: 'var(--inv-border)' }}>
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
           {/* Bottom-right */}
-          <div className="pointer-events-none absolute bottom-4 right-4" style={{ color: 'rgba(0,0,0,0.15)' }}>
+          <div className="pointer-events-none absolute bottom-4 right-4" style={{ color: 'var(--inv-border)' }}>
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
@@ -60,7 +60,7 @@ const CtaSection = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.2em',
-                  color: 'rgba(0,0,0,0.5)',
+                  color: 'var(--inv-muted)',
                   marginBottom: '12px',
                 }}
               >
@@ -71,7 +71,7 @@ const CtaSection = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: 'clamp(2.5rem, 6vw, 4rem)',
-                  color: '#000',
+                  color: 'var(--inv-text)',
                   lineHeight: 0.95,
                   letterSpacing: '0.02em',
                   marginBottom: '20px',
@@ -80,7 +80,7 @@ const CtaSection = () => {
                 GOSTOU DO MEU TRABALHO?
               </h2>
 
-              <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '520px' }}>
+              <p style={{ color: 'var(--inv-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '520px' }}>
                 Posso ajudar a transformar a sua ideia em uma solução digital clara,
                 objetiva e pronta para gerar resultado.
               </p>
@@ -91,8 +91,8 @@ const CtaSection = () => {
                 <a
                   className="mono-focus-ring inline-flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1"
                   style={{
-                    background: '#000',
-                    color: '#C8FF00',
+                    background: 'var(--inv-btn-bg)',
+                    color: 'var(--inv-btn-text)',
                     border: 'none',
                     borderRadius: '999px',
                     padding: '16px 28px',
@@ -120,8 +120,8 @@ const CtaSection = () => {
                 className="mono-focus-ring inline-flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1"
                 style={{
                   background: 'transparent',
-                  color: '#000',
-                  border: '1px solid rgba(0,0,0,0.3)',
+                  color: 'var(--inv-text)',
+                  border: '1px solid var(--inv-border)',
                   borderRadius: '999px',
                   padding: '16px 28px',
                   fontSize: '0.75rem',
@@ -142,14 +142,14 @@ const CtaSection = () => {
           {/* Stats */}
           <div
             className="relative z-10 mt-10 grid grid-cols-1 gap-4 pt-8 md:grid-cols-3"
-            style={{ borderTop: '1px solid rgba(0,0,0,0.2)' }}
+            style={{ borderTop: '1px solid var(--inv-border)' }}
           >
             <div style={{ padding: '16px 0' }}>
               <div
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: '2.5rem',
-                  color: '#000',
+                  color: 'var(--inv-text)',
                   lineHeight: 1,
                   marginBottom: '4px',
                 }}
@@ -162,13 +162,13 @@ const CtaSection = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
-                  color: 'rgba(0,0,0,0.5)',
+                  color: 'var(--inv-muted)',
                   marginBottom: '4px',
                 }}
               >
                 Entrega
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.5)' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
                 Projetos concluídos com foco em clareza e execução.
               </div>
             </div>
@@ -177,7 +177,7 @@ const CtaSection = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: '2.5rem',
-                  color: '#000',
+                  color: 'var(--inv-text)',
                   lineHeight: 1,
                   marginBottom: '4px',
                 }}
@@ -190,13 +190,13 @@ const CtaSection = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
-                  color: 'rgba(0,0,0,0.5)',
+                  color: 'var(--inv-muted)',
                   marginBottom: '4px',
                 }}
               >
                 Stack
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.5)' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
                 Tecnologias aplicadas entre front-end, back-end e produto.
               </div>
             </div>
@@ -205,7 +205,7 @@ const CtaSection = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: '2.5rem',
-                  color: '#000',
+                  color: 'var(--inv-text)',
                   lineHeight: 1,
                   marginBottom: '4px',
                 }}
@@ -218,13 +218,13 @@ const CtaSection = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
-                  color: 'rgba(0,0,0,0.5)',
+                  color: 'var(--inv-muted)',
                   marginBottom: '4px',
                 }}
               >
                 Compromisso
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.5)' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
                 Acompanhamento atento da ideia inicial ao resultado final.
               </div>
             </div>

@@ -170,7 +170,7 @@ const Portfolio = () => {
     <section
       id="portfolio"
       className="relative overflow-hidden px-4 py-20 transition-colors duration-300 sm:px-6 lg:px-8"
-      style={{ background: '#080808' }}
+      style={{ background: 'var(--color-background)' }}
     >
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Header */}
@@ -181,7 +181,7 @@ const Portfolio = () => {
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: '#C8FF00',
+              color: 'var(--color-accent)',
               marginBottom: '12px',
             }}
           >
@@ -191,15 +191,15 @@ const Portfolio = () => {
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               lineHeight: 0.95,
               marginBottom: '16px',
             }}
           >
             MEU PORTFÓLIO
           </h2>
-          <div style={{ height: '1px', width: '96px', background: '#1e1e1e', margin: '0 auto 24px' }} />
-          <p className="mx-auto max-w-2xl text-xl" style={{ color: '#7A7A7A' }}>
+          <div style={{ height: '1px', width: '96px', background: 'var(--color-border)', margin: '0 auto 24px' }} />
+          <p className="mx-auto max-w-2xl text-xl" style={{ color: 'var(--color-muted)' }}>
             Confira alguns dos projetos que desenvolvi utilizando as mais modernas tecnologias
           </p>
         </div>
@@ -207,7 +207,7 @@ const Portfolio = () => {
         {/* Filter Buttons */}
         <div
           className="mx-auto mb-12 flex max-w-3xl flex-wrap justify-center gap-3 p-3"
-          style={{ border: '1px solid #1e1e1e', background: '#111', borderRadius: '4px' }}
+          style={{ border: '1px solid var(--color-border)', background: 'var(--color-surface)', borderRadius: '4px' }}
         >
           {categories.map((cat) => (
             <button
@@ -224,9 +224,9 @@ const Portfolio = () => {
                 letterSpacing: '0.1em',
                 cursor: 'pointer',
                 border: 'none',
-                background: filter === cat.id ? '#C8FF00' : '#111',
-                color: filter === cat.id ? '#000' : '#7A7A7A',
-                outline: filter !== cat.id ? '1px solid #222' : 'none',
+                background: filter === cat.id ? 'var(--color-accent)' : 'var(--color-surface)',
+                color: filter === cat.id ? 'var(--btn-text)' : 'var(--color-muted)',
+                outline: filter !== cat.id ? '1px solid var(--color-border)' : 'none',
               }}
             >
               {cat.label}
@@ -242,7 +242,7 @@ const Portfolio = () => {
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: '#5A5A5A',
+              color: 'var(--color-muted-dim)',
             }}
           >
             {filteredProjects.length} {filteredProjects.length === 1 ? 'projeto' : 'projetos'}
@@ -272,24 +272,24 @@ const Portfolio = () => {
                 }}
                 className="mono-focus-ring group relative flex h-full flex-col overflow-hidden transition-all duration-300"
                 style={{
-                  background: '#0D0D0D',
-                  border: '1px solid #1e1e1e',
+                  background: 'var(--color-surface-alt)',
+                  border: '1px solid var(--color-border)',
                   borderRadius: '4px',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)';
+                  e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)';
                   e.currentTarget.style.transform = 'translateY(-3px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#1e1e1e';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 {/* Image Container — aspect ratio 16/9 */}
                 <div
                   className="relative overflow-hidden"
-                  style={{ aspectRatio: '16/9', background: '#111', borderBottom: '1px solid #1e1e1e' }}
+                  style={{ aspectRatio: '16/9', background: 'var(--color-surface)', borderBottom: '1px solid var(--color-border)' }}
                 >
                   <Image
                     src={currentImage}
@@ -305,9 +305,9 @@ const Portfolio = () => {
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        background: 'rgba(200,255,0,0.1)',
-                        border: '1px solid rgba(200,255,0,0.3)',
-                        color: '#C8FF00',
+                        background: 'rgba(var(--accent-rgb), 0.1)',
+                        border: '1px solid rgba(var(--accent-rgb), 0.3)',
+                        color: 'var(--color-accent)',
                         borderRadius: '999px',
                         fontSize: '0.6rem',
                         padding: '3px 10px',
@@ -352,7 +352,7 @@ const Portfolio = () => {
 
                       <div
                         className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 px-2 py-1"
-                        style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '999px' }}
+                        style={{ border: '1px solid var(--color-border)', background: 'var(--color-surface-alt)', borderRadius: '999px' }}
                       >
                         {projectImages.map((image, imageIndex) => (
                           <button
@@ -368,7 +368,7 @@ const Portfolio = () => {
                             }}
                             className="mono-focus-ring h-2.5 w-2.5 rounded-full transition"
                             style={{
-                              background: currentImageIndex === imageIndex ? '#C8FF00' : '#3A3A3A',
+                              background: currentImageIndex === imageIndex ? 'var(--color-accent)' : 'var(--color-dim)',
                               opacity: currentImageIndex === imageIndex ? 1 : 0.5,
                             }}
                           />
@@ -386,7 +386,7 @@ const Portfolio = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.18em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                       marginBottom: '8px',
                     }}
                   >
@@ -397,14 +397,14 @@ const Portfolio = () => {
                     style={{
                       fontFamily: "'Bebas Neue', sans-serif",
                       fontSize: '1.4rem',
-                      color: '#FFFFFF',
+                      color: 'var(--color-text)',
                       lineHeight: 1.1,
                       letterSpacing: '0.04em',
                     }}
                   >
                     {project.title}
                   </h2>
-                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed" style={{ color: '#7A7A7A' }}>
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>
                     {project.description}
                   </p>
 
@@ -415,8 +415,8 @@ const Portfolio = () => {
                         key={tagIndex}
                         className="mono-tag transition-colors duration-200"
                         style={{ cursor: 'default' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = '#5A5A5A'; e.currentTarget.style.borderColor = '#222'; }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
                       >
                         {tag}
                       </span>
@@ -446,17 +446,17 @@ const Portfolio = () => {
                       onClick={(e) => e.stopPropagation()}
                       className="mono-focus-ring justify-center px-4 py-2.5 text-sm transition-all duration-200 flex items-center gap-2"
                       style={{
-                        color: '#5A5A5A',
+                        color: 'var(--color-muted-dim)',
                         background: 'transparent',
-                        border: '1px solid #222',
+                        border: '1px solid var(--color-border)',
                         borderRadius: '999px',
                         fontWeight: 700,
                         textTransform: 'uppercase',
                         letterSpacing: '0.08em',
                         fontSize: '0.7rem',
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = '#5A5A5A'; e.currentTarget.style.borderColor = '#222'; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
                       title="Ver código fonte"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -480,7 +480,7 @@ const Portfolio = () => {
           >
             <div
               className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto lg:max-h-[92vh]"
-              style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -498,7 +498,7 @@ const Portfolio = () => {
               <div className="grid grid-cols-1 lg:grid-cols-5">
                 <div
                   className="relative h-72 lg:col-span-3 lg:h-full lg:min-h-[560px]"
-                  style={{ background: '#0D0D0D', borderBottom: '1px solid #1e1e1e' }}
+                  style={{ background: 'var(--color-surface-alt)', borderBottom: '1px solid var(--color-border)' }}
                 >
                   <Image
                     src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
@@ -508,7 +508,7 @@ const Portfolio = () => {
                     priority
                     unoptimized
                     className="object-contain p-2"
-                    style={{ background: '#0D0D0D' }}
+                    style={{ background: 'var(--color-surface-alt)' }}
                   />
 
                   {getProjectImages(selectedProject).length > 1 && (
@@ -536,7 +536,7 @@ const Portfolio = () => {
 
                       <div
                         className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 px-3 py-1.5"
-                        style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '999px' }}
+                        style={{ border: '1px solid var(--color-border)', background: 'var(--color-surface-alt)', borderRadius: '999px' }}
                       >
                         {getProjectImages(selectedProject).map((img, imgIndex) => (
                           <button
@@ -546,7 +546,7 @@ const Portfolio = () => {
                             onClick={() => setModalImageIndex(imgIndex)}
                             className="mono-focus-ring h-2.5 w-2.5 rounded-full transition"
                             style={{
-                              background: modalImageIndex === imgIndex ? '#C8FF00' : '#3A3A3A',
+                              background: modalImageIndex === imgIndex ? 'var(--color-accent)' : 'var(--color-dim)',
                               opacity: modalImageIndex === imgIndex ? 1 : 0.5,
                             }}
                           />
@@ -558,7 +558,7 @@ const Portfolio = () => {
 
                 <div
                   className="flex flex-col p-6 lg:col-span-2 lg:p-8"
-                  style={{ background: '#111' }}
+                  style={{ background: 'var(--color-surface)' }}
                 >
                   <p
                     style={{
@@ -566,7 +566,7 @@ const Portfolio = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.2em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                       marginBottom: '8px',
                     }}
                   >
@@ -577,7 +577,7 @@ const Portfolio = () => {
                     style={{
                       fontFamily: "'Bebas Neue', sans-serif",
                       fontSize: '2rem',
-                      color: '#FFFFFF',
+                      color: 'var(--color-text)',
                       lineHeight: 1,
                     }}
                   >
@@ -585,7 +585,7 @@ const Portfolio = () => {
                   </h3>
                   <div
                     className="mb-6 p-4"
-                    style={{ border: '1px solid #1e1e1e', background: '#0D0D0D', borderRadius: '4px' }}
+                    style={{ border: '1px solid var(--color-border)', background: 'var(--color-surface-alt)', borderRadius: '4px' }}
                   >
                     <p
                       style={{
@@ -593,13 +593,13 @@ const Portfolio = () => {
                         fontWeight: 700,
                         textTransform: 'uppercase',
                         letterSpacing: '0.18em',
-                        color: '#5A5A5A',
+                        color: 'var(--color-muted-dim)',
                         marginBottom: '8px',
                       }}
                     >
                       Resumo
                     </p>
-                    <p className="text-sm leading-relaxed" style={{ color: '#7A7A7A' }}>{selectedProject.description}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>{selectedProject.description}</p>
                   </div>
 
                   <p
@@ -608,7 +608,7 @@ const Portfolio = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.18em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                       marginBottom: '10px',
                     }}
                   >
@@ -649,11 +649,11 @@ const Portfolio = () => {
         {/* Empty State */}
         {filteredProjects.length === 0 && (
           <div className="text-center py-20">
-            <svg className="mx-auto mb-6 h-24 w-24" style={{ color: '#3A3A3A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="mx-auto mb-6 h-24 w-24" style={{ color: 'var(--color-dim)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
-            <h3 className="mb-2 text-2xl font-bold" style={{ color: '#FFFFFF' }}>Nenhum projeto encontrado</h3>
-            <p style={{ color: '#7A7A7A' }}>Tente selecionar outra categoria</p>
+            <h3 className="mb-2 text-2xl font-bold" style={{ color: 'var(--color-text)' }}>Nenhum projeto encontrado</h3>
+            <p style={{ color: 'var(--color-muted)' }}>Tente selecionar outra categoria</p>
           </div>
         )}
       </div>

@@ -74,8 +74,8 @@ export default function Menu() {
             <nav
                 className="fixed w-full top-0 left-0 z-50 transition-all duration-300"
                 style={{
-                    background: '#080808',
-                    borderBottom: scrolled ? '1px solid #1a1a1a' : '1px solid transparent',
+                    background: 'var(--color-background)',
+                    borderBottom: scrolled ? '1px solid var(--color-border)' : '1px solid transparent',
                 }}
             >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -88,7 +88,7 @@ export default function Menu() {
                                     className="mono-focus-ring"
                                     style={{
                                         fontFamily: "'Bebas Neue', sans-serif",
-                                        color: '#C8FF00',
+                                        color: 'var(--color-accent)',
                                         fontSize: '1.5rem',
                                         letterSpacing: '0.2em',
                                         textDecoration: 'none',
@@ -104,10 +104,10 @@ export default function Menu() {
                                 onClick={toggle}
                                 className="mono-focus-ring relative flex h-10 w-10 items-center justify-center transition-all duration-300"
                                 style={{
-                                    border: '1px solid #1e1e1e',
-                                    background: '#111',
+                                    border: '1px solid var(--color-border)',
+                                    background: 'var(--color-surface)',
                                     borderRadius: '4px',
-                                    color: '#7A7A7A',
+                                    color: 'var(--color-muted)',
                                 }}
                                 aria-expanded={isOpen}
                                 aria-label="Toggle menu"
@@ -124,7 +124,7 @@ export default function Menu() {
                         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
                             <div
                                 className="p-2"
-                                style={{ background: '#0D0D0D', border: '1px solid #1a1a1a', borderRadius: '4px' }}
+                                style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                             >
                                 <ul className="space-y-1">
                                     {navItems.map((item) => {
@@ -136,9 +136,9 @@ export default function Menu() {
                                                         className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
                                                         style={{
                                                             borderRadius: '4px',
-                                                            color: active ? '#C8FF00' : '#7A7A7A',
-                                                            background: active ? 'rgba(200,255,0,0.08)' : 'transparent',
-                                                            borderLeft: active ? '2px solid #C8FF00' : '2px solid transparent',
+                                                            color: active ? 'var(--color-accent)' : 'var(--color-muted)',
+                                                            background: active ? 'rgba(var(--accent-rgb), 0.08)' : 'transparent',
+                                                            borderLeft: active ? '2px solid var(--color-accent)' : '2px solid transparent',
                                                             fontSize: '0.7rem',
                                                             fontWeight: 700,
                                                             textTransform: 'uppercase',
@@ -155,7 +155,7 @@ export default function Menu() {
                                         );
                                     })}
                                 </ul>
-                                <div className="mt-3 pt-3" style={{ borderTop: '1px solid #1a1a1a' }}>
+                                <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
                                     <ThemeToggle />
                                 </div>
                             </div>
@@ -170,7 +170,7 @@ export default function Menu() {
                                 className="mono-focus-ring"
                                 style={{
                                     fontFamily: "'Bebas Neue', sans-serif",
-                                    color: '#C8FF00',
+                                    color: 'var(--color-accent)',
                                     fontSize: '1.5rem',
                                     letterSpacing: '0.2em',
                                     textDecoration: 'none',
@@ -192,18 +192,18 @@ export default function Menu() {
                                                 fontWeight: 700,
                                                 textTransform: 'uppercase',
                                                 letterSpacing: '0.15em',
-                                                color: isActive(item.href) ? '#C8FF00' : '#5A5A5A',
-                                                borderBottom: isActive(item.href) ? '2px solid #C8FF00' : '2px solid transparent',
+                                                color: isActive(item.href) ? 'var(--color-accent)' : 'var(--color-muted-dim)',
+                                                borderBottom: isActive(item.href) ? '2px solid var(--color-accent)' : '2px solid transparent',
                                                 textDecoration: 'none',
                                             }}
                                             onMouseEnter={(e) => {
                                                 if (!isActive(item.href)) {
-                                                    e.currentTarget.style.color = '#FFFFFF';
+                                                    e.currentTarget.style.color = 'var(--color-text)';
                                                 }
                                             }}
                                             onMouseLeave={(e) => {
                                                 if (!isActive(item.href)) {
-                                                    e.currentTarget.style.color = '#5A5A5A';
+                                                    e.currentTarget.style.color = 'var(--color-muted-dim)';
                                                 }
                                             }}
                                         >
@@ -230,10 +230,10 @@ export default function Menu() {
                 </div>
 
                 {/* Progress Bar (scroll indicator) */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-full" style={{ background: '#1a1a1a' }}>
+                <div className="absolute bottom-0 left-0 h-0.5 w-full" style={{ background: 'var(--color-border)' }}>
                     <div
                         className="h-full transition-all duration-300"
-                        style={{ width: `${scrollProgress}%`, background: '#C8FF00' }}
+                        style={{ width: `${scrollProgress}%`, background: 'var(--color-accent)' }}
                     ></div>
                 </div>
             </nav>

@@ -9,15 +9,15 @@ const HeroSectionView = () => {
     <section
       className="relative flex min-h-[80vh] items-center overflow-hidden px-4 py-20 sm:px-6 lg:px-8"
       style={{
-        background: '#080808',
-        backgroundImage: 'radial-gradient(ellipse at 50% 100%, rgba(200,255,0,0.03) 0%, transparent 70%)',
+        background: 'var(--color-background)',
+        backgroundImage: 'radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.03) 0%, transparent 70%)',
       }}
     >
       {/* Vignette overlay */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 40%, var(--color-shadow) 100%)',
         }}
       />
 
@@ -29,10 +29,10 @@ const HeroSectionView = () => {
             <span
               className="inline-flex items-center gap-2 px-4 py-2"
               style={{
-                background: 'rgba(200,255,0,0.08)',
-                border: '1px solid rgba(200,255,0,0.2)',
+                background: 'rgba(var(--accent-rgb), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb), 0.2)',
                 borderRadius: '999px',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
                 fontSize: '0.65rem',
                 fontWeight: 700,
                 textTransform: 'uppercase',
@@ -45,7 +45,7 @@ const HeroSectionView = () => {
                   width: 6,
                   height: 6,
                   borderRadius: '50%',
-                  background: '#C8FF00',
+                  background: 'var(--color-accent)',
                   animation: 'pulse 2s infinite',
                 }}
               />
@@ -59,7 +59,7 @@ const HeroSectionView = () => {
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(3rem, 6vw, 5rem)',
               lineHeight: 0.9,
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               marginBottom: '1.5rem',
               letterSpacing: '0.02em',
             }}
@@ -70,7 +70,7 @@ const HeroSectionView = () => {
           {/* Paragraph */}
           <p
             style={{
-              color: '#7A7A7A',
+              color: 'var(--color-muted)',
               fontSize: '1.1rem',
               lineHeight: 1.7,
               maxWidth: '540px',
@@ -120,8 +120,8 @@ const HeroSectionView = () => {
           <div
             className="w-full max-w-sm"
             style={{
-              background: '#111',
-              border: '1px solid #1e1e1e',
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
               borderRadius: '4px',
               padding: '24px',
             }}
@@ -133,7 +133,7 @@ const HeroSectionView = () => {
                 fontSize: '8px',
                 letterSpacing: '2px',
                 textTransform: 'uppercase',
-                color: '#3A3A3A',
+                color: 'var(--color-dim)',
               }}
             >
               <span>FULL STACK</span>
@@ -142,14 +142,14 @@ const HeroSectionView = () => {
             </div>
 
             {/* Separador */}
-            <div style={{ height: '1px', background: '#1e1e1e', marginBottom: '20px' }} />
+            <div style={{ height: '1px', background: 'var(--color-border)', marginBottom: '20px' }} />
 
             {/* Avatar + info */}
             <div className="flex items-center gap-4 mb-6">
               <div
                 className="relative h-16 w-16 overflow-hidden flex-shrink-0"
                 style={{
-                  border: '2px solid rgba(200,255,0,0.3)',
+                  border: '2px solid rgba(var(--accent-rgb), 0.3)',
                   borderRadius: '50%',
                 }}
               >
@@ -166,7 +166,7 @@ const HeroSectionView = () => {
                 <p
                   style={{
                     fontFamily: "'Bebas Neue', sans-serif",
-                    color: '#C8FF00',
+                    color: 'var(--color-accent)',
                     fontSize: '1.4rem',
                     letterSpacing: '0.1em',
                     lineHeight: 1,
@@ -174,10 +174,10 @@ const HeroSectionView = () => {
                 >
                   JULIANO340
                 </p>
-                <p style={{ color: '#FFFFFF', fontSize: '0.875rem', marginTop: '2px' }}>
+                <p style={{ color: 'var(--color-text)', fontSize: '0.875rem', marginTop: '2px' }}>
                   Desenvolvedor Web
                 </p>
-                <p style={{ color: '#7A7A7A', fontSize: '0.75rem', marginTop: '4px' }}>
+                <p style={{ color: 'var(--color-muted)', fontSize: '0.75rem', marginTop: '4px' }}>
                   Projetos sob medida para web e produtos digitais.
                 </p>
               </div>
@@ -185,44 +185,44 @@ const HeroSectionView = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3 mb-6">
-              <div style={{ background: '#0D0D0D', border: '1px solid #1e1e1e', borderRadius: '4px', padding: '12px' }}>
+              <div style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-border)', borderRadius: '4px', padding: '12px' }}>
                 <p
                   style={{
                     fontSize: '0.6rem',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.15em',
-                    color: '#5A5A5A',
+                    color: 'var(--color-muted-dim)',
                     marginBottom: '6px',
                   }}
                 >
                   Escopo
                 </p>
-                <p style={{ color: '#FFFFFF', fontSize: '0.8rem', fontWeight: 600 }}>
+                <p style={{ color: 'var(--color-text)', fontSize: '0.8rem', fontWeight: 600 }}>
                   Landing pages, apps e sistemas web
                 </p>
               </div>
-              <div style={{ background: '#0D0D0D', border: '1px solid #1e1e1e', borderRadius: '4px', padding: '12px' }}>
+              <div style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-border)', borderRadius: '4px', padding: '12px' }}>
                 <p
                   style={{
                     fontSize: '0.6rem',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.15em',
-                    color: '#5A5A5A',
+                    color: 'var(--color-muted-dim)',
                     marginBottom: '6px',
                   }}
                 >
                   Entrega
                 </p>
-                <p style={{ color: '#FFFFFF', fontSize: '0.8rem', fontWeight: 600 }}>
+                <p style={{ color: 'var(--color-text)', fontSize: '0.8rem', fontWeight: 600 }}>
                   Design consistente e implementação objetiva
                 </p>
               </div>
             </div>
 
             {/* Rodapé do card */}
-            <div style={{ height: '1px', background: '#1e1e1e', marginBottom: '16px' }} />
+            <div style={{ height: '1px', background: 'var(--color-border)', marginBottom: '16px' }} />
             <div className="flex items-center gap-2">
               <span
                 style={{
@@ -230,12 +230,12 @@ const HeroSectionView = () => {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  background: '#C8FF00',
+                  background: 'var(--color-accent)',
                   animation: 'pulse 2s infinite',
                   flexShrink: 0,
                 }}
               />
-              <span style={{ color: '#7A7A7A', fontSize: '0.75rem' }}>
+              <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>
                 Disponível para projetos
               </span>
             </div>

@@ -46,7 +46,7 @@ const Footer = () => {
   return (
     <footer
       className="relative px-4 py-16 sm:px-6 lg:px-8"
-      style={{ background: '#050505', borderTop: '1px solid #141414' }}
+      style={{ background: 'var(--color-background-deep)', borderTop: '1px solid var(--color-surface-raised)' }}
     >
       <div className="relative z-10 mx-auto max-w-7xl py-4">
         {/* Main Footer Content */}
@@ -54,13 +54,13 @@ const Footer = () => {
           {/* Brand Section */}
           <div
             className="h-full p-6 text-center md:text-left"
-            style={{ background: '#0D0D0D', border: '1px solid #141414', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
           >
             <h3 className="mb-3 flex items-center justify-center gap-2 md:justify-start">
               <span
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
-                  color: '#C8FF00',
+                  color: 'var(--color-accent)',
                   fontSize: '1.5rem',
                   letterSpacing: '0.2em',
                 }}
@@ -68,7 +68,7 @@ const Footer = () => {
                 @JULIANO340
               </span>
             </h3>
-            <p className="mb-6 leading-relaxed" style={{ color: '#3A3A3A', fontSize: '0.875rem' }}>
+            <p className="mb-6 leading-relaxed" style={{ color: 'var(--color-muted)', fontSize: '0.875rem' }}>
               Desenvolvedor Full Stack apaixonado por criar soluções web modernas e eficientes.
             </p>
             <div className="flex flex-wrap justify-center gap-3 md:justify-start">
@@ -80,14 +80,14 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="mono-focus-ring inline-flex h-10 w-10 items-center justify-center transition-all duration-300"
                   style={{
-                    border: '1px solid #1e1e1e',
-                    background: '#111',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-surface)',
                     borderRadius: '4px',
-                    color: '#333',
+                    color: 'var(--color-muted)',
                   }}
                   aria-label={link.name}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#333'; e.currentTarget.style.borderColor = '#1e1e1e'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
                 >
                   {link.icon}
                 </a>
@@ -98,7 +98,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div
             className="h-full p-6 text-center"
-            style={{ background: '#0D0D0D', border: '1px solid #141414', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
           >
             <h4
               className="mb-4"
@@ -107,7 +107,7 @@ const Footer = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.2em',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
               }}
             >
               LINKS RÁPIDOS
@@ -118,14 +118,14 @@ const Footer = () => {
                   <a
                     className="mono-focus-ring inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300"
                     style={{
-                      border: '1px solid #1a1a1a',
-                      background: '#111',
+                      border: '1px solid var(--color-border)',
+                      background: 'var(--color-surface)',
                       borderRadius: '4px',
-                      color: '#3A3A3A',
+                      color: 'var(--color-muted)',
                       textDecoration: 'none',
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.borderColor = '#222'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = '#3A3A3A'; e.currentTarget.style.borderColor = '#1a1a1a'; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
                   >
                     {link.name}
                   </a>
@@ -137,7 +137,7 @@ const Footer = () => {
           {/* Contact Info */}
           <div
             className="h-full p-6 text-center md:text-right"
-            style={{ background: '#0D0D0D', border: '1px solid #141414', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
           >
             <h4
               className="mb-4"
@@ -146,7 +146,7 @@ const Footer = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.2em',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
               }}
             >
               CONTATO
@@ -156,15 +156,15 @@ const Footer = () => {
                 href={`mailto:${['juliano340', 'gmail.com'].join('@')}`}
                 className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-3 transition-colors duration-200 md:justify-end"
                 style={{
-                  border: '1px solid #1a1a1a',
-                  background: '#111',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--color-surface)',
                   borderRadius: '4px',
-                  color: '#3A3A3A',
+                  color: 'var(--color-muted)',
                   textDecoration: 'none',
                   fontSize: '0.875rem',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#FFFFFF'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#3A3A3A'; }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; }}
               >
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -174,10 +174,10 @@ const Footer = () => {
               <div
                 className="flex items-center justify-center gap-2 px-4 py-3 md:justify-end"
                 style={{
-                  border: '1px solid #1a1a1a',
-                  background: '#111',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--color-surface)',
                   borderRadius: '4px',
-                  color: '#3A3A3A',
+                  color: 'var(--color-muted)',
                   fontSize: '0.875rem',
                 }}
               >
@@ -191,17 +191,17 @@ const Footer = () => {
                 <a
                   className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-2 text-sm transition-colors duration-200 md:justify-end"
                   style={{
-                    border: '1px solid rgba(200,255,0,0.2)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.2)',
                     background: 'transparent',
                     borderRadius: '4px',
-                    color: '#C8FF00',
+                    color: 'var(--color-accent)',
                     textDecoration: 'none',
                     fontSize: '0.7rem',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,255,0,0.08)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--accent-rgb), 0.08)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -215,24 +215,24 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="mb-8" style={{ borderTop: '1px solid #141414' }}></div>
+        <div className="mb-8" style={{ borderTop: '1px solid var(--color-surface-raised)' }}></div>
 
         {/* Bottom Section */}
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-2" style={{ fontSize: '0.7rem', color: '#2A2A2A' }}>
+          <div className="flex items-center gap-2" style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>
             <span>&copy; {currentYear}</span>
-            <span style={{ color: '#3A3A3A', fontWeight: 600 }}>juliano340.com</span>
+            <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>juliano340.com</span>
             <span>- Todos os direitos reservados</span>
           </div>
 
-          <div className="flex items-center gap-4" style={{ fontSize: '0.7rem', color: '#2A2A2A' }}>
+          <div className="flex items-center gap-4" style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>
             <span className="flex items-center gap-2">
               Feito com
-              <svg className="w-4 h-4 animate-pulse-scale" style={{ color: '#3A3A3A' }} fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 animate-pulse-scale" style={{ color: 'var(--color-muted)' }} fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
               </svg>
               e
-              <svg className="w-4 h-4" style={{ color: '#3A3A3A' }} fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4" style={{ color: 'var(--color-muted)' }} fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             </span>
@@ -244,14 +244,14 @@ const Footer = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="mono-focus-ring group fixed bottom-8 right-8 inline-flex items-center justify-center p-3 transition-all duration-300 hover:-translate-y-1"
           style={{
-            background: '#111',
-            border: '1px solid #1e1e1e',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
             borderRadius: '4px',
-            color: '#C8FF00',
+            color: 'var(--color-accent)',
           }}
           aria-label="Voltar ao topo"
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#C8FF00'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1e1e1e'; }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-accent)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
         >
           <svg className="w-6 h-6 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />

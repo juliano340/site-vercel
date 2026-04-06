@@ -82,9 +82,9 @@ const Contato = () => {
   const inputStyle = {
     display: 'block',
     width: '100%',
-    background: '#0D0D0D',
-    border: '1px solid #1e1e1e',
-    color: '#FFFFFF',
+    background: 'var(--color-surface-alt)',
+    border: '1px solid var(--color-border)',
+    color: 'var(--color-text)',
     borderRadius: '4px',
     padding: '12px 16px 12px 48px',
     fontSize: '0.9rem',
@@ -95,7 +95,7 @@ const Contato = () => {
   return (
     <div
       className="relative min-h-screen overflow-x-hidden px-4 py-12 sm:px-6 lg:px-8"
-      style={{ background: '#080808', color: '#FFFFFF' }}
+      style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
     >
       <div className="relative z-10 mx-auto max-w-7xl">
         <Breadcrumb paths={[{ label: 'Home', href: '/' }, { label: 'Contato', href: '/contato' }]} />
@@ -108,7 +108,7 @@ const Contato = () => {
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: '#C8FF00',
+              color: 'var(--color-accent)',
               marginBottom: '12px',
             }}
           >
@@ -118,15 +118,15 @@ const Contato = () => {
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               lineHeight: 0.95,
               marginBottom: '20px',
             }}
           >
             VAMOS CONVERSAR?
           </h1>
-          <div style={{ height: '1px', width: '96px', background: '#1e1e1e', margin: '0 auto 24px' }} />
-          <p className="mx-auto max-w-2xl text-xl" style={{ color: '#7A7A7A' }}>
+          <div style={{ height: '1px', width: '96px', background: 'var(--color-border)', margin: '0 auto 24px' }} />
+          <p className="mx-auto max-w-2xl text-xl" style={{ color: 'var(--color-muted)' }}>
             Estou sempre aberto a discutir novos projetos, ideias criativas ou oportunidades de fazer parte da sua visão.
           </p>
         </div>
@@ -136,11 +136,11 @@ const Contato = () => {
           <div className="space-y-6 lg:col-span-1">
             <div
               className="p-6"
-              style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
             >
               <h3
                 className="mb-6 text-2xl font-bold"
-                style={{ color: '#FFFFFF' }}
+                style={{ color: 'var(--color-text)' }}
               >
                 Informações de Contato
               </h3>
@@ -152,28 +152,28 @@ const Contato = () => {
                       {...(info.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       className="mono-focus-ring group flex items-start gap-4 p-4 transition-all duration-300"
                       style={{
-                        background: '#0D0D0D',
-                        border: '1px solid #1e1e1e',
+                        background: 'var(--color-surface-alt)',
+                        border: '1px solid var(--color-border)',
                         borderRadius: '4px',
                         textDecoration: 'none',
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1e1e1e'; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
                     >
                       <div
                         className="flex-shrink-0 p-3 transition-transform duration-300 group-hover:scale-110"
                         style={{
-                          background: 'rgba(200,255,0,0.1)',
-                          border: '1px solid rgba(200,255,0,0.15)',
+                          background: 'rgba(var(--accent-rgb), 0.1)',
+                          border: '1px solid rgba(var(--accent-rgb), 0.15)',
                           borderRadius: '4px',
-                          color: '#C8FF00',
+                          color: 'var(--color-accent)',
                         }}
                       >
                         {info.icon}
                       </div>
                       <div className="flex-1">
-                        <h4 className="mb-1 font-semibold" style={{ color: '#FFFFFF' }}>{info.title}</h4>
-                        <p className="break-all text-sm" style={{ color: '#7A7A7A' }}>
+                        <h4 className="mb-1 font-semibold" style={{ color: 'var(--color-text)' }}>{info.title}</h4>
+                        <p className="break-all text-sm" style={{ color: 'var(--color-muted)' }}>
                           {info.content}
                         </p>
                       </div>
@@ -186,10 +186,10 @@ const Contato = () => {
             {/* Quick Stats */}
             <div
               className="p-6"
-              style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
             >
-              <h3 className="mb-4 text-xl font-bold" style={{ color: '#FFFFFF' }}>Resposta Rápida</h3>
-              <p className="mb-4" style={{ color: '#7A7A7A' }}>
+              <h3 className="mb-4 text-xl font-bold" style={{ color: 'var(--color-text)' }}>Resposta Rápida</h3>
+              <p className="mb-4" style={{ color: 'var(--color-muted)' }}>
                 Normalmente respondo em até 24 horas
               </p>
               <div className="flex items-center gap-2">
@@ -199,12 +199,12 @@ const Contato = () => {
                     width: 10,
                     height: 10,
                     borderRadius: '50%',
-                    background: '#C8FF00',
+                    background: 'var(--color-accent)',
                     animation: 'pulse 2s infinite',
                     flexShrink: 0,
                   }}
                 />
-                <span className="text-sm" style={{ color: '#C8FF00' }}>Disponível para projetos</span>
+                <span className="text-sm" style={{ color: 'var(--color-accent)' }}>Disponível para projetos</span>
               </div>
             </div>
           </div>
@@ -213,7 +213,7 @@ const Contato = () => {
           <div className="lg:col-span-2">
             <div
               className="p-8 md:p-12"
-              style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
             >
               <div className="space-y-6">
                 {/* Nome */}
@@ -226,14 +226,14 @@ const Contato = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.15em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                     }}
                   >
                     Nome Completo
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5" style={{ color: '#3A3A3A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5" style={{ color: 'var(--color-dim)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
@@ -246,8 +246,8 @@ const Contato = () => {
                       onChange={handleChange}
                       style={inputStyle}
                       placeholder="Seu nome"
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(200,255,0,0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = '#1e1e1e'; }}
+                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
                     />
                   </div>
                 </div>
@@ -262,14 +262,14 @@ const Contato = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.15em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                     }}
                   >
                     Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5" style={{ color: '#3A3A3A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5" style={{ color: 'var(--color-dim)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
@@ -282,8 +282,8 @@ const Contato = () => {
                       onChange={handleChange}
                       style={inputStyle}
                       placeholder="seu@email.com"
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(200,255,0,0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = '#1e1e1e'; }}
+                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
                     />
                   </div>
                 </div>
@@ -298,14 +298,14 @@ const Contato = () => {
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.15em',
-                      color: '#5A5A5A',
+                      color: 'var(--color-muted-dim)',
                     }}
                   >
                     Mensagem
                   </label>
                   <div className="relative">
                     <div className="absolute top-4 left-0 pl-4 pointer-events-none">
-                      <svg className="h-5 w-5" style={{ color: '#3A3A3A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5" style={{ color: 'var(--color-dim)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                       </svg>
                     </div>
@@ -318,8 +318,8 @@ const Contato = () => {
                       rows="6"
                       style={{ ...inputStyle, resize: 'none' }}
                       placeholder="Escreva sua mensagem aqui..."
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(200,255,0,0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = '#1e1e1e'; }}
+                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
                     />
                   </div>
                 </div>
@@ -330,8 +330,8 @@ const Contato = () => {
                   disabled={isLoading}
                   className="mono-focus-ring group relative flex w-full items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70"
                   style={{
-                    background: '#C8FF00',
-                    color: '#000',
+                    background: 'var(--color-accent)',
+                    color: 'var(--btn-text)',
                     border: 'none',
                     borderRadius: '999px',
                     padding: '16px 24px',
@@ -366,17 +366,17 @@ const Contato = () => {
                 <div
                   className="animate-fadeIn mt-6 flex items-start gap-3 p-4"
                   style={{
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.2)',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.2)',
                     borderRadius: '4px',
                   }}
                 >
-                  <svg className="mt-0.5 h-6 w-6 flex-shrink-0" style={{ color: '#C8FF00' }} fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="mt-0.5 h-6 w-6 flex-shrink-0" style={{ color: 'var(--color-accent)' }} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h4 className="font-semibold" style={{ color: '#FFFFFF' }}>Mensagem enviada com sucesso!</h4>
-                    <p className="mt-1 text-sm" style={{ color: '#7A7A7A' }}>Obrigado pelo contato. Responderei em breve!</p>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text)' }}>Mensagem enviada com sucesso!</h4>
+                    <p className="mt-1 text-sm" style={{ color: 'var(--color-muted)' }}>Obrigado pelo contato. Responderei em breve!</p>
                   </div>
                 </div>
               )}
@@ -394,8 +394,8 @@ const Contato = () => {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h4 className="font-semibold" style={{ color: '#FFFFFF' }}>Erro ao enviar mensagem</h4>
-                    <p className="mt-1 text-sm" style={{ color: '#7A7A7A' }}>Por favor, tente novamente ou entre em contato por email.</p>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text)' }}>Erro ao enviar mensagem</h4>
+                    <p className="mt-1 text-sm" style={{ color: 'var(--color-muted)' }}>Por favor, tente novamente ou entre em contato por email.</p>
                   </div>
                 </div>
               )}

@@ -7,7 +7,10 @@ const IndexGatePage = () => {
         <title>Carregando | Juliano</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <main className="flex min-h-screen items-center justify-center bg-[#0a120c] text-[#9df4b8]">
+      <main
+        className="flex min-h-screen items-center justify-center transition-colors duration-300"
+        style={{ background: 'var(--color-background)', color: 'var(--color-accent)' }}
+      >
         <p className="font-mono text-sm uppercase tracking-[0.16em]">carregando...</p>
       </main>
     </>
