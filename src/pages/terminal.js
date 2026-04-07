@@ -1,9 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const REQUIRED_COMMAND = 'npm start';
-const AUTO_START_SECONDS = 8;
+const AUTO_START_SECONDS = 3;
+const FLOW_TIMINGS = {
+  preloadIntervalMs: 35,
+  preloadStep: 10,
+  preloadToIntroDelayMs: 120,
+  introCharMs: 10,
+  introLinePauseMs: 80,
+  introStartDelayMs: 120,
+  loadingIntervalMs: 45,
+  loadingStep: 20,
+  loadingToBootDelayMs: 120,
+  autoTriggerDelayMs: 120,
+  bootCharMs: 10,
+  bootLinePauseMs: 70,
+  bootStartDelayMs: 100,
+  closingDelayMs: 280,
+  redirectDelayMs: 140,
+  openAnimationMs: 180,
+  closeAnimationMs: 280,
+};
 
 const TerminalPage = () => {
   const router = useRouter();
@@ -15,15 +34,13 @@ const TerminalPage = () => {
   const [progressoProjeto, setProgressoProjeto] = useState(0);
   const [mostrarTerminal, setMostrarTerminal] = useState(false);
   const [tentativasInvalidas, setTentativasInvalidas] = useState(0);
-  const [aguardandoQualquerTecla, setAguardandoQualquerTecla] = useState(false);
   const [contadorAutoInicio, setContadorAutoInicio] = useState(AUTO_START_SECONDS);
   const terminalScrollRef = useRef(null);
 
   const introSequence = useMemo(
     () => [
       '[SISTEMA] terminal iniciado',
-      '[INFO] carregando perfil do desenvolvedor...',
-      '[INFO] digite npm start para continuar',
+      '[INFO] iniciando acesso ao portfolio...',
     ],
     []
   );
@@ -31,36 +48,51 @@ const TerminalPage = () => {
   const bootSequence = useMemo(
     () => [
       '[BOOT] npm start detectado',
-      '$ whoami -> convidado',
-      '$ ls -la',
-      'drwxr-xr-x  src/',
-      '-rw-r--r--  README.md',
-      '$ npm run build',
       '[BUILD] compilando paginas... ok',
-      '[BUILD] gerando assets estaticos... ok',
-      '[PRONTO] sistema pronto',
+      '[BUILD] gerando assets... ok',
+      '[PRONTO] abrindo /home',
     ],
     []
   );
+
+  const iniciarProjeto = useCallback((origem = 'manual') => {
+    if (phase !== 'idle') return;
+
+    if (origem === 'atalho') {
+      setLogs((current) => [...current, '[SISTEMA] comando sera executado automaticamente.']);
+    }
+
+    if (origem === 'auto') {
+      setLogs((current) => [...current, '[SISTEMA] executando npm start automaticamente.']);
+    }
+
+    setLogs((current) => [...current, `$ ${REQUIRED_COMMAND}`]);
+    setLogs((current) => [...current, '[SISTEMA] inicializando projeto...']);
+    setTentativasInvalidas(0);
+    setContadorAutoInicio(AUTO_START_SECONDS);
+    setCommand('');
+    setProgressoProjeto(0);
+    setPhase('loadingProject');
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== 'preload') return undefined;
 
     const timer = setInterval(() => {
       setProgressoInicial((current) => {
-        const next = Math.min(current + 4, 100);
+        const next = Math.min(current + FLOW_TIMINGS.preloadStep, 100);
 
         if (next >= 100) {
           clearInterval(timer);
           setTimeout(() => {
             setMostrarTerminal(true);
             setPhase('intro');
-          }, 220);
+          }, FLOW_TIMINGS.preloadToIntroDelayMs);
         }
 
         return next;
       });
-    }, 70);
+    }, FLOW_TIMINGS.preloadIntervalMs);
 
     return () => clearInterval(timer);
   }, [phase]);
@@ -80,7 +112,7 @@ const TerminalPage = () => {
       if (charIndex < line.length) {
         setLinhaDigitando(line.slice(0, charIndex + 1));
         charIndex += 1;
-        setTimeout(typeNext, 22);
+        setTimeout(typeNext, FLOW_TIMINGS.introCharMs);
         return;
       }
 
@@ -94,10 +126,10 @@ const TerminalPage = () => {
         return;
       }
 
-      setTimeout(typeNext, 180);
+      setTimeout(typeNext, FLOW_TIMINGS.introLinePauseMs);
     };
 
-    const startTimer = setTimeout(typeNext, 300);
+    const startTimer = setTimeout(typeNext, FLOW_TIMINGS.introStartDelayMs);
 
     return () => {
       cancelled = true;
@@ -110,19 +142,19 @@ const TerminalPage = () => {
 
     const timer = setInterval(() => {
       setProgressoProjeto((current) => {
-        const next = Math.min(current + 5, 100);
+        const next = Math.min(current + FLOW_TIMINGS.loadingStep, 100);
 
         if (next >= 100) {
           clearInterval(timer);
           setTimeout(() => {
             setLogs((currentLogs) => [...currentLogs, '[SISTEMA] modulos carregados']);
             setPhase('booting');
-          }, 200);
+          }, FLOW_TIMINGS.loadingToBootDelayMs);
         }
 
         return next;
       });
-    }, 85);
+    }, FLOW_TIMINGS.loadingIntervalMs);
 
     return () => clearInterval(timer);
   }, [phase]);
@@ -140,7 +172,7 @@ const TerminalPage = () => {
           ]);
           setTimeout(() => {
             iniciarProjeto('auto');
-          }, 220);
+          }, FLOW_TIMINGS.autoTriggerDelayMs);
           return 0;
         }
 
@@ -149,19 +181,7 @@ const TerminalPage = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== 'idle' || !aguardandoQualquerTecla) return undefined;
-
-    const handleAnyKey = () => {
-      setLogs((current) => [...current, '[SISTEMA] tecla detectada. Continuando inicializacao...']);
-      iniciarProjeto('atalho');
-    };
-
-    window.addEventListener('keydown', handleAnyKey);
-    return () => window.removeEventListener('keydown', handleAnyKey);
-  }, [aguardandoQualquerTecla, phase]);
+  }, [iniciarProjeto, phase]);
 
   useEffect(() => {
     if (phase !== 'booting') return undefined;
@@ -178,7 +198,7 @@ const TerminalPage = () => {
       if (charIndex < line.length) {
         setLinhaDigitando(line.slice(0, charIndex + 1));
         charIndex += 1;
-        setTimeout(typeNext, 22);
+        setTimeout(typeNext, FLOW_TIMINGS.bootCharMs);
         return;
       }
 
@@ -192,10 +212,10 @@ const TerminalPage = () => {
         return;
       }
 
-      setTimeout(typeNext, 180);
+      setTimeout(typeNext, FLOW_TIMINGS.bootLinePauseMs);
     };
 
-    const startTimer = setTimeout(typeNext, 250);
+    const startTimer = setTimeout(typeNext, FLOW_TIMINGS.bootStartDelayMs);
 
     return () => {
       cancelled = true;
@@ -209,7 +229,7 @@ const TerminalPage = () => {
     setLogs((current) => [...current, '[SISTEMA] encerrando interface...']);
     const timer = setTimeout(() => {
       setPhase('redirecting');
-    }, 850);
+    }, FLOW_TIMINGS.closingDelayMs);
 
     return () => clearTimeout(timer);
   }, [phase]);
@@ -222,7 +242,7 @@ const TerminalPage = () => {
         document.cookie = 'pl_done=true; Path=/; Max-Age=31536000; SameSite=Lax';
       }
       router.push('/home');
-    }, 420);
+    }, FLOW_TIMINGS.redirectDelayMs);
 
     return () => clearTimeout(timer);
   }, [phase, router]);
@@ -234,45 +254,26 @@ const TerminalPage = () => {
     terminalScroll.scrollTop = terminalScroll.scrollHeight;
   }, [logs, linhaDigitando, progressoProjeto, phase]);
 
-  const iniciarProjeto = (origem = 'manual') => {
-    if (phase !== 'idle') return;
-
-    if (origem === 'atalho') {
-      setLogs((current) => [...current, '[SISTEMA] comando sera executado automaticamente.']);
-    }
-
-    if (origem === 'auto') {
-      setLogs((current) => [...current, '[SISTEMA] executando npm start automaticamente.']);
-    }
-
-    setLogs((current) => [...current, `$ ${REQUIRED_COMMAND}`]);
-    setLogs((current) => [...current, '[SISTEMA] inicializando projeto...']);
-    setAguardandoQualquerTecla(false);
-    setTentativasInvalidas(0);
-    setContadorAutoInicio(AUTO_START_SECONDS);
-    setCommand('');
-    setProgressoProjeto(0);
-    setPhase('loadingProject');
-  };
-
   const handleRunCommand = (event) => {
     event.preventDefault();
 
     if (phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting') return;
-    if (aguardandoQualquerTecla) return;
+    const comandoNormalizado = command.trim().toLowerCase();
 
-    if (command.trim().toLowerCase() !== REQUIRED_COMMAND) {
+    if (comandoNormalizado && comandoNormalizado !== REQUIRED_COMMAND) {
       const proximaTentativa = tentativasInvalidas + 1;
       setTentativasInvalidas(proximaTentativa);
 
       if (proximaTentativa >= 2) {
         setLogs((current) => [
           ...current,
-          '[SISTEMA] voce errou mais de uma vez ou nao digitou comando valido.',
-          '[SISTEMA] Pressione qualquer tecla para continuar.',
+          '[SISTEMA] comando invalido detectado mais de uma vez.',
+          '[SISTEMA] executando npm start automaticamente...',
         ]);
-        setAguardandoQualquerTecla(true);
         setCommand('');
+        setTimeout(() => {
+          iniciarProjeto('atalho');
+        }, FLOW_TIMINGS.autoTriggerDelayMs);
         return;
       }
 
@@ -382,16 +383,13 @@ const TerminalPage = () => {
               className="flex-1 bg-transparent font-mono text-sm text-[#ceffdd] caret-[#9df4b8] outline-none placeholder:text-[#4ea96b]"
               placeholder="npm start"
               value={command}
-              onChange={(event) => {
-                setCommand(event.target.value);
-                if (aguardandoQualquerTecla) setAguardandoQualquerTecla(false);
-              }}
-              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting' || aguardandoQualquerTecla}
+              onChange={(event) => setCommand(event.target.value)}
+              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting'}
             />
             <button
               type="submit"
               className="rounded border border-[#3f9a5c] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#bfffd2] transition hover:bg-[#0f2417] disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting' || aguardandoQualquerTecla}
+              disabled={phase === 'preload' || phase === 'intro' || phase === 'loadingProject' || phase === 'booting' || phase === 'closing' || phase === 'redirecting'}
             >
               executar
             </button>
@@ -422,11 +420,11 @@ const TerminalPage = () => {
           }
 
           .os-open {
-            animation: osOpen 380ms ease-out forwards, flicker 4s linear infinite;
+            animation: osOpen ${FLOW_TIMINGS.openAnimationMs}ms ease-out forwards, flicker 4s linear infinite;
           }
 
           .os-close {
-            animation: osClose 620ms ease-in forwards;
+            animation: osClose ${FLOW_TIMINGS.closeAnimationMs}ms ease-in forwards;
           }
 
           .glitch-text {
