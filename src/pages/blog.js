@@ -72,70 +72,56 @@ export async function getStaticProps() {
     };
 }
 
+// ── helpers ────────────────────────────────────────────────
 const getPostTitle = (post) => post.properties?.Page?.title?.[0]?.text?.content || 'Untitled';
 
 const getPostDescription = (post) => {
-    const descriptionProperty = post.properties?.Description;
-    if (!descriptionProperty) return 'Sem descrição disponível.';
-
-    if (descriptionProperty.type === 'multi_select' && descriptionProperty.multi_select?.length > 0) {
-        return descriptionProperty.multi_select.map((select) => select.name).join(', ');
-    }
-
-    if (descriptionProperty.type === 'rich_text' && descriptionProperty.rich_text?.length > 0) {
-        return descriptionProperty.rich_text.map((text) => text.text.content).join(' ');
-    }
-
+    const d = post.properties?.Description;
+    if (!d) return 'Sem descrição disponível.';
+    if (d.type === 'multi_select' && d.multi_select?.length > 0)
+        return d.multi_select.map((s) => s.name).join(', ');
+    if (d.type === 'rich_text' && d.rich_text?.length > 0)
+        return d.rich_text.map((t) => t.text.content).join(' ');
     return 'Sem descrição disponível.';
 };
 
 const getPostSlug = (post) => post.properties?.Slug?.rich_text?.[0]?.text?.content || '';
-
-const getPostDate = (post) => new Date(post.last_edited_time || post.created_time || 0);
+const getPostDate  = (post) => new Date(post.last_edited_time || post.created_time || 0);
 
 const getPostTags = (post) => {
-    const tagsProperty = post.properties?.Tags;
-    if (tagsProperty?.type === 'multi_select' && tagsProperty.multi_select?.length) {
-        return tagsProperty.multi_select.map((tag) => tag.name);
-    }
+    const t = post.properties?.Tags;
+    if (t?.type === 'multi_select' && t.multi_select?.length)
+        return t.multi_select.map((tag) => tag.name);
     return [];
 };
 
 const hashString = (value = '') => {
-    let hash = 0;
-    for (let i = 0; i < value.length; i += 1) {
-        hash = (hash << 5) - hash + value.charCodeAt(i);
-        hash |= 0;
-    }
-    return Math.abs(hash);
+    let h = 0;
+    for (let i = 0; i < value.length; i++) { h = (h << 5) - h + value.charCodeAt(i); h |= 0; }
+    return Math.abs(h);
 };
 
 const getTopicFromPost = (post) => {
     const text = `${getPostTitle(post)} ${getPostDescription(post)}`.toLowerCase();
-
     if (text.includes('finan') || text.includes('mercado') || text.includes('invest')) return 'fintech,business,analytics';
     if (text.includes('empreendedor') || text.includes('startup') || text.includes('growth')) return 'startup,entrepreneur,business';
     if (text.includes('produto') || text.includes('ux') || text.includes('design')) return 'product,design,technology';
     if (text.includes('dados') || text.includes('bi') || text.includes('métrica')) return 'data,analytics,dashboard';
     if (text.includes('ia') || text.includes('ai') || text.includes('inteligência')) return 'artificial-intelligence,technology,future';
-
     return 'technology,business,innovation';
 };
 
 const getPostImage = (post, fallbackQuery = 'technology,business,innovation') => {
-    // Usa Lorem Picsum para imagens aleatórias baseadas no post
     const query = getTopicFromPost(post) || fallbackQuery;
     const seed = hashString(`${post?.id || ''}-${getPostTitle(post)}-${query}`);
-    // Lorem Picsum: imagens randomicas gratuitas com seed para consistência
     return `https://picsum.photos/seed/${seed}/800/600`;
 };
 
+// ── SmartImage ─────────────────────────────────────────────
 const SmartImage = ({ src, alt, className }) => {
     const [error, setError] = useState(false);
-    
-    // Garante que temos uma URL válida
     const imageUrl = src || 'https://picsum.photos/seed/default/800/600';
-    
+
     return (
         <div className={`relative overflow-hidden ${className}`}>
             <img
@@ -146,17 +132,23 @@ const SmartImage = ({ src, alt, className }) => {
                 loading="lazy"
             />
             {error && (
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00B140]/20 to-[#00B140]/40 flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">{alt || 'Imagem'}</span>
+                <div
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{ background: 'rgba(var(--accent-rgb), 0.12)' }}
+                >
+                    <span className="text-sm font-medium" style={{ color: 'var(--color-muted)' }}>
+                        {alt || 'Imagem'}
+                    </span>
                 </div>
             )}
         </div>
     );
 };
 
+// ── Blog page ──────────────────────────────────────────────
 const Blog = ({ posts, generatedAt }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [sortBy, setSortBy] = useState('newest');
+    const [searchTerm, setSearchTerm]   = useState('');
+    const [sortBy, setSortBy]           = useState('newest');
     const [selectedTag, setSelectedTag] = useState('all');
     const [visibleCount, setVisibleCount] = useState(9);
 
@@ -165,57 +157,104 @@ const Blog = ({ posts, generatedAt }) => {
         { label: 'Blog', href: '/blog' },
     ];
 
-    const sortedPosts = [...posts].sort((a, b) => getPostDate(b) - getPostDate(a));
+    const sortedPosts  = [...posts].sort((a, b) => getPostDate(b) - getPostDate(a));
+    const heroPost     = sortedPosts[0] || null;
+    const widgetPosts  = sortedPosts.slice(1, 6);
+    const featuredPosts = sortedPosts.slice(1, 4);
 
-    const heroPost = sortedPosts[0] || null;
-    const widgetPosts = sortedPosts.slice(1, 6);
-    const footerPosts = sortedPosts.slice(4, 7);
-
-    const allTags = Array.from(new Set(sortedPosts.flatMap((post) => getPostTags(post)))).sort((a, b) => a.localeCompare(b));
+    const allTags = Array.from(new Set(sortedPosts.flatMap(getPostTags))).sort((a, b) => a.localeCompare(b));
 
     const filteredPosts = sortedPosts
-        .filter((post) => {
-            if (selectedTag === 'all') return true;
-            return getPostTags(post).includes(selectedTag);
-        })
+        .filter((post) => selectedTag === 'all' || getPostTags(post).includes(selectedTag))
         .filter((post) => {
             if (!searchTerm.trim()) return true;
-            const searchable = `${getPostTitle(post)} ${getPostDescription(post)} ${getPostTags(post).join(' ')}`.toLowerCase();
-            return searchable.includes(searchTerm.toLowerCase());
+            const s = `${getPostTitle(post)} ${getPostDescription(post)} ${getPostTags(post).join(' ')}`.toLowerCase();
+            return s.includes(searchTerm.toLowerCase());
         })
         .sort((a, b) => {
-            if (sortBy === 'oldest') return getPostDate(a) - getPostDate(b);
-            if (sortBy === 'title-asc') return getPostTitle(a).localeCompare(getPostTitle(b));
+            if (sortBy === 'oldest')     return getPostDate(a) - getPostDate(b);
+            if (sortBy === 'title-asc')  return getPostTitle(a).localeCompare(getPostTitle(b));
             if (sortBy === 'title-desc') return getPostTitle(b).localeCompare(getPostTitle(a));
             return getPostDate(b) - getPostDate(a);
         });
 
     const visiblePosts = filteredPosts.slice(0, visibleCount);
 
+    // Estilos compartilhados de inputs/selects
+    const inputStyle = {
+        background: 'var(--color-surface-alt)',
+        border: '1px solid var(--color-border)',
+        color: 'var(--color-text)',
+        borderRadius: '8px',
+        padding: '10px 16px',
+        fontSize: '0.875rem',
+        outline: 'none',
+        width: '100%',
+        transition: 'border-color 0.2s',
+    };
+
     return (
-        <div className="min-h-screen bg-[#F6F7F8] dark:bg-gray-900">
-            <div className="container mx-auto px-4 py-8 lg:py-10">
+        <div
+            className="min-h-screen"
+            style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
+        >
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
                 <Breadcrumb paths={breadcrumbPaths} />
 
-                <header className="mt-6 mb-8">
-                    <p className="text-sm font-medium tracking-[0.2em] text-[#00B140] uppercase">Blog Editorial</p>
-                    <h1 className="mt-2 text-3xl md:text-5xl font-black text-[#111111] dark:text-white leading-tight">
+                {/* ── Cabeçalho ── */}
+                <header className="mt-6 mb-8 sm:mb-10">
+                    <p
+                        style={{
+                            fontSize: '0.65rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.2em',
+                            color: 'var(--color-accent)',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        Blog Editorial
+                    </p>
+                    <h1
+                        style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                            color: 'var(--color-text)',
+                            lineHeight: 1.05,
+                            marginBottom: '12px',
+                            letterSpacing: '0.02em',
+                        }}
+                    >
                         Tecnologia, Empreendedorismo e IA Aplicada
                     </h1>
-                    <p className="mt-3 text-gray-600 dark:text-gray-300 max-w-2xl">
+                    <p style={{ color: 'var(--color-muted)', maxWidth: '38rem', lineHeight: 1.7 }}>
                         Insights práticos, tendências e análises para quem constrói negócios na nova economia digital.
                     </p>
                 </header>
 
+                {/* ── Sem posts ── */}
                 {!heroPost ? (
-                    <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">Nenhuma publicação disponível</h2>
-                        <p className="text-gray-500 dark:text-gray-400 mt-2">Publique novos conteúdos para montar sua capa automaticamente.</p>
+                    <div
+                        className="text-center py-20 rounded-2xl"
+                        style={{
+                            background: 'var(--color-surface)',
+                            border: '1px solid var(--color-border)',
+                        }}
+                    >
+                        <h2 className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>
+                            Nenhuma publicação disponível
+                        </h2>
+                        <p className="mt-2" style={{ color: 'var(--color-muted)' }}>
+                            Publique novos conteúdos para montar sua capa automaticamente.
+                        </p>
                     </div>
                 ) : (
                     <>
-                        <section className="grid grid-cols-1 lg:grid-cols-5 items-stretch gap-7 mb-8">
-                            <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[460px] shadow-lg">
+                        {/* ── Hero + Widget ── */}
+                        <section className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
+
+                            {/* Hero post — fundo de imagem, sempre escuro */}
+                            <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg">
                                 <div className="absolute inset-0">
                                     <SmartImage
                                         src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
@@ -223,43 +262,65 @@ const Blog = ({ posts, generatedAt }) => {
                                         className="absolute inset-0 h-full w-full"
                                     />
                                 </div>
-<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/60 to-black/18" />
 
-                                <div className="relative z-10 h-full p-8 md:p-10 flex flex-col justify-between">
+                                <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between">
                                     <div>
-                                        <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-[#9BE8B1] mb-4">Matéria principal</p>
+                                        <p
+                                            className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
+                                            style={{ color: '#C8FF00' }}
+                                        >
+                                            Matéria principal
+                                        </p>
                                         <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
-                                            <a className="text-3xl md:text-5xl font-extrabold text-white leading-[1.1] hover:opacity-90 transition-opacity" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+                                            <a
+                                                className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity"
+                                                style={{ color: '#FFFFFF', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
+                                            >
                                                 {getPostTitle(heroPost)}
                                             </a>
                                         </Link>
-                                        
-                                        {/* Descrição maior e mais espaço aproveitado */}
-                                        <p className="mt-5 text-white text-base md:text-xl leading-relaxed max-w-2xl" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
-                                            {getPostDescription(heroPost).slice(0, 320)}{getPostDescription(heroPost).length > 320 ? '...' : ''}
+
+                                        <p
+                                            className="mt-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl"
+                                            style={{ color: 'rgba(255,255,255,0.82)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+                                        >
+                                            {getPostDescription(heroPost).slice(0, 260)}
+                                            {getPostDescription(heroPost).length > 260 ? '…' : ''}
                                         </p>
-                                        
-                                        {/* Tags do post */}
+
                                         {getPostTags(heroPost).length > 0 && (
-                                            <div className="mt-5 flex flex-wrap gap-2">
-                                                {getPostTags(heroPost).slice(0, 4).map(tag => (
-                                                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-[#00B140]/20 dark:bg-[#00B140]/50 text-[#00B140] dark:text-white font-semibold shadow-sm">
+                                            <div className="mt-4 flex flex-wrap gap-2">
+                                                {getPostTags(heroPost).slice(0, 4).map((tag) => (
+                                                    <span
+                                                        key={tag}
+                                                        className="text-xs px-3 py-1 rounded-full font-semibold"
+                                                        style={{
+                                                            background: 'rgba(200,255,0,0.14)',
+                                                            border: '1px solid rgba(200,255,0,0.3)',
+                                                            color: '#C8FF00',
+                                                        }}
+                                                    >
                                                         {tag}
                                                     </span>
                                                 ))}
                                             </div>
                                         )}
                                     </div>
-                                    
-                                    {/* Meta info e CTA */}
-                                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-2">
-                                        <div className="text-[#9BE8B1] text-sm font-medium">
+
+                                    <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                                        <div className="text-xs sm:text-sm font-medium" style={{ color: 'rgba(200,255,0,0.75)' }}>
                                             <span>📅 {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
-                                            <span>⏱️ {heroPost.readingTime || 1} min de leitura</span>
+                                            <span>⏱️ {heroPost.readingTime || 1} min</span>
                                         </div>
                                         <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
-                                            <a className="inline-flex items-center px-7 py-3 bg-[#00B140] text-white text-sm font-semibold rounded-full hover:bg-[#009130] transition-colors">
+                                            <a
+                                                className="inline-flex items-center justify-center px-5 py-2.5 font-extrabold text-xs uppercase tracking-[0.1em] rounded-full transition-all duration-200 hover:scale-105"
+                                                style={{ background: '#C8FF00', color: '#000000' }}
+                                                onMouseEnter={e => { e.currentTarget.style.background = '#B8EE00'; }}
+                                                onMouseLeave={e => { e.currentTarget.style.background = '#C8FF00'; }}
+                                            >
                                                 Ler artigo completo →
                                             </a>
                                         </Link>
@@ -267,82 +328,137 @@ const Blog = ({ posts, generatedAt }) => {
                                 </div>
                             </article>
 
-                            <aside className="lg:col-span-2 grid grid-cols-1 gap-6 h-full">
-                                <section className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-                                    <h3 className="text-base font-bold text-[#111111] dark:text-white mb-4">Últimas publicações</h3>
-                                    <ul className="space-y-3 flex-1">
+                            {/* Widget lateral */}
+                            <aside className="lg:col-span-2">
+                                <div
+                                    className="rounded-xl p-5 h-full"
+                                    style={{
+                                        background: 'var(--color-surface)',
+                                        border: '1px solid var(--color-border)',
+                                    }}
+                                >
+                                    <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--color-muted-dim)' }}>
+                                        Últimas publicações
+                                    </h3>
+                                    <ul className="space-y-0">
                                         {widgetPosts.map((post) => {
                                             const slug = getPostSlug(post);
                                             if (!slug) return null;
                                             return (
-                                                <li key={post.id} className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0">
+                                                <li
+                                                    key={post.id}
+                                                    className="py-3"
+                                                    style={{ borderBottom: '1px solid var(--color-border)' }}
+                                                >
                                                     <Link href={`/blog/${slug}`} legacyBehavior>
-                                                        <a className="text-sm font-semibold text-[#00B140] leading-snug hover:opacity-80 line-clamp-2">
+                                                        <a
+                                                            className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
+                                                            style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                        >
                                                             {getPostTitle(post)}
                                                         </a>
                                                     </Link>
-                                                    <p className="text-xs text-gray-400 mt-1">{getPostDate(post).toLocaleDateString('pt-BR')}</p>
+                                                    <p className="text-xs mt-1" style={{ color: 'var(--color-muted-dim)' }}>
+                                                        {getPostDate(post).toLocaleDateString('pt-BR')}
+                                                    </p>
                                                 </li>
                                             );
                                         })}
                                     </ul>
-                                </section>
+                                </div>
                             </aside>
                         </section>
 
-                        <section className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-6">
-                            {footerPosts.map((post) => {
+                        {/* ── Posts em destaque (3 cols) ── */}
+                        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-8">
+                            {featuredPosts.map((post) => {
                                 const slug = getPostSlug(post);
                                 if (!slug) return null;
                                 return (
-                                    <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                                    <article
+                                        key={post.id}
+                                        className="rounded-xl flex flex-col h-full overflow-hidden transition-all duration-200"
+                                        style={{
+                                            background: 'var(--color-surface)',
+                                            border: '1px solid var(--color-border)',
+                                        }}
+                                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                                    >
                                         <SmartImage
                                             src={getPostImage(post)}
                                             alt={getPostTitle(post)}
-                                            className="w-full h-48 rounded-lg"
+                                            className="w-full h-44"
                                         />
-                                        <Link href={`/blog/${slug}`} legacyBehavior>
-                                            <a className="block mt-3 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 transition-opacity line-clamp-2 min-h-[3.25rem]">
-                                                {getPostTitle(post)}
-                                            </a>
-                                        </Link>
-                                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
-                                        <p className="text-xs text-gray-400 mt-3">
-                                            {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')} · Por Juliano Pereira
-                                        </p>
+                                        <div className="p-4 flex flex-col flex-1">
+                                            <Link href={`/blog/${slug}`} legacyBehavior>
+                                                <a
+                                                    className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
+                                                    style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                >
+                                                    {getPostTitle(post)}
+                                                </a>
+                                            </Link>
+                                            <p
+                                                className="text-sm mt-2 line-clamp-3 flex-1"
+                                                style={{ color: 'var(--color-muted)' }}
+                                            >
+                                                {getPostDescription(post)}
+                                            </p>
+                                            <p className="text-xs mt-3" style={{ color: 'var(--color-muted-dim)' }}>
+                                                {new Date(post.last_edited_time || post.created_time).toLocaleDateString('pt-BR')} · Por Juliano Pereira
+                                            </p>
+                                        </div>
                                     </article>
                                 );
                             })}
                         </section>
 
-                        <section id="todas-postagens" className="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 md:p-6">
-                            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                        {/* ── Todas as postagens ── */}
+                        <section
+                            id="todas-postagens"
+                            className="rounded-2xl p-5 sm:p-6 md:p-8"
+                            style={{
+                                background: 'var(--color-surface)',
+                                border: '1px solid var(--color-border)',
+                            }}
+                        >
+                            {/* Cabeçalho */}
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-5">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-[#111111] dark:text-white">Todas as postagens</h2>
-                                    <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Navegue por data, tema e relevância para encontrar conteúdo com mais rapidez.</p>
+                                    <h2
+                                        className="text-xl sm:text-2xl font-bold"
+                                        style={{ color: 'var(--color-text)' }}
+                                    >
+                                        Todas as postagens
+                                    </h2>
+                                    <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>
+                                        Navegue por data, tema e relevância.
+                                    </p>
                                 </div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{filteredPosts.length} resultados</p>
+                                <p className="text-sm" style={{ color: 'var(--color-muted-dim)' }}>
+                                    {filteredPosts.length} resultado{filteredPosts.length !== 1 ? 's' : ''}
+                                </p>
                             </div>
 
-                            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {/* Filtros */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <input
                                     type="text"
                                     value={searchTerm}
-                                    onChange={(e) => {
-                                        setSearchTerm(e.target.value);
-                                        setVisibleCount(9);
-                                    }}
+                                    onChange={(e) => { setSearchTerm(e.target.value); setVisibleCount(9); }}
                                     placeholder="Buscar por título, resumo ou tag"
-                                    className="md:col-span-1 px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140]"
+                                    style={inputStyle}
+                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
                                 />
 
                                 <select
                                     value={sortBy}
-                                    onChange={(e) => {
-                                        setSortBy(e.target.value);
-                                        setVisibleCount(9);
-                                    }}
-                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white dark:bg-gray-800"
+                                    onChange={(e) => { setSortBy(e.target.value); setVisibleCount(9); }}
+                                    style={inputStyle}
+                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
                                 >
                                     <option value="newest">Mais novas</option>
                                     <option value="oldest">Mais antigas</option>
@@ -352,11 +468,10 @@ const Blog = ({ posts, generatedAt }) => {
 
                                 <select
                                     value={selectedTag}
-                                    onChange={(e) => {
-                                        setSelectedTag(e.target.value);
-                                        setVisibleCount(9);
-                                    }}
-                                    className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#00B140]/20 focus:border-[#00B140] bg-white dark:bg-gray-800"
+                                    onChange={(e) => { setSelectedTag(e.target.value); setVisibleCount(9); }}
+                                    style={inputStyle}
+                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
                                 >
                                     <option value="all">Todos os temas</option>
                                     {allTags.map((tag) => (
@@ -365,70 +480,120 @@ const Blog = ({ posts, generatedAt }) => {
                                 </select>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Temas do blog:</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {allTags.map((tag) => (
-                                        <button
-                                            key={tag}
-                                            onClick={() => {
-                                                setSelectedTag(tag === selectedTag ? 'all' : tag);
-                                                setVisibleCount(9);
-                                            }}
-                                            className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
-                                                selectedTag === tag
-                                                    ? 'bg-[#00B140] text-white'
-                                                    : 'bg-[#00B140]/10 text-[#00B140] dark:bg-[#00B140]/50 dark:text-white hover:bg-[#00B140]/20'
-                                            }`}>
-                                            {tag}
-                                        </button>
-                                    ))}
+                            {/* Tag pills */}
+                            {allTags.length > 0 && (
+                                <div
+                                    className="mt-4 pt-4"
+                                    style={{ borderTop: '1px solid var(--color-border)' }}
+                                >
+                                    <p
+                                        className="text-xs font-bold uppercase tracking-[0.15em] mb-3"
+                                        style={{ color: 'var(--color-muted-dim)' }}
+                                    >
+                                        Temas:
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {allTags.map((tag) => (
+                                            <button
+                                                key={tag}
+                                                onClick={() => { setSelectedTag(tag === selectedTag ? 'all' : tag); setVisibleCount(9); }}
+                                                className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
+                                                style={
+                                                    selectedTag === tag
+                                                        ? {
+                                                            background: 'var(--color-accent)',
+                                                            color: 'var(--btn-text)',
+                                                            border: '1px solid transparent',
+                                                        }
+                                                        : {
+                                                            background: 'var(--chip-bg)',
+                                                            border: '1px solid var(--chip-border)',
+                                                            color: 'var(--chip-text)',
+                                                        }
+                                                }
+                                            >
+                                                {tag}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
-                            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                            {/* Grade de posts */}
+                            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                                 {visiblePosts.map((post) => {
                                     const slug = getPostSlug(post);
                                     if (!slug) return null;
                                     const tags = getPostTags(post);
 
                                     return (
-                                        <article key={post.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-md transition-shadow flex flex-col h-full">
+                                        <article
+                                            key={post.id}
+                                            className="rounded-xl flex flex-col h-full overflow-hidden transition-all duration-200"
+                                            style={{
+                                                background: 'var(--color-surface-alt)',
+                                                border: '1px solid var(--color-border)',
+                                            }}
+                                            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                                            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                                        >
                                             <SmartImage
                                                 src={getPostImage(post)}
                                                 alt={getPostTitle(post)}
-                                                className="w-full h-48 rounded-lg"
+                                                className="w-full h-44"
                                             />
-                                            <div className="mt-3 flex flex-wrap gap-2 min-h-[1.75rem]">
-                                                {tags.slice(0, 3).map((tag) => (
-                                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-[#00B140]/10 dark:bg-[#00B140]/50 dark:text-white font-medium">
-                                                        {tag}
-                                                    </span>
-                                                ))}
+                                            <div className="p-4 flex flex-col flex-1">
+                                                {tags.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1.5 mb-2">
+                                                        {tags.slice(0, 3).map((tag) => (
+                                                            <span
+                                                                key={tag}
+                                                                className="text-xs px-2 py-0.5 rounded-full font-medium"
+                                                                style={{
+                                                                    background: 'var(--chip-bg)',
+                                                                    border: '1px solid var(--chip-border)',
+                                                                    color: 'var(--chip-text)',
+                                                                }}
+                                                            >
+                                                                {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                <Link href={`/blog/${slug}`} legacyBehavior>
+                                                    <a
+                                                        className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
+                                                        style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                    >
+                                                        {getPostTitle(post)}
+                                                    </a>
+                                                </Link>
+                                                <p
+                                                    className="text-sm mt-2 line-clamp-3 flex-1"
+                                                    style={{ color: 'var(--color-muted)' }}
+                                                >
+                                                    {getPostDescription(post)}
+                                                </p>
+                                                <p className="text-xs mt-3" style={{ color: 'var(--color-muted-dim)' }}>
+                                                    {getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira · {post.readingTime || 1} min
+                                                </p>
                                             </div>
-                                            <Link href={`/blog/${slug}`} legacyBehavior>
-                                                <a className="mt-2 text-lg font-bold text-[#00B140] leading-snug hover:opacity-85 line-clamp-2 min-h-[3.25rem]">
-                                                    {getPostTitle(post)}
-                                                </a>
-                                            </Link>
-                                            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 flex-1">{getPostDescription(post)}</p>
-                                            <p className="text-xs text-gray-400 mt-3">
-                                                {getPostDate(post).toLocaleDateString('pt-BR')} · Por Juliano Pereira · {post.readingTime || 1} min
-                                            </p>
                                         </article>
                                     );
                                 })}
                             </div>
 
                             {visiblePosts.length === 0 && (
-                                <p className="mt-6 text-center text-gray-500 dark:text-gray-400">Nenhuma postagem encontrada com esses filtros.</p>
+                                <p className="mt-6 text-center" style={{ color: 'var(--color-muted)' }}>
+                                    Nenhuma postagem encontrada com esses filtros.
+                                </p>
                             )}
 
                             {visibleCount < filteredPosts.length && (
                                 <div className="mt-6 text-center">
                                     <button
                                         onClick={() => setVisibleCount((prev) => prev + 9)}
-                                        className="px-5 py-2.5 rounded-lg bg-[#111111] text-white font-medium hover:bg-black transition-colors"
+                                        className="mono-button-primary"
                                     >
                                         Carregar mais postagens
                                     </button>
@@ -438,7 +603,7 @@ const Blog = ({ posts, generatedAt }) => {
                     </>
                 )}
 
-                <p className="text-xs text-gray-400 mt-8 text-center">
+                <p className="text-xs mt-8 text-center" style={{ color: 'var(--color-muted-dim)' }}>
                     Atualizado em: {new Date(generatedAt).toLocaleString('pt-BR')}
                 </p>
             </div>

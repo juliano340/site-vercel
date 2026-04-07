@@ -6,7 +6,7 @@ import CtaSection from './components/CtaSection';
 
 const HeroSection = dynamic(() => import('./components/HeroSectionView'), {
   ssr: false,
-  loading: () => <div className="h-[600px] bg-gray-800 animate-pulse" />,
+  loading: () => <div className="h-[600px] animate-pulse" style={{ background: 'var(--color-surface)' }} />,
 });
 
 const HomePage = () => {
