@@ -138,14 +138,13 @@ html.light {
     --btn2-hover-bg:    rgba(74, 102, 0, 0.06);
     --btn2-hover-border:rgba(74, 102, 0, 0.7);
 
-    /* Inverted Section — dark bg keeps acid green pop */
-    /* #C8FF00 on #1A1A1A = 12.8:1 ✓ AAA */
-    --inv-bg:           #1A1A1A;
-    --inv-text:         #C8FF00;
-    --inv-muted:        rgba(200, 255, 0, 0.55);
-    --inv-border:       rgba(200, 255, 0, 0.15);
-    --inv-btn-bg:       #C8FF00;
-    --inv-btn-text:     #000000;
+    /* Inverted Section — light bg with dark text */
+    --inv-bg:           #F8F7F4;
+    --inv-text:         #1A1A1A;
+    --inv-muted:        rgba(26, 26, 26, 0.5);
+    --inv-border:       rgba(26, 26, 26, 0.15);
+    --inv-btn-bg:       #4A6600;
+    --inv-btn-text:     #FFFFFF;
 
     /* Chips / Tags */
     --chip-bg:          rgba(74, 102, 0, 0.06);
@@ -178,6 +177,16 @@ body {
 ═══════════════════════════════════════════════════ */
 
 @layer components {
+    .hero-fullheight {
+        min-height: 80vh;
+    }
+
+    @media (min-width: 1024px) {
+        .hero-fullheight {
+            min-height: calc(100vh - var(--nav-height, 60px));
+        }
+    }
+
     .mono-section {
         @apply relative overflow-hidden px-4 py-20 transition-colors duration-300 sm:px-6 lg:px-8;
         background: var(--color-background);
@@ -366,6 +375,25 @@ body {
     0%, 100% { transform: translate(0, 0) scale(1); }
     33% { transform: translate(30px, -50px) scale(1.1); }
     66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes blob-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-30px, -40px) scale(1.08); }
+    66% { transform: translate(20px, 30px) scale(0.95); }
+}
+
+@keyframes blob-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(40px, -30px) scale(1.05); }
+    50% { transform: translate(-20px, 40px) scale(0.98); }
+    75% { transform: translate(30px, 20px) scale(1.02); }
+}
+
+@keyframes blob-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(-35px, 50px) scale(1.1); }
+    80% { transform: translate(25px, -30px) scale(0.92); }
 }
 
 @keyframes fadeIn {

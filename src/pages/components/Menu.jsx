@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
@@ -8,6 +8,7 @@ export default function Menu() {
     const [scrolled, setScrolled] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [currentHash, setCurrentHash] = useState('');
+    const navRef = useRef(null);
     const router = useRouter();
 
     const toggle = () => setIsOpen(!isOpen);
@@ -47,6 +48,20 @@ export default function Menu() {
         return () => window.removeEventListener('hashchange', syncHash);
     }, [router.asPath]);
 
+    // Medir altura do nav e setar CSS variable
+    useEffect(() => {
+        const updateNavHeight = () => {
+            if (navRef.current) {
+                const height = navRef.current.offsetHeight;
+                document.documentElement.style.setProperty('--nav-height', `${height}px`);
+            }
+        };
+
+        updateNavHeight();
+        window.addEventListener('resize', updateNavHeight);
+        return () => window.removeEventListener('resize', updateNavHeight);
+    }, []);
+
     const navItems = [
         { name: 'HOME', href: '/home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
         { name: 'SOBRE', href: '/home#about', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
@@ -72,6 +87,7 @@ export default function Menu() {
     return (
         <>
             <nav
+                ref={navRef}
                 className="fixed w-full top-0 left-0 z-50 transition-all duration-300"
                 style={{
                     background: 'var(--color-background)',
