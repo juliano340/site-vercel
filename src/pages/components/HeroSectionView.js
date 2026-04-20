@@ -7,7 +7,7 @@ const STACK = ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docke
 const HeroSectionView = () => {
   return (
     <section
-      className="hero-fullheight relative flex items-center overflow-hidden px-4 py-20 sm:px-6 lg:px-8"
+      className="hero-fullheight relative flex items-center overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
       style={{
         background: 'var(--color-background)',
         backgroundImage: 'radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.03) 0%, transparent 70%)',
