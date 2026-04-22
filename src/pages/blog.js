@@ -274,7 +274,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                                <div className="relative z-10 h-full py-6 sm:py-8 md:py-10 px-20 sm:px-24 md:px-28 flex flex-col justify-between">
+                                <div className="relative z-10 h-full py-6 sm:py-8 md:py-10 px-12 sm:px-14 md:px-16 flex flex-col justify-between">
                                     <div>
                                         <p
                                             className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
@@ -284,7 +284,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         </p>
                                         <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
                                             <a
-                                                className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity"
+                                                className="block text-2xl sm:text-3xl md:text-4xl xl:text-4xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity line-clamp-3"
                                                 style={{ color: '#FFFFFF', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
                                             >
                                                 {getPostTitle(currentPost)}
@@ -292,7 +292,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         </Link>
 
                                         <p
-                                            className="mt-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl"
+                                            className="mt-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl line-clamp-3"
                                             style={{ color: 'rgba(255,255,255,0.82)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                                         >
                                             {getPostDescription(currentPost).slice(0, 260)}
@@ -340,7 +340,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 {/* Controles do carrossel */}
                                 <button
                                     onClick={() => setCarouselIndex((prev) => (prev - 1 + carouselPosts.length) % carouselPosts.length)}
-                                    className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
                                     style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,7 +349,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 </button>
                                 <button
                                     onClick={() => setCarouselIndex((prev) => (prev + 1) % carouselPosts.length)}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
                                     style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
