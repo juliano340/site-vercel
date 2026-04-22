@@ -617,8 +617,9 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                 <div
                                     className="rounded-xl p-5"
                                     style={{
-                                        background: 'var(--inv-bg)',
-                                        color:      'var(--inv-text)',
+                                        background: 'var(--color-surface)',
+                                        border:     '1px solid var(--color-accent)',
+                                        color:      'var(--color-text)',
                                     }}
                                 >
                                     <div className="flex items-center gap-3 mb-3">
@@ -626,14 +627,14 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             src={AUTHOR_AVATAR}
                                             alt={AUTHOR_NAME}
                                             className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                                            style={{ border: '2px solid var(--inv-text)' }}
+                                            style={{ border: '2px solid var(--color-accent)' }}
                                         />
                                         <div>
                                             <p className="font-semibold text-sm">{AUTHOR_NAME}</p>
-                                            <p className="text-xs" style={{ color: 'var(--inv-muted)' }}>Autor</p>
+                                            <p className="text-xs" style={{ color: 'var(--color-muted)' }}>Autor</p>
                                         </div>
                                     </div>
-                                    <p className="text-sm mb-4" style={{ color: 'var(--inv-muted)' }}>{AUTHOR_BIO}</p>
+                                    <p className="text-sm mb-4" style={{ color: 'var(--color-muted)' }}>{AUTHOR_BIO}</p>
                                     <div className="flex gap-2">
                                         {[
                                             { label: 'GitHub',   href: 'https://github.com/juliano340' },
@@ -646,8 +647,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                                 rel="noopener noreferrer"
                                                 className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
                                                 style={{
-                                                    background: 'var(--inv-btn-bg)',
-                                                    color:      'var(--inv-btn-text)',
+                                                    background: 'var(--color-accent)',
+                                                    color:      '#000000',
                                                     textDecoration: 'none',
                                                 }}
                                             >
@@ -733,20 +734,21 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                 <div
                                     className="rounded-xl p-5"
                                     style={{
-                                        background: 'var(--color-accent)',
-                                        color:      'var(--btn-text)',
+                                        background: 'var(--color-surface)',
+                                        border:     '1px solid var(--color-accent)',
+                                        color:      'var(--color-text)',
                                     }}
                                 >
                                     <h3 className="text-sm font-bold mb-2">📧 Newsletter</h3>
-                                    <p className="text-xs mb-4" style={{ opacity: 0.8 }}>
+                                    <p className="text-xs mb-4" style={{ color: 'var(--color-muted)' }}>
                                         Receba novidades sobre tecnologia e IA diretamente no seu email.
                                     </p>
                                     <Link href="/contato" legacyBehavior>
                                         <a
                                             className="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors"
                                             style={{
-                                                background:     'var(--btn-text)',
-                                                color:          'var(--btn-bg)',
+                                                background:     'var(--color-accent)',
+                                                color:          '#000000',
                                                 textDecoration: 'none',
                                             }}
                                         >
