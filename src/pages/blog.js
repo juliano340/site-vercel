@@ -164,6 +164,32 @@ const Blog = ({ posts, generatedAt }) => {
     const widgetPosts  = sortedPosts.slice(1, 6);
     const featuredPosts = sortedPosts.slice(1, 4);
 
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const handleTouchStart = (e) => {
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = (e) => {
+        setTouchEnd(e.changedTouches[0].clientX);
+        handleSwipe(e.targetTouches[0]?.clientX);
+    };
+
+    const handleSwipe = (currentX) => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+            setCarouselIndex((prev) => (prev + 1) % carouselPosts.length);
+        }
+        if (isRightSwipe) {
+            setCarouselIndex((prev) => (prev - 1 + carouselPosts.length) % carouselPosts.length);
+        }
+    };
+
     useEffect(() => {
         if (carouselPosts.length === 0) return;
         const timer = setInterval(() => {
@@ -264,7 +290,11 @@ const Blog = ({ posts, generatedAt }) => {
                         <section className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
 
                             {/* Carousel de matérias principais */}
-                            <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg group">
+                            <article
+                                className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg group"
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                            >
                                 <div className="absolute inset-0">
                                     <SmartImage
                                         src={getPostImage(currentPost, 'tecnologia e inovação nos negócios')}
