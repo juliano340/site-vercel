@@ -262,13 +262,13 @@ const Blog = ({ posts, generatedAt }) => {
                                         className="absolute inset-0 h-full w-full"
                                     />
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/60 to-black/18" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
                                 <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between">
                                     <div>
                                         <p
                                             className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
-                                            style={{ color: '#C8FF00' }}
+                                            style={{ color: '#C8FF00', textShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)' }}
                                         >
                                             Matéria principal
                                         </p>
