@@ -318,7 +318,7 @@ const Blog = ({ posts, generatedAt }) => {
                                         )}
                                     </div>
 
-                                    <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                                    <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2 mb-12 sm:mb-0">
                                         <div className="text-xs sm:text-sm font-medium" style={{ color: 'rgba(200,255,0,0.75)' }}>
                                             <span>📅 {new Date(currentPost.last_edited_time || currentPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
