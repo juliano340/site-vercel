@@ -648,7 +648,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                                 className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
                                                 style={{
                                                     background: 'var(--color-accent)',
-                                                    color:      '#000000',
+                                                    color:      'var(--btn-text)',
                                                     textDecoration: 'none',
                                                 }}
                                             >
@@ -748,7 +748,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             className="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors"
                                             style={{
                                                 background:     'var(--color-accent)',
-                                                color:          '#000000',
+                                                color:          'var(--btn-text)',
                                                 textDecoration: 'none',
                                             }}
                                         >
