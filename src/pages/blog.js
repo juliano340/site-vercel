@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getBlocks, getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
@@ -151,6 +151,7 @@ const Blog = ({ posts, generatedAt }) => {
     const [sortBy, setSortBy]           = useState('newest');
     const [selectedTag, setSelectedTag] = useState('all');
     const [visibleCount, setVisibleCount] = useState(9);
+    const [carouselIndex, setCarouselIndex] = useState(0);
 
     const breadcrumbPaths = [
         { label: 'Home', href: '/' },
@@ -158,9 +159,18 @@ const Blog = ({ posts, generatedAt }) => {
     ];
 
     const sortedPosts  = [...posts].sort((a, b) => getPostDate(b) - getPostDate(a));
-    const heroPost     = sortedPosts[0] || null;
+    const carouselPosts = sortedPosts.slice(0, 5);
+    const currentPost = carouselPosts[carouselIndex] || null;
     const widgetPosts  = sortedPosts.slice(1, 6);
     const featuredPosts = sortedPosts.slice(1, 4);
+
+    useEffect(() => {
+        if (carouselPosts.length === 0) return;
+        const timer = setInterval(() => {
+            setCarouselIndex((prev) => (prev + 1) % carouselPosts.length);
+        }, 6000);
+        return () => clearInterval(timer);
+    }, [carouselPosts.length]);
 
     const allTags = Array.from(new Set(sortedPosts.flatMap(getPostTags))).sort((a, b) => a.localeCompare(b));
 
@@ -233,7 +243,7 @@ const Blog = ({ posts, generatedAt }) => {
                 </header>
 
                 {/* ── Sem posts ── */}
-                {!heroPost ? (
+                {carouselPosts.length === 0 ? (
                     <div
                         className="text-center py-20 rounded-2xl"
                         style={{
@@ -253,31 +263,31 @@ const Blog = ({ posts, generatedAt }) => {
                         {/* ── Hero + Widget ── */}
                         <section className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
 
-                            {/* Hero post — fundo de imagem, sempre escuro */}
-                            <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg">
+                            {/* Carousel de matérias principais */}
+                            <article className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg group">
                                 <div className="absolute inset-0">
                                     <SmartImage
-                                        src={getPostImage(heroPost, 'tecnologia e inovação nos negócios')}
-                                        alt={getPostTitle(heroPost)}
-                                        className="absolute inset-0 h-full w-full"
+                                        src={getPostImage(currentPost, 'tecnologia e inovação nos negócios')}
+                                        alt={getPostTitle(currentPost)}
+                                        className="absolute inset-0 h-full w-full transition-opacity duration-500"
                                     />
                                 </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                                <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between">
+                                <div className="relative z-10 h-full py-6 sm:py-8 md:py-10 px-20 sm:px-24 md:px-28 flex flex-col justify-between">
                                     <div>
                                         <p
                                             className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
                                             style={{ color: '#C8FF00', textShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)' }}
                                         >
-                                            Matéria principal
+                                            Novidades
                                         </p>
-                                        <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
+                                        <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
                                             <a
                                                 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity"
                                                 style={{ color: '#FFFFFF', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
                                             >
-                                                {getPostTitle(heroPost)}
+                                                {getPostTitle(currentPost)}
                                             </a>
                                         </Link>
 
@@ -285,13 +295,13 @@ const Blog = ({ posts, generatedAt }) => {
                                             className="mt-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl"
                                             style={{ color: 'rgba(255,255,255,0.82)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                                         >
-                                            {getPostDescription(heroPost).slice(0, 260)}
-                                            {getPostDescription(heroPost).length > 260 ? '…' : ''}
+                                            {getPostDescription(currentPost).slice(0, 260)}
+                                            {getPostDescription(currentPost).length > 260 ? '…' : ''}
                                         </p>
 
-                                        {getPostTags(heroPost).length > 0 && (
+                                        {getPostTags(currentPost).length > 0 && (
                                             <div className="mt-4 flex flex-wrap gap-2">
-                                                {getPostTags(heroPost).slice(0, 4).map((tag) => (
+                                                {getPostTags(currentPost).slice(0, 4).map((tag) => (
                                                     <span
                                                         key={tag}
                                                         className="text-xs px-3 py-1 rounded-full font-semibold"
@@ -310,11 +320,11 @@ const Blog = ({ posts, generatedAt }) => {
 
                                     <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
                                         <div className="text-xs sm:text-sm font-medium" style={{ color: 'rgba(200,255,0,0.75)' }}>
-                                            <span>📅 {new Date(heroPost.last_edited_time || heroPost.created_time).toLocaleDateString('pt-BR')}</span>
+                                            <span>📅 {new Date(currentPost.last_edited_time || currentPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
-                                            <span>⏱️ {heroPost.readingTime || 1} min</span>
+                                            <span>⏱️ {currentPost.readingTime || 1} min</span>
                                         </div>
-                                        <Link href={`/blog/${getPostSlug(heroPost)}`} legacyBehavior>
+                                        <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
                                             <a
                                                 className="inline-flex items-center justify-center px-5 py-2.5 font-extrabold text-xs uppercase tracking-[0.1em] rounded-full transition-all duration-200 hover:scale-105"
                                                 style={{ background: '#C8FF00', color: '#000000' }}
@@ -325,6 +335,42 @@ const Blog = ({ posts, generatedAt }) => {
                                             </a>
                                         </Link>
                                     </div>
+                                </div>
+
+                                {/* Controles do carrossel */}
+                                <button
+                                    onClick={() => setCarouselIndex((prev) => (prev - 1 + carouselPosts.length) % carouselPosts.length)}
+                                    className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                                    style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={() => setCarouselIndex((prev) => (prev + 1) % carouselPosts.length)}
+                                    className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                                    style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+
+                                {/* Indicadores */}
+                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                                    {carouselPosts.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCarouselIndex(idx)}
+                                            className="transition-all rounded-full"
+                                            style={{
+                                                width: idx === carouselIndex ? '24px' : '8px',
+                                                height: '8px',
+                                                background: idx === carouselIndex ? '#C8FF00' : 'rgba(200,255,0,0.4)',
+                                            }}
+                                        />
+                                    ))}
                                 </div>
                             </article>
 
