@@ -226,6 +226,21 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center gap-4" style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>
+            <Link href="/terminal" legacyBehavior>
+              <a
+                className="mono-focus-ring font-mono uppercase tracking-[0.16em] transition-colors duration-200"
+                style={{
+                  fontSize: '0.65rem',
+                  color: 'var(--color-muted-dim)',
+                  textDecoration: 'none',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; }}
+                title="Modo dev — easter egg"
+              >
+                &gt; /terminal
+              </a>
+            </Link>
             <span className="flex items-center gap-2">
               Feito com
               <svg className="w-4 h-4 animate-pulse-scale" style={{ color: 'var(--color-muted)' }} fill="currentColor" viewBox="0 0 20 20">

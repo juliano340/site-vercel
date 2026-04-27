@@ -1,28 +1,45 @@
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import HeroSection from './components/HeroSectionView';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
 import CtaSection from './components/CtaSection';
-
-const HeroSection = dynamic(() => import('./components/HeroSectionView'), {
-  ssr: false,
-  loading: () => <div className="h-[600px] animate-pulse" style={{ background: 'var(--color-surface)' }} />,
-});
 
 const HomePage = () => {
   return (
     <>
       <Head>
-        <title>Juliano - Programador Web Full Stack</title>
+        <title>Juliano | Dev Full Stack que entrega rápido com IA</title>
         <meta
           name="description"
-          content="Portfolio de Juliano, desenvolvedor Full Stack especializado em soluções web eficientes e inovadoras. Veja meus projetos e entre em contato."
+          content="Desenvolvedor full stack com cabeça de produto e velocidade de IA. Construo MVPs, sistemas e sites com Next.js, TypeScript e Claude/GPT — do brief ao deploy em 2 a 4 semanas."
         />
         <meta
           name="keywords"
-          content="desenvolvedor web, full stack, next.js, react, portfolio, juliano"
+          content="desenvolvedor full stack, mvp, ia aplicada, next.js, typescript, claude, freelancer dev, juliano"
         />
-        <meta name="author" content="Juliano" />
+        <meta name="author" content="Juliano Pereira" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Juliano | Dev Full Stack que entrega rápido com IA" />
+        <meta
+          property="og:description"
+          content="MVPs, sistemas e sites construídos com Next.js, TypeScript e IA aplicada. Do brief ao deploy em 2 a 4 semanas."
+        />
+        <meta property="og:url" content="https://www.juliano340.com/home" />
+        <meta property="og:image" content="https://www.juliano340.com/images/profile-about.png" />
+        <meta property="og:locale" content="pt_BR" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Juliano | Dev Full Stack que entrega rápido com IA" />
+        <meta
+          name="twitter:description"
+          content="MVPs, sistemas e sites com Next.js, TypeScript e IA aplicada. Do brief ao deploy em 2 a 4 semanas."
+        />
+        <meta name="twitter:image" content="https://www.juliano340.com/images/profile-about.png" />
+
+        <link rel="canonical" href="https://www.juliano340.com/home" />
       </Head>
       <main>
         <HeroSection />

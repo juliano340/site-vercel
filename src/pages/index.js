@@ -1,6 +1,6 @@
 import Head from 'next/head';
-const IndexGatePage = () => {
 
+const IndexGatePage = () => {
   return (
     <>
       <Head>
@@ -19,28 +19,10 @@ const IndexGatePage = () => {
 
 export default IndexGatePage;
 
-export async function getServerSideProps({ req, res, query }) {
-  const skipLanding = query.skip === '1';
-
-  if (skipLanding) {
-    res.setHeader('Set-Cookie', 'pl_done=true; Path=/; Max-Age=31536000; SameSite=Lax');
-    return {
-      redirect: {
-        destination: '/home',
-        permanent: false,
-      },
-    };
-  }
-
-  const cookies = req.headers.cookie || '';
-  const jaViuLanding = cookies
-    .split(';')
-    .map((cookie) => cookie.trim())
-    .some((cookie) => cookie === 'pl_done=true');
-
+export async function getServerSideProps() {
   return {
     redirect: {
-      destination: jaViuLanding ? '/home' : '/terminal',
+      destination: '/home',
       permanent: false,
     },
   };

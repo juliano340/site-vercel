@@ -64,7 +64,7 @@ const CtaSection = () => {
                   marginBottom: '12px',
                 }}
               >
-                Vamos conversar
+Próximo passo
               </p>
 
               <h2
@@ -77,12 +77,12 @@ const CtaSection = () => {
                   marginBottom: '20px',
                 }}
               >
-                GOSTOU DO MEU TRABALHO?
+                TEM UM PROJETO TRAVADO? VAMOS DESTRAVAR.
               </h2>
 
               <p style={{ color: 'var(--inv-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '520px' }}>
-                Posso ajudar a transformar a sua ideia em uma solução digital clara,
-                objetiva e pronta para gerar resultado.
+                Conta o problema. Em até 24h eu mando uma proposta com prazo, stack e
+                escopo claro — sem enrolação e sem reunião desnecessária.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ const CtaSection = () => {
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  Fale comigo agora
+                  Começar meu projeto
                 </a>
               </Link>
 
@@ -154,7 +154,7 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                5+
+                2-4 sem
               </div>
               <div
                 style={{
@@ -166,10 +166,10 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                Entrega
+                Brief → Deploy
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
-                Projetos concluídos com foco em clareza e execução.
+                Tempo médio do escopo fechado até o produto em produção.
               </div>
             </div>
             <div style={{ padding: '16px 0' }}>
@@ -182,7 +182,7 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                5+
+                TS · Next · Node
               </div>
               <div
                 style={{
@@ -194,10 +194,10 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                Stack
+                Stack em produção
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
-                Tecnologias aplicadas entre front-end, back-end e produto.
+                Auth, Stripe, VPS, CI/CD e IA aplicada — projetos no ar hoje.
               </div>
             </div>
             <div style={{ padding: '16px 0' }}>
@@ -210,7 +210,7 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                100%
+                1
               </div>
               <div
                 style={{
@@ -222,10 +222,10 @@ const CtaSection = () => {
                   marginBottom: '4px',
                 }}
               >
-                Compromisso
+                Cliente por vez
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--inv-muted)' }}>
-                Acompanhamento atento da ideia inicial ao resultado final.
+                Foco em qualidade e prazo — nunca dois projetos competindo pela mesma atenção.
               </div>
             </div>
           </div>
