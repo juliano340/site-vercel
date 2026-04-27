@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const About = () => {
   const experiences = [
@@ -90,28 +91,119 @@ const About = () => {
           className="mb-12 p-8 md:p-10"
           style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
         >
-          <p
-            style={{
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: 'var(--color-accent)',
-              marginBottom: '16px',
-            }}
-          >
-            Perfil profissional
-          </p>
-          <p className="mb-6 text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
-            Sou graduado em{' '}
-            <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>Sistemas para Internet</span> e entusiasta do{' '}
-            <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com{' '}
-            <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
-          </p>
-          <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
-            Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como{' '}
-            <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
-          </p>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[auto_1fr] md:items-start">
+            {/* Foto estilizada */}
+            <div className="flex justify-center md:justify-start">
+              <div
+                style={{
+                  position: 'relative',
+                  width: '180px',
+                  height: '180px',
+                  flexShrink: 0,
+                }}
+              >
+                {/* Glow accent atrás */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    inset: '-8px',
+                    background: 'radial-gradient(circle, rgba(var(--accent-rgb), 0.25) 0%, transparent 70%)',
+                    filter: 'blur(12px)',
+                    zIndex: 0,
+                  }}
+                />
+                {/* Marca de canto (estilo mono) */}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    top: '-6px',
+                    left: '-6px',
+                    width: '14px',
+                    height: '14px',
+                    borderTop: '2px solid var(--color-accent)',
+                    borderLeft: '2px solid var(--color-accent)',
+                    zIndex: 2,
+                  }}
+                />
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    bottom: '-6px',
+                    right: '-6px',
+                    width: '14px',
+                    height: '14px',
+                    borderBottom: '2px solid var(--color-accent)',
+                    borderRight: '2px solid var(--color-accent)',
+                    zIndex: 2,
+                  }}
+                />
+                {/* Container da foto */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'hidden',
+                    border: '1px solid var(--color-border)',
+                    borderTop: '2px solid var(--color-accent)',
+                    background: 'var(--color-surface-alt)',
+                    borderRadius: '4px',
+                    zIndex: 1,
+                  }}
+                >
+                  <Image
+                    src="/images/profile-about.png"
+                    alt="Foto de Juliano Pereira"
+                    fill
+                    sizes="180px"
+                    style={{
+                      objectFit: 'cover',
+                      filter: 'contrast(1.05) saturate(0.9)',
+                    }}
+                  />
+                  {/* Overlay com tom do tema */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(180deg, transparent 50%, rgba(var(--accent-rgb), 0.12) 100%)',
+                      mixBlendMode: 'multiply',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Texto */}
+            <div>
+              <p
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2em',
+                  color: 'var(--color-accent)',
+                  marginBottom: '16px',
+                }}
+              >
+                Perfil profissional
+              </p>
+              <p className="mb-6 text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                Sou graduado em{' '}
+                <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>Sistemas para Internet</span> e entusiasta do{' '}
+                <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com{' '}
+                <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
+              </p>
+              <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como{' '}
+                <span style={{ fontWeight: 600, color: 'var(--color-text)' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Experiências */}

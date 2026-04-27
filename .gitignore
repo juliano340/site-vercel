@@ -47,6 +47,7 @@ agent*.md
 agents*.md
 .agent*
 /.sisyphus/
+.claude/
 
 # Local screenshots / debug captures
 /about-check-initial.png
