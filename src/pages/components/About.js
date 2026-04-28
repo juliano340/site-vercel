@@ -4,44 +4,76 @@ import Image from 'next/image';
 const About = () => {
   const experiences = [
     {
-      company: 'Bling ERP',
-      role: 'Suporte Técnico',
-      hot: true,
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      )
+      number: '01',
+      period: 'Ago 2025 — Dez 2025',
+      role: 'Analista de Suporte Técnico',
+      company: 'LWSA · Bling ERP',
+      description:
+        'Suporte técnico e integração de sistemas no Bling ERP — equipe de integração com lojas virtuais, marketplaces e serviços logísticos.',
+      highlights: [
+        'Configuração e parametrização do sistema para clientes',
+        'Integrações com marketplaces e operadores logísticos',
+        'Visão real de como ERP impacta a operação de PMEs',
+      ],
+      stack: ['ERP', 'Integrações', 'Marketplaces', 'API REST'],
     },
     {
-      company: 'Dataweb',
+      number: '02',
+      period: 'Dez 2022 — Jun 2025',
+      role: 'Programador Web Full Stack',
+      company: 'Dataweb Tecnologia',
+      description:
+        'Desenvolvimento full-stack em sistema ERP com backend C# (.NET) e frontend TypeScript/Angular. Antes, atuei como Analista de Testes e em Suporte Técnico na mesma empresa.',
+      highlights: [
+        'Funcionalidades e correções em ERP corporativo',
+        'Testes de software em ambientes desktop, web e mobile',
+        'Documentação técnica e treinamentos para usuários finais',
+      ],
+      stack: ['TypeScript', 'Angular', 'C#', '.NET', 'SQL'],
+    },
+    {
+      number: '03',
+      period: 'Set 2022 — Dez 2022',
       role: 'Programador Web',
-      hot: true,
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-        </svg>
-      )
+      company: 'Agexcom · Unisinos',
+      description:
+        'Agência de Comunicação Experimental da Unisinos — desenvolvimento de hotsites e blogs com Wordpress e manutenção de sites.',
+      highlights: [
+        'Desenvolvimento de hotsites e blogs em Wordpress',
+        'Contribuição em projetos digitais da agência',
+        'Manutenção evolutiva de sites em produção',
+      ],
+      stack: ['WordPress', 'PHP', 'HTML/CSS', 'JavaScript'],
     },
-    {
-      company: 'Agexcom (Unisinos)',
-      learning: true,
-      role: 'Estagiário em Programação Web',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      )
-    }
   ];
 
-  const skills = [
-    { name: 'JavaScript/TypeScript', level: 90 },
-    { name: 'Next.js & React', level: 85 },
-    { name: 'Node.js & Express', level: 88 },
-    { name: 'NestJS', level: 80 },
-    { name: 'C# & .NET', level: 75 },
-    { name: 'Angular', level: 70 }
+  const skillGroups = [
+    {
+      label: 'IA & Agentes Autônomos',
+      highlight: true,
+      items: [
+        'Claude (Anthropic)',
+        'Claude Code',
+        'OpenAI Codex',
+        'OpenCode',
+        'Antigravity (Google)',
+        'MCP / Tool Use',
+        'Agentes Autônomos',
+        'RAG & Prompt Engineering',
+      ],
+    },
+    {
+      label: 'Frontend',
+      items: ['TypeScript', 'Next.js', 'React', 'Angular', 'Tailwind CSS', 'Ionic'],
+    },
+    {
+      label: 'Backend & Dados',
+      items: ['Node.js', 'NestJS', 'Express', 'C# / .NET', 'PostgreSQL', 'Prisma', 'SQLite'],
+    },
+    {
+      label: 'DevOps & Infra',
+      items: ['Docker', 'Vercel', 'VPS Linux', 'Nginx', 'PM2', 'CI/CD'],
+    },
   ];
 
   const certifications = [
@@ -232,80 +264,254 @@ const About = () => {
               EXPERIÊNCIA PROFISSIONAL
             </h3>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className="p-6"
-                style={{
-                  background: 'var(--color-surface)',
-                  border: '1px solid var(--color-border)',
-                  borderTop: '2px solid var(--color-accent)',
-                  borderRadius: '4px',
-                }}
-              >
-                <div className="mb-5 flex items-start gap-4">
-                  <div
-                    className="flex h-12 w-12 flex-shrink-0 items-center justify-center"
-                    style={{
-                      border: '1px solid var(--color-border)',
-                      background: 'var(--color-surface-alt)',
-                      color: 'var(--color-accent)',
-                      borderRadius: '4px',
-                    }}
-                  >
-                    {exp.icon}
-                  </div>
-                  <div className="flex-1">
-                    <p
-                      style={{
-                        fontSize: '0.6rem',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.18em',
-                        color: 'var(--color-muted-dim)',
-                      }}
-                    >
-                      Experiência
-                    </p>
-                    <h4
-                      className="mt-2 mb-1 text-xl font-bold"
-                      style={{ color: 'var(--color-text)' }}
-                    >
-                      {exp.company}
-                    </h4>
-                    <p style={{ color: 'var(--color-muted)', fontSize: '0.875rem' }}>{exp.role}</p>
-                  </div>
-                </div>
+          <div className="relative">
+            {/* Timeline vertical line */}
+            <div
+              aria-hidden="true"
+              className="hidden md:block absolute"
+              style={{
+                left: '52px',
+                top: '12px',
+                bottom: '12px',
+                width: '1px',
+                background:
+                  'linear-gradient(to bottom, rgba(var(--accent-rgb), 0.4) 0%, var(--color-border) 50%, transparent 100%)',
+              }}
+            />
 
-                <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
-                  {exp.hot && (
-                    <span className="mono-button-primary" style={{ fontSize: '0.6rem', padding: '4px 12px' }}>
-                      HOT EXPERIENCE
-                    </span>
-                  )}
-                  {exp.learning && (
-                    <span
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        background: 'var(--tag-bg)',
-                        border: '1px solid var(--tag-border)',
-                        color: 'var(--tag-text)',
-                        borderRadius: '4px',
-                        fontSize: '0.65rem',
-                        padding: '4px 10px',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.1em',
-                      }}
-                    >
-                      Experiência prática e estudos
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
+            <div className="space-y-6">
+              {experiences.map((exp, index) => (
+                <article
+                  key={index}
+                  className="relative"
+                  style={{
+                    background: 'var(--color-surface)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '4px',
+                  }}
+                >
+                  {/* Corner brackets — top-left, bottom-right */}
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      top: '-1px',
+                      left: '-1px',
+                      width: '12px',
+                      height: '12px',
+                      borderTop: '2px solid var(--color-accent)',
+                      borderLeft: '2px solid var(--color-accent)',
+                    }}
+                  />
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      bottom: '-1px',
+                      right: '-1px',
+                      width: '12px',
+                      height: '12px',
+                      borderBottom: '2px solid var(--color-accent)',
+                      borderRight: '2px solid var(--color-accent)',
+                    }}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 p-6 md:p-8">
+                    {/* Coluna esquerda — número + período */}
+                    <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-3">
+                      {/* Número grande */}
+                      <div
+                        className="relative flex items-center justify-center flex-shrink-0"
+                        style={{
+                          width: '64px',
+                          height: '64px',
+                          background: 'var(--color-surface-alt)',
+                          border: '1px solid var(--color-border)',
+                          borderTop: '2px solid var(--color-accent)',
+                          borderRadius: '4px',
+                          zIndex: 1,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: '2rem',
+                            color: 'var(--color-accent)',
+                            lineHeight: 1,
+                            letterSpacing: '0.05em',
+                          }}
+                        >
+                          {exp.number}
+                        </span>
+                      </div>
+
+                      {/* Período + status */}
+                      <div className="md:mt-1">
+                        <p
+                          style={{
+                            fontSize: '0.6rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.18em',
+                            color: 'var(--color-muted-dim)',
+                            marginBottom: '4px',
+                          }}
+                        >
+                          Período
+                        </p>
+                        <p
+                          style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: '1.1rem',
+                            color: 'var(--color-text)',
+                            letterSpacing: '0.05em',
+                            lineHeight: 1,
+                          }}
+                        >
+                          {exp.period}
+                        </p>
+                        {exp.current && (
+                          <span
+                            className="mt-2 inline-flex items-center gap-1.5"
+                            style={{
+                              fontSize: '0.55rem',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.15em',
+                              color: 'var(--color-accent)',
+                              background: 'rgba(var(--accent-rgb), 0.08)',
+                              border: '1px solid rgba(var(--accent-rgb), 0.25)',
+                              borderRadius: '4px',
+                              padding: '3px 8px',
+                            }}
+                          >
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                width: 5,
+                                height: 5,
+                                borderRadius: '50%',
+                                background: 'var(--color-accent)',
+                                animation: 'pulse 2s infinite',
+                              }}
+                            />
+                            Atual
+                          </span>
+                        )}
+                        {exp.learning && (
+                          <span
+                            className="mt-2 inline-block"
+                            style={{
+                              fontSize: '0.55rem',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.15em',
+                              color: 'var(--tag-text)',
+                              background: 'var(--tag-bg)',
+                              border: '1px solid var(--tag-border)',
+                              borderRadius: '4px',
+                              padding: '3px 8px',
+                            }}
+                          >
+                            Estágio
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Coluna direita — conteúdo */}
+                    <div>
+                      <p
+                        style={{
+                          fontSize: '0.6rem',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.18em',
+                          color: 'var(--color-muted-dim)',
+                          marginBottom: '6px',
+                        }}
+                      >
+                        {exp.company}
+                      </p>
+                      <h4
+                        style={{
+                          fontFamily: "'Bebas Neue', sans-serif",
+                          fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                          color: 'var(--color-text)',
+                          lineHeight: 1,
+                          letterSpacing: '0.02em',
+                          marginBottom: '12px',
+                        }}
+                      >
+                        {exp.role.toUpperCase()}
+                      </h4>
+                      <p
+                        style={{
+                          color: 'var(--color-muted)',
+                          fontSize: '0.95rem',
+                          lineHeight: 1.6,
+                          marginBottom: '16px',
+                        }}
+                      >
+                        {exp.description}
+                      </p>
+
+                      {/* Highlights */}
+                      {exp.highlights?.length > 0 && (
+                        <ul className="space-y-2 mb-5">
+                          {exp.highlights.map((h, i) => (
+                            <li
+                              key={i}
+                              className="flex items-start gap-2"
+                              style={{ color: 'var(--color-muted)', fontSize: '0.875rem', lineHeight: 1.5 }}
+                            >
+                              <span
+                                style={{
+                                  color: 'var(--color-accent)',
+                                  fontWeight: 700,
+                                  flexShrink: 0,
+                                  marginTop: '1px',
+                                }}
+                              >
+                                →
+                              </span>
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Stack chips */}
+                      {exp.stack?.length > 0 && (
+                        <div
+                          className="flex flex-wrap gap-2 pt-4"
+                          style={{ borderTop: '1px solid var(--color-border)' }}
+                        >
+                          {exp.stack.map((tech) => (
+                            <span
+                              key={tech}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                fontSize: '0.65rem',
+                                fontWeight: 600,
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                background: 'var(--color-surface-alt)',
+                                border: '1px solid var(--color-border)',
+                                color: 'var(--color-muted)',
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -337,15 +543,71 @@ const About = () => {
               </svg>
               Tecnologias
             </h3>
-            <div className="space-y-4">
-              {skills.map((skill, index) => (
-                <div key={index}>
-                  <div className="mb-2 flex justify-between">
-                    <span className="font-medium" style={{ color: 'var(--color-text)' }}>{skill.name}</span>
-                    <span className="text-sm" style={{ color: 'var(--color-accent)' }}>{skill.level}%</span>
+            <div className="space-y-6">
+              {skillGroups.map((group) => (
+                <div key={group.label}>
+                  <div className="mb-3 flex items-center gap-2">
+                    <p
+                      style={{
+                        fontSize: '0.6rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.18em',
+                        color: group.highlight ? 'var(--color-accent)' : 'var(--color-muted-dim)',
+                      }}
+                    >
+                      {group.label}
+                    </p>
+                    {group.highlight && (
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '0.55rem',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.15em',
+                          color: 'var(--color-accent)',
+                          background: 'rgba(var(--accent-rgb), 0.08)',
+                          border: '1px solid rgba(var(--accent-rgb), 0.2)',
+                          borderRadius: '4px',
+                          padding: '2px 8px',
+                        }}
+                      >
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            width: 5,
+                            height: 5,
+                            borderRadius: '50%',
+                            background: 'var(--color-accent)',
+                            animation: 'pulse 2s infinite',
+                          }}
+                        />
+                        Diferencial
+                      </span>
+                    )}
                   </div>
-                  <div className="mono-progress-track">
-                    <div className="mono-progress-bar" style={{ width: `${skill.level}%` }}></div>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <span
+                        key={item}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          fontSize: '0.7rem',
+                          fontWeight: 600,
+                          padding: '6px 12px',
+                          borderRadius: '4px',
+                          background: group.highlight ? 'rgba(var(--accent-rgb), 0.08)' : 'var(--color-surface-alt)',
+                          border: `1px solid ${group.highlight ? 'rgba(var(--accent-rgb), 0.25)' : 'var(--color-border)'}`,
+                          color: group.highlight ? 'var(--color-accent)' : 'var(--color-text)',
+                        }}
+                      >
+                        {item}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))}
