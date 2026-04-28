@@ -45,6 +45,21 @@ const About = () => {
       ],
       stack: ['WordPress', 'PHP', 'HTML/CSS', 'JavaScript'],
     },
+    {
+      number: '04',
+      period: 'Fev 2009 — Jan 2020',
+      tenure: '11 anos',
+      role: 'Suporte Técnico → Analista de Suporte',
+      company: 'Sicredi',
+      description:
+        'Onze anos de evolução interna: de operador de atendimento a analista de suporte. Aqui já resolvia com tech antes do título de dev — automatizando processos, criando dashboards e dando suporte a sistemas críticos do banco.',
+      highlights: [
+        'Automação de processos administrativos e operacionais',
+        'Criação de dashboards gerenciais para tomada de decisão',
+        'Suporte técnico a Internet Banking, Cartões e Cobrança',
+      ],
+      stack: ['Automação', 'Dashboards', 'Suporte N2/N3', 'Operações'],
+    },
   ];
 
   const skillGroups = [
@@ -370,6 +385,24 @@ const About = () => {
                         >
                           {exp.period}
                         </p>
+                        {exp.tenure && (
+                          <span
+                            className="mt-2 inline-block"
+                            style={{
+                              fontSize: '0.55rem',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.15em',
+                              color: 'var(--color-accent)',
+                              background: 'rgba(var(--accent-rgb), 0.08)',
+                              border: '1px solid rgba(var(--accent-rgb), 0.25)',
+                              borderRadius: '4px',
+                              padding: '3px 8px',
+                            }}
+                          >
+                            {exp.tenure}
+                          </span>
+                        )}
                         {exp.current && (
                           <span
                             className="mt-2 inline-flex items-center gap-1.5"
