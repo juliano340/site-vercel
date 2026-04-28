@@ -4,6 +4,16 @@ import Image from 'next/image';
 const projects = [
 
   {
+    title: "Loja Web",
+    description: "E-commerce full-stack com Angular 20 + Tailwind no front e NestJS + TypeORM + PostgreSQL + JWT + Stripe no back. Catálogo, busca, filtros por categoria, carrinho e área autenticada.",
+    imageUrl: "/images/loja-web.png",
+    projectUrl: "https://loja.juliano340.com/products",
+    repoUrl: "https://github.com/juliano340/loja-web",
+    repoBackendUrl: "https://github.com/juliano340/loja-backend",
+    tags: ["Angular 20", "Tailwind CSS", "NestJS", "TypeORM", "PostgreSQL", "JWT", "Stripe", "TypeScript"],
+    category: "fullstack"
+  },
+  {
     title: "TaskMaster",
     description: "Aplicação SaaS para gerenciamento de tarefas com autenticação, planos free e premium, integração com Stripe e deploy completo em VPS Linux.",
     imageUrl: "/images/tasks.png",
@@ -622,7 +632,9 @@ const Portfolio = () => {
                     ))}
                   </div>
 
-                  <div className="mt-auto grid gap-3 sm:grid-cols-2">
+                  <div
+                    className={`mt-auto grid gap-3 ${selectedProject.repoBackendUrl ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}
+                  >
                     <a
                       href={selectedProject.projectUrl}
                       target="_blank"
@@ -637,8 +649,18 @@ const Portfolio = () => {
                       rel="noopener noreferrer"
                       className="mono-focus-ring mono-button-secondary"
                     >
-                      Ver código
+                      {selectedProject.repoBackendUrl ? 'Front (repo)' : 'Ver código'}
                     </a>
+                    {selectedProject.repoBackendUrl && (
+                      <a
+                        href={selectedProject.repoBackendUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mono-focus-ring mono-button-secondary"
+                      >
+                        Back (repo)
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
