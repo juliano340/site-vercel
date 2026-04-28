@@ -639,7 +639,7 @@ const Portfolio = () => {
                       href={selectedProject.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mono-focus-ring mono-button-primary"
+                      className="mono-focus-ring mono-button-primary whitespace-nowrap"
                     >
                       Abrir projeto
                     </a>
@@ -647,7 +647,7 @@ const Portfolio = () => {
                       href={selectedProject.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mono-focus-ring mono-button-secondary"
+                      className="mono-focus-ring mono-button-secondary whitespace-nowrap"
                     >
                       {selectedProject.repoBackendUrl ? 'Front (repo)' : 'Ver código'}
                     </a>
@@ -656,7 +656,7 @@ const Portfolio = () => {
                         href={selectedProject.repoBackendUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mono-focus-ring mono-button-secondary"
+                        className="mono-focus-ring mono-button-secondary whitespace-nowrap"
                       >
                         Back (repo)
                       </a>
