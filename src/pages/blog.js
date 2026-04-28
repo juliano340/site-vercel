@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getBlocks, getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
 import Breadcrumb from './components/Breadcrumb';
@@ -164,39 +164,53 @@ const Blog = ({ posts, generatedAt }) => {
     const widgetPosts  = sortedPosts.slice(1, 6);
     const featuredPosts = sortedPosts.slice(1, 4);
 
-    const [touchStart, setTouchStart] = useState(null);
-    const [touchEnd, setTouchEnd] = useState(null);
+    const [isPaused, setIsPaused] = useState(false);
+    const touchStartRef = useRef(null);
+
+    const TAP_TOLERANCE_PX = 10; // movimento <= 10px é tap, não swipe
+    const SWIPE_THRESHOLD_PX = 50;
 
     const handleTouchStart = (e) => {
-        setTouchStart(e.targetTouches[0].clientX);
+        touchStartRef.current = e.targetTouches[0].clientX;
+        setIsPaused(true); // pausa auto-advance enquanto o dedo está na área
     };
 
     const handleTouchEnd = (e) => {
-        setTouchEnd(e.changedTouches[0].clientX);
-        handleSwipe(e.targetTouches[0]?.clientX);
-    };
+        const start = touchStartRef.current;
+        const end = e.changedTouches[0]?.clientX;
+        touchStartRef.current = null;
 
-    const handleSwipe = (currentX) => {
-        if (!touchStart || !touchEnd) return;
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > 50;
-        const isRightSwipe = distance < -50;
-
-        if (isLeftSwipe) {
-            setCarouselIndex((prev) => (prev + 1) % carouselPosts.length);
+        // se o gesto for um tap (mov < tolerância), NÃO mexe no índice — deixa o
+        // click do <Link> prosseguir normalmente. Bug anterior: state stale fazia
+        // o índice mudar mesmo em taps puros.
+        if (start == null || end == null) {
+            setIsPaused(false);
+            return;
         }
-        if (isRightSwipe) {
+
+        const distance = start - end;
+        if (Math.abs(distance) <= TAP_TOLERANCE_PX) {
+            setIsPaused(false);
+            return;
+        }
+
+        if (distance > SWIPE_THRESHOLD_PX) {
+            setCarouselIndex((prev) => (prev + 1) % carouselPosts.length);
+        } else if (distance < -SWIPE_THRESHOLD_PX) {
             setCarouselIndex((prev) => (prev - 1 + carouselPosts.length) % carouselPosts.length);
         }
+
+        // libera auto-advance após pequena janela pra usuário continuar lendo
+        setTimeout(() => setIsPaused(false), 4000);
     };
 
     useEffect(() => {
-        if (carouselPosts.length === 0) return;
+        if (carouselPosts.length === 0 || isPaused) return;
         const timer = setInterval(() => {
             setCarouselIndex((prev) => (prev + 1) % carouselPosts.length);
         }, 6000);
         return () => clearInterval(timer);
-    }, [carouselPosts.length]);
+    }, [carouselPosts.length, isPaused]);
 
     const allTags = Array.from(new Set(sortedPosts.flatMap(getPostTags))).sort((a, b) => a.localeCompare(b));
 
@@ -294,6 +308,10 @@ const Blog = ({ posts, generatedAt }) => {
                                 className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg group"
                                 onTouchStart={handleTouchStart}
                                 onTouchEnd={handleTouchEnd}
+                                onMouseEnter={() => setIsPaused(true)}
+                                onMouseLeave={() => setIsPaused(false)}
+                                onFocus={() => setIsPaused(true)}
+                                onBlur={() => setIsPaused(false)}
                             >
                                 <div className="absolute inset-0">
                                     <SmartImage
