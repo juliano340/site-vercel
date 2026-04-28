@@ -6,43 +6,51 @@ import { useRouter } from 'next/router';
  * Sem dependência externa. Tema accent.
  *
  * Comportamento:
- * - sobe rápido até ~80% no routeChangeStart
- * - completa 100% e some no routeChangeComplete/error
- * - delay de 150ms antes de mostrar — evita flash em navegação instantânea
+ * - mostra imediatamente no routeChangeStart (sem delay)
+ * - garante tempo mínimo visível (MIN_SHOW_MS) para que rotas
+ *   muito rápidas (cache hit, página estática) ainda dêem sinal
+ * - sobe gradualmente até 80% enquanto carrega
+ * - completa 100% no done e some
  */
+const MIN_SHOW_MS = 400;
+const FADE_OUT_MS = 220;
+
 const RouteProgressBar = () => {
     const router = useRouter();
     const [progress, setProgress] = useState(0);
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        let showTimer;
         let creepTimer;
         let hideTimer;
+        let startedAt = 0;
 
         const start = () => {
             clearTimeout(hideTimer);
-            // só mostra se a transição demorar mais de 150ms
-            showTimer = setTimeout(() => {
-                setVisible(true);
-                setProgress(15);
-                // sobe gradualmente até 80% enquanto carrega
-                let current = 15;
-                creepTimer = setInterval(() => {
-                    current = Math.min(80, current + (80 - current) * 0.15);
-                    setProgress(current);
-                }, 200);
-            }, 150);
+            clearInterval(creepTimer);
+            startedAt = performance.now();
+            setVisible(true);
+            setProgress(8);
+            // sobe gradualmente até 80% enquanto carrega
+            let current = 8;
+            creepTimer = setInterval(() => {
+                current = Math.min(80, current + (80 - current) * 0.15);
+                setProgress(current);
+            }, 200);
         };
 
         const done = () => {
-            clearTimeout(showTimer);
             clearInterval(creepTimer);
+            const elapsed = performance.now() - startedAt;
+            const remainingMin = Math.max(0, MIN_SHOW_MS - elapsed);
+
+            // pula pra 100% mas só esconde após cumprir tempo mínimo visível
             setProgress(100);
             hideTimer = setTimeout(() => {
                 setVisible(false);
-                setProgress(0);
-            }, 300);
+                // reset progress depois do fade-out terminar
+                setTimeout(() => setProgress(0), FADE_OUT_MS);
+            }, remainingMin + 150);
         };
 
         router.events.on('routeChangeStart', start);
@@ -53,7 +61,6 @@ const RouteProgressBar = () => {
             router.events.off('routeChangeStart', start);
             router.events.off('routeChangeComplete', done);
             router.events.off('routeChangeError', done);
-            clearTimeout(showTimer);
             clearTimeout(hideTimer);
             clearInterval(creepTimer);
         };
@@ -71,7 +78,10 @@ const RouteProgressBar = () => {
                 pointerEvents: 'none',
                 zIndex: 9999,
                 opacity: visible ? 1 : 0,
-                transition: 'opacity 200ms ease-out',
+                // fade-in rápido (sinal imediato), fade-out smooth
+                transition: visible
+                    ? 'opacity 80ms ease-out'
+                    : `opacity ${FADE_OUT_MS}ms ease-out`,
             }}
         >
             <div
