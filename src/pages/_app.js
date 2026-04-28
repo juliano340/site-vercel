@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import Layout from './components/Layout';
+import RouteProgressBar from './components/RouteProgressBar';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import CookieConsentModal from './components/CookieConsentModal';
 import { CookieConsentProvider, useCookieConsent } from '@/contexts/CookieConsentContext';
@@ -45,6 +46,7 @@ function AppContent({ Component, pageProps }) {
 
   return (
     <div className={`${poppins.variable} font-sans`}>
+      <RouteProgressBar />
       {consentGiven ? (
         <>
           <Script id="meta-pixel" strategy="afterInteractive">
