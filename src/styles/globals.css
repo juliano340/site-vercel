@@ -260,11 +260,11 @@ body {
     }
 
     .mono-button-primary {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-3 transition-all duration-300;
+        @apply inline-flex items-center justify-center gap-2 px-4 py-2 transition-all duration-300;
         background: var(--btn-bg);
         color: var(--btn-text);
         border-radius: 999px;
-        font-weight: 800;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.08em;
         font-size: 0.75rem;
@@ -277,12 +277,12 @@ body {
     }
 
     .mono-button-secondary {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-3 transition-all duration-300;
+        @apply inline-flex items-center justify-center gap-2 px-4 py-2 transition-all duration-300;
         border: 1px solid var(--btn2-border);
         color: var(--btn2-text);
         background: transparent;
         border-radius: 999px;
-        font-weight: 700;
+        font-weight: 600;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
