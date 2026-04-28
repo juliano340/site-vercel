@@ -2,7 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const STACK = ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker'];
+const STACK = ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Claude/GPT API', 'Docker'];
+const CURRENT_YEAR = new Date().getFullYear();
 
 const HeroSectionView = () => {
   return (
@@ -77,7 +78,7 @@ const HeroSectionView = () => {
                   animation: 'pulse 2s infinite',
                 }}
               />
-              FULL STACK DEVELOPER
+              DEV · IA · PRODUTO
             </span>
           </div>
 
@@ -92,7 +93,7 @@ const HeroSectionView = () => {
               letterSpacing: '0.02em',
             }}
           >
-            PROGRAMAÇÃO WEB COM FOCO EM CLAREZA, PERFORMANCE E RESULTADO.
+            DESENVOLVEDOR FULL STACK COM CABEÇA DE PRODUTO E VELOCIDADE DE IA.
           </h1>
 
           {/* Paragraph */}
@@ -105,8 +106,9 @@ const HeroSectionView = () => {
               marginBottom: '2rem',
             }}
           >
-            Sou desenvolvedor full stack e construo soluções digitais do design ao deploy,
-            com código limpo, experiência consistente e prioridade no que realmente importa.
+            Construo MVPs, sistemas internos e sites que funcionam, convertem e são
+            fáceis de manter — da arquitetura ao deploy. Combino código limpo, IA aplicada
+            e visão de produto pra entregar rápido sem perder qualidade.
           </p>
 
           {/* Stack chips */}
@@ -125,7 +127,7 @@ const HeroSectionView = () => {
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                Fale comigo
+                Agendar conversa de 20min
               </a>
             </Link>
 
@@ -166,7 +168,7 @@ const HeroSectionView = () => {
             >
               <span>FULL STACK</span>
               <span>@JULIANO340</span>
-              <span>{new Date().getFullYear()}</span>
+              <span>{CURRENT_YEAR}</span>
             </div>
 
             {/* Separador */}
@@ -203,10 +205,10 @@ const HeroSectionView = () => {
                   JULIANO340
                 </p>
                 <p style={{ color: 'var(--color-text)', fontSize: '0.875rem', marginTop: '2px' }}>
-                  Desenvolvedor Web
+                  Full Stack · IA · Produto
                 </p>
                 <p style={{ color: 'var(--color-muted)', fontSize: '0.75rem', marginTop: '4px' }}>
-                  Projetos sob medida para web e produtos digitais.
+                  MVPs, sistemas e sites que entregam resultado.
                 </p>
               </div>
             </div>
