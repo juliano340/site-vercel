@@ -96,6 +96,15 @@ const projects = [
     tags: ['RunLab', 'Mobile', 'JSON Backup', 'Privacidade'],
     category: ["fullstack", "mobile"]
   },
+  {
+    title: "JVerso - Rede Social",
+    description: "Rede social completa com feed de postagens, likes, comentários aninhados, perfis de usuário e sistema de seguidores, desenvolvida com Angular e NestJS.",
+    imageUrl: "/images/jverso-feed.png",
+    projectUrl: "https://jverso.juliano340.com/",
+    repoUrl: "https://github.com/juliano340/rede-social-rai",
+    tags: ["Angular", "NestJS", "Prisma", "PostgreSQL", "JWT", "Tailwind CSS"],
+    category: "fullstack"
+  },
 ];
 
 const Portfolio = () => {
