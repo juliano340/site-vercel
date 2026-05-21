@@ -201,7 +201,7 @@ const InteractiveHero = () => {
                         height={160}
                         priority
                         loading="eager"
-                        fetchPriority="high"
+                        fetchpriority="high"
                         sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 160px"
                         className="relative rounded-full object-cover"
                         style={{

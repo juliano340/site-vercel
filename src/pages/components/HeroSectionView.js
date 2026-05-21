@@ -1,54 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import HeroBackground from './HeroBackground';
 
 const STACK = ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Claude/GPT API', 'Docker'];
 const CURRENT_YEAR = new Date().getFullYear();
 
 const HeroSectionView = () => {
   return (
-    <section
-      className="hero-fullheight relative flex items-center overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
-      style={{
-        background: 'var(--color-background)',
-        backgroundImage: 'radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.03) 0%, transparent 70%)',
-      }}
-    >
-      {/* Animated blobs */}
-      <div
-        className="pointer-events-none absolute top-0 right-0 w-96 h-96 rounded-full blur-2xl"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.35), transparent 65%)',
-          animation: 'blob-1 8s ease-in-out infinite',
-          opacity: 0.7,
-        }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full blur-2xl"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.3), transparent 65%)',
-          animation: 'blob-2 10s ease-in-out infinite',
-          opacity: 0.6,
-          animationDelay: '1s',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-20 right-1/3 w-72 h-72 rounded-full blur-2xl"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.28), transparent 65%)',
-          animation: 'blob-3 12s ease-in-out infinite',
-          opacity: 0.65,
-          animationDelay: '2s',
-        }}
-      />
-
-      {/* Vignette overlay */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at center, transparent 40%, var(--color-shadow) 100%)',
-        }}
-      />
+    <section className="hero-fullheight relative flex items-center overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      {/* Elegant background */}
+      <HeroBackground />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl grid items-center gap-12 lg:grid-cols-2">
         {/* Coluna esquerda */}
