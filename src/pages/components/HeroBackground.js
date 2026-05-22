@@ -14,9 +14,9 @@ const HeroBackground = () => {
         className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse at 20% 50%, rgba(var(--accent-rgb), 0.08) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 20%, rgba(var(--accent-rgb), 0.05) 0%, transparent 40%),
-            radial-gradient(ellipse at 40% 80%, rgba(0, 177, 64, 0.06) 0%, transparent 45%)
+            radial-gradient(ellipse at 20% 50%, rgba(var(--accent-rgb), 0.13) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(var(--accent-rgb), 0.09) 0%, transparent 40%),
+            radial-gradient(ellipse at 40% 80%, rgba(0, 177, 64, 0.1) 0%, transparent 45%)
           `,
           animation: 'gradientShift 20s ease-in-out infinite',
           backgroundSize: '200% 200%',
@@ -36,8 +36,8 @@ const HeroBackground = () => {
         className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(var(--accent-rgb), 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(var(--accent-rgb), 0.02) 1px, transparent 1px)
+            linear-gradient(rgba(var(--accent-rgb), 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(var(--accent-rgb), 0.035) 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }}
