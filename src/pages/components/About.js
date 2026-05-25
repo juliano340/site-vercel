@@ -132,91 +132,53 @@ const About = () => {
           >
             QUEM SOU EU
           </h2>
+          <div className="mx-auto mt-2 h-px w-full max-w-5xl" style={{ background: '#C8FF00' }} />
         </div>
 
-        {/* Bio + Stats Row */}
-        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* Bio Card */}
-          <div
-            className="p-6 sm:p-8 lg:col-span-2"
-            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
-          >
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-[auto_1fr] md:items-start">
-              {/* Photo */}
-              <div className="flex justify-center md:justify-start">
-                <div style={{ position: 'relative', width: '140px', height: '140px', flexShrink: 0 }}>
-                  <div
-                    aria-hidden="true"
-                    style={{
-                      position: 'absolute',
-                      inset: '-6px',
-                      background: 'radial-gradient(circle, rgba(200,255,0,0.2) 0%, transparent 70%)',
-                      filter: 'blur(10px)',
-                      zIndex: 0,
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '100%',
-                      overflow: 'hidden',
-                      border: '2px solid rgba(200,255,0,0.3)',
-                      borderRadius: '50%',
-                      zIndex: 1,
-                    }}
-                  >
-                    <Image
-                      src="/images/profile-about.png"
-                      alt="Juliano Pereira"
-                      fill
-                      sizes="140px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'linear-gradient(180deg, transparent 50%, rgba(200,255,0,0.1) 100%)',
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Text */}
-              <div>
-                <p
+        {/* Bio Card */}
+        <div
+          className="mb-12 p-6 sm:p-8"
+          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+        >
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[180px_1fr] md:items-center">
+            <div className="flex justify-center md:justify-start">
+              <div style={{ position: 'relative', width: '180px', height: '180px', flexShrink: 0 }}>
+                <span
+                  aria-hidden="true"
                   style={{
-                    fontSize: '0.65rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    color: '#C8FF00',
-                    marginBottom: '16px',
+                    position: 'absolute',
+                    top: '-7px',
+                    left: '-7px',
+                    width: '16px',
+                    height: '16px',
+                    borderTop: '2px solid #C8FF00',
+                    borderLeft: '2px solid #C8FF00',
+                    zIndex: 2,
                   }}
-                >
-                  Perfil profissional
-                </p>
-                <p className="mb-4 text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  Graduado em <span style={{ fontWeight: 600, color: '#FFFFFF' }}>Sistemas para Internet</span>. 
-                  Desenvolvedor full stack com <span style={{ fontWeight: 600, color: '#FFFFFF' }}>cabeça de produto</span> e 
-                  <span style={{ fontWeight: 600, color: '#C8FF00' }}> velocidade de IA</span>.
-                </p>
-                <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  Transformo briefs em produtos digitais — do wireframe ao deploy em produção.
-                  Meu foco: código limpo, entregas rápidas e resultados mensuráveis.
-                </p>
+                />
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    bottom: '-7px',
+                    right: '-7px',
+                    width: '16px',
+                    height: '16px',
+                    borderBottom: '2px solid #C8FF00',
+                    borderRight: '2px solid #C8FF00',
+                    zIndex: 2,
+                  }}
+                />
+                <Image
+                  src="/images/profile-about.png"
+                  alt="Juliano Pereira"
+                  fill
+                  sizes="180px"
+                  style={{ objectFit: 'cover', border: '1px solid rgba(200,255,0,0.2)' }}
+                />
               </div>
             </div>
-          </div>
 
-          {/* Quick Stats Card */}
-          <div
-            className="p-6 flex flex-col justify-between"
-            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
-          >
             <div>
               <p
                 style={{
@@ -225,48 +187,17 @@ const About = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.2em',
                   color: '#C8FF00',
-                  marginBottom: '16px',
+                  marginBottom: '18px',
                 }}
               >
-                Resumo técnico
+                Perfil profissional
               </p>
-              <div className="space-y-4">
-                <div>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: '#FFFFFF', lineHeight: 1 }}>
-                    2-4 SEM
-                  </p>
-                  <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    Tempo médio brief → deploy
-                  </p>
-                </div>
-                <div style={{ height: '1px', background: 'var(--color-border)' }} />
-                <div>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: '#FFFFFF', lineHeight: 1 }}>
-                    TS · NEXT · NODE
-                  </p>
-                  <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    Stack principal em produção
-                  </p>
-                </div>
-                <div style={{ height: '1px', background: 'var(--color-border)' }} />
-                <div>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: '#C8FF00', lineHeight: 1 }}>
-                    1/1
-                  </p>
-                  <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    Cliente por vez. Qualidade total.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center gap-2">
-              <span
-                className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: '#C8FF00' }}
-              />
-              <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
-                Disponível para novos projetos
-              </span>
+              <p className="mb-6 text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                Sou graduado em <span style={{ fontWeight: 700, color: '#FFFFFF' }}>Sistemas para Internet</span> e entusiasta do <span style={{ fontWeight: 700, color: '#FFFFFF' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com <span style={{ fontWeight: 700, color: '#FFFFFF' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
+              </p>
+              <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como <span style={{ fontWeight: 700, color: '#FFFFFF' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
+              </p>
             </div>
           </div>
         </div>
