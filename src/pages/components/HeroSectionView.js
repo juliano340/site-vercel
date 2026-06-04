@@ -47,6 +47,8 @@ const HeroSectionView = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    if (!window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches) return;
+
     setMounted(true);
   }, []);
 
@@ -163,7 +165,7 @@ const HeroSectionView = () => {
         {/* Right Column - Profile Card */}
         <div className="flex justify-center lg:justify-end">
           <div
-            className="w-full max-w-sm relative"
+            className="hero-profile-card w-full max-w-sm relative"
             style={{
               opacity: mounted ? 1 : 0,
               transform: mounted ? 'translateX(0) scale(1)' : 'translateX(60px) scale(0.95)',
@@ -308,6 +310,18 @@ const HeroSectionView = () => {
         .hero-right-inner > *:nth-child(2) { animation-delay: 0.38s; }
         .hero-right-inner > *:nth-child(3) { animation-delay: 0.46s; }
         .hero-right-inner > *:nth-child(4) { animation-delay: 0.54s; }
+
+        @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+          .hero-left,
+          .hero-profile-card,
+          .hero-left > *,
+          .hero-right-inner > * {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
       `}</style>
     </section>
   );
