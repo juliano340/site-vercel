@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 const About = () => {
+  const [expandedExperience, setExpandedExperience] = useState(null);
+  const [showAllExperiences, setShowAllExperiences] = useState(false);
+
   const experiences = [
     {
       number: '01',
       period: 'Ago 2025 — Dez 2025',
       role: 'Analista de Suporte Técnico',
       company: 'LWSA · Bling ERP',
+      logo: '/images/companies/bling-linkedin.png',
+      logoAlt: 'Logo Bling ERP',
       description:
         'Suporte técnico e integração de sistemas no Bling ERP — equipe de integração com lojas virtuais, marketplaces e serviços logísticos.',
       highlights: [
@@ -22,7 +27,9 @@ const About = () => {
       period: 'Dez 2022 — Jun 2025',
       role: 'Suporte Técnico → QA / Analista de Testes → Programador Web Full Stack',
       company: 'Dataweb Tecnologia · Porto Alegre, RS',
-      tenure: '2 anos',
+      logo: '/images/companies/dataweb-linkedin.png',
+      logoAlt: 'Logo Dataweb Tecnologia',
+      tenure: '3 anos',
       description:
         'Evolução interna em três frentes: comecei no help desk (instalação e configuração), migrei para QA com testes manuais em desktop, web e mobile, e finalizei como dev full-stack no ERP — backend C# (.NET) e frontend TypeScript/Angular.',
       highlights: [
@@ -37,6 +44,8 @@ const About = () => {
       period: 'Set 2022 — Dez 2022',
       role: 'Programador Web',
       company: 'Agexcom · Unisinos',
+      logo: '/images/companies/agexcom-linkedin.png',
+      logoAlt: 'Logo Agexcom e Unisinos',
       description:
         'Agência de Comunicação Experimental da Unisinos — desenvolvimento de hotsites e blogs com Wordpress e manutenção de sites.',
       highlights: [
@@ -48,10 +57,30 @@ const About = () => {
     },
     {
       number: '04',
+      period: 'Jan 2021 — Mar 2022',
+      tenure: '1 ano 3 meses',
+      role: 'CX - Customer Experience',
+      company: 'Appmax',
+      logo: '/images/companies/appmax-linkedin.png',
+      logoAlt: 'Logo Appmax',
+      description:
+        'Atendimento aos clientes da Appmax, intermediando contato entre empresas parceiras e consumidores finais em temas financeiros e acompanhamento de pedidos.',
+      highlights: [
+        'Atendimento via e-mail e telefone para consumidores finais e parceiros',
+        'Intermediação entre lojistas, Appmax e clientes em solicitações de suporte',
+        'Apoio em questões financeiras, status de compra e acompanhamento de pedidos',
+        'Rotina com foco em trabalho em equipe, conexão com clientes e resolução de problemas',
+      ],
+      stack: ['CX', 'Atendimento', 'Suporte', 'Pagamentos', 'E-commerce'],
+    },
+    {
+      number: '05',
       period: 'Fev 2009 — Jan 2020',
       tenure: '11 anos',
-      role: 'Suporte Técnico → Analista de Suporte',
+      role: 'Operador de Atendimento → Analista de Suporte Administrativo',
       company: 'Sicredi',
+      logo: '/images/companies/sicredi-linkedin.png',
+      logoAlt: 'Logo Sicredi',
       description:
         'Onze anos de evolução interna: de operador de atendimento a analista de suporte. Aqui já resolvia com tech antes do título de dev — automatizando processos, criando dashboards e dando suporte a sistemas críticos do banco.',
       highlights: [
@@ -60,6 +89,24 @@ const About = () => {
         'Suporte técnico a Internet Banking, Cartões e Cobrança',
       ],
       stack: ['Automação', 'Dashboards', 'Suporte N2/N3', 'Operações'],
+    },
+    {
+      number: '06',
+      period: 'Jan 2006 — Fev 2009',
+      tenure: '3 anos 2 meses',
+      role: 'Assistente de Suporte a Internet',
+      company: 'Atento Brasil',
+      logo: '/images/companies/atento-linkedin.png',
+      logoAlt: 'Logo Atento',
+      description:
+        'Suporte técnico para clientes do provedor Terra, atuando por telefone, chat e e-mail em conexão, e-mail, VoIP e serviços online.',
+      highlights: [
+        'Suporte a internet discada, banda larga ADSL, cable e satélite',
+        'Configuração de e-mail, VoIP e serviços online do provedor Terra',
+        'Atendimento técnico por telefone, chat e e-mail em operação de BackOffice',
+        'Atendimentos de relacionamento, vendas e cobrança quando necessário',
+      ],
+      stack: ['Suporte Técnico', 'BackOffice', 'Internet', 'ADSL', 'Atendimento'],
     },
   ];
 
@@ -99,6 +146,9 @@ const About = () => {
     'Programador de Sistemas para Internet',
     'Programador de Dispositivos Móveis',
   ];
+
+  const visibleExperiences = showAllExperiences ? experiences : experiences.slice(0, 3);
+  const hiddenExperienceCount = experiences.length - visibleExperiences.length;
 
   return (
     <section
@@ -241,9 +291,13 @@ const About = () => {
               }}
             />
             <div className="space-y-6">
-              {experiences.map((exp, index) => (
+              {visibleExperiences.map((exp, index) => {
+                const isExpanded = expandedExperience === exp.company;
+                const hasMore = exp.highlights?.length > 0;
+
+                return (
                 <article
-                  key={index}
+                  key={exp.company}
                   className="relative"
                   style={{
                     background: 'var(--color-surface)',
@@ -278,7 +332,7 @@ const About = () => {
                   <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 p-6 md:p-8">
                     <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-3">
                       <div
-                        className="relative flex items-center justify-center flex-shrink-0"
+                        className="relative flex items-center justify-center flex-shrink-0 overflow-hidden"
                         style={{
                           width: '64px',
                           height: '64px',
@@ -289,16 +343,13 @@ const About = () => {
                           zIndex: 1,
                         }}
                       >
-                        <span
-                          style={{
-                            fontFamily: "'Bebas Neue', sans-serif",
-                            fontSize: '2rem',
-                            color: '#C8FF00',
-                            lineHeight: 1,
-                          }}
-                        >
-                          {exp.number}
-                        </span>
+                        <Image
+                          src={exp.logo}
+                          alt={exp.logoAlt}
+                          fill
+                          sizes="64px"
+                          style={{ objectFit: 'contain', padding: '10px' }}
+                        />
                       </div>
                       <div className="md:mt-1">
                         <p
@@ -345,18 +396,19 @@ const About = () => {
                       </div>
                     </div>
                     <div>
-                      <p
-                        style={{
-                          fontSize: '0.6rem',
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.18em',
-                          color: 'rgba(255,255,255,0.3)',
-                          marginBottom: '6px',
-                        }}
-                      >
-                        {exp.company}
-                      </p>
+                      <div className="mb-2 flex items-center gap-3">
+                        <p
+                          style={{
+                            fontSize: '0.6rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.18em',
+                            color: 'rgba(200,255,0,0.7)',
+                          }}
+                        >
+                          {exp.company}
+                        </p>
+                      </div>
                       <h4
                         style={{
                           fontFamily: "'Bebas Neue', sans-serif",
@@ -379,19 +431,34 @@ const About = () => {
                       >
                         {exp.description}
                       </p>
-                      {exp.highlights?.length > 0 && (
-                        <ul className="space-y-2 mb-5">
-                          {exp.highlights.map((h, i) => (
-                            <li
-                              key={i}
-                              className="flex items-start gap-2"
-                              style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', lineHeight: 1.5 }}
-                            >
-                              <span style={{ color: '#C8FF00', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>→</span>
-                              <span>{h}</span>
-                            </li>
-                          ))}
-                        </ul>
+                      {hasMore && (
+                        <>
+                          {isExpanded && (
+                            <ul className="space-y-2 mb-5">
+                              {exp.highlights.map((h, i) => (
+                                <li
+                                  key={i}
+                                  className="flex items-start gap-2"
+                                  style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', lineHeight: 1.5 }}
+                                >
+                                  <span style={{ color: '#C8FF00', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>→</span>
+                                  <span>{h}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => setExpandedExperience(isExpanded ? null : exp.company)}
+                            className="mono-focus-ring mb-5 inline-flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition-colors"
+                            style={{ color: '#C8FF00' }}
+                            aria-expanded={isExpanded}
+                          >
+                            {isExpanded ? 'Ler menos' : 'Ler mais'}
+                            <span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+                          </button>
+                        </>
                       )}
                       {exp.stack?.length > 0 && (
                         <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
@@ -416,8 +483,26 @@ const About = () => {
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
+            {hiddenExperienceCount > 0 && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllExperiences(true)}
+                  className="mono-focus-ring inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition-all hover:-translate-y-0.5"
+                  style={{
+                    color: '#C8FF00',
+                    background: 'rgba(200,255,0,0.06)',
+                    border: '1px solid rgba(200,255,0,0.2)',
+                  }}
+                >
+                  Ver mais experiências
+                  <span aria-hidden="true">+{hiddenExperienceCount}</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
