@@ -263,9 +263,9 @@ const Portfolio = () => {
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        background: 'rgba(0,0,0,0.7)',
-                        border: '1px solid rgba(var(--accent-rgb), 0.2)',
-                        color: 'var(--color-accent)',
+                        background: 'rgba(0,0,0,0.75)',
+                        border: '1px solid rgba(var(--accent-rgb), 0.35)',
+                        color: '#FFFFFF',
                         borderRadius: '999px',
                         fontSize: '0.55rem',
                         padding: '3px 10px',
