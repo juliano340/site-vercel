@@ -3,6 +3,15 @@ import Image from 'next/image';
 
 const projects = [
   {
+    title: 'Finly',
+    description: 'App financeiro pessoal para controle de receitas, despesas e planejamento — dashboard interativo com gráficos e categorização inteligente.',
+    imageUrl: '/images/finly.png',
+    projectUrl: 'https://finly.juliano340.com/',
+    repoUrl: 'https://github.com/juliano340/finly',
+    tags: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Auth.js', 'Tailwind CSS', 'Stripe'],
+    category: 'fullstack',
+  },
+  {
     title: 'Loja Web',
     description: 'E-commerce full-stack com Angular 20 + Tailwind no front e NestJS + TypeORM + PostgreSQL + JWT + Stripe no back.',
     imageUrl: '/images/loja-web.png',
@@ -22,24 +31,6 @@ const projects = [
     category: 'fullstack',
   },
   {
-    title: 'Barber Admin',
-    description: 'Sistema multiplataforma para gestão de barbearias com Ionic/Angular e Firebase/Firestore.',
-    imageUrl: '/images/barberadmin.png',
-    projectUrl: 'https://barber.juliano340.com/',
-    repoUrl: 'https://github.com/juliano340/barber-admin',
-    tags: ['Angular', 'Ionic', 'Firebase'],
-    category: 'fullstack',
-  },
-  {
-    title: 'Vagas Voluntárias',
-    description: 'Plataforma de vagas voluntárias com Angular e NestJS.',
-    imageUrl: '/images/VagasVoluntarias.png',
-    projectUrl: 'https://vagas.juliano340.com/',
-    repoUrl: 'https://github.com/juliano340/vagas-voluntarias',
-    tags: ['Angular', 'NestJS', 'TypeScript'],
-    category: 'fullstack',
-  },
-  {
     title: 'Barbearia Moderna',
     description: 'Plataforma full-stack para gestão de barbearia com agendamentos, painel admin e automações via WhatsApp.',
     imageUrl: '/images/j-flix.png',
@@ -48,15 +39,6 @@ const projects = [
     repoUrl: 'https://github.com/juliano340/webapp',
     tags: ['NextJS', 'SQLITE', 'PRISMA', 'NextAuth', 'WhatsApp BOT'],
     category: 'fullstack',
-  },
-  {
-    title: 'PDV Web',
-    description: 'Sistema de Gestão de Vendas completo para ponto de venda.',
-    imageUrl: '/images/pdv.png',
-    projectUrl: 'https://pdv-juliano340s-projects.vercel.app/',
-    repoUrl: 'https://github.com/juliano340/pdv',
-    tags: ['React', 'Sistema', 'Gestão'],
-    category: 'frontend',
   },
   {
     title: 'CMS - BLOG',
