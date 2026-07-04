@@ -11,32 +11,32 @@ const CtaSection = () => {
         <div
           className="relative overflow-hidden p-8 sm:p-12 md:p-16"
           style={{
-            background: 'linear-gradient(135deg, rgba(200,255,0,0.06) 0%, rgba(17,17,17,0.98) 50%, rgba(200,255,0,0.03) 100%)',
-            border: '1px solid rgba(200,255,0,0.15)',
+            background: 'linear-gradient(135deg, rgba(var(--accent-rgb), 0.06) 0%, var(--color-background) 50%, rgba(var(--accent-rgb), 0.03) 100%)',
+            border: '1px solid var(--color-border)',
             borderRadius: '8px',
             position: 'relative',
           }}
         >
           {/* Decorative corner marks */}
-          <div className="pointer-events-none absolute left-4 top-4" style={{ color: 'rgba(200,255,0,0.15)' }}>
+          <div className="pointer-events-none absolute left-4 top-4" style={{ color: 'rgba(var(--accent-rgb), 0.15)' }}>
             <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
-          <div className="pointer-events-none absolute right-4 top-4" style={{ color: 'rgba(200,255,0,0.15)' }}>
+          <div className="pointer-events-none absolute right-4 top-4" style={{ color: 'rgba(var(--accent-rgb), 0.15)' }}>
             <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
-          <div className="pointer-events-none absolute bottom-4 left-4" style={{ color: 'rgba(200,255,0,0.15)' }}>
+          <div className="pointer-events-none absolute bottom-4 left-4" style={{ color: 'rgba(var(--accent-rgb), 0.15)' }}>
             <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
-          <div className="pointer-events-none absolute bottom-4 right-4" style={{ color: 'rgba(200,255,0,0.15)' }}>
+          <div className="pointer-events-none absolute bottom-4 right-4" style={{ color: 'rgba(var(--accent-rgb), 0.15)' }}>
             <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
               <circle cx="12" cy="12" r="2" />
@@ -48,8 +48,8 @@ const CtaSection = () => {
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage: `
-                linear-gradient(rgba(200,255,0,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200,255,0,0.02) 1px, transparent 1px)
+                linear-gradient(rgba(var(--accent-rgb), 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--accent-rgb), 0.02) 1px, transparent 1px)
               `,
               backgroundSize: '30px 30px',
             }}
@@ -63,7 +63,7 @@ const CtaSection = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.2em',
-                  color: 'rgba(200,255,0,0.5)',
+                  color: 'rgba(var(--accent-rgb), 0.5)',
                   marginBottom: '16px',
                 }}
               >
@@ -73,7 +73,7 @@ const CtaSection = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-                  color: '#FFFFFF',
+                  color: 'var(--color-text)',
                   lineHeight: 0.95,
                   letterSpacing: '0.02em',
                   marginBottom: '20px',
@@ -81,11 +81,11 @@ const CtaSection = () => {
                 }}
               >
                 TEM UM PROJETO TRAVADO?<br />
-                <span style={{ color: '#C8FF00' }}>VAMOS DESTRAVAR.</span>
+                <span style={{ color: 'var(--color-accent)' }}>VAMOS DESTRAVAR.</span>
               </h2>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '520px' }}>
+              <p style={{ color: 'var(--color-muted-dim)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '520px' }}>
                 Conta o problema. Em até 24h eu mando uma proposta com prazo, stack e escopo claro — 
-                <span style={{ color: '#C8FF00', fontWeight: 600 }}> sem enrolação</span> e sem reunião desnecessária.
+                <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}> sem enrolação</span> e sem reunião desnecessária.
               </p>
 
               {/* Mini trust badges */}
@@ -93,9 +93,9 @@ const CtaSection = () => {
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.15em]"
                   style={{
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.15)',
-                    color: '#C8FF00',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.15)',
+                    color: 'var(--color-accent)',
                     borderRadius: '4px',
                   }}
                 >
@@ -104,9 +104,9 @@ const CtaSection = () => {
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.15em]"
                   style={{
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.15)',
-                    color: '#C8FF00',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.15)',
+                    color: 'var(--color-accent)',
                     borderRadius: '4px',
                   }}
                 >
@@ -115,9 +115,9 @@ const CtaSection = () => {
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.15em]"
                   style={{
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.15)',
-                    color: '#C8FF00',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.15)',
+                    color: 'var(--color-accent)',
                     borderRadius: '4px',
                   }}
                 >
@@ -131,8 +131,8 @@ const CtaSection = () => {
                 <a
                   className="group mono-focus-ring inline-flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1"
                   style={{
-                    background: '#C8FF00',
-                    color: '#000000',
+                    background: 'var(--btn-bg)',
+                    color: 'var(--btn-text)',
                     border: 'none',
                     borderRadius: '999px',
                     padding: '16px 28px',
@@ -156,8 +156,8 @@ const CtaSection = () => {
                 className="mono-focus-ring inline-flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1"
                 style={{
                   background: 'transparent',
-                  color: 'rgba(255,255,255,0.7)',
-                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: 'var(--color-muted)',
+                  border: '1px solid var(--color-border)',
                   borderRadius: '999px',
                   padding: '16px 28px',
                   fontSize: '0.75rem',
@@ -177,7 +177,7 @@ const CtaSection = () => {
           {/* Stats bar */}
           <div
             className="relative z-10 mt-10 grid grid-cols-1 gap-0 md:grid-cols-3"
-            style={{ borderTop: '1px solid rgba(200,255,0,0.1)' }}
+            style={{ borderTop: '1px solid var(--color-border)' }}
           >
             {[
               {
@@ -200,14 +200,14 @@ const CtaSection = () => {
                 key={i}
                 className="px-6 py-5"
                 style={{
-                  borderTop: i > 0 ? '1px solid rgba(200,255,0,0.07)' : 'none',
+                  borderTop: i > 0 ? '1px solid var(--color-border)' : 'none',
                 }}
               >
                 <div
                   style={{
                     fontFamily: "'Bebas Neue', sans-serif",
                     fontSize: '2rem',
-                    color: i === 2 ? '#C8FF00' : '#FFFFFF',
+                    color: i === 2 ? 'var(--color-accent)' : 'var(--color-text)',
                     lineHeight: 1,
                     marginBottom: '4px',
                   }}
@@ -220,13 +220,13 @@ const CtaSection = () => {
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.15em',
-                    color: 'rgba(255,255,255,0.3)',
+                    color: 'var(--color-dim)',
                     marginBottom: '4px',
                   }}
                 >
                   {stat.label}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--color-muted-dim)', lineHeight: 1.5 }}>
                   {stat.desc}
                 </div>
               </div>

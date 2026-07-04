@@ -165,7 +165,7 @@ const About = () => {
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: '#C8FF00',
+              color: 'var(--color-accent)',
               marginBottom: '12px',
             }}
           >
@@ -175,14 +175,14 @@ const About = () => {
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               lineHeight: 0.95,
               letterSpacing: '0.02em',
             }}
           >
             QUEM SOU EU
           </h2>
-          <div className="mx-auto mt-2 h-px w-full max-w-5xl" style={{ background: '#C8FF00' }} />
+          <div className="mx-auto mt-2 h-px w-full max-w-5xl" style={{ background: 'var(--color-accent)' }} />
         </div>
 
         {/* Bio Card */}
@@ -201,8 +201,8 @@ const About = () => {
                     left: '-7px',
                     width: '16px',
                     height: '16px',
-                    borderTop: '2px solid #C8FF00',
-                    borderLeft: '2px solid #C8FF00',
+                    borderTop: '2px solid var(--color-accent)',
+                    borderLeft: '2px solid var(--color-accent)',
                     zIndex: 2,
                   }}
                 />
@@ -214,8 +214,8 @@ const About = () => {
                     right: '-7px',
                     width: '16px',
                     height: '16px',
-                    borderBottom: '2px solid #C8FF00',
-                    borderRight: '2px solid #C8FF00',
+                    borderBottom: '2px solid var(--color-accent)',
+                    borderRight: '2px solid var(--color-accent)',
                     zIndex: 2,
                   }}
                 />
@@ -224,7 +224,7 @@ const About = () => {
                   alt="Juliano Pereira"
                   fill
                   sizes="180px"
-                  style={{ objectFit: 'cover', border: '1px solid rgba(200,255,0,0.2)' }}
+                  style={{ objectFit: 'cover', border: '1px solid rgba(var(--accent-rgb), 0.2)' }}
                 />
               </div>
             </div>
@@ -236,17 +236,17 @@ const About = () => {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.2em',
-                  color: '#C8FF00',
+                  color: 'var(--color-accent)',
                   marginBottom: '18px',
                 }}
               >
                 Perfil profissional
               </p>
-              <p className="mb-6 text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                Sou graduado em <span style={{ fontWeight: 700, color: '#FFFFFF' }}>Sistemas para Internet</span> e entusiasta do <span style={{ fontWeight: 700, color: '#FFFFFF' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com <span style={{ fontWeight: 700, color: '#FFFFFF' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
+              <p className="mb-6 text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                Sou graduado em <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Sistemas para Internet</span> e entusiasta do <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
               </p>
-              <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como <span style={{ fontWeight: 700, color: '#FFFFFF' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
+              <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
               </p>
             </div>
           </div>
@@ -261,7 +261,7 @@ const About = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.2em',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
                 marginBottom: '8px',
               }}
             >
@@ -271,7 +271,7 @@ const About = () => {
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: '2.5rem',
-                color: '#FFFFFF',
+                color: 'var(--color-text)',
                 lineHeight: 0.95,
               }}
             >
@@ -287,7 +287,7 @@ const About = () => {
                 top: '12px',
                 bottom: '12px',
                 width: '1px',
-                background: 'linear-gradient(to bottom, rgba(200,255,0,0.3) 0%, var(--color-border) 50%, transparent 100%)',
+                background: 'linear-gradient(to bottom, rgba(var(--accent-rgb), 0.3) 0%, var(--color-border) 50%, transparent 100%)',
               }}
             />
             <div className="space-y-6">
@@ -313,8 +313,8 @@ const About = () => {
                       left: '-1px',
                       width: '12px',
                       height: '12px',
-                      borderTop: '2px solid #C8FF00',
-                      borderLeft: '2px solid #C8FF00',
+                      borderTop: '2px solid var(--color-accent)',
+                      borderLeft: '2px solid var(--color-accent)',
                     }}
                   />
                   <span
@@ -325,8 +325,8 @@ const About = () => {
                       right: '-1px',
                       width: '12px',
                       height: '12px',
-                      borderBottom: '2px solid #C8FF00',
-                      borderRight: '2px solid #C8FF00',
+                      borderBottom: '2px solid var(--color-accent)',
+                      borderRight: '2px solid var(--color-accent)',
                     }}
                   />
                   <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 p-6 md:p-8">
@@ -338,7 +338,7 @@ const About = () => {
                           height: '64px',
                           background: 'var(--color-surface-alt)',
                           border: '1px solid var(--color-border)',
-                          borderTop: '2px solid #C8FF00',
+                          borderTop: '2px solid var(--color-accent)',
                           borderRadius: '4px',
                           zIndex: 1,
                         }}
@@ -358,7 +358,7 @@ const About = () => {
                             fontWeight: 700,
                             textTransform: 'uppercase',
                             letterSpacing: '0.18em',
-                            color: 'rgba(255,255,255,0.3)',
+                            color: 'var(--color-dim)',
                             marginBottom: '4px',
                           }}
                         >
@@ -368,7 +368,7 @@ const About = () => {
                           style={{
                             fontFamily: "'Bebas Neue', sans-serif",
                             fontSize: '1.1rem',
-                            color: '#FFFFFF',
+                            color: 'var(--color-text)',
                             letterSpacing: '0.05em',
                             lineHeight: 1,
                           }}
@@ -383,9 +383,9 @@ const About = () => {
                               fontWeight: 700,
                               textTransform: 'uppercase',
                               letterSpacing: '0.15em',
-                              color: '#C8FF00',
-                              background: 'rgba(200,255,0,0.08)',
-                              border: '1px solid rgba(200,255,0,0.25)',
+                              color: 'var(--color-accent)',
+                              background: 'rgba(var(--accent-rgb), 0.08)',
+                              border: '1px solid rgba(var(--accent-rgb), 0.25)',
                               borderRadius: '4px',
                               padding: '3px 8px',
                             }}
@@ -403,7 +403,7 @@ const About = () => {
                             fontWeight: 700,
                             textTransform: 'uppercase',
                             letterSpacing: '0.18em',
-                            color: 'rgba(200,255,0,0.7)',
+                            color: 'rgba(var(--accent-rgb), 0.7)',
                           }}
                         >
                           {exp.company}
@@ -413,7 +413,7 @@ const About = () => {
                         style={{
                           fontFamily: "'Bebas Neue', sans-serif",
                           fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
-                          color: '#FFFFFF',
+                          color: 'var(--color-text)',
                           lineHeight: 1,
                           letterSpacing: '0.02em',
                           marginBottom: '12px',
@@ -423,7 +423,7 @@ const About = () => {
                       </h4>
                       <p
                         style={{
-                          color: 'rgba(255,255,255,0.5)',
+                          color: 'var(--color-muted-dim)',
                           fontSize: '0.9rem',
                           lineHeight: 1.6,
                           marginBottom: '16px',
@@ -439,9 +439,9 @@ const About = () => {
                                 <li
                                   key={i}
                                   className="flex items-start gap-2"
-                                  style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', lineHeight: 1.5 }}
+                                  style={{ color: 'var(--color-muted-dim)', fontSize: '0.85rem', lineHeight: 1.5 }}
                                 >
-                                  <span style={{ color: '#C8FF00', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>→</span>
+                                  <span style={{ color: 'var(--color-accent)', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>→</span>
                                   <span>{h}</span>
                                 </li>
                               ))}
@@ -452,7 +452,7 @@ const About = () => {
                             type="button"
                             onClick={() => setExpandedExperience(isExpanded ? null : exp.company)}
                             className="mono-focus-ring mb-5 inline-flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition-colors"
-                            style={{ color: '#C8FF00' }}
+                            style={{ color: 'var(--color-accent)' }}
                             aria-expanded={isExpanded}
                           >
                             {isExpanded ? 'Ler menos' : 'Ler mais'}
@@ -470,9 +470,9 @@ const About = () => {
                                 fontWeight: 600,
                                 padding: '4px 10px',
                                 borderRadius: '4px',
-                                background: 'rgba(200,255,0,0.05)',
-                                border: '1px solid rgba(200,255,0,0.15)',
-                                color: 'rgba(255,255,255,0.6)',
+                                background: 'rgba(var(--accent-rgb), 0.05)',
+                                border: '1px solid rgba(var(--accent-rgb), 0.15)',
+                                color: 'var(--color-muted)',
                               }}
                             >
                               {tech}
@@ -493,9 +493,9 @@ const About = () => {
                   onClick={() => setShowAllExperiences(true)}
                   className="mono-focus-ring inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition-all hover:-translate-y-0.5"
                   style={{
-                    color: '#C8FF00',
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.2)',
+                    color: 'var(--color-accent)',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.2)',
                   }}
                 >
                   Ver mais experiências
@@ -518,14 +518,14 @@ const About = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.18em',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
                 marginBottom: '8px',
               }}
             >
               Stack principal
             </p>
-            <h3 className="mb-6 flex items-center gap-3 text-xl font-bold" style={{ color: '#FFFFFF' }}>
-              <svg className="h-6 w-6" style={{ color: '#C8FF00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="mb-6 flex items-center gap-3 text-xl font-bold" style={{ color: 'var(--color-text)' }}>
+              <svg className="h-6 w-6" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
               Tecnologias
@@ -540,7 +540,7 @@ const About = () => {
                         fontWeight: 700,
                         textTransform: 'uppercase',
                         letterSpacing: '0.18em',
-                        color: group.highlight ? '#C8FF00' : 'rgba(255,255,255,0.3)',
+                        color: group.highlight ? 'var(--color-accent)' : 'var(--color-dim)',
                       }}
                     >
                       {group.label}
@@ -555,9 +555,9 @@ const About = () => {
                           fontWeight: 700,
                           textTransform: 'uppercase',
                           letterSpacing: '0.15em',
-                          color: '#C8FF00',
-                          background: 'rgba(200,255,0,0.08)',
-                          border: '1px solid rgba(200,255,0,0.2)',
+                          color: 'var(--color-accent)',
+                          background: 'rgba(var(--accent-rgb), 0.08)',
+                          border: '1px solid rgba(var(--accent-rgb), 0.2)',
                           borderRadius: '4px',
                           padding: '2px 8px',
                         }}
@@ -568,7 +568,7 @@ const About = () => {
                             width: 5,
                             height: 5,
                             borderRadius: '50%',
-                            background: '#C8FF00',
+                            background: 'var(--color-accent)',
                             animation: 'pulse 2s infinite',
                           }}
                         />
@@ -587,9 +587,9 @@ const About = () => {
                           fontWeight: 600,
                           padding: '5px 11px',
                           borderRadius: '4px',
-                          background: group.highlight ? 'rgba(200,255,0,0.08)' : 'rgba(255,255,255,0.03)',
-                          border: `1px solid ${group.highlight ? 'rgba(200,255,0,0.2)' : 'rgba(255,255,255,0.08)'}`,
-                          color: group.highlight ? '#C8FF00' : 'rgba(255,255,255,0.6)',
+                          background: group.highlight ? 'rgba(var(--accent-rgb), 0.08)' : 'rgba(var(--accent-rgb), 0.03)',
+                          border: `1px solid ${group.highlight ? 'rgba(var(--accent-rgb), 0.2)' : 'rgba(var(--accent-rgb), 0.08)'}`,
+                          color: group.highlight ? 'var(--color-accent)' : 'var(--color-muted)',
                         }}
                       >
                         {item}
@@ -611,36 +611,36 @@ const About = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.18em',
-                color: '#C8FF00',
+                color: 'var(--color-accent)',
                 marginBottom: '8px',
               }}
             >
               Formação
             </p>
-            <h3 className="mb-6 flex items-center gap-3 text-xl font-bold" style={{ color: '#FFFFFF' }}>
-              <svg className="h-6 w-6" style={{ color: '#C8FF00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="mb-6 flex items-center gap-3 text-xl font-bold" style={{ color: 'var(--color-text)' }}>
+              <svg className="h-6 w-6" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
               </svg>
               Formação
             </h3>
             <div className="flex flex-1 flex-col justify-between space-y-6">
               <div>
-                <h4 className="mb-2 font-bold" style={{ color: '#FFFFFF' }}>Sistemas para Internet</h4>
-                <p className="mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>Unisinos</p>
+                <h4 className="mb-2 font-bold" style={{ color: 'var(--color-text)' }}>Sistemas para Internet</h4>
+                <p className="mb-3" style={{ color: 'var(--color-muted-dim)' }}>Unisinos</p>
                 <div className="space-y-2">
                   {certifications.map((cert, index) => (
                     <div key={index} className="flex items-start gap-2">
-                      <span style={{ color: '#C8FF00', fontWeight: 700, marginTop: '1px', flexShrink: 0 }}>→</span>
-                      <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{cert}</span>
+                      <span style={{ color: 'var(--color-accent)', fontWeight: 700, marginTop: '1px', flexShrink: 0 }}>→</span>
+                      <span className="text-sm" style={{ color: 'var(--color-muted-dim)' }}>{cert}</span>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
-                <h4 className="mb-1 font-bold" style={{ color: '#FFFFFF' }}>Marketing</h4>
-                <p className="mb-2 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Graduação</p>
-                <h4 className="mb-1 mt-3 font-bold" style={{ color: '#FFFFFF' }}>MBA Gestão Empresarial e Marketing Digital</h4>
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Uninter</p>
+                <h4 className="mb-1 font-bold" style={{ color: 'var(--color-text)' }}>Marketing</h4>
+                <p className="mb-2 text-sm" style={{ color: 'var(--color-muted-dim)' }}>Graduação</p>
+                <h4 className="mb-1 mt-3 font-bold" style={{ color: 'var(--color-text)' }}>MBA Gestão Empresarial e Marketing Digital</h4>
+                <p className="text-sm" style={{ color: 'var(--color-muted-dim)' }}>Uninter</p>
               </div>
             </div>
           </div>
@@ -653,12 +653,12 @@ const About = () => {
             style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
           >
             <div className="mb-3 flex items-center gap-3">
-              <svg className="h-7 w-7" style={{ color: '#C8FF00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-7 w-7" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              <h3 className="text-xl font-bold" style={{ color: '#FFFFFF' }}>Interesses</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>Interesses</h3>
             </div>
-            <p className="leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="leading-relaxed mb-4" style={{ color: 'var(--color-muted-dim)' }}>
               Programação web, empreendedorismo e marketing digital.
               Sempre em busca das tendências do mercado e novos caminhos.
             </p>
@@ -669,9 +669,9 @@ const About = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    background: 'rgba(200,255,0,0.06)',
-                    border: '1px solid rgba(200,255,0,0.12)',
-                    color: '#C8FF00',
+                    background: 'rgba(var(--accent-rgb), 0.06)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.12)',
+                    color: 'var(--color-accent)',
                     borderRadius: '4px',
                     fontSize: '0.6rem',
                     padding: '4px 10px',
@@ -691,12 +691,12 @@ const About = () => {
             style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
           >
             <div className="mb-3 flex items-center gap-3">
-              <svg className="h-7 w-7" style={{ color: '#C8FF00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-7 w-7" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <h3 className="text-xl font-bold" style={{ color: '#FFFFFF' }}>Pessoal</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>Pessoal</h3>
             </div>
-            <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="leading-relaxed" style={{ color: 'var(--color-muted-dim)' }}>
               Autêntico gaúcho. Churrasco, cerveja gelada, chimarrão.
               Corrida e caminhada — sempre em busca de equilíbrio.
             </p>

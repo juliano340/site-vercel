@@ -38,7 +38,7 @@ const TypedText = ({ texts, speed = 60 }) => {
   return (
     <span>
       {displayText}
-      <span className="animate-pulse ml-1" style={{ color: '#C8FF00' }}>▋</span>
+      <span className="animate-pulse ml-1" style={{ color: 'var(--color-accent)' }}>▋</span>
     </span>
   );
 };
@@ -70,14 +70,14 @@ const HeroSectionView = () => {
             <span
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.65rem] font-bold uppercase tracking-[0.2em]"
               style={{
-                background: 'rgba(200,255,0,0.08)',
-                border: '1px solid rgba(200,255,0,0.25)',
-                color: '#C8FF00',
+                background: 'rgba(var(--accent-rgb), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb), 0.25)',
+                color: 'var(--color-accent)',
               }}
             >
               <span
                 className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: '#C8FF00' }}
+                style={{ background: 'var(--color-accent)' }}
               />
               Available for projects
             </span>
@@ -89,20 +89,20 @@ const HeroSectionView = () => {
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.75rem, 6vw, 4.5rem)',
               lineHeight: 0.92,
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               marginBottom: '1.5rem',
               letterSpacing: '0.02em',
               fontWeight: 700,
             }}
           >
             DESENVOLVEDOR<br />
-            <span style={{ color: '#C8FF00' }}>FULL STACK</span>
+            <span style={{ color: 'var(--color-accent)' }}>FULL STACK</span>
           </h1>
 
           {/* Sub-headline with typing effect */}
           <p
             className="mb-2 text-lg sm:text-xl font-light"
-            style={{ color: 'rgba(200,255,0,0.7)', minHeight: '2rem' }}
+            style={{ color: 'var(--color-accent)', minHeight: '2rem' }}
           >
             <TypedText texts={typedTexts} speed={70} />
           </p>
@@ -110,7 +110,7 @@ const HeroSectionView = () => {
           {/* Description */}
           <p
             className="mb-8 max-w-lg text-base sm:text-lg leading-relaxed"
-            style={{ color: 'rgba(255,255,255,0.5)' }}
+            style={{ color: 'var(--color-muted-dim)' }}
           >
             Desenvolvedor com experiência em TypeScript, Next.js, Node.js e C#/.NET.
             Escrevo código limpo, aplico IA no dia a dia e penso no produto como um todo.
@@ -175,14 +175,14 @@ const HeroSectionView = () => {
             {/* Glow behind card */}
             <div
               className="absolute -inset-4 rounded-xl blur-xl"
-              style={{ background: 'rgba(200,255,0,0.06)' }}
+              style={{ background: 'rgba(var(--accent-rgb), 0.06)' }}
             />
 
             <div
               className="hero-right-inner relative p-6 sm:p-8"
               style={{
-                background: 'rgba(17,17,17,0.95)',
-                border: '1px solid rgba(200,255,0,0.15)',
+                background: 'var(--color-surface)',
+                border: '1px solid rgba(var(--accent-rgb), 0.15)',
                 borderRadius: '8px',
                 backdropFilter: 'blur(20px)',
               }}
@@ -192,7 +192,7 @@ const HeroSectionView = () => {
                 <div className="w-3 h-3 rounded-full" style={{ background: '#FF5F57' }} />
                 <div className="w-3 h-3 rounded-full" style={{ background: '#FFBD2E' }} />
                 <div className="w-3 h-3 rounded-full" style={{ background: '#28CA41' }} />
-                <span className="ml-2 font-mono text-[0.6rem] uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <span className="ml-2 font-mono text-[0.6rem] uppercase tracking-[0.2em]" style={{ color: 'var(--color-dim)' }}>
                   juliano340@dev ~
                 </span>
               </div>
@@ -202,7 +202,7 @@ const HeroSectionView = () => {
                 <div
                   className="relative h-16 w-16 overflow-hidden flex-shrink-0"
                   style={{
-                    border: '2px solid rgba(200,255,0,0.3)',
+                    border: '2px solid rgba(var(--accent-rgb), 0.3)',
                     borderRadius: '50%',
                   }}
                 >
@@ -219,7 +219,7 @@ const HeroSectionView = () => {
                   <p
                     style={{
                       fontFamily: "'Bebas Neue', sans-serif",
-                      color: '#C8FF00',
+                      color: 'var(--color-accent)',
                       fontSize: '1.5rem',
                       letterSpacing: '0.1em',
                       lineHeight: 1,
@@ -227,7 +227,7 @@ const HeroSectionView = () => {
                   >
                     JULIANO340
                   </p>
-                  <p style={{ color: '#FFFFFF', fontSize: '0.85rem', marginTop: '2px' }}>
+                  <p style={{ color: 'var(--color-text)', fontSize: '0.85rem', marginTop: '2px' }}>
                     Full Stack Developer
                   </p>
                 </div>
@@ -237,20 +237,20 @@ const HeroSectionView = () => {
               <div
                 className="rounded p-4 mb-5 font-mono text-[0.7rem] leading-6"
                 style={{
-                  background: 'rgba(0,0,0,0.4)',
-                  border: '1px solid rgba(200,255,0,0.1)',
+                  background: 'var(--color-background-deep)',
+                  border: '1px solid rgba(var(--accent-rgb), 0.1)',
                 }}
               >
-                <p style={{ color: 'rgba(255,255,255,0.3)' }}>$ whoami</p>
-                <p style={{ color: '#C8FF00' }}>Juliano Pereira</p>
-                <p style={{ color: 'rgba(255,255,255,0.3)' }}>-----------------------------------</p>
-                <p style={{ color: 'rgba(255,255,255,0.3)' }}>$ cat skills.txt</p>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>Next.js • TypeScript • Node.js</p>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>PostgreSQL • Prisma • Docker</p>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>Claude/GPT • Stripe • CI/CD</p>
-                <p style={{ color: 'rgba(255,255,255,0.3)' }}>-----------------------------------</p>
-                <p style={{ color: 'rgba(255,255,255,0.3)' }}>$ uptime</p>
-                <p style={{ color: '#C8FF00' }}>{CURRENT_YEAR - 2022}+ anos em tecnologia</p>
+                <p style={{ color: 'var(--color-dim)' }}>$ whoami</p>
+                <p style={{ color: 'var(--color-accent)' }}>Juliano Pereira</p>
+                <p style={{ color: 'var(--color-dim)' }}>-----------------------------------</p>
+                <p style={{ color: 'var(--color-dim)' }}>$ cat skills.txt</p>
+                <p style={{ color: 'var(--color-muted)' }}>Next.js • TypeScript • Node.js</p>
+                <p style={{ color: 'var(--color-muted)' }}>PostgreSQL • Prisma • Docker</p>
+                <p style={{ color: 'var(--color-muted)' }}>Claude/GPT • Stripe • CI/CD</p>
+                <p style={{ color: 'var(--color-dim)' }}>-----------------------------------</p>
+                <p style={{ color: 'var(--color-dim)' }}>$ uptime</p>
+                <p style={{ color: 'var(--color-accent)' }}>{CURRENT_YEAR - 2022}+ anos em tecnologia</p>
               </div>
 
               {/* Quick Stats */}
@@ -258,28 +258,28 @@ const HeroSectionView = () => {
                 <div
                   className="p-3 rounded"
                   style={{
-                    background: 'rgba(200,255,0,0.04)',
-                    border: '1px solid rgba(200,255,0,0.12)',
+                    background: 'rgba(var(--accent-rgb), 0.04)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.12)',
                   }}
                 >
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: '#C8FF00', lineHeight: 1 }}>
+                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: 'var(--color-accent)', lineHeight: 1 }}>
                     TS · NEXT
                   </p>
-                  <p style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  <p style={{ fontSize: '0.55rem', color: 'var(--color-dim)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                     Stack principal
                   </p>
                 </div>
                 <div
                   className="p-3 rounded"
                   style={{
-                    background: 'rgba(200,255,0,0.04)',
-                    border: '1px solid rgba(200,255,0,0.12)',
+                    background: 'rgba(var(--accent-rgb), 0.04)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.12)',
                   }}
                 >
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: '#C8FF00', lineHeight: 1 }}>
+                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: 'var(--color-accent)', lineHeight: 1 }}>
                     C# · .NET
                   </p>
-                  <p style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  <p style={{ fontSize: '0.55rem', color: 'var(--color-dim)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                     Experiência enterprise
                   </p>
                 </div>

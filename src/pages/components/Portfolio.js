@@ -172,7 +172,7 @@ const Portfolio = () => {
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: '#C8FF00',
+              color: 'var(--color-accent)',
               marginBottom: '12px',
             }}
           >
@@ -182,7 +182,7 @@ const Portfolio = () => {
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              color: '#FFFFFF',
+              color: 'var(--color-text)',
               lineHeight: 0.95,
               marginBottom: '16px',
               letterSpacing: '0.02em',
@@ -190,8 +190,8 @@ const Portfolio = () => {
           >
             MEU PORTFÓLIO
           </h2>
-          <div style={{ height: '1px', width: '96px', background: 'rgba(200,255,0,0.2)', margin: '0 auto 24px' }} />
-          <p className="mx-auto max-w-2xl text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <div style={{ height: '1px', width: '96px', background: 'rgba(var(--accent-rgb), 0.2)', margin: '0 auto 24px' }} />
+          <p className="mx-auto max-w-2xl text-lg" style={{ color: 'var(--color-muted-dim)' }}>
             Soluções entregues com tech moderna. Do brief ao deploy.
           </p>
         </div>
@@ -199,7 +199,7 @@ const Portfolio = () => {
         {/* Filter */}
         <div
           className="mx-auto mb-12 flex max-w-3xl flex-wrap justify-center gap-2 p-2"
-          style={{ border: '1px solid rgba(200,255,0,0.1)', background: 'rgba(17,17,17,0.5)', borderRadius: '4px' }}
+          style={{ border: '1px solid rgba(var(--accent-rgb), 0.1)', background: 'var(--color-surface)', borderRadius: '4px' }}
         >
           {categories.map((cat) => (
             <button
@@ -210,8 +210,8 @@ const Portfolio = () => {
               style={{
                 borderRadius: '999px',
                 border: 'none',
-                background: filter === cat.id ? '#C8FF00' : 'transparent',
-                color: filter === cat.id ? '#000000' : 'rgba(255,255,255,0.4)',
+                background: filter === cat.id ? 'var(--color-accent)' : 'transparent',
+                color: filter === cat.id ? 'var(--btn-text)' : 'var(--color-dim)',
                 cursor: 'pointer',
               }}
             >
@@ -222,7 +222,7 @@ const Portfolio = () => {
 
         {/* Counter */}
         <div className="mb-8 text-center">
-          <p style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)' }}>
+          <p style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-dim)' }}>
             {filteredProjects.length} {filteredProjects.length === 1 ? 'projeto' : 'projetos'}
           </p>
         </div>
@@ -249,24 +249,24 @@ const Portfolio = () => {
                 }}
                 className="group relative flex h-full flex-col overflow-hidden transition-all duration-300"
                 style={{
-                  background: 'rgba(17,17,17,0.5)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: 'var(--color-surface)',
+                  border: '1px solid rgba(var(--accent-rgb), 0.06)',
                   borderRadius: '4px',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(200,255,0,0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.2)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(200,255,0,0.05)';
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(var(--accent-rgb), 0.05)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.06)';
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
                 {/* Image */}
-                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9', background: 'rgba(0,0,0,0.3)' }}>
+                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9', background: 'var(--color-background-deep)' }}>
                   <Image
                     src={currentImage}
                     alt={project.title}
@@ -282,8 +282,8 @@ const Portfolio = () => {
                         display: 'inline-flex',
                         alignItems: 'center',
                         background: 'rgba(0,0,0,0.7)',
-                        border: '1px solid rgba(200,255,0,0.2)',
-                        color: '#C8FF00',
+                        border: '1px solid rgba(var(--accent-rgb), 0.2)',
+                        color: 'var(--color-accent)',
                         borderRadius: '999px',
                         fontSize: '0.55rem',
                         padding: '3px 10px',
@@ -336,7 +336,7 @@ const Portfolio = () => {
                               setActiveImageIndexes((prev) => ({ ...prev, [projectKey]: imageIndex }));
                             }}
                             className="mono-focus-ring h-2 w-2 rounded-full transition"
-                            style={{ background: currentImageIndex === imageIndex ? '#C8FF00' : 'rgba(255,255,255,0.3)', opacity: currentImageIndex === imageIndex ? 1 : 0.5 }}
+                            style={{ background: currentImageIndex === imageIndex ? 'var(--color-accent)' : 'var(--color-dim)', opacity: currentImageIndex === imageIndex ? 1 : 0.5 }}
                           />
                         ))}
                       </div>
@@ -346,13 +346,13 @@ const Portfolio = () => {
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col p-5">
-                  <p style={{ fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.25)', marginBottom: '6px' }}>
+                  <p style={{ fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'var(--color-dim)', marginBottom: '6px' }}>
                     Case digital
                   </p>
-                  <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', color: '#FFFFFF', lineHeight: 1.1, letterSpacing: '0.04em', marginBottom: '8px' }}>
+                  <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', color: 'var(--color-text)', lineHeight: 1.1, letterSpacing: '0.04em', marginBottom: '8px' }}>
                     {project.title}
                   </h2>
-                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed" style={{ color: 'var(--color-muted-dim)' }}>
                     {project.description}
                   </p>
 
@@ -363,14 +363,14 @@ const Portfolio = () => {
                         key={tagIndex}
                         className="mono-tag"
                         style={{ fontSize: '0.6rem', padding: '3px 8px' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-dim)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.08)'; }}
                       >
                         {tag}
                       </span>
                     ))}
                     {project.tags.length > 4 && (
-                      <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', padding: '3px 6px' }}>
+                      <span style={{ fontSize: '0.6rem', color: 'var(--color-dim)', padding: '3px 6px' }}>
                         +{project.tags.length - 4}
                       </span>
                     )}
@@ -401,16 +401,16 @@ const Portfolio = () => {
                       onClick={(e) => e.stopPropagation()}
                       className="mono-focus-ring justify-center px-3 py-2 text-[0.65rem] transition-all duration-200"
                       style={{
-                        color: 'rgba(255,255,255,0.4)',
+                        color: 'var(--color-dim)',
                         background: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(var(--accent-rgb), 0.08)',
                         borderRadius: '999px',
                         fontWeight: 700,
                         textTransform: 'uppercase',
                         letterSpacing: '0.08em',
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = '#C8FF00'; e.currentTarget.style.borderColor = 'rgba(200,255,0,0.3)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-dim)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.08)'; }}
                     >
                       <svg className="h-4 w-4 inline mr-1" fill="currentColor" viewBox="0 0 24 24">
                         <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
@@ -427,8 +427,8 @@ const Portfolio = () => {
         {/* Empty */}
         {filteredProjects.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-xl font-bold" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum projeto encontrado</p>
-            <p style={{ color: 'rgba(255,255,255,0.2)', marginTop: '8px' }}>Tente outra categoria</p>
+            <p className="text-xl font-bold" style={{ color: 'var(--color-dim)' }}>Nenhum projeto encontrado</p>
+            <p style={{ color: 'var(--color-dim)', marginTop: '8px' }}>Tente outra categoria</p>
           </div>
         )}
 
@@ -441,7 +441,7 @@ const Portfolio = () => {
           >
             <div
               className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto rounded-lg lg:max-h-[92vh]"
-              style={{ background: 'rgba(17,17,17,0.98)', border: '1px solid rgba(200,255,0,0.15)', borderRadius: '8px' }}
+              style={{ background: 'var(--color-surface)', border: '1px solid rgba(var(--accent-rgb), 0.15)', borderRadius: '8px' }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -456,7 +456,7 @@ const Portfolio = () => {
               </button>
 
               <div className="grid grid-cols-1 lg:grid-cols-5">
-                <div className="relative h-72 lg:col-span-3 lg:h-auto lg:min-h-[480px]" style={{ background: 'rgba(0,0,0,0.3)' }}>
+                <div className="relative h-72 lg:col-span-3 lg:h-auto lg:min-h-[480px]" style={{ background: 'var(--color-background-deep)' }}>
                   <Image
                     src={getProjectImages(selectedProject)[modalImageIndex] || getProjectImages(selectedProject)[0]}
                     alt={selectedProject.title}
@@ -481,7 +481,7 @@ const Portfolio = () => {
                             type="button"
                             onClick={() => setModalImageIndex(imgIndex)}
                             className="mono-focus-ring h-2.5 w-2.5 rounded-full transition"
-                            style={{ background: modalImageIndex === imgIndex ? '#C8FF00' : 'rgba(255,255,255,0.3)', opacity: modalImageIndex === imgIndex ? 1 : 0.5 }}
+                            style={{ background: modalImageIndex === imgIndex ? 'var(--color-accent)' : 'var(--color-dim)', opacity: modalImageIndex === imgIndex ? 1 : 0.5 }}
                           />
                         ))}
                       </div>
@@ -489,22 +489,22 @@ const Portfolio = () => {
                   )}
                 </div>
 
-                <div className="flex flex-col p-6 lg:col-span-2 lg:p-8" style={{ background: 'rgba(17,17,17,0.5)' }}>
-                  <p style={{ fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: '8px' }}>Detalhes do projeto</p>
-                  <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: '#FFFFFF', lineHeight: 1, marginBottom: '12px' }}>{selectedProject.title}</h3>
-                  <div className="mb-6 p-4" style={{ border: '1px solid rgba(200,255,0,0.1)', background: 'rgba(0,0,0,0.2)', borderRadius: '4px' }}>
-                    <p style={{ fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.25)', marginBottom: '8px' }}>Resumo</p>
-                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{selectedProject.description}</p>
+                <div className="flex flex-col p-6 lg:col-span-2 lg:p-8" style={{ background: 'var(--color-surface)' }}>
+                  <p style={{ fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-dim)', marginBottom: '8px' }}>Detalhes do projeto</p>
+                  <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--color-text)', lineHeight: 1, marginBottom: '12px' }}>{selectedProject.title}</h3>
+                  <div className="mb-6 p-4" style={{ border: '1px solid rgba(var(--accent-rgb), 0.1)', background: 'rgba(0,0,0,0.2)', borderRadius: '4px' }}>
+                    <p style={{ fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'var(--color-dim)', marginBottom: '8px' }}>Resumo</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--color-muted-dim)' }}>{selectedProject.description}</p>
                   </div>
 
-                  <p style={{ fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.25)', marginBottom: '10px' }}>Tecnologias</p>
+                  <p style={{ fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'var(--color-dim)', marginBottom: '10px' }}>Tecnologias</p>
                   <div className="mb-6 flex flex-wrap gap-2">
                     {selectedProject.tags.map((tag) => (
                       <span key={`${selectedProject.title}-tag-${tag}`} className="mono-tag">{tag}</span>
                     ))}
                   </div>
 
-                  <div className="mt-auto grid gap-3" style={{ borderTop: '1px solid rgba(200,255,0,0.1)', paddingTop: '16px' }}>
+                  <div className="mt-auto grid gap-3" style={{ borderTop: '1px solid rgba(var(--accent-rgb), 0.1)', paddingTop: '16px' }}>
                     <a href={selectedProject.projectUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring mono-button-primary whitespace-nowrap">Abrir projeto</a>
                     <a href={selectedProject.repoUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring mono-button-secondary whitespace-nowrap">Ver código</a>
                   </div>
