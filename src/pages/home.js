@@ -3,7 +3,6 @@ import HeroSectionView from './components/HeroSectionView';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
 import CtaSection from './components/CtaSection';
-import Reveal from './components/Reveal';
 
 const HomePage = () => {
   return (
@@ -25,9 +24,9 @@ const HomePage = () => {
       </Head>
       <main>
         <HeroSectionView />
-        <Reveal delay={0}><About /></Reveal>
-        <Reveal delay={0.1}><Portfolio /></Reveal>
-        <Reveal delay={0.2}><CtaSection /></Reveal>
+        <About />
+        <Portfolio />
+        <CtaSection />
       </main>
     </>
   );

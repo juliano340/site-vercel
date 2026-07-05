@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Reveal from './Reveal';
 
 const About = () => {
   const [expandedExperience, setExpandedExperience] = useState(null);
@@ -158,34 +159,37 @@ const About = () => {
     >
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section header */}
-        <div className="mb-16 text-center">
-          <p
-            style={{
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: 'var(--color-accent)',
-              marginBottom: '12px',
-            }}
-          >
-            SOBRE MIM
-          </p>
-          <h2
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              color: 'var(--color-text)',
-              lineHeight: 0.95,
-              letterSpacing: '0.02em',
-            }}
-          >
-            QUEM SOU EU
-          </h2>
-          <div className="mx-auto mt-2 h-px w-full max-w-5xl" style={{ background: 'var(--color-accent)' }} />
-        </div>
+        <Reveal className="mb-16 text-center">
+          <div className="mb-16 text-center">
+            <p
+              style={{
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+                color: 'var(--color-accent)',
+                marginBottom: '12px',
+              }}
+            >
+              SOBRE MIM
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                color: 'var(--color-text)',
+                lineHeight: 0.95,
+                letterSpacing: '0.02em',
+              }}
+            >
+              QUEM SOU EU
+            </h2>
+            <div className="mx-auto mt-2 h-px w-full max-w-5xl" style={{ background: 'var(--color-accent)' }} />
+          </div>
+        </Reveal>
 
         {/* Bio Card */}
+        <Reveal className="mb-12 p-6 sm:p-8">
         <div
           className="mb-12 p-6 sm:p-8"
           style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
@@ -251,9 +255,11 @@ const About = () => {
             </div>
           </div>
         </div>
+        </Reveal>
 
         {/* Experiences */}
         <div className="mb-12">
+          <Reveal className="mb-8 text-center">
           <div className="mb-8 text-center">
             <p
               style={{
@@ -278,6 +284,8 @@ const About = () => {
               EXPERIÊNCIA PROFISSIONAL
             </h3>
           </div>
+          </Reveal>
+          <Reveal className="relative">
           <div className="relative">
             <div
               aria-hidden="true"
@@ -504,10 +512,12 @@ const About = () => {
               </div>
             )}
           </div>
+          </Reveal>
         </div>
 
         {/* Skills */}
         <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <Reveal className="p-6 sm:p-8">
           <div
             className="p-6 sm:p-8"
             style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
@@ -600,7 +610,9 @@ const About = () => {
               ))}
             </div>
           </div>
+          </Reveal>
 
+          <Reveal className="p-6 sm:p-8 flex flex-col">
           <div
             className="p-6 sm:p-8 flex flex-col"
             style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
@@ -644,9 +656,11 @@ const About = () => {
               </div>
             </div>
           </div>
+          </Reveal>
         </div>
 
         {/* Interests + Personal */}
+        <Reveal className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div
             className="p-6"
@@ -702,6 +716,7 @@ const About = () => {
             </p>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   );
