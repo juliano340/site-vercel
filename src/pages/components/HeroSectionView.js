@@ -15,7 +15,7 @@ const HeroSectionView = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Hero Content */}
-      <div className="hero-fullheight relative flex items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <div className="relative flex items-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <HeroBackground />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
@@ -72,7 +72,7 @@ const HeroSectionView = () => {
                 className="max-w-xl text-lg sm:text-xl font-light leading-relaxed"
                 style={{ color: 'var(--color-muted)' }}
               >
-                Transformo ideias em produtos digitais — do conceito ao deploy, com código limpo e IA aplicada no dia a dia.
+                Produtos digitais do conceito ao deploy — com código limpo, velocidade e IA aplicada.
               </p>
 
               {/* Stats */}
@@ -80,10 +80,6 @@ const HeroSectionView = () => {
                 <div className="flex flex-col">
                   <span className="text-xl font-semibold" style={{ color: 'var(--color-text)' }}>{CURRENT_YEAR - 2022}+ anos</span>
                   <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--color-muted-dim)' }}>de mercado</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-semibold" style={{ color: 'var(--color-text)' }}>8+ projetos</span>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--color-muted-dim)' }}>entregues</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-semibold" style={{ color: 'var(--color-text)' }}>2-4 sem</span>
