@@ -9,7 +9,6 @@ const HeroSectionView = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches) return;
     setMounted(true);
   }, []);
 
