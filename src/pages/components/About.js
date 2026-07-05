@@ -304,8 +304,8 @@ const About = () => {
                 const hasMore = exp.highlights?.length > 0;
 
                 return (
+                <Reveal key={exp.company} delay={index * 0.08}>
                 <article
-                  key={exp.company}
                   className="relative"
                   style={{
                     background: 'var(--color-surface)',
@@ -491,6 +491,7 @@ const About = () => {
                     </div>
                   </div>
                 </article>
+                </Reveal>
                 );
               })}
             </div>
