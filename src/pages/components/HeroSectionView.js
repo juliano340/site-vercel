@@ -282,9 +282,9 @@ const HeroSectionView = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
-                  color: 'var(--color-border)',
-                  letterSpacing: '0.05em',
-                  opacity: 0.6,
+color: 'var(--color-muted-dim)',
+                letterSpacing: '0.05em',
+                opacity: 0.7,
                 }}
               >
                 {text}
