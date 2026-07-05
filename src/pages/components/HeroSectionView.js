@@ -294,22 +294,7 @@ const HeroSectionView = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee-track {
-          animation: marquee-scroll 25s linear infinite;
-          will-change: transform;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-track {
-            animation: none;
-          }
-        }
-      `}</style>
-    </section>
+      </section>
   );
 };
 

@@ -482,3 +482,18 @@ body {
 @media (max-width: 600px) {
     /* Estilos para smartphones */
 }
+
+/* ═══════════════════════════════════════════════════
+   MARQUEE
+   Hero scrolling text strip
+   ═══════════════════════════════════════════════════ */
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 22s linear infinite;
+  will-change: transform;
+}
