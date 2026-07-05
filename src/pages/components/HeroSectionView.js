@@ -213,7 +213,7 @@ const HeroSectionView = () => {
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    Next.js · Node.js · C#/.NET
+                    TypeScript · Angular · Nestjs · Next.js · C#/.NET
                   </div>
                 </div>
 
@@ -267,49 +267,30 @@ const HeroSectionView = () => {
 
       {/* Marquee */}
       <div className="border-y py-10 overflow-hidden" style={{ borderColor: 'rgba(var(--accent-rgb), 0.1)' }}>
-        <div className="marquee-track flex gap-16 whitespace-nowrap">
-          {[
-            'Enterprise Software',
-            'AI Integration',
-            'Scalable Architecture',
-            'Clean Code',
-            'Product Strategy',
-            'Full Stack Development',
-          ].map((text, i) => (
-            <span
-              key={i}
-              style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
-                color: 'var(--color-border)',
-                letterSpacing: '0.05em',
-                opacity: 0.6,
-              }}
-            >
-              {text}
-            </span>
-          ))}
-          {[
-            'Enterprise Software',
-            'AI Integration',
-            'Scalable Architecture',
-            'Clean Code',
-            'Product Strategy',
-            'Full Stack Development',
-          ].map((text, i) => (
-            <span
-              key={`dup-${i}`}
-              style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
-                color: 'var(--color-border)',
-                letterSpacing: '0.05em',
-                opacity: 0.6,
-              }}
-            >
-              {text}
-            </span>
-          ))}
+        <div className="marquee-track flex gap-12 sm:gap-16 whitespace-nowrap w-max">
+          {Array.from({ length: 4 }).map((_, copyIndex) =>
+            [
+              'Enterprise Software',
+              'AI Integration',
+              'Scalable Architecture',
+              'Clean Code',
+              'Product Strategy',
+              'Full Stack Development',
+            ].map((text, i) => (
+              <span
+                key={`${copyIndex}-${i}`}
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
+                  color: 'var(--color-border)',
+                  letterSpacing: '0.05em',
+                  opacity: 0.6,
+                }}
+              >
+                {text}
+              </span>
+            ))
+          )}
         </div>
       </div>
 
@@ -319,7 +300,8 @@ const HeroSectionView = () => {
           100% { transform: translateX(-50%); }
         }
         .marquee-track {
-          animation: marquee-scroll 35s linear infinite;
+          animation: marquee-scroll 25s linear infinite;
+          will-change: transform;
         }
         @media (prefers-reduced-motion: reduce) {
           .marquee-track {
