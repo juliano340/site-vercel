@@ -15,7 +15,7 @@ const Reveal = ({ children, delay = 0, className = '', style = {} }) => {
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
     );
 
     observer.observe(el);
@@ -28,8 +28,8 @@ const Reveal = ({ children, delay = 0, className = '', style = {} }) => {
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(30px)',
-        transition: `opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s`,
+        transform: visible ? 'translateY(0)' : 'translateY(18px)',
+        transition: `opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s, transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s`,
         ...style,
       }}
     >
