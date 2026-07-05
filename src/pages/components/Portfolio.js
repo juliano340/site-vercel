@@ -217,7 +217,7 @@ const Portfolio = () => {
         </Reveal>
 
         {/* Grid */}
-        <Reveal delay={0} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Reveal delay={0} className="w-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project) => {
               const projectKey = project.title;
