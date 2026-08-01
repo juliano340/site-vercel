@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://juliano340.com
+Host: https://www.juliano340.com
 
 # Sitemaps
-Sitemap: https://juliano340.com/sitemap.xml
+Sitemap: https://www.juliano340.com/sitemap.xml

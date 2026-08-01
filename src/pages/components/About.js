@@ -9,6 +9,22 @@ const About = () => {
   const experiences = [
     {
       number: '01',
+      period: 'Jun 2026 — Atual',
+      role: 'Técnico de Suporte N1',
+      company: 'InterOp · TJRS',
+      logo: '/images/companies/interop-linkedin.png',
+      logoAlt: 'Logo InterOp',
+      description:
+        'Suporte técnico Nível 1 aos usuários do TJRS, com atendimento, diagnóstico inicial, resolução e escalonamento de chamados em sistemas judiciais e plataformas corporativas.',
+      highlights: [
+        'Atendimento por telefone, e-mail e sistema corporativo',
+        'Suporte ao E-Proc 1º e 2º Grau, PPE e SEEU',
+        'Registro, classificação, acompanhamento e escalonamento de incidentes',
+      ],
+      stack: ['Suporte N1', 'Service Desk', 'E-Proc', 'PPE', 'SEEU'],
+    },
+    {
+      number: '02',
       period: 'Ago 2025 — Dez 2025',
       role: 'Analista de Suporte Técnico',
       company: 'LWSA · Bling ERP',
@@ -24,7 +40,7 @@ const About = () => {
       stack: ['ERP', 'Integrações', 'Marketplaces', 'API REST'],
     },
     {
-      number: '02',
+      number: '03',
       period: 'Dez 2022 — Jun 2025',
       role: 'Suporte Técnico → QA / Analista de Testes → Programador Web Full Stack',
       company: 'Dataweb Tecnologia · Porto Alegre, RS',
@@ -41,7 +57,7 @@ const About = () => {
       stack: ['TypeScript', 'Angular', 'C#', '.NET', 'SQL', 'QA', 'Testes'],
     },
     {
-      number: '03',
+      number: '04',
       period: 'Set 2022 — Dez 2022',
       role: 'Programador Web',
       company: 'Agexcom · Unisinos',
@@ -57,7 +73,7 @@ const About = () => {
       stack: ['WordPress', 'PHP', 'HTML/CSS', 'JavaScript'],
     },
     {
-      number: '04',
+      number: '05',
       period: 'Jan 2021 — Mar 2022',
       tenure: '1 ano 3 meses',
       role: 'CX - Customer Experience',
@@ -75,7 +91,7 @@ const About = () => {
       stack: ['CX', 'Atendimento', 'Suporte', 'Pagamentos', 'E-commerce'],
     },
     {
-      number: '05',
+      number: '06',
       period: 'Fev 2009 — Jan 2020',
       tenure: '11 anos',
       role: 'Operador de Atendimento → Analista de Suporte Administrativo',
@@ -92,7 +108,7 @@ const About = () => {
       stack: ['Automação', 'Dashboards', 'Suporte N2/N3', 'Operações'],
     },
     {
-      number: '06',
+      number: '07',
       period: 'Jan 2006 — Fev 2009',
       tenure: '3 anos 2 meses',
       role: 'Assistente de Suporte a Internet',

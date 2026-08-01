@@ -377,6 +377,33 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                 <meta name="twitter:card"       content="summary_large_image" />
                 <meta name="twitter:title"      content={pageTitle} />
                 <meta name="twitter:description" content={metaDescription} />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'Article',
+                            headline: pageTitle,
+                            description: metaDescription,
+                            datePublished: post.created_time,
+                            dateModified: post.last_edited_time,
+                            author: {
+                                '@type': 'Person',
+                                name: AUTHOR_NAME,
+                                url: 'https://www.juliano340.com',
+                            },
+                            mainEntityOfPage: {
+                                '@type': 'WebPage',
+                                '@id': canonical,
+                            },
+                            image: `https://picsum.photos/seed/${post.id}/1200/600`,
+                            publisher: {
+                                '@type': 'Person',
+                                name: AUTHOR_NAME,
+                            },
+                        }),
+                    }}
+                />
             </Head>
 
             <main

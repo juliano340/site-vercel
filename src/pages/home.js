@@ -18,9 +18,9 @@ const HomePage = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Juliano340 | Dev Full Stack que entrega rápido" />
         <meta property="og:description" content="MVPs, sistemas e sites construídos com Next.js, TypeScript e IA aplicada. Do brief ao deploy em 2 a 4 semanas." />
-        <meta property="og:url" content="https://www.juliano340.com" />
+        <meta property="og:url" content="https://www.juliano340.com/home" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="https://www.juliano340.com" />
+        <link rel="canonical" href="https://www.juliano340.com/home" />
       </Head>
       <main>
         <HeroSectionView />

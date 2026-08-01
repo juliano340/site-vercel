@@ -2,14 +2,30 @@ import { Client } from '@notionhq/client';
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
+const queryAllPages = async (query) => {
+    const results = [];
+    let start_cursor;
+
+    do {
+        const response = await notion.databases.query({
+            ...query,
+            ...(start_cursor ? { start_cursor } : {}),
+        });
+
+        results.push(...response.results);
+        start_cursor = response.next_cursor;
+    } while (start_cursor);
+
+    return results;
+};
+
 export const getDatabase = async () => {
-    const response = await notion.databases.query({ database_id: process.env.NOTION_DATABASE_ID });
-    return response.results;
+    return queryAllPages({ database_id: process.env.NOTION_DATABASE_ID });
 };
 
 // Busca apenas posts com status "Published" (checkbox marcado)
 export const getPublishedPosts = async () => {
-    const response = await notion.databases.query({
+    return queryAllPages({
         database_id: process.env.NOTION_DATABASE_ID,
         filter: {
             property: 'Published',
@@ -18,7 +34,6 @@ export const getPublishedPosts = async () => {
             },
         },
     });
-    return response.results;
 };
 
 export const getPage = async (pageId) => {
