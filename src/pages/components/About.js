@@ -143,6 +143,18 @@ const About = () => {
       ],
     },
     {
+      label: 'QA & Testes',
+      items: [
+        'Testes Manuais',
+        'Testes Automatizados',
+        'TDD · BDD · ATDD',
+        'Testes de API',
+        'Testes Web & Mobile',
+        'SAST / DAST',
+        'Observabilidade & SRE',
+      ],
+    },
+    {
       label: 'Frontend',
       items: ['TypeScript', 'Next.js', 'React', 'Angular', 'Tailwind CSS', 'Ionic'],
     },
@@ -263,7 +275,7 @@ const About = () => {
                 Perfil profissional
               </p>
               <p className="mb-6 text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
-                Sou graduado em <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Sistemas para Internet</span> e entusiasta do <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>desenvolvimento web e mobile</span>. Tenho experiência prática com <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
+                Sou graduado em <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Sistemas para Internet</span> e, atualmente, pós-graduando em <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Engenharia de Qualidade e Teste de Software</span> na <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>PUC Minas</span>. Tenho experiência prática com <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>front-end, back-end, testes e suporte técnico</span>, e gosto de transformar ideias em soluções digitais funcionais e bem estruturadas.
               </p>
               <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted)' }}>
                 Busco constantemente aprender novas tecnologias e aprimorar minhas habilidades para crescer como <span style={{ fontWeight: 700, color: 'var(--color-text)' }}>desenvolvedor full-stack</span> e contribuir com projetos que façam a diferença.
@@ -653,6 +665,28 @@ const About = () => {
               Formação
             </h3>
             <div className="flex flex-1 flex-col justify-between space-y-6">
+              <div>
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <h4 className="font-bold" style={{ color: 'var(--color-text)' }}>Engenharia de Qualidade e Teste de Software</h4>
+                  <span
+                    style={{
+                      fontSize: '0.55rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.15em',
+                      color: 'var(--color-accent)',
+                      background: 'rgba(var(--accent-rgb), 0.08)',
+                      border: '1px solid rgba(var(--accent-rgb), 0.25)',
+                      borderRadius: '4px',
+                      padding: '3px 8px',
+                      flexShrink: 0,
+                    }}
+                  >
+                    Em andamento
+                  </span>
+                </div>
+                <p style={{ color: 'var(--color-muted-dim)' }}>PUC Minas · Especialização (Pós-graduação Lato Sensu)</p>
+              </div>
               <div>
                 <h4 className="mb-2 font-bold" style={{ color: 'var(--color-text)' }}>Sistemas para Internet</h4>
                 <p className="mb-3" style={{ color: 'var(--color-muted-dim)' }}>Unisinos</p>

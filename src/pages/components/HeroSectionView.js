@@ -191,11 +191,43 @@ const HeroSectionView = () => {
 
                 {/* Role */}
                 <p
-                  className="mb-6 text-[0.7rem] font-bold uppercase tracking-[0.18em]"
+                  className="mb-3 text-[0.7rem] font-bold uppercase tracking-[0.18em]"
                   style={{ color: 'var(--color-accent)' }}
                 >
                   Full Stack Developer
                 </p>
+
+                {/* Education Badge */}
+                <div className="mb-6">
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.15em',
+                      color: 'var(--color-accent)',
+                      background: 'rgba(var(--accent-rgb), 0.08)',
+                      border: '1px solid rgba(var(--accent-rgb), 0.2)',
+                      borderRadius: '4px',
+                      padding: '4px 10px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        width: 5,
+                        height: 5,
+                        borderRadius: '50%',
+                        background: 'var(--color-accent)',
+                        animation: 'pulse 2s infinite',
+                      }}
+                    />
+                    Pós-graduando em QA · PUC Minas
+                  </span>
+                </div>
 
                 {/* Divider */}
                 <div className="w-full h-px mb-6" style={{ background: 'rgba(var(--accent-rgb), 0.12)' }} />
