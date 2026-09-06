@@ -4,8 +4,12 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
   experimental: {
+    // Geração estática sequencial (1 worker) para respeitar o rate limit da API da Notion
+    cpus: 1,
     optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect', 'prismjs'],
   },
+  // Timeout maior para absorver retries com backoff contra a API da Notion
+  staticPageGenerationTimeout: 300,
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200],
