@@ -1,12 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 
+// Scroll-reveal primitive. Timing comes from motion tokens
+// (--motion-duration-slow / --motion-ease-standard), so the whole
+// site's entrance feel is tuned in one place (globals.css).
+// Honors prefers-reduced-motion: content appears instantly.
 const Reveal = ({ children, delay = 0, className = '', style = {} }) => {
   const [visible, setVisible] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) return undefined;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(true);
+      return undefined;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -28,8 +37,10 @@ const Reveal = ({ children, delay = 0, className = '', style = {} }) => {
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(18px)',
-        transition: `opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s, transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) ${delay}s`,
+        transform: visible ? 'translateY(0)' : 'translateY(var(--motion-reveal-distance))',
+        transition:
+          `opacity var(--motion-duration-slow) var(--motion-ease-standard) ${delay}s, ` +
+          `transform var(--motion-duration-slow) var(--motion-ease-standard) ${delay}s`,
         ...style,
       }}
     >
