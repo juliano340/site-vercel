@@ -59,13 +59,14 @@ const Footer = () => {
             <h3 className="mb-3 flex items-center justify-center gap-2 md:justify-start">
               <span
                 style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: 'var(--font-display), sans-serif',
+                  fontWeight: 700,
                   color: 'var(--color-accent)',
                   fontSize: '1.5rem',
-                  letterSpacing: '0.2em',
+                  letterSpacing: '0.1em',
                 }}
               >
-                @JULIANO340
+                Juliano Pereira
               </span>
             </h3>
             <p className="mb-6 leading-relaxed" style={{ color: 'var(--color-muted)', fontSize: '0.875rem' }}>

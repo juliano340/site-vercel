@@ -266,13 +266,11 @@ const Blog = ({ posts, generatedAt }) => {
                         Blog Editorial
                     </p>
                     <h1
+                        className="ds-h2"
                         style={{
-                            fontFamily: "'Bebas Neue', sans-serif",
-                            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                             color: 'var(--color-text)',
                             lineHeight: 1.05,
                             marginBottom: '12px',
-                            letterSpacing: '0.02em',
                         }}
                     >
                         Tecnologia, Empreendedorismo e IA Aplicada

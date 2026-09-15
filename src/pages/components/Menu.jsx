@@ -103,14 +103,15 @@ export default function Menu() {
                                 <a
                                     className="mono-focus-ring"
                                     style={{
-                                        fontFamily: "'Bebas Neue', sans-serif",
+                                        fontFamily: 'var(--font-display), sans-serif',
+                                        fontWeight: 700,
                                         color: 'var(--color-accent)',
                                         fontSize: '1.5rem',
-                                        letterSpacing: '0.2em',
+                                        letterSpacing: '0.1em',
                                         textDecoration: 'none',
                                     }}
                                 >
-                                    @JULIANO340
+                                    Juliano Pereira
                                 </a>
                             </Link>
 
@@ -185,14 +186,15 @@ export default function Menu() {
                             <a
                                 className="mono-focus-ring"
                                 style={{
-                                    fontFamily: "'Bebas Neue', sans-serif",
+                                    fontFamily: 'var(--font-display), sans-serif',
+                                    fontWeight: 700,
                                     color: 'var(--color-accent)',
                                     fontSize: '1.5rem',
-                                    letterSpacing: '0.2em',
+                                    letterSpacing: '0.1em',
                                     textDecoration: 'none',
                                 }}
                             >
-                                @JULIANO340
+                                Juliano Pereira
                             </a>
                         </Link>
 

@@ -4,155 +4,191 @@
 
 /* ═══════════════════════════════════════════════════
    DESIGN TOKENS — Dark First, Light as override
-   All components use var() — never hardcoded hex
+   - primitive-…: raw values, no meaning. Brand identity lives here.
+   - Semantic aliases (color, btn, inv, chip, tag): components use
+     semantic vars — never primitives, never hex.
+   - Foundation tokens: radius, shadow, motion, z, container, effect.
 ═══════════════════════════════════════════════════ */
 
 :root {
-    /* Backgrounds */
-    --color-background:      #080808;
-    --color-background-deep: #050505;
-    --color-surface:         #111111;
-    --color-surface-alt:     #0D0D0D;
-    --color-surface-raised:  #141414;
+    /* ── PRIMITIVES ─────────────────────────────── */
+    /* Acid (brand) */
+    --primitive-acid-400:  #B8EE00;
+    --primitive-acid-500:  #C8FF00;
+    --primitive-acid-700:  #4A6600;
+    --primitive-acid-800:  #3D5500;
 
-    /* Text */
-    --color-text:       #FFFFFF;
-    --color-muted:      #D0D0D0;
-    --color-muted-dim:  #A8A8A8;
-    --color-dim:        #808080;
+    /* Ink (dark surfaces) */
+    --primitive-ink-950:   #050505;
+    --primitive-ink-900:   #080808;
+    --primitive-ink-850:   #0D0D0D;
+    --primitive-ink-800:   #111111;
+    --primitive-ink-750:   #141414;
+    --primitive-ink-700:   #1a1a1a;
+    --primitive-ink-600:   #1e1e1e;
+    --primitive-ink-500:   #222222;
 
-    /* Borders */
-    --color-border:     #1e1e1e;
+    /* Paper (light surfaces) */
+    --primitive-paper-0:   #FFFFFF;
+    --primitive-paper-50:  #F8F7F4;
+    --primitive-paper-100: #F5F4F1;
+    --primitive-paper-200: #F0EFEC;
+    --primitive-paper-300: #EFEEEB;
+    --primitive-paper-400: #DDDCD6;
 
-    /* Accent — acid green */
-    --color-accent:     #C8FF00;
+    /* Grey text */
+    --primitive-grey-100:  #D0D0D0;
+    --primitive-grey-200:  #A8A8A8;
+    --primitive-grey-300:  #8A8A8A;
+    --primitive-grey-400:  #808080;
+    --primitive-grey-500:  #6B7280;
+    --primitive-grey-600:  #8B8F97;
+    --primitive-grey-700:  #B0B4BC;
+
+    --primitive-black:     #000000;
+    --primitive-white:     #FFFFFF;
+    --primitive-coal:      #1A1A1A;
+
+    /* ── SEMANTIC: surfaces & text (dark-first) ─── */
+    --color-background:      var(--primitive-ink-900);
+    --color-background-deep: var(--primitive-ink-950);
+    --color-surface:         var(--primitive-ink-800);
+    --color-surface-alt:     var(--primitive-ink-850);
+    --color-surface-raised:  var(--primitive-ink-750);
+
+    --color-text:       var(--primitive-white);
+    --color-muted:      var(--primitive-grey-100);
+    --color-muted-dim:  var(--primitive-grey-200);
+    --color-dim:        var(--primitive-grey-400);
+
+    --color-border:     var(--primitive-ink-600);
+
+    /* Accent */
+    --color-accent:     var(--primitive-acid-500);
     --accent-rgb:       200, 255, 0;
 
     /* Focus / Shadow */
-    --color-focus:      #C8FF00;
+    --color-focus:      var(--primitive-acid-500);
     --color-shadow:     rgba(0, 0, 0, 0.6);
 
     /* Primary Button */
-    --btn-bg:           #C8FF00;
-    --btn-text:         #000000;
-    --btn-hover:        #B8EE00;
+    --btn-bg:           var(--primitive-acid-500);
+    --btn-text:         var(--primitive-black);
+    --btn-hover:        var(--primitive-acid-400);
 
     /* Secondary Button */
     --btn2-border:      rgba(200, 255, 0, 0.3);
-    --btn2-text:        #C8FF00;
+    --btn2-text:        var(--primitive-acid-500);
     --btn2-hover-bg:    rgba(200, 255, 0, 0.08);
     --btn2-hover-border:rgba(200, 255, 0, 0.6);
 
     /* Inverted Section (CTA) */
-    --inv-bg:           #C8FF00;
-    --inv-text:         #000000;
+    --inv-bg:           var(--primitive-acid-500);
+    --inv-text:         var(--primitive-black);
     --inv-muted:        rgba(0, 0, 0, 0.5);
     --inv-border:       rgba(0, 0, 0, 0.15);
-    --inv-btn-bg:       #000000;
-    --inv-btn-text:     #C8FF00;
+    --inv-btn-bg:       var(--primitive-black);
+    --inv-btn-text:     var(--primitive-acid-500);
 
     /* Chips / Tags */
     --chip-bg:          rgba(200, 255, 0, 0.08);
     --chip-border:      rgba(200, 255, 0, 0.2);
-    --chip-text:        #C8FF00;
-    --tag-bg:           #1a1a1a;
-    --tag-border:       #222222;
-    --tag-text:         #8A8A8A;
+    --chip-text:        var(--primitive-acid-500);
+    --tag-bg:           var(--primitive-ink-700);
+    --tag-border:       var(--primitive-ink-500);
+    --tag-text:         var(--primitive-grey-300);
+
+    /* ── RADIUS ─────────────────────────────────── */
+    --radius-sm:   4px;    /* cards, panels, chips, tags */
+    --radius-md:   8px;    /* modals, popovers */
+    --radius-pill: 999px;  /* buttons */
+    --radius-full: 9999px; /* icon buttons, progress, pills */
+
+    /* ── SHADOWS ────────────────────────────────── */
+    --shadow-lift:    0 20px 48px var(--color-shadow);
+    --shadow-overlay: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+    /* ── MOTION ─────────────────────────────────── */
+    --motion-duration-fast:   150ms;
+    --motion-duration-base:   300ms;
+    --motion-duration-slow:   450ms;
+    --motion-duration-slower: 700ms;
+    --motion-ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --motion-ease-out:      ease-out;
+    --motion-ease-in-out:   cubic-bezier(0.4, 0, 0.6, 1);
+    --motion-reveal-distance: 18px;
+    --motion-marquee-duration: 22s;
+
+    /* ── Z-INDEX ────────────────────────────────── */
+    --z-raised:  10;
+    --z-overlay: 20;
+    --z-nav:     50;
+    --z-modal:   120;
+
+    /* ── CONTAINER ──────────────────────────────── */
+    --container-max: 80rem; /* = max-w-7xl, single content width */
+
+    /* ── EFFECTS ────────────────────────────────── */
+    --effect-noise-opacity: 0.04;
 }
 
-/* ── DARK MODE (espelho de :root) ── */
-html.dark {
-    color-scheme: dark;
-    --color-background:      #080808;
-    --color-background-deep: #050505;
-    --color-surface:         #111111;
-    --color-surface-alt:     #0D0D0D;
-    --color-surface-raised:  #141414;
-    --color-text:       #FFFFFF;
-    --color-muted:      #D0D0D0;
-    --color-muted-dim:  #A8A8A8;
-    --color-dim:        #808080;
-    --color-border:     #1e1e1e;
-    --color-accent:     #C8FF00;
-    --accent-rgb:       200, 255, 0;
-    --color-focus:      #C8FF00;
-    --color-shadow:     rgba(0, 0, 0, 0.6);
-    --btn-bg:           #C8FF00;
-    --btn-text:         #000000;
-    --btn-hover:        #B8EE00;
-    --btn2-border:      rgba(200, 255, 0, 0.3);
-    --btn2-text:        #C8FF00;
-    --btn2-hover-bg:    rgba(200, 255, 0, 0.08);
-    --btn2-hover-border:rgba(200, 255, 0, 0.6);
-    --inv-bg:           #C8FF00;
-    --inv-text:         #000000;
-    --inv-muted:        rgba(0, 0, 0, 0.5);
-    --inv-border:       rgba(0, 0, 0, 0.15);
-    --inv-btn-bg:       #000000;
-    --inv-btn-text:     #C8FF00;
-    --chip-bg:          rgba(200, 255, 0, 0.08);
-    --chip-border:      rgba(200, 255, 0, 0.2);
-    --chip-text:        #C8FF00;
-    --tag-bg:           #1a1a1a;
-    --tag-border:       #222222;
-    --tag-text:         #8A8A8A;
-}
+/* ── DARK MODE ──
+   Dark IS :root (dark-first). Do NOT duplicate tokens here.
+   Override only in html.light below. */
+
 
 /* ── LIGHT MODE — Contrast-checked (WCAG AA+) ── */
 html.light {
     color-scheme: light;
 
-    /* Backgrounds */
-    --color-background:      #F8F7F4;
-    --color-background-deep: #EFEEEB;
-    --color-surface:         #FFFFFF;
-    --color-surface-alt:     #F5F4F1;
-    --color-surface-raised:  #F0EFEC;
+    /* #1A1A1A on #F8F7F4 = 14.5:1 ✓ AAA */
+    --color-background:      var(--primitive-paper-50);
+    --color-background-deep: var(--primitive-paper-300);
+    --color-surface:         var(--primitive-paper-0);
+    --color-surface-alt:     var(--primitive-paper-100);
+    --color-surface-raised:  var(--primitive-paper-200);
 
-    /* Text — #1A1A1A on #F8F7F4 = 14.5:1 ✓ AAA */
-    --color-text:       #1A1A1A;
+    --color-text:       var(--primitive-coal);
     /* #6B7280 on #F8F7F4 = 4.6:1 ✓ AA */
-    --color-muted:      #6B7280;
-    --color-muted-dim:  #8B8F97;
-    --color-dim:        #B0B4BC;
+    --color-muted:      var(--primitive-grey-500);
+    --color-muted-dim:  var(--primitive-grey-600);
+    --color-dim:        var(--primitive-grey-700);
 
-    /* Borders */
-    --color-border:     #DDDCD6;
+    --color-border:     var(--primitive-paper-400);
 
     /* Accent — #4A6600 on #F8F7F4 = 5.5:1 ✓ AA */
-    --color-accent:     #4A6600;
+    --color-accent:     var(--primitive-acid-700);
     --accent-rgb:       74, 102, 0;
 
-    /* Focus / Shadow */
-    --color-focus:      #4A6600;
+    --color-focus:      var(--primitive-acid-700);
     --color-shadow:     rgba(0, 0, 0, 0.07);
 
     /* Primary Button — #FFF on #4A6600 = 6.2:1 ✓ AA */
-    --btn-bg:           #4A6600;
-    --btn-text:         #FFFFFF;
-    --btn-hover:        #3D5500;
+    --btn-bg:           var(--primitive-acid-700);
+    --btn-text:         var(--primitive-white);
+    --btn-hover:        var(--primitive-acid-800);
 
     /* Secondary Button */
     --btn2-border:      rgba(74, 102, 0, 0.4);
-    --btn2-text:        #4A6600;
+    --btn2-text:        var(--primitive-acid-700);
     --btn2-hover-bg:    rgba(74, 102, 0, 0.06);
     --btn2-hover-border:rgba(74, 102, 0, 0.7);
 
-    /* Inverted Section — light bg with dark text */
-    --inv-bg:           #F8F7F4;
-    --inv-text:         #1A1A1A;
+    /* Inverted Section */
+    --inv-bg:           var(--primitive-paper-50);
+    --inv-text:         var(--primitive-coal);
     --inv-muted:        rgba(26, 26, 26, 0.5);
     --inv-border:       rgba(26, 26, 26, 0.15);
-    --inv-btn-bg:       #4A6600;
-    --inv-btn-text:     #FFFFFF;
+    --inv-btn-bg:       var(--primitive-acid-700);
+    --inv-btn-text:     var(--primitive-white);
 
     /* Chips / Tags */
     --chip-bg:          rgba(74, 102, 0, 0.06);
     --chip-border:      rgba(74, 102, 0, 0.2);
-    --chip-text:        #4A6600;
-    --tag-bg:           #F0EFEC;
-    --tag-border:       #DDDCD6;
-    --tag-text:         #6B7280;
+    --chip-text:        var(--primitive-acid-700);
+    --tag-bg:           var(--primitive-paper-200);
+    --tag-border:       var(--primitive-paper-400);
+    --tag-text:         var(--primitive-grey-500);
 }
 
 
@@ -176,8 +212,7 @@ body {
    COMPONENT CLASSES — all using var() tokens
 ═══════════════════════════════════════════════════ */
 
-@layer components {
-    .hero-fullheight {
+.hero-fullheight {
         min-height: 80vh;
     }
 
@@ -216,33 +251,33 @@ body {
         @apply border p-8 transition-all duration-300 md:p-10;
         background: var(--color-surface-raised);
         border-color: var(--color-border);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-card {
         @apply border p-6 transition-all duration-300;
         background: var(--color-surface-raised);
         border-color: var(--color-border);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-frame {
         @apply border transition-all duration-300;
         background: var(--color-surface-raised);
         border-color: var(--color-border);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-frame-interactive {
         @apply border transition-all duration-300;
         background: var(--color-surface-alt);
         border-color: var(--color-border);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-frame-interactive:hover {
         border-color: rgba(var(--accent-rgb), 0.3);
-        box-shadow: 0 20px 48px var(--color-shadow);
+        box-shadow: var(--shadow-lift);
         transform: translateY(-3px);
     }
 
@@ -250,12 +285,12 @@ body {
         @apply border p-6 transition-all duration-300;
         background: var(--color-surface-alt);
         border-color: var(--color-border);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-card-interactive:hover {
         border-color: rgba(var(--accent-rgb), 0.3);
-        box-shadow: 0 20px 48px var(--color-shadow);
+        box-shadow: var(--shadow-lift);
         transform: translateY(-3px);
     }
 
@@ -263,7 +298,7 @@ body {
         @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 transition-all duration-300;
         background: var(--btn-bg);
         color: var(--btn-text);
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -281,7 +316,7 @@ body {
         border: 1px solid var(--btn2-border);
         color: var(--btn2-text);
         background: transparent;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         font-weight: 600;
         font-size: 0.75rem;
         text-transform: uppercase;
@@ -299,7 +334,7 @@ body {
         background: var(--color-surface-raised);
         border-color: var(--color-border);
         color: var(--color-muted);
-        border-radius: 9999px;
+        border-radius: var(--radius-full);
     }
 
     .mono-icon-button:hover {
@@ -313,7 +348,7 @@ body {
         background: var(--chip-bg);
         border: 1px solid var(--chip-border);
         color: var(--chip-text);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
         font-size: 0.65rem;
         letter-spacing: 0.2em;
     }
@@ -323,23 +358,21 @@ body {
         background: var(--tag-bg);
         border: 1px solid var(--tag-border);
         color: var(--tag-text);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
     }
 
     .mono-progress-track {
         @apply h-2.5 w-full overflow-hidden;
         background: var(--color-border);
-        border-radius: 9999px;
+        border-radius: var(--radius-full);
     }
 
     .mono-progress-bar {
         @apply h-full transition-all duration-1000 ease-out;
         background: var(--color-accent);
-        border-radius: 9999px;
+        border-radius: var(--radius-full);
     }
-}
 
-@layer utilities {
     .mono-focus-ring {
         outline: none;
     }
@@ -348,7 +381,6 @@ body {
         outline: 2px solid var(--color-focus);
         outline-offset: 3px;
     }
-}
 
 
 /* ═══════════════════════════════════════════════════
@@ -364,7 +396,7 @@ body {
 .noise-bg::before {
     content: '';
     position: absolute; inset: 0; pointer-events: none;
-    opacity: 0.04; z-index: 0;
+    opacity: var(--effect-noise-opacity); z-index: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -436,6 +468,9 @@ body {
 
 /* ═══════════════════════════════════════════════════
    GLASS CARD (InteractiveHero)
+   NOTE (DS debt): slate/blue tints below are legacy values,
+   not theme tokens. Do not reuse elsewhere — phase 2 will
+   either tokenize or remove with the legacy hero.
 ═══════════════════════════════════════════════════ */
 
 .glass-card {
@@ -494,6 +529,116 @@ body {
 }
 
 .marquee-track {
-  animation: marquee-scroll 22s linear infinite;
+  animation: marquee-scroll var(--motion-marquee-duration) linear infinite;
   will-change: transform;
 }
+
+
+/* ═══════════════════════════════════════════════════
+   REDUCED MOTION — accessibility has priority over identity.
+   When the user asks for less motion, entrance/scroll/loop
+   effects go static. Toggles (theme, filters) keep working.
+═══════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .marquee-track,
+    .animate-blob,
+    .animate-pulse-scale,
+    .animate-pulse-opacity,
+    .animate-fadeIn {
+        animation: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   TYPE SCALE — single clamp per role.
+   Headings use the display face (Rajdhani); body roles
+   inherit Poppins. Never set ad-hoc font sizes for these
+   roles — adjust the scale here and it propagates.
+═══════════════════════════════════════════════════ */
+
+.ds-display {
+        font-family: var(--font-display), sans-serif;
+        font-weight: 600;
+        font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+        line-height: 0.95;
+        letter-spacing: 0.02em;
+    }
+
+    .ds-h1 {
+        font-family: var(--font-display), sans-serif;
+        font-weight: 600;
+        font-size: clamp(2.25rem, 5vw, 4rem);
+        line-height: 1;
+        letter-spacing: 0.02em;
+    }
+
+    .ds-h2 {
+        font-family: var(--font-display), sans-serif;
+        font-weight: 600;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1;
+        letter-spacing: 0.02em;
+    }
+
+    .ds-h3 {
+        font-family: var(--font-display), sans-serif;
+        font-weight: 600;
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+    }
+
+    .ds-h4 {
+        font-family: var(--font-display), sans-serif;
+        font-weight: 600;
+        font-size: clamp(1.15rem, 2vw, 1.5rem);
+        line-height: 1.1;
+        letter-spacing: 0.02em;
+    }
+
+    .ds-body-lg {
+        font-size: 1.125rem;
+        line-height: 1.7;
+    }
+
+    .ds-body {
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    .ds-body-sm {
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    .ds-caption {
+        font-size: 0.75rem;
+        line-height: 1.5;
+    }
+
+    .ds-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        line-height: 1.4;
+        color: var(--color-accent);
+    }
+
+    .ds-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }

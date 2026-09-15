@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import HeroSectionView from './components/HeroSectionView';
-import Portfolio from './components/Portfolio';
-import About from './components/About';
-import CtaSection from './components/CtaSection';
+import HeroSectionView from '@/pages/components/HeroSectionView';
+import FeaturedProject from '@/pages/components/FeaturedProject';
+import Portfolio from '@/pages/components/Portfolio';
+import About from '@/pages/components/About';
+import CtaSection from '@/pages/components/CtaSection';
 
 const HomePage = () => {
   return (
@@ -22,8 +23,9 @@ const HomePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href="https://www.juliano340.com/home" />
       </Head>
-      <main>
+      <main id="home-content" tabIndex={-1}>
         <HeroSectionView />
+        <FeaturedProject />
         <About />
         <Portfolio />
         <CtaSection />

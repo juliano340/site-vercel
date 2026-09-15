@@ -115,9 +115,8 @@ const Contato = () => {
             CONTATO
           </p>
           <h1
+            className="ds-display"
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
               color: 'var(--color-text)',
               lineHeight: 0.95,
               marginBottom: '20px',

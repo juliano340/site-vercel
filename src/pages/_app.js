@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Script from 'next/script';
-import { Poppins } from 'next/font/google';
+import { Poppins, Rajdhani } from 'next/font/google';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
@@ -15,6 +15,13 @@ const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-poppins',
+});
+
+const display = Rajdhani({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  display: 'swap',
+  variable: '--font-display',
 });
 
 function AppContent({ Component, pageProps }) {
@@ -45,7 +52,7 @@ function AppContent({ Component, pageProps }) {
   }, [consentGiven, router.events]);
 
   return (
-    <div className={`${poppins.variable} font-sans`}>
+    <div className={`${poppins.variable} ${display.variable} font-sans`}>
       <RouteProgressBar />
       {consentGiven ? (
         <>

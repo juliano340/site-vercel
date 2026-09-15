@@ -2,6 +2,7 @@
 module.exports = {
   darkMode: 'class',
   content: [
+    "./src/lib/homePresentation.js",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -23,13 +24,21 @@ module.exports = {
         acid: '#C8FF00',
       },
       fontFamily: {
-        bebas: ['Bebas Neue', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
       },
       borderColor: {
         subtle: 'var(--color-border)',
       },
+      borderRadius: {
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        pill: 'var(--radius-pill)',
+        full: 'var(--radius-full)',
+      },
       boxShadow: {
         soft: '0 12px 36px var(--color-shadow)',
+        lift: 'var(--shadow-lift)',
+        overlay: 'var(--shadow-overlay)',
       },
     },
   },
