@@ -558,7 +558,6 @@ body {
     .animate-blob,
     .animate-pulse-scale,
     .animate-pulse-opacity,
-    .caret-blink,
     .animate-fadeIn {
         animation: none;
     }

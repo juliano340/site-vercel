@@ -39,41 +39,36 @@ const HeroVisual = () => {
   useEffect(() => {
     const root = rootRef.current;
     const tiltEl = tiltRef.current;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canHover = window.matchMedia('(hover: hover)').matches;
 
-    if (reduced) {
-      setCount(TOTAL);
-    } else {
-      let n = 0;
-      let growing = true;
-      const step = () => {
-        if (!visibleRef.current) {
-          timerRef.current = setTimeout(step, RESUME_MS);
-          return;
-        }
-        if (growing) {
-          n += 1;
-          setCount(n);
-          if (n >= TOTAL) {
-            growing = false;
-            timerRef.current = setTimeout(step, HOLD_MS);
-          } else {
-            timerRef.current = setTimeout(step, TYPE_MS);
-          }
+    let n = 0;
+    let growing = true;
+    const step = () => {
+      if (!visibleRef.current) {
+        timerRef.current = setTimeout(step, RESUME_MS);
+        return;
+      }
+      if (growing) {
+        n += 1;
+        setCount(n);
+        if (n >= TOTAL) {
+          growing = false;
+          timerRef.current = setTimeout(step, HOLD_MS);
         } else {
-          n -= 1;
-          setCount(n);
-          if (n <= 0) {
-            growing = true;
-            timerRef.current = setTimeout(step, RESUME_MS);
-          } else {
-            timerRef.current = setTimeout(step, ERASE_MS);
-          }
+          timerRef.current = setTimeout(step, TYPE_MS);
         }
-      };
-      timerRef.current = setTimeout(step, START_DELAY_MS);
-    }
+      } else {
+        n -= 1;
+        setCount(n);
+        if (n <= 0) {
+          growing = true;
+          timerRef.current = setTimeout(step, RESUME_MS);
+        } else {
+          timerRef.current = setTimeout(step, ERASE_MS);
+        }
+      }
+    };
+    timerRef.current = setTimeout(step, START_DELAY_MS);
 
     const observer = new IntersectionObserver(([entry]) => {
       visibleRef.current = entry.isIntersecting;
@@ -91,7 +86,7 @@ const HeroVisual = () => {
       if (tiltEl) tiltEl.style.transform = 'perspective(1100px) rotateY(0deg) rotateX(0deg)';
     };
 
-    if (!reduced && canHover && root) {
+    if (canHover && root) {
       root.addEventListener('mousemove', onMove);
       root.addEventListener('mouseleave', onLeave);
     }
