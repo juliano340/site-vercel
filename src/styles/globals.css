@@ -465,6 +465,15 @@ body {
     animation: fadeIn 0.3s ease-out;
 }
 
+@keyframes caret-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+.caret-blink {
+    animation: caret-blink 1.1s steps(1) infinite;
+}
+
 
 /* ═══════════════════════════════════════════════════
    GLASS CARD (InteractiveHero)
@@ -549,6 +558,7 @@ body {
     .animate-blob,
     .animate-pulse-scale,
     .animate-pulse-opacity,
+    .caret-blink,
     .animate-fadeIn {
         animation: none;
     }

@@ -13,8 +13,8 @@ const CtaSection = () => {
               Vamos destravar.
             </h2>
             <p className="ds-body mt-5 max-w-xl text-muted">
-              Conta o problema. Em até 24h eu mando uma proposta com prazo, stack e escopo claro — sem enrolação
-              e sem reunião desnecessária.
+              Conta o problema e o que você precisa. Eu respondo com uma proposta de escopo, stack e próximos
+              passos — comunicação direta, sem reunião desnecessária.
             </p>
           </div>
 

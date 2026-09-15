@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import HeroVisual from '@/pages/components/HeroVisual';
 import { HOME_CONTAINER, HOME_LABEL, HOME_LINK, HOME_BUTTON } from '@/lib/homePresentation';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -41,26 +41,17 @@ const HeroSectionView = () => (
               <dd className="mt-1 font-mono text-base text-primary">TS · Next · Node</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.18em] text-muted">Prazo médio</dt>
-              <dd className="mt-1 font-mono text-2xl text-primary">2–4 sem</dd>
+              <dt className="text-xs uppercase tracking-[0.18em] text-muted">Formação</dt>
+              <dd className="mt-1 font-mono text-base text-primary">QA · PUC Minas</dd>
             </div>
           </dl>
         </div>
 
-        <div className="relative aspect-[4/3] overflow-hidden border border-subtle bg-surface lg:aspect-auto lg:min-h-[460px]">
-          <Image
-            src="/images/profile-about.png"
-            alt="Juliano Pereira"
-            fill
-            priority
-            sizes="(max-width: 1023px) 100vw, 420px"
-            className="object-cover"
-          />
-        </div>
+        <HeroVisual />
       </div>
 
       <p className="mt-10 border-t border-subtle pt-6 text-sm leading-relaxed text-muted sm:mt-12">
-        Pós-graduando em QA · PUC Minas — TypeScript · Angular · Next.js · C#/.NET · React · Docker · AWS
+        TypeScript · Angular · Next.js · C#/.NET · React · Docker · AWS
       </p>
     </div>
   </section>

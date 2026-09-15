@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
-    "next": "14.2.3",
+    "next": "14.2.35",
     "nodemailer": "^6.9.13",
     "prismjs": "^1.30.0",
     "react": "^18",
@@ -22,9 +22,9 @@
     "three": "^0.182.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.6",
+    "@next/bundle-analyzer": "^14.2.35",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.3",
+    "eslint-config-next": "^14.2.35",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }
