@@ -166,6 +166,10 @@ const About = () => {
                 </ul>
               </li>
               <li>
+                <p className="text-sm font-semibold text-primary">Tecnólogo em Marketing</p>
+                <p className="text-sm text-muted">Uninter</p>
+              </li>
+              <li>
                 <p className="text-sm font-semibold text-primary">MBA Gestão Empresarial e Marketing Digital</p>
                 <p className="text-sm text-muted">Uninter</p>
               </li>
