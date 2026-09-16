@@ -9,16 +9,6 @@ const projects = [
     category: 'fullstack',
   },
   {
-    title: 'Loja Web',
-    description: 'E-commerce full-stack com Angular 20 + Tailwind no front e NestJS + TypeORM + PostgreSQL + JWT + Stripe no back.',
-    imageUrl: '/images/loja-web.png',
-    projectUrl: 'https://loja.juliano340.com/products',
-    repoUrl: 'https://github.com/juliano340/loja-web',
-    repoBackendUrl: 'https://github.com/juliano340/loja-backend',
-    tags: ['Angular 20', 'Tailwind CSS', 'NestJS', 'TypeORM', 'PostgreSQL', 'JWT', 'Stripe', 'TypeScript'],
-    category: 'fullstack',
-  },
-  {
     title: 'TaskMaster',
     description: 'Aplicação SaaS para gerenciamento de tarefas com autenticação, planos free e premium, Stripe e deploy completo.',
     imageUrl: '/images/tasks.png',
@@ -38,15 +28,6 @@ const projects = [
     category: 'fullstack',
   },
   {
-    title: 'CMS - BLOG',
-    description: 'Sistema CMS para blog com Next.js e Notion como backend.',
-    imageUrl: '/images/Blog.png',
-    projectUrl: 'https://www.juliano340.com/blog',
-    repoUrl: 'https://github.com/juliano340/site-vercel',
-    tags: ['Next.js', 'Notion', 'CMS'],
-    category: 'frontend',
-  },
-  {
     title: 'RunLab',
     description: 'Aplicativo mobile com Flutter para gerenciamento de corridas, backup em JSON e privacidade.',
     imageUrl: '/images/RUNLAB_SCREEN.jpg',
@@ -55,15 +36,6 @@ const projects = [
     repoUrl: 'https://github.com/juliano340/RunLabAG',
     tags: ['Flutter', 'Mobile', 'JSON Backup', 'Privacidade'],
     category: 'mobile',
-  },
-  {
-    title: 'JVerso - Rede Social',
-    description: 'Rede social completa com feed, likes, comentários aninhados, perfis e seguidores.',
-    imageUrl: '/images/jverso-feed.png',
-    projectUrl: 'https://jverso.juliano340.com/',
-    repoUrl: 'https://github.com/juliano340/rede-social-rai',
-    tags: ['Angular', 'NestJS', 'Prisma', 'PostgreSQL', 'JWT', 'Tailwind CSS'],
-    category: 'fullstack',
   },
 ];
 

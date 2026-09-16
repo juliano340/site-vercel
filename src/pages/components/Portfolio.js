@@ -6,7 +6,6 @@ import projects from '@/lib/projects';
 const FILTERS = [
   { id: 'all', label: 'Todos' },
   { id: 'fullstack', label: 'Full Stack' },
-  { id: 'frontend', label: 'Frontend' },
   { id: 'mobile', label: 'Mobile' },
 ];
 
