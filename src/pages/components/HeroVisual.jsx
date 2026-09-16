@@ -29,7 +29,7 @@ const FLAT = LINES.map((line) => {
 });
 const TOTAL = FLAT.reduce((sum, line) => sum + line.length, 0);
 
-const HeroVisual = () => {
+const HeroVisual = ({ className = '' }) => {
   const rootRef = useRef(null);
   const tiltRef = useRef(null);
   const timerRef = useRef(null);
@@ -135,7 +135,7 @@ const HeroVisual = () => {
   }
 
   return (
-    <div ref={rootRef} aria-hidden="true" className="relative aspect-[4/3] w-full lg:aspect-auto lg:min-h-[460px]">
+    <div ref={rootRef} aria-hidden="true" className={`relative aspect-[16/10] w-full lg:aspect-auto lg:min-h-[460px] ${className}`}>
       <div
         ref={tiltRef}
         className="absolute inset-0 overflow-hidden border border-subtle bg-surface shadow-soft"
