@@ -41,6 +41,18 @@ export default function Menu() {
         setIsOpen(false);
     }, [router.asPath]);
 
+    // Close mobile menu when clicking outside the nav
+    useEffect(() => {
+        if (!isOpen) return undefined;
+        const handlePointerDown = (event) => {
+            if (navRef.current && !navRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('pointerdown', handlePointerDown);
+        return () => document.removeEventListener('pointerdown', handlePointerDown);
+    }, [isOpen]);
+
     useEffect(() => {
         const syncHash = () => setCurrentHash(window.location.hash || '');
         syncHash();
