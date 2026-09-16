@@ -87,7 +87,8 @@ const About = () => {
         <div className="mb-16 grid gap-8 md:grid-cols-[1fr_240px] md:items-start">
           <div className="max-w-3xl">
             <p className="ds-body-lg text-muted">
-              Sou graduado em <strong className="text-primary">Sistemas para Internet</strong> e pós-graduando em
+              Sou graduado em <strong className="text-primary">Sistemas para Internet</strong> pela
+              <strong className="text-primary"> Unisinos</strong> e pós-graduando em
               <strong className="text-primary"> Engenharia de Qualidade e Teste de Software</strong> na
               <strong className="text-primary"> PUC Minas</strong>. Tenho experiência prática com front-end, back-end,
               testes e suporte técnico — e gosto de transformar ideias em soluções digitais funcionais.
