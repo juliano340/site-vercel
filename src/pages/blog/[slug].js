@@ -10,10 +10,14 @@ const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
 const AUTHOR_BIO    = 'Desenvolvedor Full Stack apaixonado por tecnologia, empreendedorismo e IA aplicada a negócios.';
 
 // ── Table of contents ──────────────────────────────────────
+// ids MUST use the index inside the full blocks array (same as
+// renderBlock's block.index) — filtering first would shift the ids
+// and break both the scrollspy highlight and the anchor clicks.
 const extractTableOfContents = (blocks) =>
     blocks
-        .filter(b => b.type === 'heading_2' || b.type === 'heading_3')
-        .map((block, index) => ({
+        .map((block, index) => ({ block, index }))
+        .filter(({ block }) => block.type === 'heading_2' || block.type === 'heading_3')
+        .map(({ block, index }) => ({
             text:  block[block.type]?.rich_text?.map(t => t.text?.content).join('') || '',
             level: block.type === 'heading_2' ? 2 : 3,
             id:    `heading-${index}`,
@@ -346,7 +350,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
             headings.forEach(h => { if (h.getBoundingClientRect().top <= 100) current = h.id; });
             setActiveSection(current);
         };
-        window.addEventListener('scroll', onScroll);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
