@@ -26,8 +26,8 @@ const HomePage = () => {
       <main id="home-content" tabIndex={-1}>
         <HeroSectionView />
         <FeaturedProject />
-        <About />
         <Portfolio />
+        <About />
         <CtaSection />
       </main>
     </>

@@ -95,10 +95,10 @@ const Contato = () => {
 
   return (
     <div
-      className="relative min-h-screen overflow-x-hidden px-4 py-12 sm:px-6 lg:px-8"
+      className="relative min-h-screen overflow-x-hidden py-12"
       style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
     >
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Breadcrumb paths={[{ label: 'Home', href: '/' }, { label: 'Contato', href: '/contato' }]} />
 
         {/* Header */}

@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 const CtaSection = () => {
   return (
-    <section className="bg-surface px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-surface py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 border-t border-subtle pt-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)] lg:items-end">
           <div>
             <p className="ds-label mb-4">04 — Próximo passo</p>

@@ -53,10 +53,10 @@ const Footer = () => {
 
   return (
     <footer
-      className="relative px-4 py-16 sm:px-6 lg:px-8"
+      className="relative py-16"
       style={{ background: 'var(--color-background-deep)' }}
     >
-      <div className="relative z-10 mx-auto max-w-7xl py-4">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* Brand Section */}

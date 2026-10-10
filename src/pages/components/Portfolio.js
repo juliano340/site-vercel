@@ -57,9 +57,9 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className="bg-background px-4 py-20 transition-colors duration-300 sm:px-6 lg:px-8"
+      className="bg-background py-20 transition-colors duration-300"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mb-12 max-w-2xl">
           <p className="ds-label mb-3">02 — Portfólio</p>
           <h2 className="ds-h1 text-primary">Projetos selecionados</h2>
