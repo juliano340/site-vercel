@@ -17,7 +17,7 @@ const HeroSectionView = () => (
           <h1 id="home-title" className="ds-display">
             Desenvolvedor<br />Full Stack
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          <p className="ds-body mt-6 max-w-xl text-muted">
             Produtos digitais do conceito ao deploy — com código limpo, velocidade e IA aplicada.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -30,20 +30,20 @@ const HeroSectionView = () => (
 
         <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-subtle pt-5 sm:pt-6 md:grid-cols-4 lg:col-start-1">
           <div>
-            <dt className="text-xs uppercase tracking-[0.18em] text-muted">Experiência</dt>
-            <dd className="mt-1 font-mono text-xl text-primary sm:text-2xl">{CURRENT_YEAR - 2022}+ anos</dd>
+            <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">Experiência</dt>
+            <dd className="mt-1 text-base font-bold text-primary">{CURRENT_YEAR - 2022}+ anos</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-[0.18em] text-muted">Foco</dt>
-            <dd className="mt-1 font-mono text-xl text-primary sm:text-2xl">Full Stack</dd>
+            <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">Foco</dt>
+            <dd className="mt-1 text-base font-bold text-primary">Full Stack</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-[0.18em] text-muted">Stack</dt>
-            <dd className="mt-1 font-mono text-sm text-primary sm:text-base">TS · Next · Node</dd>
+            <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">Stack</dt>
+            <dd className="mt-1 text-sm text-primary">TS · Next · Node</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-[0.18em] text-muted">Formação</dt>
-            <dd className="mt-1 font-mono text-sm text-primary sm:text-base">QA · PUC Minas</dd>
+            <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">Formação</dt>
+            <dd className="mt-1 text-sm text-primary">QA · PUC Minas</dd>
           </div>
         </dl>
       </div>

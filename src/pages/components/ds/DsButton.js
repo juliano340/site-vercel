@@ -4,7 +4,7 @@ const VARIANTS = {
   primary: 'mono-button-primary',
   secondary: 'mono-button-secondary',
   ghost:
-    'mono-focus-ring inline-flex min-h-[2.75rem] items-center gap-2 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-accent)] underline-offset-4 hover:underline',
+    'mono-focus-ring inline-flex min-h-[2.75rem] items-center gap-2 text-sm font-semibold uppercase tracking-[0.1em] text-[var(--color-text)] underline-offset-4 hover:underline',
 };
 
 // Controlled variants only: primary / secondary / ghost.

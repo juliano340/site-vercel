@@ -95,7 +95,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="relative aspect-[3/4] overflow-hidden border border-subtle bg-surface md:justify-self-end md:w-[240px]">
+          <div className="relative aspect-[3/4] overflow-hidden bg-surface md:justify-self-end md:w-[240px]" style={{ borderRadius: 'var(--radius-md)' }}>
             <Image
               src="/images/profile-about.png"
               alt="Juliano Pereira"
@@ -112,8 +112,8 @@ const About = () => {
           <ol className="space-y-8 border-l border-subtle pl-6">
             {visibleExperiences.map((exp) => (
               <li key={`${exp.company}-${exp.period}`} className="relative">
-                <span aria-hidden="true" className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-primary" />
-                <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">{exp.period}</p>
+                <span aria-hidden="true" className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-[var(--color-accent)]" />
+                <p className="text-xs font-bold uppercase tracking-[0.07em] text-muted">{exp.period}</p>
                 <h4 className="mt-1 text-lg font-semibold text-primary">{exp.role}</h4>
                 <p className="text-sm text-muted">{exp.company}</p>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{exp.description}</p>
@@ -141,7 +141,7 @@ const About = () => {
             <dl className="space-y-6">
               {SKILL_GROUPS.map((group) => (
                 <div key={group.label}>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{group.label}</dt>
+                  <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">{group.label}</dt>
                   <dd className="mt-2 text-sm leading-relaxed text-primary">{group.items.join(' · ')}</dd>
                 </div>
               ))}

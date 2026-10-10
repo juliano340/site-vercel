@@ -43,10 +43,18 @@ const Footer = () => {
     { name: 'Política de Privacidade', href: '/politica-de-privacidade' }
   ];
 
+  const headingStyle = {
+    fontSize: '0.75rem',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.07em',
+    color: 'var(--color-muted)',
+  };
+
   return (
     <footer
       className="relative px-4 py-16 sm:px-6 lg:px-8"
-      style={{ background: 'var(--color-background-deep)', borderTop: '1px solid var(--color-surface-raised)' }}
+      style={{ background: 'var(--color-background-deep)' }}
     >
       <div className="relative z-10 mx-auto max-w-7xl py-4">
         {/* Main Footer Content */}
@@ -54,19 +62,18 @@ const Footer = () => {
           {/* Brand Section */}
           <div
             className="h-full p-6 text-center md:text-left"
-            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
           >
             <h3 className="mb-3 flex items-center justify-center gap-2 md:justify-start">
               <span
                 style={{
-                  fontFamily: 'var(--font-display), sans-serif',
                   fontWeight: 700,
-                  color: 'var(--color-accent)',
-                  fontSize: '1.5rem',
-                  letterSpacing: '0.1em',
+                  color: 'var(--color-text)',
+                  fontSize: '1.25rem',
+                  letterSpacing: '-0.01em',
                 }}
               >
-                Juliano Pereira
+                Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
               </span>
             </h3>
             <p className="mb-6 leading-relaxed" style={{ color: 'var(--color-muted)', fontSize: '0.875rem' }}>
@@ -81,14 +88,13 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="mono-focus-ring inline-flex h-10 w-10 items-center justify-center transition-all duration-300"
                   style={{
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-surface)',
-                    borderRadius: '4px',
+                    background: 'var(--color-surface-alt)',
+                    borderRadius: 'var(--radius-full)',
                     color: 'var(--color-muted)',
                   }}
                   aria-label={link.name}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.transform = 'scale(1.04)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.transform = 'scale(1)'; }}
                 >
                   {link.icon}
                 </a>
@@ -99,34 +105,23 @@ const Footer = () => {
           {/* Quick Links */}
           <div
             className="h-full p-6 text-center"
-            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
           >
-            <h4
-              className="mb-4"
-              style={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: 'var(--color-accent)',
-              }}
-            >
-              LINKS RÁPIDOS
+            <h4 className="mb-4" style={headingStyle}>
+              Links rápidos
             </h4>
             <nav className="grid gap-2">
               {quickLinks.map((link) => (
                 <Link key={link.name} href={link.href} legacyBehavior>
                   <a
-                    className="mono-focus-ring inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300"
+                    className="mono-focus-ring inline-flex items-center justify-center px-4 py-1.5 font-medium transition-colors duration-300"
                     style={{
-                      border: '1px solid var(--color-border)',
-                      background: 'var(--color-surface)',
-                      borderRadius: '4px',
                       color: 'var(--color-muted)',
                       textDecoration: 'none',
+                      fontSize: '0.875rem',
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.textDecoration = 'underline'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.textDecoration = 'none'; }}
                   >
                     {link.name}
                   </a>
@@ -138,28 +133,16 @@ const Footer = () => {
           {/* Contact Info */}
           <div
             className="h-full p-6 text-center md:text-right"
-            style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-surface-raised)', borderRadius: '4px' }}
+            style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
           >
-            <h4
-              className="mb-4"
-              style={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: 'var(--color-accent)',
-              }}
-            >
-              CONTATO
+            <h4 className="mb-4" style={headingStyle}>
+              Contato
             </h4>
             <div className="space-y-3">
               <a
                 href={`mailto:${['juliano340', 'gmail.com'].join('@')}`}
-                className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-3 transition-colors duration-200 md:justify-end"
+                className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-1.5 transition-colors duration-200 md:justify-end"
                 style={{
-                  border: '1px solid var(--color-border)',
-                  background: 'var(--color-surface)',
-                  borderRadius: '4px',
                   color: 'var(--color-muted)',
                   textDecoration: 'none',
                   fontSize: '0.875rem',
@@ -173,11 +156,8 @@ const Footer = () => {
                 {['juliano340', 'gmail.com'].join('@')}
               </a>
               <div
-                className="flex items-center justify-center gap-2 px-4 py-3 md:justify-end"
+                className="flex items-center justify-center gap-2 px-4 py-1.5 md:justify-end"
                 style={{
-                  border: '1px solid var(--color-border)',
-                  background: 'var(--color-surface)',
-                  borderRadius: '4px',
                   color: 'var(--color-muted)',
                   fontSize: '0.875rem',
                 }}
@@ -190,20 +170,15 @@ const Footer = () => {
               </div>
               <Link href="/blog" legacyBehavior>
                 <a
-                  className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-2 text-sm transition-colors duration-200 md:justify-end"
+                  className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-1.5 transition-colors duration-200 md:justify-end"
                   style={{
-                    border: '1px solid rgba(var(--accent-rgb), 0.2)',
-                    background: 'transparent',
-                    borderRadius: '4px',
-                    color: 'var(--color-accent)',
+                    color: 'var(--color-text)',
                     textDecoration: 'none',
-                    fontSize: '0.7rem',
+                    fontSize: '0.875rem',
                     fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--accent-rgb), 0.08)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -216,17 +191,17 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="mb-8" style={{ borderTop: '1px solid var(--color-surface-raised)' }}></div>
+        <div className="mb-8" style={{ borderTop: '1px solid var(--color-border)' }}></div>
 
         {/* Bottom Section */}
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-2" style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>
+          <div className="flex items-center gap-2" style={{ fontSize: '0.75rem', color: 'var(--color-muted)' }}>
             <span>&copy; {currentYear}</span>
-            <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>juliano340.com</span>
+            <span style={{ color: 'var(--color-text)', fontWeight: 700 }}>juliano340.com</span>
             <span>- Todos os direitos reservados</span>
           </div>
 
-          <div className="flex items-center gap-4" style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>
+          <div className="flex items-center gap-4" style={{ fontSize: '0.75rem', color: 'var(--color-muted)' }}>
             <Link href="/terminal" legacyBehavior>
               <a
                 className="mono-focus-ring font-mono uppercase tracking-[0.16em] transition-colors duration-200"
@@ -235,7 +210,7 @@ const Footer = () => {
                   color: 'var(--color-muted-dim)',
                   textDecoration: 'none',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent)'; }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; }}
                 title="Modo dev — easter egg"
               >
@@ -258,18 +233,17 @@ const Footer = () => {
         {/* Back to Top Button */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="mono-focus-ring group fixed bottom-8 right-8 inline-flex items-center justify-center p-3 transition-all duration-300 hover:-translate-y-1"
+          className="mono-focus-ring group fixed bottom-8 right-8 inline-flex items-center justify-center p-3 transition-all duration-300"
           style={{
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            borderRadius: '4px',
-            color: 'var(--color-accent)',
+            background: 'var(--color-surface-alt)',
+            borderRadius: 'var(--radius-full)',
+            color: 'var(--color-text)',
           }}
           aria-label="Voltar ao topo"
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-accent)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-accent)'; e.currentTarget.style.color = '#000000'; e.currentTarget.style.transform = 'scale(1.04)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-surface-alt)'; e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.transform = 'scale(1)'; }}
         >
-          <svg className="w-6 h-6 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
         </button>

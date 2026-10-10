@@ -7,7 +7,7 @@ const FeaturedProject = () => {
   if (!project) return null;
 
   return (
-    <section id="featured-project" aria-labelledby="featured-title" className="scroll-mt-6 border-y border-subtle bg-surface text-primary">
+    <section id="featured-project" aria-labelledby="featured-title" className="scroll-mt-6 bg-surface text-primary">
       <div className={`${HOME_CONTAINER} py-10 sm:py-14`}>
         <div className="mb-7 flex flex-wrap items-baseline justify-between gap-3">
           <p className={HOME_LABEL}>01 — Projeto em destaque</p>
@@ -20,7 +20,8 @@ const FeaturedProject = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visitar Finly (nova aba)"
-            className="mono-focus-ring block overflow-hidden border border-subtle bg-background"
+            className="mono-focus-ring block overflow-hidden bg-background"
+            style={{ borderRadius: 'var(--radius-md)' }}
           >
             <SmartImage
               src={project.imageUrl}

@@ -4,13 +4,17 @@ import Link from 'next/link';
 
 const Custom404 = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
-      <h1 className="text-4xl font-bold text-gray-900">404 - Página não encontrada</h1>
-      <p className="mt-4 text-gray-700">Desculpe, a página que você está procurando não existe.</p>
-      <Link href="/" passHref>
-        <div className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 cursor-pointer">
-          Voltar para a Home
-        </div>
+    <div
+      className="flex min-h-screen flex-col items-center justify-center px-4 text-center"
+      style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
+    >
+      <p className="ds-label mb-3">Erro 404</p>
+      <h1 className="ds-h2">Página não encontrada</h1>
+      <p className="ds-body mt-4" style={{ color: 'var(--color-muted)' }}>
+        Desculpe, a página que você está procurando não existe.
+      </p>
+      <Link href="/home" legacyBehavior>
+        <a className="mono-focus-ring mono-button-primary mt-8 min-h-12 px-6 py-3">Voltar para a Home</a>
       </Link>
     </div>
   );

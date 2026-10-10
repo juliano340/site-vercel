@@ -9,7 +9,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="pt-br">
+      <Html lang="pt-br" className="dark" style={{ backgroundColor: '#121212' }}>
         <Head>
           <meta charSet="UTF-8" />
           <link rel="icon" href="/favicon.png" type="image/png" />

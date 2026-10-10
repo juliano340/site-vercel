@@ -138,8 +138,8 @@ const HeroVisual = ({ className = '' }) => {
     <div ref={rootRef} aria-hidden="true" className={`relative aspect-[16/10] w-full lg:aspect-auto lg:min-h-[460px] ${className}`}>
       <div
         ref={tiltRef}
-        className="absolute inset-0 overflow-hidden border border-subtle bg-surface shadow-soft"
-        style={{ transition: 'transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1)', willChange: 'transform' }}
+        className="absolute inset-0 overflow-hidden bg-surface"
+        style={{ transition: 'transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1)', willChange: 'transform', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lift)' }}
       >
         <div className="flex items-center gap-1.5 border-b border-subtle px-4 py-3">
           <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-dim)] opacity-50" />

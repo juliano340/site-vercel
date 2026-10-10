@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import ThemeToggle from './ThemeToggle';
 
 export default function Menu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -96,13 +95,22 @@ export default function Menu() {
         return router.pathname === href;
     };
 
+    const linkStyle = (active) => ({
+        fontSize: '0.875rem',
+        fontWeight: active ? 700 : 400,
+        color: active ? 'var(--color-text)' : 'var(--color-muted)',
+        textDecoration: 'none',
+    });
+
     return (
         <>
             <nav
                 ref={navRef}
                 className="fixed w-full top-0 left-0 z-50 transition-all duration-300"
                 style={{
-                    background: 'var(--color-background)',
+                    background: 'rgba(18, 18, 18, 0.92)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
                     borderBottom: scrolled ? '1px solid var(--color-border)' : '1px solid transparent',
                 }}
             >
@@ -115,15 +123,14 @@ export default function Menu() {
                                 <a
                                     className="mono-focus-ring"
                                     style={{
-                                        fontFamily: 'var(--font-display), sans-serif',
                                         fontWeight: 700,
-                                        color: 'var(--color-accent)',
-                                        fontSize: '1.5rem',
-                                        letterSpacing: '0.1em',
+                                        color: 'var(--color-text)',
+                                        fontSize: '1.25rem',
+                                        letterSpacing: '-0.01em',
                                         textDecoration: 'none',
                                     }}
                                 >
-                                    Juliano Pereira
+                                    Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
                                 </a>
                             </Link>
 
@@ -133,9 +140,8 @@ export default function Menu() {
                                 onClick={toggle}
                                 className="mono-focus-ring relative flex h-10 w-10 items-center justify-center transition-all duration-300"
                                 style={{
-                                    border: '1px solid var(--color-border)',
-                                    background: 'var(--color-surface)',
-                                    borderRadius: '4px',
+                                    background: 'var(--color-surface-alt)',
+                                    borderRadius: 'var(--radius-full)',
                                     color: 'var(--color-muted)',
                                 }}
                                 aria-expanded={isOpen}
@@ -153,7 +159,7 @@ export default function Menu() {
                         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
                             <div
                                 className="p-2"
-                                style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                                style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)' }}
                             >
                                 <ul className="space-y-1">
                                     {navItems.map((item) => {
@@ -164,14 +170,9 @@ export default function Menu() {
                                                     <a
                                                         className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
                                                         style={{
-                                                            borderRadius: '4px',
-                                                            color: active ? 'var(--color-accent)' : 'var(--color-muted)',
-                                                            background: active ? 'rgba(var(--accent-rgb), 0.08)' : 'transparent',
-                                                            borderLeft: active ? '2px solid var(--color-accent)' : '2px solid transparent',
-                                                            fontSize: '0.7rem',
-                                                            fontWeight: 700,
-                                                            textTransform: 'uppercase',
-                                                            letterSpacing: '0.15em',
+                                                            borderRadius: 'var(--radius-sm)',
+                                                            ...linkStyle(active),
+                                                            background: active ? 'rgba(255, 255, 255, 0.07)' : 'transparent',
                                                         }}
                                                     >
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,9 +185,6 @@ export default function Menu() {
                                         );
                                     })}
                                 </ul>
-                                <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
-                                    <ThemeToggle />
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -198,15 +196,14 @@ export default function Menu() {
                             <a
                                 className="mono-focus-ring"
                                 style={{
-                                    fontFamily: 'var(--font-display), sans-serif',
                                     fontWeight: 700,
-                                    color: 'var(--color-accent)',
+                                    color: 'var(--color-text)',
                                     fontSize: '1.5rem',
-                                    letterSpacing: '0.1em',
+                                    letterSpacing: '-0.01em',
                                     textDecoration: 'none',
                                 }}
                             >
-                                Juliano Pereira
+                                Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
                             </a>
                         </Link>
 
@@ -217,15 +214,7 @@ export default function Menu() {
                                     <Link href={item.href} legacyBehavior>
                                         <a
                                             className="mono-focus-ring relative px-4 py-2 transition-all duration-300 flex items-center gap-2"
-                                            style={{
-                                                fontSize: '0.7rem',
-                                                fontWeight: 700,
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.15em',
-                                                color: isActive(item.href) ? 'var(--color-accent)' : 'var(--color-muted-dim)',
-                                                borderBottom: isActive(item.href) ? '2px solid var(--color-accent)' : '2px solid transparent',
-                                                textDecoration: 'none',
-                                            }}
+                                            style={{ ...linkStyle(isActive(item.href)) }}
                                             onMouseEnter={(e) => {
                                                 if (!isActive(item.href)) {
                                                     e.currentTarget.style.color = 'var(--color-text)';
@@ -233,7 +222,7 @@ export default function Menu() {
                                             }}
                                             onMouseLeave={(e) => {
                                                 if (!isActive(item.href)) {
-                                                    e.currentTarget.style.color = 'var(--color-muted-dim)';
+                                                    e.currentTarget.style.color = 'var(--color-muted)';
                                                 }
                                             }}
                                         >
@@ -244,9 +233,8 @@ export default function Menu() {
                             ))}
                         </ul>
 
-                        {/* Theme Toggle + CTA Button */}
+                        {/* CTA Button */}
                         <div className="flex items-center gap-3">
-                            <ThemeToggle />
                             <Link href="/contato" legacyBehavior>
                                 <a className="mono-focus-ring mono-button-primary flex items-center gap-2">
                                     <span>Fale Comigo</span>
@@ -272,4 +260,4 @@ export default function Menu() {
             <div className="h-16 sm:h-20"></div>
         </>
     );
-}   
+}

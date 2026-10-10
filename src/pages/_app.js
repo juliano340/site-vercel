@@ -1,12 +1,11 @@
 import Head from 'next/head';
 import Script from 'next/script';
-import { Poppins, Rajdhani } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import Layout from './components/Layout';
 import RouteProgressBar from './components/RouteProgressBar';
-import { ThemeProvider } from '../contexts/ThemeContext';
 import CookieConsentModal from './components/CookieConsentModal';
 import { CookieConsentProvider, useCookieConsent } from '@/contexts/CookieConsentContext';
 
@@ -15,13 +14,6 @@ const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-poppins',
-});
-
-const display = Rajdhani({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  display: 'swap',
-  variable: '--font-display',
 });
 
 function AppContent({ Component, pageProps }) {
@@ -52,7 +44,7 @@ function AppContent({ Component, pageProps }) {
   }, [consentGiven, router.events]);
 
   return (
-    <div className={`${poppins.variable} ${display.variable} font-sans`}>
+    <div className={`${poppins.variable} font-sans`}>
       <RouteProgressBar />
       {consentGiven ? (
         <>
@@ -128,9 +120,7 @@ function AppContent({ Component, pageProps }) {
 function MyApp({ Component, pageProps }) {
   return (
     <CookieConsentProvider>
-      <ThemeProvider>
-        <AppContent Component={Component} pageProps={pageProps} />
-      </ThemeProvider>
+      <AppContent Component={Component} pageProps={pageProps} />
     </CookieConsentProvider>
   );
 }

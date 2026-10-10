@@ -21,15 +21,13 @@ module.exports = {
         muted: 'var(--color-muted)',
         subtle: 'var(--color-border)',
         focus: 'var(--color-focus)',
-        acid: '#C8FF00',
-      },
-      fontFamily: {
-        display: ['var(--font-display)', 'sans-serif'],
+        accent: 'var(--color-accent)',
       },
       borderColor: {
         subtle: 'var(--color-border)',
       },
       borderRadius: {
+        xs: 'var(--radius-xs)',
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',
         pill: 'var(--radius-pill)',
@@ -39,6 +37,7 @@ module.exports = {
         soft: '0 12px 36px var(--color-shadow)',
         lift: 'var(--shadow-lift)',
         overlay: 'var(--shadow-overlay)',
+        inset: 'var(--shadow-inset-input)',
       },
     },
   },

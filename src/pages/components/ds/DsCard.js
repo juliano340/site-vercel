@@ -7,11 +7,11 @@ const VARIANTS = {
 };
 
 // Card variants: default / interactive / featured.
-// Featured = interactive + accent top edge. Nothing else.
+// Featured = interactive + top edge. Nothing else.
 const Card = ({ variant = 'default', children, className = '', style = {}, ...props }) => (
   <div
     className={`${VARIANTS[variant] || VARIANTS.default} ${className}`.trim()}
-    style={variant === 'featured' ? { borderTop: '2px solid var(--color-accent)', ...style } : style}
+    style={variant === 'featured' ? { borderTop: '2px solid var(--color-text)', ...style } : style}
     {...props}
   >
     {children}

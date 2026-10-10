@@ -7,7 +7,7 @@ import { Badge, Tag, Divider, TextLink } from '@/pages/components/ds/DsMeta';
 import Reveal from '@/pages/components/Reveal';
 
 // Visual lab for juliano340.com. DEV ONLY — returns 404 in production.
-const Swatch = ({ name, cssVar, fg = '#fff' }) => (
+const Swatch = ({ name, cssVar, fg = 'var(--color-text)' }) => (
   <div className="overflow-hidden rounded-sm border border-subtle">
     <div className="h-16" style={{ background: `var(${cssVar})` }} />
     <div className="bg-surface p-2">
@@ -59,12 +59,17 @@ const DesignSystemPage = () => (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <Swatch name="btn bg" cssVar="--btn-bg" />
             <Swatch name="btn text" cssVar="--btn-text" fg="var(--color-muted)" />
-            <Swatch name="inverted bg" cssVar="--inv-bg" />
+            <Swatch name="inv bg" cssVar="--inv-bg" />
             <Swatch name="chip bg" cssVar="--chip-bg" />
             <Swatch name="chip text" cssVar="--chip-text" fg="var(--color-muted)" />
             <Swatch name="tag bg" cssVar="--tag-bg" />
             <Swatch name="focus" cssVar="--color-focus" />
             <Swatch name="shadow" cssVar="--color-shadow" />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <Swatch name="negative" cssVar="--color-negative" />
+            <Swatch name="warning" cssVar="--color-warning" />
+            <Swatch name="announcement" cssVar="--color-announcement" />
           </div>
         </LabSection>
 
@@ -99,9 +104,9 @@ const DesignSystemPage = () => (
 
         <LabSection title="Cards">
           <div className="grid gap-4 md:grid-cols-3">
-            <Card><p className="ds-h4 mb-2">Default</p><p className="ds-body-sm text-muted">Superfície elevada, borda sutil.</p></Card>
-            <Card variant="interactive"><p className="ds-h4 mb-2">Interactive</p><p className="ds-body-sm text-muted">Hover: borda acid + lift. Passe o mouse.</p></Card>
-            <Card variant="featured"><p className="ds-h4 mb-2">Featured</p><p className="ds-body-sm text-muted">Interactive + filete accent no topo.</p></Card>
+            <Card><p className="ds-h4 mb-2">Default</p><p className="ds-body-sm text-muted">Superfície elevada, sem borda.</p></Card>
+            <Card variant="interactive"><p className="ds-h4 mb-2">Interactive</p><p className="ds-body-sm text-muted">Hover: fundo eleva + shadow. Passe o mouse.</p></Card>
+            <Card variant="featured"><p className="ds-h4 mb-2">Featured</p><p className="ds-body-sm text-muted">Interactive + filete no topo.</p></Card>
           </div>
         </LabSection>
 
@@ -116,6 +121,7 @@ const DesignSystemPage = () => (
 
         <LabSection title="Radius · Shadows">
           <div className="flex flex-wrap items-end gap-4">
+            <div className="rounded-xs bg-surface p-4"><p className="ds-code">rounded-xs</p></div>
             <div className="rounded-sm bg-surface p-4"><p className="ds-code">rounded-sm</p></div>
             <div className="rounded-md bg-surface p-4"><p className="ds-code">rounded-md</p></div>
             <div className="rounded-pill bg-surface px-6 py-3"><p className="ds-code">rounded-pill</p></div>

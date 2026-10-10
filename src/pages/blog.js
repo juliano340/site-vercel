@@ -233,14 +233,15 @@ const Blog = ({ posts, generatedAt }) => {
     // Estilos compartilhados de inputs/selects
     const inputStyle = {
         background: 'var(--color-surface-alt)',
-        border: '1px solid var(--color-border)',
+        border: 'none',
+        boxShadow: 'var(--shadow-inset-input)',
         color: 'var(--color-text)',
-        borderRadius: '8px',
+        borderRadius: '4px',
         padding: '10px 16px',
         fontSize: '0.875rem',
         outline: 'none',
         width: '100%',
-        transition: 'border-color 0.2s',
+        transition: 'box-shadow 0.2s',
     };
 
     return (
@@ -255,11 +256,11 @@ const Blog = ({ posts, generatedAt }) => {
                 <header className="mt-6 mb-8 sm:mb-10">
                     <p
                         style={{
-                            fontSize: '0.65rem',
+                            fontSize: '0.75rem',
                             fontWeight: 700,
                             textTransform: 'uppercase',
-                            letterSpacing: '0.2em',
-                            color: 'var(--color-accent)',
+                            letterSpacing: '0.07em',
+                            color: 'var(--color-muted)',
                             marginBottom: '8px',
                         }}
                     >
@@ -269,13 +270,12 @@ const Blog = ({ posts, generatedAt }) => {
                         className="ds-h2"
                         style={{
                             color: 'var(--color-text)',
-                            lineHeight: 1.05,
                             marginBottom: '12px',
                         }}
                     >
                         Tecnologia, Empreendedorismo e IA Aplicada
                     </h1>
-                    <p style={{ color: 'var(--color-muted)', maxWidth: '38rem', lineHeight: 1.7 }}>
+                    <p style={{ color: 'var(--color-muted)', maxWidth: '38rem', lineHeight: 1.6 }}>
                         Insights práticos, tendências e análises para quem constrói negócios na nova economia digital.
                     </p>
                 </header>
@@ -283,13 +283,13 @@ const Blog = ({ posts, generatedAt }) => {
                 {/* ── Sem posts ── */}
                 {carouselPosts.length === 0 ? (
                     <div
-                        className="text-center py-20 rounded-2xl"
+                        className="text-center py-20"
                         style={{
                             background: 'var(--color-surface)',
-                            border: '1px solid var(--color-border)',
+                            borderRadius: 'var(--radius-md)',
                         }}
                     >
-                        <h2 className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>
+                        <h2 className="ds-h3" style={{ color: 'var(--color-text)' }}>
                             Nenhuma publicação disponível
                         </h2>
                         <p className="mt-2" style={{ color: 'var(--color-muted)' }}>
@@ -303,7 +303,8 @@ const Blog = ({ posts, generatedAt }) => {
 
                             {/* Carousel de matérias principais */}
                             <article
-                                className="lg:col-span-3 relative rounded-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] shadow-lg group"
+                                className="lg:col-span-3 relative overflow-hidden min-h-[420px] sm:min-h-[480px] group"
+                                style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lift)' }}
                                 onTouchStart={handleTouchStart}
                                 onTouchEnd={handleTouchEnd}
                                 onMouseEnter={() => setIsPaused(true)}
@@ -323,15 +324,15 @@ const Blog = ({ posts, generatedAt }) => {
                                 <div className="relative z-10 h-full py-6 sm:py-8 md:py-10 px-12 sm:px-14 md:px-16 flex flex-col justify-between">
                                     <div>
                                         <p
-                                            className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
-                                            style={{ color: '#C8FF00', textShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)' }}
+                                            className="text-xs font-bold uppercase tracking-[0.07em] mb-4"
+                                            style={{ color: 'var(--color-text)', textShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)' }}
                                         >
                                             Novidades
                                         </p>
                                         <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
                                             <a
                                                 className="block text-2xl sm:text-3xl md:text-4xl xl:text-4xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity line-clamp-3"
-                                                style={{ color: '#FFFFFF', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
+                                                style={{ color: 'var(--color-text)', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
                                             >
                                                 {getPostTitle(currentPost)}
                                             </a>
@@ -352,9 +353,9 @@ const Blog = ({ posts, generatedAt }) => {
                                                         key={tag}
                                                         className="text-xs px-3 py-1 rounded-full font-semibold"
                                                         style={{
-                                                            background: 'rgba(200,255,0,0.14)',
-                                                            border: '1px solid rgba(200,255,0,0.3)',
-                                                            color: '#C8FF00',
+                                                            background: 'rgba(255,255,255,0.14)',
+                                                            border: '1px solid rgba(255,255,255,0.2)',
+                                                            color: '#ffffff',
                                                         }}
                                                     >
                                                         {tag}
@@ -365,7 +366,7 @@ const Blog = ({ posts, generatedAt }) => {
                                     </div>
 
                                     <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2 mb-12 sm:mb-0">
-                                        <div className="text-xs sm:text-sm font-medium" style={{ color: 'rgba(200,255,0,0.75)' }}>
+                                        <div className="text-xs sm:text-sm font-medium" style={{ color: 'rgba(255,255,255,0.75)' }}>
                                             <span>📅 {new Date(currentPost.last_edited_time || currentPost.created_time).toLocaleDateString('pt-BR')}</span>
                                             <span className="mx-2">·</span>
                                             <span>⏱️ {currentPost.readingTime || 1} min</span>
@@ -373,9 +374,9 @@ const Blog = ({ posts, generatedAt }) => {
                                         <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
                                             <a
                                                 className="inline-flex items-center justify-center px-5 py-2.5 font-extrabold text-xs uppercase tracking-[0.1em] rounded-full transition-all duration-200 hover:scale-105"
-                                                style={{ background: '#C8FF00', color: '#000000' }}
-                                                onMouseEnter={e => { e.currentTarget.style.background = '#B8EE00'; }}
-                                                onMouseLeave={e => { e.currentTarget.style.background = '#C8FF00'; }}
+                                                style={{ background: 'var(--btn-bg)', color: 'var(--btn-text)' }}
+                                                onMouseEnter={e => { e.currentTarget.style.background = 'var(--btn-hover)'; }}
+                                                onMouseLeave={e => { e.currentTarget.style.background = 'var(--btn-bg)'; }}
                                             >
                                                 Ler artigo completo →
                                             </a>
@@ -387,7 +388,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 <button
                                     onClick={() => setCarouselIndex((prev) => (prev - 1 + carouselPosts.length) % carouselPosts.length)}
                                     className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
-                                    style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
+                                    style={{ background: 'rgba(0,0,0,0.55)', color: '#ffffff' }}
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -396,7 +397,7 @@ const Blog = ({ posts, generatedAt }) => {
                                 <button
                                     onClick={() => setCarouselIndex((prev) => (prev + 1) % carouselPosts.length)}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100"
-                                    style={{ background: 'rgba(200,255,0,0.2)', color: '#C8FF00' }}
+                                    style={{ background: 'rgba(0,0,0,0.55)', color: '#ffffff' }}
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -413,7 +414,7 @@ const Blog = ({ posts, generatedAt }) => {
                                             style={{
                                                 width: idx === carouselIndex ? '24px' : '8px',
                                                 height: '8px',
-                                                background: idx === carouselIndex ? '#C8FF00' : 'rgba(200,255,0,0.4)',
+                                                background: idx === carouselIndex ? '#ffffff' : 'rgba(255,255,255,0.4)',
                                             }}
                                         />
                                     ))}
@@ -423,13 +424,13 @@ const Blog = ({ posts, generatedAt }) => {
                             {/* Widget lateral */}
                             <aside className="lg:col-span-2">
                                 <div
-                                    className="rounded-xl p-5 h-full"
+                                    className="p-5 h-full"
                                     style={{
                                         background: 'var(--color-surface)',
-                                        border: '1px solid var(--color-border)',
+                                        borderRadius: 'var(--radius-md)',
                                     }}
                                 >
-                                    <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--color-muted-dim)' }}>
+                                    <h3 className="text-sm font-bold uppercase tracking-[0.07em] mb-4" style={{ color: 'var(--color-muted-dim)' }}>
                                         Últimas publicações
                                     </h3>
                                     <ul className="space-y-0">
@@ -445,7 +446,7 @@ const Blog = ({ posts, generatedAt }) => {
                                                     <Link href={`/blog/${slug}`} legacyBehavior>
                                                         <a
                                                             className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
-                                                            style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                            style={{ color: 'var(--color-text)', textDecoration: 'none' }}
                                                         >
                                                             {getPostTitle(post)}
                                                         </a>
@@ -469,13 +470,13 @@ const Blog = ({ posts, generatedAt }) => {
                                 return (
                                     <article
                                         key={post.id}
-                                        className="rounded-xl flex flex-col h-full overflow-hidden transition-all duration-200"
+                                        className="flex flex-col h-full overflow-hidden transition-all duration-200"
                                         style={{
                                             background: 'var(--color-surface)',
-                                            border: '1px solid var(--color-border)',
+                                            borderRadius: 'var(--radius-md)',
                                         }}
-                                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; e.currentTarget.style.boxShadow = 'var(--shadow-overlay)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
                                     >
                                         <SmartImage
                                             src={getPostImage(post)}
@@ -486,7 +487,7 @@ const Blog = ({ posts, generatedAt }) => {
                                             <Link href={`/blog/${slug}`} legacyBehavior>
                                                 <a
                                                     className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
-                                                    style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                    style={{ color: 'var(--color-text)', textDecoration: 'none' }}
                                                 >
                                                     {getPostTitle(post)}
                                                 </a>
@@ -509,17 +510,17 @@ const Blog = ({ posts, generatedAt }) => {
                         {/* ── Todas as postagens ── */}
                         <section
                             id="todas-postagens"
-                            className="rounded-2xl p-5 sm:p-6 md:p-8"
+                            className="p-5 sm:p-6 md:p-8"
                             style={{
                                 background: 'var(--color-surface)',
-                                border: '1px solid var(--color-border)',
+                                borderRadius: 'var(--radius-md)',
                             }}
                         >
                             {/* Cabeçalho */}
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-5">
                                 <div>
                                     <h2
-                                        className="text-xl sm:text-2xl font-bold"
+                                        className="ds-h3"
                                         style={{ color: 'var(--color-text)' }}
                                     >
                                         Todas as postagens
@@ -541,16 +542,16 @@ const Blog = ({ posts, generatedAt }) => {
                                     onChange={(e) => { setSearchTerm(e.target.value); setVisibleCount(9); }}
                                     placeholder="Buscar por título, resumo ou tag"
                                     style={inputStyle}
-                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
+                                    onFocus={e => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                                 />
 
                                 <select
                                     value={sortBy}
                                     onChange={(e) => { setSortBy(e.target.value); setVisibleCount(9); }}
                                     style={inputStyle}
-                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
+                                    onFocus={e => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                                 >
                                     <option value="newest">Mais novas</option>
                                     <option value="oldest">Mais antigas</option>
@@ -562,8 +563,8 @@ const Blog = ({ posts, generatedAt }) => {
                                     value={selectedTag}
                                     onChange={(e) => { setSelectedTag(e.target.value); setVisibleCount(9); }}
                                     style={inputStyle}
-                                    onFocus={e => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                                    onBlur={e => { e.target.style.borderColor = 'var(--color-border)'; }}
+                                    onFocus={e => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                                    onBlur={e => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                                 >
                                     <option value="all">Todos os temas</option>
                                     {allTags.map((tag) => (
@@ -579,7 +580,7 @@ const Blog = ({ posts, generatedAt }) => {
                                     style={{ borderTop: '1px solid var(--color-border)' }}
                                 >
                                     <p
-                                        className="text-xs font-bold uppercase tracking-[0.15em] mb-3"
+                                        className="text-xs font-bold uppercase tracking-[0.07em] mb-3"
                                         style={{ color: 'var(--color-muted-dim)' }}
                                     >
                                         Temas:
@@ -593,8 +594,8 @@ const Blog = ({ posts, generatedAt }) => {
                                                 style={
                                                     selectedTag === tag
                                                         ? {
-                                                            background: 'var(--color-accent)',
-                                                            color: 'var(--btn-text)',
+                                                            background: 'var(--color-text)',
+                                                            color: 'var(--color-background)',
                                                             border: '1px solid transparent',
                                                         }
                                                         : {
@@ -621,13 +622,13 @@ const Blog = ({ posts, generatedAt }) => {
                                     return (
                                         <article
                                             key={post.id}
-                                            className="rounded-xl flex flex-col h-full overflow-hidden transition-all duration-200"
+                                            className="flex flex-col h-full overflow-hidden transition-all duration-200"
                                             style={{
                                                 background: 'var(--color-surface-alt)',
-                                                border: '1px solid var(--color-border)',
+                                                borderRadius: 'var(--radius-md)',
                                             }}
-                                            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                                            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                                            onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; e.currentTarget.style.boxShadow = 'var(--shadow-overlay)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                                            onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
                                         >
                                             <SmartImage
                                                 src={getPostImage(post)}
@@ -655,7 +656,7 @@ const Blog = ({ posts, generatedAt }) => {
                                                 <Link href={`/blog/${slug}`} legacyBehavior>
                                                     <a
                                                         className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
-                                                        style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                                        style={{ color: 'var(--color-text)', textDecoration: 'none' }}
                                                     >
                                                         {getPostTitle(post)}
                                                     </a>

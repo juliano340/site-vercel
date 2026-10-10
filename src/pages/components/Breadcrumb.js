@@ -11,7 +11,7 @@ const Breadcrumb = ({ paths }) => {
                                 className="mono-focus-ring transition-colors duration-200 hover:underline"
                                 style={{ color: 'var(--color-muted)' }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.color = 'var(--color-accent)';
+                                    e.currentTarget.style.color = 'var(--color-text)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.color = 'var(--color-muted)';

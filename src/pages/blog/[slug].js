@@ -125,7 +125,7 @@ const renderRichText = (richTextArray) =>
             color:         text.annotations.color !== 'default' ? text.annotations.color : 'inherit',
         };
         if (text.href) {
-            return <a key={i} href={text.href} style={{ ...style, color: 'var(--color-accent)' }}>{content}</a>;
+            return <a key={i} href={text.href} style={{ ...style, color: 'var(--color-text)', textDecoration: 'underline' }}>{content}</a>;
         }
         return <span key={i} style={style}>{content}</span>;
     });
@@ -137,7 +137,7 @@ const renderBlock = (block, addId = false) => {
     switch (type) {
         case 'paragraph':
             return (
-                <p key={id} className="text-lg leading-relaxed my-5" style={{ color: 'var(--color-muted)' }}>
+                <p key={id} className="text-base leading-relaxed my-5" style={{ color: 'var(--color-muted)' }}>
                     {renderRichText(block.paragraph.rich_text)}
                 </p>
             );
@@ -147,7 +147,7 @@ const renderBlock = (block, addId = false) => {
             if (!url) return null;
             const caption = block.image.caption?.[0]?.plain_text || '';
             return (
-                <div key={id} className="my-8 rounded-xl overflow-hidden shadow-lg">
+                <div key={id} className="my-8 overflow-hidden" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lift)' }}>
                     <img src={url} alt={caption || 'Image'} className="w-full h-auto" />
                     {caption && (
                         <p
@@ -163,7 +163,7 @@ const renderBlock = (block, addId = false) => {
 
         case 'heading_1':
             return (
-                <h1 key={id} className="text-3xl md:text-4xl font-bold my-8" style={{ color: 'var(--color-text)' }}>
+                <h1 key={id} className="ds-h2 my-8" style={{ color: 'var(--color-text)' }}>
                     {renderRichText(block.heading_1.rich_text)}
                 </h1>
             );
@@ -173,8 +173,8 @@ const renderBlock = (block, addId = false) => {
                 <h2
                     key={id}
                     id={addId ? `heading-${block.index}` : undefined}
-                    className="text-2xl font-semibold mt-10 mb-4 pl-4 scroll-mt-24"
-                    style={{ color: 'var(--color-text)', borderLeft: '4px solid var(--color-accent)' }}
+                    className="ds-h3 mt-10 mb-4 pl-4 scroll-mt-24"
+                    style={{ color: 'var(--color-text)', borderLeft: '2px solid var(--color-text)' }}
                 >
                     {renderRichText(block.heading_2.rich_text)}
                 </h2>
@@ -185,8 +185,8 @@ const renderBlock = (block, addId = false) => {
                 <h3
                     key={id}
                     id={addId ? `heading-${block.index}` : undefined}
-                    className="text-xl font-semibold mt-8 mb-3 scroll-mt-24"
-                    style={{ color: 'var(--color-accent)' }}
+                    className="ds-h4 mt-8 mb-3 scroll-mt-24"
+                    style={{ color: 'var(--color-text)' }}
                 >
                     {renderRichText(block.heading_3.rich_text)}
                 </h3>
@@ -194,14 +194,14 @@ const renderBlock = (block, addId = false) => {
 
         case 'bulleted_list_item':
             return (
-                <li key={id} className="ml-4 list-disc text-lg my-1" style={{ color: 'var(--color-muted)' }}>
+                <li key={id} className="ml-4 list-disc text-base my-1" style={{ color: 'var(--color-muted)' }}>
                     {renderRichText(block.bulleted_list_item.rich_text)}
                 </li>
             );
 
         case 'numbered_list_item':
             return (
-                <li key={id} className="ml-4 list-decimal text-lg my-1" style={{ color: 'var(--color-muted)' }}>
+                <li key={id} className="ml-4 list-decimal text-base my-1" style={{ color: 'var(--color-muted)' }}>
                     {renderRichText(block.numbered_list_item.rich_text)}
                 </li>
             );
@@ -237,8 +237,8 @@ const renderBlock = (block, addId = false) => {
 
         case 'code':
             return (
-                <pre key={id} className="rounded-lg p-5 my-6 overflow-x-auto shadow-lg" style={{ background: '#1e1e1e' }}>
-                    <code className="text-sm font-mono" style={{ color: '#e5e7eb' }}>
+                <pre key={id} className="p-5 my-6 overflow-x-auto" style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)' }}>
+                    <code className="text-sm font-mono" style={{ color: 'var(--color-text)' }}>
                         {Array.isArray(block.code.rich_text)
                             ? block.code.rich_text.map((t, i) => <span key={i}>{t.text.content}</span>)
                             : block.code.rich_text?.[0]?.text.content || ''}
@@ -261,12 +261,12 @@ const renderBlock = (block, addId = false) => {
             return (
                 <blockquote
                     key={id}
-                    className="pl-6 py-4 my-8 italic text-lg"
+                    className="pl-6 py-4 my-8 italic text-base"
                     style={{
-                        borderLeft: '4px solid var(--color-accent)',
-                        background: 'rgba(var(--accent-rgb), 0.05)',
+                        borderLeft: '2px solid var(--color-muted)',
+                        background: 'var(--color-surface-alt)',
                         color: 'var(--color-muted)',
-                        borderRadius: '0 4px 4px 0',
+                        borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
                     }}
                 >
                     {renderRichText(block.quote.rich_text)}
@@ -284,10 +284,10 @@ const renderBlock = (block, addId = false) => {
 // ── SidebarCard ────────────────────────────────────────────
 const SidebarCard = ({ children, className = '' }) => (
     <div
-        className={`rounded-xl p-5 ${className}`}
+        className={`p-5 ${className}`}
         style={{
             background:   'var(--color-surface)',
-            border:       '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-md)',
         }}
     >
         {children}
@@ -295,7 +295,7 @@ const SidebarCard = ({ children, className = '' }) => (
 );
 
 const SidebarTitle = ({ children }) => (
-    <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--color-muted-dim)' }}>
+    <h3 className="text-sm font-bold uppercase tracking-[0.07em] mb-4" style={{ color: 'var(--color-muted-dim)' }}>
         {children}
     </h3>
 );
@@ -417,7 +417,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                         <Link href="/blog" legacyBehavior>
                             <a
                                 className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
-                                style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
                             >
                                 ← Voltar ao blog
                             </a>
@@ -432,10 +432,11 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                         {/* ── Coluna principal ── */}
                         <div className="lg:col-span-8">
                             <article
-                                className="rounded-2xl overflow-hidden shadow-lg"
+                                className="overflow-hidden"
                                 style={{
                                     background: 'var(--color-surface)',
-                                    border:     '1px solid var(--color-border)',
+                                    borderRadius: 'var(--radius-md)',
+                                    boxShadow: 'var(--shadow-lift)',
                                 }}
                             >
                                 {/* Cover image */}
@@ -451,7 +452,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                 {/* Content */}
                                 <div className="p-5 sm:p-8 md:p-10">
                                     <h1
-                                        className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold mb-6 leading-tight"
+                                        className="ds-h2 mb-6"
                                         style={{ color: 'var(--color-text)' }}
                                     >
                                         {pageTitle}
@@ -466,14 +467,14 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             src={AUTHOR_AVATAR}
                                             alt={AUTHOR_NAME}
                                             className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                                            style={{ border: '2px solid var(--color-accent)' }}
+                                            style={{ border: '2px solid var(--color-border)' }}
                                         />
                                         <div className="flex-1">
                                             <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
                                                 {AUTHOR_NAME}
                                             </p>
                                             <Link href="/contato" legacyBehavior>
-                                                <a className="text-xs font-medium" style={{ color: 'var(--color-accent)', textDecoration: 'none' }}>
+                                                <a className="text-xs font-medium" style={{ color: 'var(--color-muted)', textDecoration: 'none' }}>
                                                     Enviar email
                                                 </a>
                                             </Link>
@@ -519,28 +520,27 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                         <div className="flex flex-wrap gap-2">
                                             <a href={`https://twitter.com/intent/tweet?text=${shareTitle}&url=${encodeURIComponent(shareUrl)}`}
                                                 target="_blank" rel="noopener noreferrer"
-                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
-                                                style={{ background: '#1DA1F2' }}>
+                                                className="px-3 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-85"
+                                                style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>
                                                 Twitter
                                             </a>
                                             <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                                                 target="_blank" rel="noopener noreferrer"
-                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
-                                                style={{ background: '#0A66C2' }}>
+                                                className="px-3 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-85"
+                                                style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>
                                                 LinkedIn
                                             </a>
                                             <a href={`https://wa.me/?text=${shareTitle}%20${encodeURIComponent(shareUrl)}`}
                                                 target="_blank" rel="noopener noreferrer"
-                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
-                                                style={{ background: '#25D366' }}>
+                                                className="px-3 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-85"
+                                                style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>
                                                 WhatsApp
                                             </a>
                                             <button
                                                 onClick={handleCopyLink}
-                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200"
+                                                className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200"
                                                 style={{
                                                     background: 'var(--color-surface-raised)',
-                                                    border:     '1px solid var(--color-border)',
                                                     color:      'var(--color-text)',
                                                 }}
                                             >
@@ -554,10 +554,10 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                         {prevPost && (
                                             <Link href={`/blog/${prevPost.slug}`} legacyBehavior>
                                                 <a
-                                                    className="p-4 rounded-xl transition-all duration-200"
-                                                    style={{ border: '1px solid var(--color-border)', textDecoration: 'none' }}
-                                                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                                                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                                                    className="p-4 transition-all duration-200"
+                                                    style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
+                                                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
+                                                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
                                                 >
                                                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>← Post anterior</span>
                                                     <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{prevPost.title}</p>
@@ -567,10 +567,10 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                         {nextPost && (
                                             <Link href={`/blog/${nextPost.slug}`} legacyBehavior>
                                                 <a
-                                                    className={`p-4 rounded-xl transition-all duration-200 ${!prevPost ? 'sm:col-start-2' : ''}`}
-                                                    style={{ border: '1px solid var(--color-border)', textDecoration: 'none' }}
-                                                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                                                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                                                    className={`p-4 transition-all duration-200 ${!prevPost ? 'sm:col-start-2' : ''}`}
+                                                    style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
+                                                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
+                                                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
                                                 >
                                                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>Próximo post →</span>
                                                     <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{nextPost.title}</p>
@@ -598,7 +598,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                                     onClick={e => { e.preventDefault(); document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' }); }}
                                                     className={`block text-sm transition-colors ${item.level === 3 ? 'pl-4' : ''}`}
                                                     style={{
-                                                        color:      activeSection === item.id ? 'var(--color-accent)' : 'var(--color-muted)',
+                                                        color:      activeSection === item.id ? 'var(--color-text)' : 'var(--color-muted)',
                                                         fontWeight: activeSection === item.id ? 700 : item.level === 2 ? 500 : 400,
                                                         textDecoration: 'none',
                                                     }}
@@ -616,22 +616,21 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                     <div className="grid grid-cols-2 gap-2">
                                         <a href={`https://twitter.com/intent/tweet?text=${shareTitle}&url=${encodeURIComponent(shareUrl)}`}
                                             target="_blank" rel="noopener noreferrer"
-                                            className="px-3 py-2 rounded-lg text-xs font-semibold text-white text-center transition-opacity hover:opacity-85"
-                                            style={{ background: '#1DA1F2' }}>Twitter</a>
+                                            className="px-3 py-2 rounded-full text-xs font-semibold text-center transition-opacity hover:opacity-85"
+                                            style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>Twitter</a>
                                         <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                                             target="_blank" rel="noopener noreferrer"
-                                            className="px-3 py-2 rounded-lg text-xs font-semibold text-white text-center transition-opacity hover:opacity-85"
-                                            style={{ background: '#0A66C2' }}>LinkedIn</a>
+                                            className="px-3 py-2 rounded-full text-xs font-semibold text-center transition-opacity hover:opacity-85"
+                                            style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>LinkedIn</a>
                                         <a href={`https://wa.me/?text=${shareTitle}%20${encodeURIComponent(shareUrl)}`}
                                             target="_blank" rel="noopener noreferrer"
-                                            className="px-3 py-2 rounded-lg text-xs font-semibold text-white text-center transition-opacity hover:opacity-85"
-                                            style={{ background: '#25D366' }}>WhatsApp</a>
+                                            className="px-3 py-2 rounded-full text-xs font-semibold text-center transition-opacity hover:opacity-85"
+                                            style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text)' }}>WhatsApp</a>
                                         <button
                                             onClick={handleCopyLink}
-                                            className="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200"
+                                            className="px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200"
                                             style={{
                                                 background: 'var(--color-surface-raised)',
-                                                border:     '1px solid var(--color-border)',
                                                 color:      'var(--color-text)',
                                             }}
                                         >
@@ -640,12 +639,12 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                     </div>
                                 </SidebarCard>
 
-                                {/* Author card — inverted (always dark for visual identity) */}
+                                {/* Author card */}
                                 <div
-                                    className="rounded-xl p-5"
+                                    className="p-5"
                                     style={{
-                                        background: 'var(--color-surface)',
-                                        border:     '1px solid var(--color-accent)',
+                                        background: 'var(--color-surface-alt)',
+                                        borderRadius: 'var(--radius-md)',
                                         color:      'var(--color-text)',
                                     }}
                                 >
@@ -654,7 +653,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             src={AUTHOR_AVATAR}
                                             alt={AUTHOR_NAME}
                                             className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                                            style={{ border: '2px solid var(--color-accent)' }}
+                                            style={{ border: '2px solid var(--color-border)' }}
                                         />
                                         <div>
                                             <p className="font-semibold text-sm">{AUTHOR_NAME}</p>
@@ -674,8 +673,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                                 rel="noopener noreferrer"
                                                 className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
                                                 style={{
-                                                    background: 'var(--color-accent)',
-                                                    color:      'var(--btn-text)',
+                                                    background: 'var(--color-surface-raised)',
+                                                    color:      'var(--color-text)',
                                                     textDecoration: 'none',
                                                 }}
                                             >
@@ -717,8 +716,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             {relatedPosts.map((p, i) => (
                                                 <li key={i}>
                                                     <Link href={`/blog/${p.slug}`} legacyBehavior>
-                                                        <a className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
-                                                            style={{ color: 'var(--color-accent)', textDecoration: 'none' }}>
+                                            <a className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
+                                                style={{ color: 'var(--color-text)', textDecoration: 'none' }}>
                                                             {p.title}
                                                         </a>
                                                     </Link>
@@ -759,10 +758,10 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
 
                                 {/* Newsletter CTA */}
                                 <div
-                                    className="rounded-xl p-5"
+                                    className="p-5"
                                     style={{
-                                        background: 'var(--color-surface)',
-                                        border:     '1px solid var(--color-accent)',
+                                        background: 'var(--color-surface-alt)',
+                                        borderRadius: 'var(--radius-md)',
                                         color:      'var(--color-text)',
                                     }}
                                 >
@@ -772,9 +771,9 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                     </p>
                                     <Link href="/contato" legacyBehavior>
                                         <a
-                                            className="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors"
+                                            className="inline-flex w-full items-center justify-center px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.1em] transition-colors"
                                             style={{
-                                                background:     'var(--color-accent)',
+                                                background:     'var(--btn-bg)',
                                                 color:          'var(--btn-text)',
                                                 textDecoration: 'none',
                                             }}
@@ -792,7 +791,7 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                         <Link href="/blog" legacyBehavior>
                             <a
                                 className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
-                                style={{ color: 'var(--color-accent)', textDecoration: 'none' }}
+                                style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
                             >
                                 ← Voltar ao blog
                             </a>

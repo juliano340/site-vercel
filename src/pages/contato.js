@@ -83,13 +83,14 @@ const Contato = () => {
     display: 'block',
     width: '100%',
     background: 'var(--color-surface-alt)',
-    border: '1px solid var(--color-border)',
+    border: 'none',
+    boxShadow: 'var(--shadow-inset-input)',
     color: 'var(--color-text)',
     borderRadius: '4px',
     padding: '12px 16px 12px 48px',
     fontSize: '0.9rem',
     outline: 'none',
-    transition: 'border-color 0.2s',
+    transition: 'box-shadow 0.2s',
   };
 
   return (
@@ -104,11 +105,11 @@ const Contato = () => {
         <div className="mb-16 mt-8 text-center">
           <p
             style={{
-              fontSize: '0.65rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
               textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: 'var(--color-accent)',
+              letterSpacing: '0.07em',
+              color: 'var(--color-muted)',
               marginBottom: '12px',
             }}
           >
@@ -118,14 +119,13 @@ const Contato = () => {
             className="ds-display"
             style={{
               color: 'var(--color-text)',
-              lineHeight: 0.95,
               marginBottom: '20px',
             }}
           >
             VAMOS CONVERSAR?
           </h1>
           <div style={{ height: '1px', width: '96px', background: 'var(--color-border)', margin: '0 auto 24px' }} />
-          <p className="mx-auto max-w-2xl text-xl" style={{ color: 'var(--color-muted)' }}>
+          <p className="ds-body mx-auto max-w-2xl" style={{ color: 'var(--color-muted)' }}>
             Estou sempre aberto a discutir novos projetos, ideias criativas ou oportunidades de fazer parte da sua visão.
           </p>
         </div>
@@ -135,10 +135,10 @@ const Contato = () => {
           <div className="space-y-6 lg:col-span-1">
             <div
               className="p-6"
-              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
             >
               <h3
-                className="mb-6 text-2xl font-bold"
+                className="ds-h3 mb-6"
                 style={{ color: 'var(--color-text)' }}
               >
                 Informações de Contato
@@ -152,20 +152,18 @@ const Contato = () => {
                       className="mono-focus-ring group flex items-start gap-4 p-4 transition-all duration-300"
                       style={{
                         background: 'var(--color-surface-alt)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '4px',
+                        borderRadius: 'var(--radius-sm)',
                         textDecoration: 'none',
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.3)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
                     >
                       <div
                         className="flex-shrink-0 p-3 transition-transform duration-300 group-hover:scale-110"
                         style={{
-                          background: 'rgba(var(--accent-rgb), 0.1)',
-                          border: '1px solid rgba(var(--accent-rgb), 0.15)',
-                          borderRadius: '4px',
-                          color: 'var(--color-accent)',
+                          background: 'var(--color-surface-raised)',
+                          borderRadius: 'var(--radius-sm)',
+                          color: 'var(--color-muted)',
                         }}
                       >
                         {info.icon}
@@ -185,9 +183,9 @@ const Contato = () => {
             {/* Quick Stats */}
             <div
               className="p-6"
-              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
             >
-              <h3 className="mb-4 text-xl font-bold" style={{ color: 'var(--color-text)' }}>Resposta Rápida</h3>
+              <h3 className="ds-h3 mb-4" style={{ color: 'var(--color-text)' }}>Resposta Rápida</h3>
               <p className="mb-4" style={{ color: 'var(--color-muted)' }}>
                 Normalmente respondo em até 24 horas
               </p>
@@ -212,7 +210,7 @@ const Contato = () => {
           <div className="lg:col-span-2">
             <div
               className="p-8 md:p-12"
-              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+              style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-md)' }}
             >
               <div className="space-y-6">
                 {/* Nome */}
@@ -221,10 +219,10 @@ const Contato = () => {
                     htmlFor="nome"
                     className="mb-2 block"
                     style={{
-                      fontSize: '0.65rem',
+                      fontSize: '0.75rem',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
+                      letterSpacing: '0.07em',
                       color: 'var(--color-muted-dim)',
                     }}
                   >
@@ -245,8 +243,8 @@ const Contato = () => {
                       onChange={handleChange}
                       style={inputStyle}
                       placeholder="Seu nome"
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
+                      onFocus={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                     />
                   </div>
                 </div>
@@ -257,10 +255,10 @@ const Contato = () => {
                     htmlFor="email"
                     className="mb-2 block"
                     style={{
-                      fontSize: '0.65rem',
+                      fontSize: '0.75rem',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
+                      letterSpacing: '0.07em',
                       color: 'var(--color-muted-dim)',
                     }}
                   >
@@ -281,8 +279,8 @@ const Contato = () => {
                       onChange={handleChange}
                       style={inputStyle}
                       placeholder="seu@email.com"
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
+                      onFocus={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                     />
                   </div>
                 </div>
@@ -293,10 +291,10 @@ const Contato = () => {
                     htmlFor="mensagem"
                     className="mb-2 block"
                     style={{
-                      fontSize: '0.65rem',
+                      fontSize: '0.75rem',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
+                      letterSpacing: '0.07em',
                       color: 'var(--color-muted-dim)',
                     }}
                   >
@@ -317,8 +315,8 @@ const Contato = () => {
                       rows="6"
                       style={{ ...inputStyle, resize: 'none' }}
                       placeholder="Escreva sua mensagem aqui..."
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(var(--accent-rgb), 0.5)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
+                      onFocus={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input), 0 0 0 2px rgba(var(--accent-rgb), 0.5)'; }}
+                      onBlur={(e) => { e.target.style.boxShadow = 'var(--shadow-inset-input)'; }}
                     />
                   </div>
                 </div>
@@ -327,19 +325,21 @@ const Contato = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="mono-focus-ring group relative flex w-full items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="mono-focus-ring group relative flex w-full items-center justify-center gap-2 transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-70"
                   style={{
-                    background: 'var(--color-accent)',
+                    background: 'var(--btn-bg)',
                     color: 'var(--btn-text)',
                     border: 'none',
                     borderRadius: '999px',
                     padding: '16px 24px',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
+                    fontSize: '0.875rem',
+                    fontWeight: 700,
                     textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
+                    letterSpacing: '0.1em',
                     cursor: isLoading ? 'not-allowed' : 'pointer',
                   }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--btn-hover)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--btn-bg)'; }}
                 >
                   {isLoading ? (
                     <>
@@ -367,7 +367,7 @@ const Contato = () => {
                   style={{
                     background: 'rgba(var(--accent-rgb), 0.06)',
                     border: '1px solid rgba(var(--accent-rgb), 0.2)',
-                    borderRadius: '4px',
+                    borderRadius: 'var(--radius-sm)',
                   }}
                 >
                   <svg className="mt-0.5 h-6 w-6 flex-shrink-0" style={{ color: 'var(--color-accent)' }} fill="currentColor" viewBox="0 0 20 20">
@@ -384,12 +384,12 @@ const Contato = () => {
                 <div
                   className="animate-fadeIn mt-6 flex items-start gap-3 p-4"
                   style={{
-                    background: 'rgba(255,50,50,0.06)',
-                    border: '1px solid rgba(255,50,50,0.2)',
-                    borderRadius: '4px',
+                    background: 'rgba(243, 114, 127, 0.08)',
+                    border: '1px solid rgba(243, 114, 127, 0.25)',
+                    borderRadius: 'var(--radius-sm)',
                   }}
                 >
-                  <svg className="mt-0.5 h-6 w-6 flex-shrink-0" style={{ color: '#FF4444' }} fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="mt-0.5 h-6 w-6 flex-shrink-0" style={{ color: 'var(--color-negative)' }} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <div>

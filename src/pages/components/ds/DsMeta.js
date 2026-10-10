@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Small metadata primitives. Badge = accent chip (status/category),
+// Small metadata primitives. Badge = neutral chip (status/category),
 // Tag = muted tag (tech stack). Divider = thin section rule.
 const Badge = ({ children, className = '' }) => (
   <span className={`mono-chip ${className}`}>{children}</span>
@@ -16,7 +16,7 @@ const Divider = ({ className = '' }) => (
 
 const TextLink = ({ children, className = '', ...props }) => (
   <a
-    className={`mono-focus-ring inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] underline-offset-4 hover:underline ${className}`}
+    className={`mono-focus-ring inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-bold text-[var(--color-text)] underline-offset-4 hover:underline ${className}`}
     {...props}
   >
     {children}

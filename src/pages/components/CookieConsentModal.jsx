@@ -13,10 +13,11 @@ const CookieConsentModal = ({ enabled = true }) => {
       <section
         role="region"
         aria-labelledby="lgpd-title"
-        className="mx-auto w-full max-w-5xl rounded-xl p-4 sm:p-5 shadow-xl backdrop-blur-sm"
+        className="mx-auto w-full max-w-5xl p-4 sm:p-5"
         style={{
-          background:   'var(--color-surface)',
-          border:       '1px solid var(--color-border)',
+          background:   'var(--color-surface-alt)',
+          borderRadius: 'var(--radius-md)',
+          boxShadow:    'var(--shadow-lift)',
         }}
       >
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -24,10 +25,10 @@ const CookieConsentModal = ({ enabled = true }) => {
           {/* Ícone + Texto */}
           <div className="flex items-start gap-3 flex-1">
             <div
-              className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center mt-0.5"
+              className="flex-shrink-0 w-9 h-9 flex items-center justify-center mt-0.5"
               style={{
-                background: 'rgba(var(--accent-rgb), 0.1)',
-                border:     '1px solid rgba(var(--accent-rgb), 0.2)',
+                background: 'var(--color-surface-raised)',
+                borderRadius: 'var(--radius-sm)',
               }}
             >
               <svg
@@ -35,7 +36,7 @@ const CookieConsentModal = ({ enabled = true }) => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                style={{ color: 'var(--color-accent)' }}
+                style={{ color: 'var(--color-muted)' }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -63,15 +64,15 @@ const CookieConsentModal = ({ enabled = true }) => {
           <div className="flex items-center gap-2 flex-shrink-0">
             <Link
               href="/politica-de-privacidade"
-              className="inline-flex items-center justify-center px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] rounded-full transition-all duration-200"
+              className="inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] rounded-full transition-all duration-200"
               style={{
                 background:     'transparent',
-                border:         '1px solid var(--color-border)',
-                color:          'var(--color-muted)',
+                border:         '1px solid var(--btn2-border)',
+                color:          'var(--btn2-text)',
                 textDecoration: 'none',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(var(--accent-rgb), 0.4)'; e.currentTarget.style.color = 'var(--color-text)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border)'; e.currentTarget.style.color = 'var(--color-muted)'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--btn2-hover-border)'; e.currentTarget.style.background = 'var(--btn2-hover-bg)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--btn2-border)'; e.currentTarget.style.background = 'transparent'; }}
             >
               Política
             </Link>

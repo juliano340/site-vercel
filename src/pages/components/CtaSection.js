@@ -20,7 +20,7 @@ const CtaSection = () => {
 
           <div className="flex flex-col gap-3">
             <Link href="/contato" legacyBehavior>
-              <a className="mono-focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-[var(--btn-bg)] px-6 py-3 text-sm font-semibold text-[var(--btn-text)] hover:bg-[var(--btn-hover)]">
+              <a className="mono-focus-ring mono-button-primary min-h-12 px-6 py-3">
                 Começar meu projeto
               </a>
             </Link>
@@ -28,7 +28,7 @@ const CtaSection = () => {
               href="https://github.com/juliano340"
               target="_blank"
               rel="noopener noreferrer"
-              className="mono-focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-subtle px-6 py-3 text-sm font-semibold text-primary hover:border-primary"
+              className="mono-focus-ring mono-button-secondary min-h-12 px-6 py-3"
             >
               Ver meu GitHub<span className="sr-only"> (nova aba)</span>
             </a>

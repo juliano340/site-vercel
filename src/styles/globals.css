@@ -11,102 +11,98 @@
 ═══════════════════════════════════════════════════ */
 
 :root {
+    color-scheme: dark;
+
     /* ── PRIMITIVES ─────────────────────────────── */
-    /* Acid (brand) */
-    --primitive-acid-400:  #B8EE00;
-    --primitive-acid-500:  #C8FF00;
-    --primitive-acid-700:  #4A6600;
-    --primitive-acid-800:  #3D5500;
+    /* Green (brand) */
+    --primitive-green-400: #3be477;
+    --primitive-green-500: #1ed760;
+    --primitive-green-600: #1db954;
 
     /* Ink (dark surfaces) */
-    --primitive-ink-950:   #050505;
-    --primitive-ink-900:   #080808;
-    --primitive-ink-850:   #0D0D0D;
-    --primitive-ink-800:   #111111;
-    --primitive-ink-750:   #141414;
-    --primitive-ink-700:   #1a1a1a;
-    --primitive-ink-600:   #1e1e1e;
-    --primitive-ink-500:   #222222;
-
-    /* Paper (light surfaces) */
-    --primitive-paper-0:   #FFFFFF;
-    --primitive-paper-50:  #F8F7F4;
-    --primitive-paper-100: #F5F4F1;
-    --primitive-paper-200: #F0EFEC;
-    --primitive-paper-300: #EFEEEB;
-    --primitive-paper-400: #DDDCD6;
+    --primitive-ink-950:   #0b0b0b;
+    --primitive-ink-900:   #121212;
+    --primitive-ink-850:   #181818;
+    --primitive-ink-800:   #1f1f1f;
+    --primitive-ink-750:   #252525;
+    --primitive-ink-700:   #272727;
+    --primitive-ink-600:   #292929;
+    --primitive-ink-500:   #3e3e3e;
 
     /* Grey text */
-    --primitive-grey-100:  #D0D0D0;
-    --primitive-grey-200:  #A8A8A8;
-    --primitive-grey-300:  #8A8A8A;
-    --primitive-grey-400:  #808080;
-    --primitive-grey-500:  #6B7280;
-    --primitive-grey-600:  #8B8F97;
-    --primitive-grey-700:  #B0B4BC;
+    --primitive-grey-100:  #b3b3b3;
+    --primitive-grey-200:  #a7a7a7;
+    --primitive-grey-300:  #7c7c7c;
+    --primitive-grey-400:  #4d4d4d;
 
     --primitive-black:     #000000;
     --primitive-white:     #FFFFFF;
-    --primitive-coal:      #1A1A1A;
 
-    /* ── SEMANTIC: surfaces & text (dark-first) ─── */
+    /* ── SEMANTIC: surfaces & text (dark-only) ─── */
     --color-background:      var(--primitive-ink-900);
     --color-background-deep: var(--primitive-ink-950);
-    --color-surface:         var(--primitive-ink-800);
-    --color-surface-alt:     var(--primitive-ink-850);
+    --color-surface:         var(--primitive-ink-850);
+    --color-surface-alt:     var(--primitive-ink-800);
     --color-surface-raised:  var(--primitive-ink-750);
 
     --color-text:       var(--primitive-white);
     --color-muted:      var(--primitive-grey-100);
     --color-muted-dim:  var(--primitive-grey-200);
-    --color-dim:        var(--primitive-grey-400);
+    --color-dim:        var(--primitive-grey-300);
 
     --color-border:     var(--primitive-ink-600);
 
     /* Accent */
-    --color-accent:     var(--primitive-acid-500);
-    --accent-rgb:       200, 255, 0;
+    --color-accent:     var(--primitive-green-500);
+    --accent-rgb:       30, 215, 96;
+
+    /* Semantic states */
+    --color-negative:     #f3727f;
+    --color-warning:      #ffa42b;
+    --color-announcement: #539df5;
 
     /* Focus / Shadow */
-    --color-focus:      var(--primitive-acid-500);
+    --color-focus:      var(--primitive-green-500);
     --color-shadow:     rgba(0, 0, 0, 0.6);
 
     /* Primary Button */
-    --btn-bg:           var(--primitive-acid-500);
+    --btn-bg:           var(--primitive-green-500);
     --btn-text:         var(--primitive-black);
-    --btn-hover:        var(--primitive-acid-400);
+    --btn-hover:        var(--primitive-green-400);
 
     /* Secondary Button */
-    --btn2-border:      rgba(200, 255, 0, 0.3);
-    --btn2-text:        var(--primitive-acid-500);
-    --btn2-hover-bg:    rgba(200, 255, 0, 0.08);
-    --btn2-hover-border:rgba(200, 255, 0, 0.6);
+    --btn2-border:      #7c7c7c;
+    --btn2-text:        var(--primitive-white);
+    --btn2-hover-bg:    rgba(255, 255, 255, 0.04);
+    --btn2-hover-border:var(--primitive-white);
 
-    /* Inverted Section (CTA) */
-    --inv-bg:           var(--primitive-acid-500);
-    --inv-text:         var(--primitive-black);
-    --inv-muted:        rgba(0, 0, 0, 0.5);
-    --inv-border:       rgba(0, 0, 0, 0.15);
-    --inv-btn-bg:       var(--primitive-black);
-    --inv-btn-text:     var(--primitive-acid-500);
+    /* Elevation surfaces (CTA) */
+    --inv-bg:           var(--primitive-ink-800);
+    --inv-text:         var(--primitive-white);
+    --inv-muted:        rgba(255, 255, 255, 0.6);
+    --inv-border:       rgba(255, 255, 255, 0.1);
+    --inv-btn-bg:       var(--primitive-green-500);
+    --inv-btn-text:     var(--primitive-black);
 
     /* Chips / Tags */
-    --chip-bg:          rgba(200, 255, 0, 0.08);
-    --chip-border:      rgba(200, 255, 0, 0.2);
-    --chip-text:        var(--primitive-acid-500);
-    --tag-bg:           var(--primitive-ink-700);
-    --tag-border:       var(--primitive-ink-500);
-    --tag-text:         var(--primitive-grey-300);
+    --chip-bg:          rgba(255, 255, 255, 0.07);
+    --chip-border:      transparent;
+    --chip-text:        var(--primitive-white);
+    --tag-bg:           var(--primitive-ink-800);
+    --tag-border:       transparent;
+    --tag-text:         var(--primitive-white);
 
     /* ── RADIUS ─────────────────────────────────── */
-    --radius-sm:   4px;    /* cards, panels, chips, tags */
-    --radius-md:   8px;    /* modals, popovers */
+    --radius-xs:   2px;    /* badge, tags */
+    --radius-sm:   6px;    /* cards, album art */
+    --radius-md:   8px;    /* panels, modals, dialogs */
     --radius-pill: 999px;  /* buttons */
     --radius-full: 9999px; /* icon buttons, progress, pills */
 
     /* ── SHADOWS ────────────────────────────────── */
-    --shadow-lift:    0 20px 48px var(--color-shadow);
-    --shadow-overlay: 0 20px 60px rgba(0, 0, 0, 0.4);
+    --shadow-lift:    0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-overlay: 0 8px 8px rgba(0, 0, 0, 0.3);
+    --shadow-inset-input: rgb(18, 18, 18) 0px 1px 0px, rgb(124, 124, 124) 0px 0px 0px 1px inset;
 
     /* ── MOTION ─────────────────────────────────── */
     --motion-duration-fast:   150ms;
@@ -117,7 +113,6 @@
     --motion-ease-out:      ease-out;
     --motion-ease-in-out:   cubic-bezier(0.4, 0, 0.6, 1);
     --motion-reveal-distance: 18px;
-    --motion-marquee-duration: 22s;
 
     /* ── Z-INDEX ────────────────────────────────── */
     --z-raised:  10;
@@ -127,79 +122,22 @@
 
     /* ── CONTAINER ──────────────────────────────── */
     --container-max: 80rem; /* = max-w-7xl, single content width */
-
-    /* ── EFFECTS ────────────────────────────────── */
-    --effect-noise-opacity: 0.04;
 }
 
-/* ── DARK MODE ──
-   Dark IS :root (dark-first). Do NOT duplicate tokens here.
-   Override only in html.light below. */
-
-
-/* ── LIGHT MODE — Contrast-checked (WCAG AA+) ── */
-html.light {
-    color-scheme: light;
-
-    /* #1A1A1A on #F8F7F4 = 14.5:1 ✓ AAA */
-    --color-background:      var(--primitive-paper-50);
-    --color-background-deep: var(--primitive-paper-300);
-    --color-surface:         var(--primitive-paper-0);
-    --color-surface-alt:     var(--primitive-paper-100);
-    --color-surface-raised:  var(--primitive-paper-200);
-
-    --color-text:       var(--primitive-coal);
-    /* #6B7280 on #F8F7F4 = 4.6:1 ✓ AA */
-    --color-muted:      var(--primitive-grey-500);
-    --color-muted-dim:  var(--primitive-grey-600);
-    --color-dim:        var(--primitive-grey-700);
-
-    --color-border:     var(--primitive-paper-400);
-
-    /* Accent — #4A6600 on #F8F7F4 = 5.5:1 ✓ AA */
-    --color-accent:     var(--primitive-acid-700);
-    --accent-rgb:       74, 102, 0;
-
-    --color-focus:      var(--primitive-acid-700);
-    --color-shadow:     rgba(0, 0, 0, 0.07);
-
-    /* Primary Button — #FFF on #4A6600 = 6.2:1 ✓ AA */
-    --btn-bg:           var(--primitive-acid-700);
-    --btn-text:         var(--primitive-white);
-    --btn-hover:        var(--primitive-acid-800);
-
-    /* Secondary Button */
-    --btn2-border:      rgba(74, 102, 0, 0.4);
-    --btn2-text:        var(--primitive-acid-700);
-    --btn2-hover-bg:    rgba(74, 102, 0, 0.06);
-    --btn2-hover-border:rgba(74, 102, 0, 0.7);
-
-    /* Inverted Section */
-    --inv-bg:           var(--primitive-paper-50);
-    --inv-text:         var(--primitive-coal);
-    --inv-muted:        rgba(26, 26, 26, 0.5);
-    --inv-border:       rgba(26, 26, 26, 0.15);
-    --inv-btn-bg:       var(--primitive-acid-700);
-    --inv-btn-text:     var(--primitive-white);
-
-    /* Chips / Tags */
-    --chip-bg:          rgba(74, 102, 0, 0.06);
-    --chip-border:      rgba(74, 102, 0, 0.2);
-    --chip-text:        var(--primitive-acid-700);
-    --tag-bg:           var(--primitive-paper-200);
-    --tag-border:       var(--primitive-paper-400);
-    --tag-text:         var(--primitive-grey-500);
-}
+/* ── DARK ONLY ──
+   Dark IS :root. There is no light theme — the brand is a
+   dark, immersive surface. Do not reintroduce html.light. */
 
 
 * {
-    font-family: var(--font-poppins), sans-serif;
+    font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
     margin: 0px;
     padding: 0px;
 }
 
 html {
     scroll-behavior: smooth;
+    background: var(--color-background);
 }
 
 body {
@@ -248,49 +186,44 @@ body {
     }
 
     .mono-panel {
-        @apply border p-8 transition-all duration-300 md:p-10;
-        background: var(--color-surface-raised);
-        border-color: var(--color-border);
-        border-radius: var(--radius-sm);
+        @apply p-8 transition-all duration-300 md:p-10;
+        background: var(--color-surface-alt);
+        border-radius: var(--radius-md);
     }
 
     .mono-card {
-        @apply border p-6 transition-all duration-300;
-        background: var(--color-surface-raised);
-        border-color: var(--color-border);
+        @apply p-6 transition-all duration-300;
+        background: var(--color-surface);
         border-radius: var(--radius-sm);
     }
 
     .mono-frame {
-        @apply border transition-all duration-300;
-        background: var(--color-surface-raised);
-        border-color: var(--color-border);
+        @apply transition-all duration-300;
+        background: var(--color-surface);
         border-radius: var(--radius-sm);
     }
 
     .mono-frame-interactive {
-        @apply border transition-all duration-300;
-        background: var(--color-surface-alt);
-        border-color: var(--color-border);
+        @apply transition-all duration-300;
+        background: var(--color-surface);
         border-radius: var(--radius-sm);
     }
 
     .mono-frame-interactive:hover {
-        border-color: rgba(var(--accent-rgb), 0.3);
-        box-shadow: var(--shadow-lift);
+        background: var(--color-surface-alt);
+        box-shadow: var(--shadow-overlay);
         transform: translateY(-3px);
     }
 
     .mono-card-interactive {
-        @apply border p-6 transition-all duration-300;
-        background: var(--color-surface-alt);
-        border-color: var(--color-border);
+        @apply p-6 transition-all duration-300;
+        background: var(--color-surface);
         border-radius: var(--radius-sm);
     }
 
     .mono-card-interactive:hover {
-        border-color: rgba(var(--accent-rgb), 0.3);
-        box-shadow: var(--shadow-lift);
+        background: var(--color-surface-alt);
+        box-shadow: var(--shadow-overlay);
         transform: translateY(-3px);
     }
 
@@ -301,13 +234,13 @@ body {
         border-radius: var(--radius-pill);
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        font-size: 0.875rem;
         border: none;
     }
 
     .mono-button-primary:hover {
-        transform: translateY(-2px);
+        transform: scale(1.04);
         background: var(--btn-hover);
     }
 
@@ -317,40 +250,40 @@ body {
         color: var(--btn2-text);
         background: transparent;
         border-radius: var(--radius-pill);
-        font-weight: 600;
-        font-size: 0.75rem;
+        font-weight: 700;
+        font-size: 0.875rem;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
     }
 
     .mono-button-secondary:hover {
         background: var(--btn2-hover-bg);
         border-color: var(--btn2-hover-border);
-        transform: translateY(-2px);
+        transform: scale(1.04);
     }
 
     .mono-icon-button {
-        @apply inline-flex items-center justify-center border transition-all duration-300;
-        background: var(--color-surface-raised);
-        border-color: var(--color-border);
+        @apply inline-flex items-center justify-center transition-all duration-300;
+        background: var(--color-surface-alt);
         color: var(--color-muted);
         border-radius: var(--radius-full);
+        border: none;
     }
 
     .mono-icon-button:hover {
-        background: var(--color-surface);
-        border-color: rgba(var(--accent-rgb), 0.3);
-        color: var(--color-accent);
+        background: var(--primitive-ink-700);
+        color: var(--color-text);
+        transform: scale(1.04);
     }
 
     .mono-chip {
-        @apply inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em];
+        @apply inline-flex items-center gap-2 px-3 py-1.5 font-semibold uppercase;
         background: var(--chip-bg);
         border: 1px solid var(--chip-border);
         color: var(--chip-text);
-        border-radius: var(--radius-sm);
+        border-radius: var(--radius-xs);
         font-size: 0.65rem;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.14em;
     }
 
     .mono-tag {
@@ -358,7 +291,7 @@ body {
         background: var(--tag-bg);
         border: 1px solid var(--tag-border);
         color: var(--tag-text);
-        border-radius: var(--radius-sm);
+        border-radius: var(--radius-xs);
     }
 
     .mono-progress-track {
@@ -384,51 +317,8 @@ body {
 
 
 /* ═══════════════════════════════════════════════════
-   UTILITY CLASSES
-═══════════════════════════════════════════════════ */
-
-.acid-border-l {
-    border-left: 2px solid rgba(var(--accent-rgb), 0.4);
-    padding-left: 1rem;
-}
-
-.noise-bg { position: relative; }
-.noise-bg::before {
-    content: '';
-    position: absolute; inset: 0; pointer-events: none;
-    opacity: var(--effect-noise-opacity); z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-
-/* ═══════════════════════════════════════════════════
    ANIMATIONS
 ═══════════════════════════════════════════════════ */
-
-@keyframes blob {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-}
-
-@keyframes blob-1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(-30px, -40px) scale(1.08); }
-    66% { transform: translate(20px, 30px) scale(0.95); }
-}
-
-@keyframes blob-2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(40px, -30px) scale(1.05); }
-    50% { transform: translate(-20px, 40px) scale(0.98); }
-    75% { transform: translate(30px, 20px) scale(1.02); }
-}
-
-@keyframes blob-3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    40% { transform: translate(-35px, 50px) scale(1.1); }
-    80% { transform: translate(25px, -30px) scale(0.92); }
-}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
@@ -453,14 +343,6 @@ body {
     animation: pulse-opacity 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.animate-blob {
-    animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
-
 .animate-fadeIn {
     animation: fadeIn 0.3s ease-out;
 }
@@ -476,77 +358,9 @@ body {
 
 
 /* ═══════════════════════════════════════════════════
-   GLASS CARD (InteractiveHero)
-   NOTE (DS debt): slate/blue tints below are legacy values,
-   not theme tokens. Do not reuse elsewhere — phase 2 will
-   either tokenize or remove with the legacy hero.
-═══════════════════════════════════════════════════ */
-
-.glass-card {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(15, 23, 42, 0.28);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
-}
-
-.glass-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.14),
-        rgba(255, 255, 255, 0.02) 40%,
-        rgba(96, 165, 250, 0.05) 65%,
-        rgba(167, 139, 250, 0.05)
-    );
-    opacity: 0.65;
-}
-
-.glass-card::after {
-    content: '';
-    position: absolute;
-    inset: -60px;
-    pointer-events: none;
-    background: radial-gradient(
-        420px 180px at var(--sheen-x, 50%) var(--sheen-y, 20%),
-        rgba(255, 255, 255, 0.20),
-        rgba(255, 255, 255, 0.06) 35%,
-        rgba(255, 255, 255, 0.0) 70%
-    );
-    opacity: 0.8;
-    mix-blend-mode: screen;
-    transition: background 80ms linear;
-}
-
-@media (max-width: 600px) {
-    /* Estilos para smartphones */
-}
-
-/* ═══════════════════════════════════════════════════
-   MARQUEE
-   Hero scrolling text strip
-   ═══════════════════════════════════════════════════ */
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.marquee-track {
-  animation: marquee-scroll var(--motion-marquee-duration) linear infinite;
-  will-change: transform;
-}
-
-
-/* ═══════════════════════════════════════════════════
    REDUCED MOTION — accessibility has priority over identity.
    When the user asks for less motion, entrance/scroll/loop
-   effects go static. Toggles (theme, filters) keep working.
+   effects go static. Toggles (filters) keep working.
 ═══════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -554,8 +368,6 @@ body {
         scroll-behavior: auto;
     }
 
-    .marquee-track,
-    .animate-blob,
     .animate-pulse-scale,
     .animate-pulse-opacity,
     .animate-fadeIn {
@@ -571,65 +383,66 @@ body {
 
 
 /* ═══════════════════════════════════════════════════
-   TYPE SCALE — single clamp per role.
-   Headings use the display face (Rajdhani); body roles
-   inherit Poppins. Never set ad-hoc font sizes for these
-   roles — adjust the scale here and it propagates.
+   TYPE SCALE — compact, app-like (10px–24px range).
+   One family (Poppins, the Circular substitute); weight
+   carries the hierarchy: 700 vs 400, uppercase labels.
+   Never set ad-hoc font sizes for these roles — adjust
+   the scale here and it propagates.
 ═══════════════════════════════════════════════════ */
 
 .ds-display {
-        font-family: var(--font-display), sans-serif;
-        font-weight: 600;
-        font-size: clamp(2.5rem, 5.5vw, 4.5rem);
-        line-height: 0.95;
-        letter-spacing: 0.02em;
+        font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.25;
+        letter-spacing: 0;
     }
 
     .ds-h1 {
-        font-family: var(--font-display), sans-serif;
-        font-weight: 600;
-        font-size: clamp(2.25rem, 5vw, 4rem);
-        line-height: 1;
-        letter-spacing: 0.02em;
+        font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.25;
+        letter-spacing: 0;
     }
 
     .ds-h2 {
-        font-family: var(--font-display), sans-serif;
-        font-weight: 600;
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 1;
-        letter-spacing: 0.02em;
+        font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.25;
+        letter-spacing: 0;
     }
 
     .ds-h3 {
-        font-family: var(--font-display), sans-serif;
+        font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
         font-weight: 600;
-        font-size: clamp(1.5rem, 3vw, 2.25rem);
-        line-height: 1.05;
-        letter-spacing: 0.02em;
+        font-size: 1.125rem;
+        line-height: 1.3;
+        letter-spacing: 0;
     }
 
     .ds-h4 {
-        font-family: var(--font-display), sans-serif;
-        font-weight: 600;
-        font-size: clamp(1.15rem, 2vw, 1.5rem);
-        line-height: 1.1;
-        letter-spacing: 0.02em;
+        font-family: var(--font-poppins), 'Helvetica Neue', helvetica, arial, sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.3;
+        letter-spacing: 0;
     }
 
     .ds-body-lg {
-        font-size: 1.125rem;
-        line-height: 1.7;
+        font-size: 1rem;
+        line-height: 1.6;
     }
 
     .ds-body {
         font-size: 1rem;
-        line-height: 1.65;
+        line-height: 1.6;
     }
 
     .ds-body-sm {
         font-size: 0.875rem;
-        line-height: 1.6;
+        line-height: 1.5;
     }
 
     .ds-caption {
@@ -638,12 +451,12 @@ body {
     }
 
     .ds-label {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.07em;
         line-height: 1.4;
-        color: var(--color-accent);
+        color: var(--color-muted);
     }
 
     .ds-code {

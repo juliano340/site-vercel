@@ -68,15 +68,17 @@ const Portfolio = () => {
           </p>
         </header>
 
-        <nav aria-label="Filtro de projetos" className="mb-10 flex flex-wrap gap-x-6 gap-y-2 border-b border-subtle pb-3 text-sm">
+        <nav aria-label="Filtro de projetos" className="mb-10 flex flex-wrap gap-2">
           {FILTERS.map((cat) => (
             <button
               type="button"
               key={cat.id}
               onClick={() => setFilter(cat.id)}
               aria-pressed={filter === cat.id}
-              className={`mono-focus-ring transition-colors ${
-                filter === cat.id ? 'text-primary underline underline-offset-4' : 'text-muted hover:text-primary'
+              className={`mono-focus-ring rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
+                filter === cat.id
+                  ? 'bg-white text-black'
+                  : 'bg-[var(--color-surface-alt)] text-[var(--color-text)] hover:bg-[var(--color-surface-raised)]'
               }`}
             >
               {cat.label}
@@ -97,7 +99,7 @@ const Portfolio = () => {
                   className="mono-focus-ring group block w-full text-left"
                   aria-label={`Abrir detalhes de ${project.title}`}
                 >
-                  <div className="relative overflow-hidden border border-subtle bg-surface" style={{ aspectRatio: '16/9' }}>
+                  <div className="relative overflow-hidden bg-surface transition-shadow duration-300 group-hover:shadow-overlay" style={{ aspectRatio: '16/9', borderRadius: 'var(--radius-sm)' }}>
                     <Image
                       src={primaryImage}
                       alt={project.title}
@@ -152,7 +154,8 @@ const Portfolio = () => {
             aria-label={`Detalhes de ${selectedProject.title}`}
           >
             <div
-              className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto border border-subtle bg-surface lg:max-h-[92vh]"
+              className="relative max-h-[calc(100vh-7rem)] w-full max-w-5xl overflow-y-auto bg-surface lg:max-h-[92vh]"
+              style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lift)' }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -192,10 +195,10 @@ const Portfolio = () => {
                   </div>
 
                   <div className="mt-auto grid gap-3 border-t border-subtle pt-5">
-                    <a href={selectedProject.projectUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-[var(--btn-bg)] px-5 py-3 text-sm font-semibold text-[var(--btn-text)] hover:bg-[var(--btn-hover)]">
+                    <a href={selectedProject.projectUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring mono-button-primary min-h-11">
                       Abrir projeto<span className="sr-only"> (nova aba)</span>
                     </a>
-                    <a href={selectedProject.repoUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-subtle px-5 py-3 text-sm font-semibold text-primary hover:border-primary">
+                    <a href={selectedProject.repoUrl} target="_blank" rel="noopener noreferrer" className="mono-focus-ring mono-button-secondary min-h-11">
                       Ver código<span className="sr-only"> (nova aba)</span>
                     </a>
                   </div>
