@@ -74,6 +74,7 @@ const WorkspacePortrait = () => {
             alt="Juliano visto de cima, sentado com laptop, caderno e café num estúdio amplo e claro"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
+            quality={85}
             className="object-cover [object-position:74%_58%] sm:[object-position:72%_62%]"
           />
         </div>
