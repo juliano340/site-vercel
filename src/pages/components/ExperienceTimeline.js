@@ -61,7 +61,7 @@ const WorkspacePortrait = () => {
   return (
     <Reveal variant="blur" className="mb-16">
       <figure
-        className="relative aspect-[3/4] overflow-hidden sm:aspect-[16/10]"
+        className="relative aspect-[1/1] overflow-hidden sm:aspect-[16/10]"
         style={{
           borderRadius: 'var(--radius-md)',
           border: '1px solid rgba(255,255,255,0.08)',
@@ -75,7 +75,7 @@ const WorkspacePortrait = () => {
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
             quality={85}
-            className="object-cover [object-position:74%_58%] sm:[object-position:72%_62%]"
+            className="object-cover [object-position:78%_42%] sm:[object-position:30%_35%]"
           />
         </div>
 

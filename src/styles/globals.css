@@ -358,6 +358,15 @@ body {
     animation: hero-grid-slide 8s var(--motion-ease-standard) infinite alternate;
 }
 
+@keyframes hero-rule-grow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+}
+
+.animate-hero-rule {
+    animation: hero-rule-grow var(--motion-duration-slower) var(--motion-ease-cinematic) 0.9s both;
+}
+
 .hero-mask {
     overflow: hidden;
     display: block;
@@ -412,7 +421,8 @@ body {
     .animate-fadeIn,
     .animate-hero-glow-drift,
     .animate-hero-grid-slide,
-    .animate-hero-word-rise {
+    .animate-hero-word-rise,
+    .animate-hero-rule {
         animation: none;
     }
 
