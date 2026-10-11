@@ -59,17 +59,17 @@ const ExperienceTimeline = () => (
         <ol id="percurso-title" aria-label="Experiência profissional" className="relative ml-3 border-l" style={{ borderColor: 'var(--color-border)' }}>
           {TIMELINE.map((job, i) => (
             <li key={`${job.company}-${job.period}`} className="relative pb-10 last:pb-0 pl-8 sm:pl-10">
+              <span
+                aria-hidden="true"
+                className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full"
+                style={{
+                  background: job.current ? 'var(--color-accent)' : 'var(--color-surface-raised)',
+                  boxShadow: job.current
+                    ? '0 0 0 4px rgba(var(--accent-rgb), 0.15), 0 0 12px rgba(var(--accent-rgb), 0.5)'
+                    : '0 0 0 3px var(--color-background-deep)',
+                }}
+              />
               <Reveal delay={i * 0.06}>
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full"
-                  style={{
-                    background: job.current ? 'var(--color-accent)' : 'var(--color-surface-raised)',
-                    boxShadow: job.current
-                      ? '0 0 0 4px rgba(var(--accent-rgb), 0.15), 0 0 12px rgba(var(--accent-rgb), 0.5)'
-                      : '0 0 0 3px var(--color-background-deep)',
-                  }}
-                />
                 <p className="text-xs font-bold uppercase tracking-[0.07em] text-muted">{job.period}</p>
                 <h3 className="mt-1 text-lg font-semibold text-primary">{job.role}</h3>
                 <p className="text-sm" style={{ color: job.current ? 'var(--color-accent)' : 'var(--color-muted)' }}>
