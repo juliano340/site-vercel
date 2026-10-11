@@ -48,6 +48,7 @@ agents*.md
 .agent*
 /.sisyphus/
 .claude/
+.opencode/
 
 # Local screenshots / debug captures
 /about-check-initial.png

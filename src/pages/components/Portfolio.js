@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+import Reveal from '@/pages/components/Reveal';
+import SectionHeader from '@/pages/components/SectionHeader';
 import projects, { FEATURED_PROJECT_TITLE } from '@/lib/projects';
 
 const FILTERS = [
@@ -63,13 +65,14 @@ const Portfolio = () => {
       className="bg-background py-20 transition-colors duration-300"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-12 max-w-2xl">
-          <p className="ds-label mb-3">02 — Portfólio</p>
-          <h2 className="ds-h1 text-primary">Projetos selecionados</h2>
-          <p className="ds-body mt-4 text-muted">
-            Soluções entregues com tech moderna. Do brief ao deploy.
-          </p>
-        </header>
+        <div className="mb-12 max-w-2xl">
+          <SectionHeader
+            number="02"
+            label="Portfólio"
+            title="Projetos selecionados"
+            description="Soluções entregues com tech moderna. Do brief ao deploy."
+          />
+        </div>
 
         <nav aria-label="Filtro de projetos" className="mb-10 flex flex-wrap gap-2">
           {FILTERS.map((cat) => (
@@ -90,19 +93,20 @@ const Portfolio = () => {
         </nav>
 
         <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => {
+          {filteredProjects.map((project, index) => {
             const projectImages = getProjectImages(project);
             const primaryImage = projectImages[0];
 
             return (
               <li key={project.title}>
-                <button
-                  type="button"
-                  onClick={() => openProjectModal(project)}
-                  className="mono-focus-ring group block w-full text-left"
-                  aria-label={`Abrir detalhes de ${project.title}`}
-                >
-                  <div className="relative overflow-hidden bg-surface transition-shadow duration-300 group-hover:shadow-overlay" style={{ aspectRatio: '16/9', borderRadius: 'var(--radius-sm)' }}>
+                <Reveal delay={(index % 3) * 0.08} className="h-full">
+                  <button
+                    type="button"
+                    onClick={() => openProjectModal(project)}
+                    className="mono-focus-ring group block h-full w-full text-left"
+                    aria-label={`Abrir detalhes de ${project.title}`}
+                  >
+                    <div className="relative overflow-hidden bg-surface transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-overlay" style={{ aspectRatio: '16/9', borderRadius: 'var(--radius-sm)', boxShadow: '0 0 0 1px rgba(var(--accent-rgb), 0.06)' }}>
                     <Image
                       src={primaryImage}
                       alt={project.title}
@@ -119,6 +123,7 @@ const Portfolio = () => {
                     </p>
                   </div>
                 </button>
+                </Reveal>
 
                 <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
                   <a

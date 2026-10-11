@@ -1,46 +1,60 @@
-import { useState, useEffect, useRef } from 'react';
+import useInView from '@/lib/useInView';
 
-// Scroll-reveal primitive. Timing comes from motion tokens
-// (--motion-duration-slow / --motion-ease-standard), so the whole
-// site's entrance feel is tuned in one place (globals.css).
-// Honors prefers-reduced-motion: content appears instantly.
-const Reveal = ({ children, delay = 0, className = '', style = {} }) => {
-  const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
+// Scroll-reveal primitive with variants:
+//   'up'   — rise from below (default)
+//   'fade' — plain opacity
+//   'blur' — futuristic: blur + slight rise
+//   'left' / 'right' — lateral slide
+// Timing comes from motion tokens in globals.css, so the whole
+// site's entrance feel is tuned in one place.
+// Honors prefers-reduced-motion (hook): content appears instantly.
+const VARIANT_STYLES = {
+  up: {
+    hidden: 'translateY(var(--motion-reveal-distance))',
+    blur: '0',
+  },
+  fade: {
+    hidden: 'translateY(0)',
+    blur: '0',
+  },
+  blur: {
+    hidden: 'translateY(calc(var(--motion-reveal-distance) / 2))',
+    blur: 'var(--motion-blur)',
+  },
+  left: {
+    hidden: 'translateX(calc(var(--motion-reveal-distance) * 1.5))',
+    blur: '0',
+  },
+  right: {
+    hidden: 'translateX(calc(var(--motion-reveal-distance) * -1.5))',
+    blur: '0',
+  },
+};
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setVisible(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+const Reveal = ({
+  children,
+  delay = 0,
+  variant = 'up',
+  className = '',
+  style = {},
+  threshold,
+  rootMargin,
+}) => {
+  const [ref, isVisible] = useInView({ threshold, rootMargin });
+  const v = VARIANT_STYLES[variant] || VARIANT_STYLES.up;
 
   return (
     <div
       ref={ref}
       className={className}
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(var(--motion-reveal-distance))',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translate(0, 0)' : v.hidden,
+        filter: isVisible ? 'blur(0)' : v.blur,
         transition:
-          `opacity var(--motion-duration-slow) var(--motion-ease-standard) ${delay}s, ` +
-          `transform var(--motion-duration-slow) var(--motion-ease-standard) ${delay}s`,
+          `opacity var(--motion-duration-slow) var(--motion-ease-cinematic) ${delay}s, ` +
+          `transform var(--motion-duration-slow) var(--motion-ease-cinematic) ${delay}s, ` +
+          `filter var(--motion-duration-slow) var(--motion-ease-cinematic) ${delay}s`,
         ...style,
       }}
     >

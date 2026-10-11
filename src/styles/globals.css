@@ -113,6 +113,9 @@
     --motion-ease-out:      ease-out;
     --motion-ease-in-out:   cubic-bezier(0.4, 0, 0.6, 1);
     --motion-reveal-distance: 18px;
+    --motion-reveal-distance-lg: 28px;
+    --motion-blur: 10px;
+    --motion-ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
 
     /* ── Z-INDEX ────────────────────────────────── */
     --z-raised:  10;
@@ -325,6 +328,40 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes hero-glow-drift {
+    0%, 100% { opacity: 0.5; transform: translate3d(0, 0, 0) scale(1); }
+    50% { opacity: 0.8; transform: translate3d(0, -4%, 0) scale(1.12); }
+}
+
+@keyframes hero-grid-slide {
+    from { transform: translate2d(0, 0, 0); }
+    to { transform: translate3d(0, -60px, 0); }
+}
+
+.animate-hero-glow-drift {
+    animation: hero-glow-drift 12s var(--motion-ease-in-out) infinite;
+    will-change: transform, opacity;
+}
+
+.animate-hero-grid-slide {
+    animation: hero-grid-slide 8s var(--motion-ease-standard) infinite alternate;
+}
+
+.hero-mask {
+    overflow: hidden;
+    display: block;
+}
+
+@keyframes hero-word-rise {
+    from { transform: translate3d(0, 110%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+}
+
+.animate-hero-word-rise {
+    animation: hero-word-rise var(--motion-duration-slower) var(--motion-ease-cinematic) both;
+    animation-delay: var(--rise-delay, 0s);
+}
+
 @keyframes pulse-scale {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -361,8 +398,15 @@ body {
 
     .animate-pulse-scale,
     .animate-pulse-opacity,
-    .animate-fadeIn {
+    .animate-fadeIn,
+    .animate-hero-glow-drift,
+    .animate-hero-grid-slide,
+    .animate-hero-word-rise {
         animation: none;
+    }
+
+    .animate-hero-word-rise {
+        transform: translate3d(0, 0, 0);
     }
 
     *,

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import HeroSectionView from '@/pages/components/HeroSectionView';
 import FeaturedProject from '@/pages/components/FeaturedProject';
 import Portfolio from '@/pages/components/Portfolio';
+import ExperienceTimeline from '@/pages/components/ExperienceTimeline';
 import CtaSection from '@/pages/components/CtaSection';
 
 const HomePage = () => {
@@ -26,6 +27,7 @@ const HomePage = () => {
         <HeroSectionView />
         <FeaturedProject />
         <Portfolio />
+        <ExperienceTimeline />
         <CtaSection />
       </main>
     </>
