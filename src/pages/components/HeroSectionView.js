@@ -146,7 +146,7 @@ const RevealInHero = () => (
   >
     <div
       aria-hidden="true"
-      className="absolute -inset-3 rounded-full opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60"
+      className="absolute left-0 top-0 h-52 w-52 rounded-full opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60 lg:h-64 lg:w-64"
       style={{ background: 'radial-gradient(circle, rgba(var(--accent-rgb), 0.35) 0%, transparent 70%)' }}
     />
     <div
@@ -163,7 +163,7 @@ const RevealInHero = () => (
     </div>
     <div
       aria-hidden="true"
-      className="absolute inset-0 -z-10 animate-pulse-opacity rounded-full"
+      className="absolute left-0 top-0 h-52 w-52 animate-pulse-opacity rounded-full lg:h-64 lg:w-64"
       style={{ boxShadow: '0 0 0 2px rgba(var(--accent-rgb), 0.12)' }}
     />
   </div>
