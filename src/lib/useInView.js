@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 
 // Shared IntersectionObserver hook. Honors prefers-reduced-motion.
 // Returns [ref, isVisible]. Fires once by default.
-const useInView = ({ threshold = 0.05, rootMargin = '0px 0px -40px 0px', once = true } = {}) => {
+// rootMargin default keeps reveals around 12% into the viewport so
+// taller (desktop) windows reveal on scroll, not all at page load.
+const DEFAULT_ROOT_MARGIN = '0px 0px -12% 0px';
+const useInView = ({ threshold = 0.05, rootMargin = DEFAULT_ROOT_MARGIN, once = true } = {}) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 

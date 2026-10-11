@@ -127,6 +127,17 @@
     --container-max: 80rem; /* = max-w-7xl, single content width */
 }
 
+/* Bigger viewport = subtle motion becomes invisible. Scale reveals up
+   on desktop so entrances stay perceivable (mobile keeps compact set). */
+@media (min-width: 1024px) {
+    :root {
+        --motion-reveal-distance: 32px;
+        --motion-duration-slow: 600ms;
+        --motion-duration-slower: 850ms;
+        --motion-blur: 14px;
+    }
+}
+
 /* ── DARK ONLY ──
    Dark IS :root. There is no light theme — the brand is a
    dark, immersive surface. Do not reintroduce html.light. */
