@@ -13,10 +13,10 @@ const useInView = ({ threshold = 0.05, rootMargin = DEFAULT_ROOT_MARGIN, once = 
     const el = ref.current;
     if (!el) return undefined;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsVisible(true);
-      return undefined;
-    }
+    // Under prefers-reduced-motion the observer keeps running: content
+    // still enters as sections cross into view, just without motion —
+    // the global 0.01ms transition rule makes each entrance an instant
+    // flip. Tall viewports therefore still reveal progressively.
 
     const observer = new IntersectionObserver(
       ([entry]) => {

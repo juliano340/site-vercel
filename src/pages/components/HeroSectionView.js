@@ -23,7 +23,7 @@ const HeroSectionView = () => {
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative overflow-hidden bg-background text-primary">
+    <section aria-labelledby="home-title" className="relative flex flex-col justify-center overflow-hidden bg-background text-primary lg:min-h-[calc(100vh-60px)]">
       {/* ── Fundo futurista em camadas (puro CSS) ─────────────── */}
       {/* Glow verde orbitando atrás do conteúdo */}
       <div
