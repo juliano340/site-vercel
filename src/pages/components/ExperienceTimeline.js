@@ -61,12 +61,11 @@ const WorkspacePortrait = () => {
   return (
     <Reveal variant="blur" className="mb-16">
       <figure
-        className="relative overflow-hidden"
+        className="relative aspect-[3/4] overflow-hidden sm:aspect-[16/10]"
         style={{
           borderRadius: 'var(--radius-md)',
           border: '1px solid rgba(255,255,255,0.08)',
           boxShadow: 'var(--shadow-lift)',
-          aspectRatio: '16/10',
         }}
       >
         <div ref={innerRef} className="absolute inset-0" style={{ willChange: 'transform' }}>
@@ -75,8 +74,7 @@ const WorkspacePortrait = () => {
             alt="Juliano visto de cima, sentado com laptop, caderno e café num estúdio amplo e claro"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
-            className="object-cover"
-            style={{ objectPosition: '72% 62%' }}
+            className="object-cover [object-position:74%_58%] sm:[object-position:72%_62%]"
           />
         </div>
 
@@ -90,7 +88,7 @@ const WorkspacePortrait = () => {
           }}
         />
 
-        <figcaption className="absolute left-5 top-5 max-w-[16rem] sm:left-8 sm:top-8 sm:max-w-md">
+        <figcaption className="absolute bottom-5 left-5 max-w-[16rem] sm:bottom-auto sm:left-8 sm:top-8 sm:max-w-md">
           <p className="ds-label mb-2" style={{ color: 'var(--color-accent)' }}>2006 → hoje</p>
           <p className="text-xl font-bold leading-snug text-primary sm:text-3xl" style={{ textShadow: '0 1px 24px rgba(0,0,0,0.55)' }}>
             Do primeiro chamado<br />ao deploy.
