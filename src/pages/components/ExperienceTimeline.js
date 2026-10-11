@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { useRef } from 'react';
+import SmartImage from '@/pages/components/SmartImage';
 import Reveal from '@/pages/components/Reveal';
 import SectionHeader from '@/pages/components/SectionHeader';
+import useScrollProgress from '@/lib/useScrollProgress';
 import { HOME_CONTAINER } from '@/lib/homePresentation';
 
 // Versão resumida e profissional da trajetória (detalhes completos em /sobre).
@@ -44,6 +47,60 @@ const FORMACAO = [
   { period: '2019', name: 'MBA Gestão Empresarial e Marketing', place: 'Uninter' },
 ];
 
+// Momento editorial: retrato top-down como "palco" — o espaço negativo
+// carrega a frase. Parallax leve no interior, vinheta para amarrar no fundo.
+const WorkspacePortrait = () => {
+  const innerRef = useRef(null);
+  useScrollProgress((progress) => {
+    const el = innerRef.current;
+    if (!el) return;
+    const drift = (Math.min(1, Math.max(0, progress)) - 0.5) * -36;
+    el.style.transform = `translate3d(0, ${drift.toFixed(1)}px, 0) scale(1.06)`;
+  });
+
+  return (
+    <Reveal variant="blur" className="mb-16">
+      <figure
+        className="relative overflow-hidden"
+        style={{
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: 'var(--shadow-lift)',
+          aspectRatio: '16/10',
+        }}
+      >
+        <div ref={innerRef} className="absolute inset-0" style={{ willChange: 'transform' }}>
+          <SmartImage
+            src="/images/workspace-topdown.jpg"
+            alt="Juliano visto de cima, sentado com laptop, caderno e café num estúdio amplo e claro"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
+            className="object-cover"
+            style={{ objectPosition: '72% 62%' }}
+          />
+        </div>
+
+        {/* Vinheta nas bordas + gradiente de leitura no espaço vazio */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(105deg, rgba(18,18,18,0.72) 0%, rgba(18,18,18,0.25) 42%, rgba(18,18,18,0) 62%), radial-gradient(120% 90% at 50% 45%, transparent 62%, rgba(0,0,0,0.38) 100%)',
+          }}
+        />
+
+        <figcaption className="absolute left-5 top-5 max-w-[16rem] sm:left-8 sm:top-8 sm:max-w-md">
+          <p className="ds-label mb-2" style={{ color: 'var(--color-accent)' }}>2006 → hoje</p>
+          <p className="text-xl font-bold leading-snug text-primary sm:text-3xl" style={{ textShadow: '0 1px 24px rgba(0,0,0,0.55)' }}>
+            Do primeiro chamado<br />ao deploy.
+          </p>
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+};
+
 const ExperienceTimeline = () => (
   <section id="percurso" aria-labelledby="percurso-title" className="py-20 text-primary sm:py-24" style={{ background: 'var(--color-background-deep)' }}>
     <div className={HOME_CONTAINER}>
@@ -53,6 +110,8 @@ const ExperienceTimeline = () => (
         title="Experiência & formação"
         description="Quase 20 anos entre suporte, QA e desenvolvimento — uma trajetória de evolução constante."
       />
+
+      <WorkspacePortrait />
 
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1.5fr)_minmax(280px,1fr)] lg:gap-20">
         {/* Linha do tempo profissional */}
