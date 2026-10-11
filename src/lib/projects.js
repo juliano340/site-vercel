@@ -39,4 +39,8 @@ const projects = [
   },
 ];
 
+// Projeto fixo em destaque na home. Ele não aparece na grade do
+// portfólio — um projeto, um lugar.
+export const FEATURED_PROJECT_TITLE = 'Finly';
+
 export default projects;

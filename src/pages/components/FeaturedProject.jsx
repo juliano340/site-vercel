@@ -1,9 +1,9 @@
 import SmartImage from '@/pages/components/SmartImage';
-import projects from '@/lib/projects';
+import projects, { FEATURED_PROJECT_TITLE } from '@/lib/projects';
 import { HOME_CONTAINER, HOME_LABEL, HOME_LINK } from '@/lib/homePresentation';
 
 const FeaturedProject = () => {
-  const project = projects.find(({ title }) => title === 'Finly');
+  const project = projects.find(({ title }) => title === FEATURED_PROJECT_TITLE) || projects[0];
   if (!project) return null;
 
   return (
@@ -19,13 +19,13 @@ const FeaturedProject = () => {
             href={project.projectUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Visitar Finly (nova aba)"
+            aria-label={`Visitar ${project.title} (nova aba)`}
             className="mono-focus-ring block overflow-hidden bg-background"
             style={{ borderRadius: 'var(--radius-md)' }}
           >
             <SmartImage
               src={project.imageUrl}
-              alt="Página inicial do Finly, com apresentação do aplicativo financeiro e painel de receitas e despesas"
+              alt={`Página inicial do ${project.title}`}
               width={1280}
               height={800}
               sizes="(max-width: 1023px) 100vw, 760px"

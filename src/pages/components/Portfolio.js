@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import projects from '@/lib/projects';
+import projects, { FEATURED_PROJECT_TITLE } from '@/lib/projects';
 
 const FILTERS = [
   { id: 'all', label: 'Todos' },
@@ -14,9 +14,12 @@ const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
 
+  // O projeto em destaque não se repete na grade — um projeto, um lugar.
+  const availableProjects = projects.filter((project) => project.title !== FEATURED_PROJECT_TITLE);
+
   const filteredProjects = filter === 'all'
-    ? projects
-    : projects.filter((project) => {
+    ? availableProjects
+    : availableProjects.filter((project) => {
         if (Array.isArray(project.category)) {
           return project.category.some((cat) => cat === filter);
         }

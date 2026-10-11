@@ -5,9 +5,9 @@ const CtaSection = () => {
   return (
     <section className="bg-surface py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 border-t border-subtle pt-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)] lg:items-end">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)] lg:items-end">
           <div>
-            <p className="ds-label mb-4">04 — Próximo passo</p>
+            <p className="ds-label mb-4">03 — Próximo passo</p>
             <h2 className="ds-h1 text-primary">
               Tem um projeto travado?<br />
               Vamos destravar.
