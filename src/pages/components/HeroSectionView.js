@@ -175,8 +175,8 @@ const RevealInHero = () => (
         alt="Juliano Pereira"
         fill
         sizes="(max-width: 1024px) 208px, 256px"
-        className="object-cover scale-[1.15]"
-        style={{ objectPosition: '48% 52%' }}
+        className="object-cover scale-[1.08]"
+        style={{ objectPosition: '48% 38%' }}
       />
     </div>
   </div>
