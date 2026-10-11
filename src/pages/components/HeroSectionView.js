@@ -60,16 +60,16 @@ const HeroSectionView = () => {
       <div className={`${HOME_CONTAINER} relative pb-14 pt-10 sm:pb-16 sm:pt-12 lg:pt-16`} style={{ perspective: '1000px' }}>
         <div ref={ref} style={{ willChange: 'transform, opacity' }}>
           <p
-            className="ds-label mb-6 flex items-center gap-3"
+            className="ds-label mb-6 flex items-center justify-center gap-3 lg:justify-start"
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.05s both' }}
           >
             <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--color-accent)' }} />
             Porto Alegre, Brasil
           </p>
 
-          <div className="grid items-center gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(240px,280px)] lg:gap-x-16">
+          <div className="grid items-center gap-y-10 sm:gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(240px,280px)] lg:gap-x-16">
             <div className="max-w-3xl">
-              <h1 id="home-title" className="ds-display flex flex-wrap gap-x-[0.28em]" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 3.4rem)', lineHeight: 1.1 }}>
+              <h1 id="home-title" className="ds-display flex flex-wrap justify-center gap-x-[0.28em] lg:justify-start" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 3.4rem)', lineHeight: 1.1 }}>
                 {WORDS.map(({ text, delay, accent }) => (
                   <span key={text} className="hero-mask inline-block">
                     <span
@@ -93,13 +93,13 @@ const HeroSectionView = () => {
               </h1>
 
               <p
-                className="ds-body mt-6 max-w-xl text-muted"
+                className="ds-body mx-auto mt-6 max-w-xl text-center text-muted lg:mx-0 lg:text-left"
                 style={{ animation: `fadeIn 0.8s var(--motion-ease-cinematic) 0.55s both` }}
               >
                 Construo aplicações web de ponta a ponta — TypeScript, Next.js e IA aplicada, do primeiro commit ao deploy.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 lg:justify-start" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
                 <a href="#portfolio" className={HOME_BUTTON}>Ver projetos</a>
                 <Link href="/contato" legacyBehavior><a className={HOME_LINK}>Fale comigo</a></Link>
               </div>
@@ -109,15 +109,15 @@ const HeroSectionView = () => {
             <RevealInHero />
           </div>
 
-          <div className="max-w-3xl lg:col-start-1" style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' }}>
-            <p className="ds-body mt-8 max-w-xl text-muted lg:mt-0">
+          <div className="mx-auto max-w-3xl lg:col-start-1 lg:mx-0" style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' }}>
+            <p className="ds-body mt-2 max-w-xl text-center text-muted sm:mt-8 lg:mt-0 lg:text-left">
               Sou graduado em <strong className="text-primary">Sistemas para Internet</strong> pela
               <strong className="text-primary"> Unisinos</strong> e pós-graduando em
               <strong className="text-primary"> Engenharia de Qualidade e Teste de Software</strong> na
               <strong className="text-primary"> PUC Minas</strong>. Tenho experiência prática com front-end, back-end,
               testes e suporte técnico — e gosto de transformar ideias em soluções digitais funcionais.
             </p>
-            <div className="mt-6" style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 1.1s both' }}>
+            <div className="mt-6 flex justify-center lg:justify-start" style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 1.1s both' }}>
               <Link href="/sobre" legacyBehavior>
                 <a className="mono-focus-ring inline-flex min-h-11 items-center gap-2 text-sm font-bold hover:underline underline-offset-4">
                   Currículo completo →
@@ -141,7 +141,7 @@ const HeroSectionView = () => {
 // Foto entra com máscara + glow ring; tilt suave no hover.
 const RevealInHero = () => (
   <div
-    className="group relative lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:justify-self-end"
+    className="group relative mx-auto justify-self-center lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:justify-self-end"
     style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.45s both' }}
   >
     <div
