@@ -16,16 +16,16 @@ const TIMELINE = [
     current: true,
   },
   {
-    period: 'Dez 2022 — Jun 2025',
-    role: 'Suporte → QA → Full Stack',
-    company: 'Dataweb Tecnologia',
-    highlight: 'Evolução interna até dev full stack no ERP (.NET / Angular).',
-  },
-  {
     period: 'Ago 2025 — Dez 2025',
     role: 'Analista de Suporte',
     company: 'LWSA · Bling ERP',
     highlight: 'Integrações com marketplaces e APIs REST.',
+  },
+  {
+    period: 'Dez 2022 — Jun 2025',
+    role: 'Suporte → QA → Full Stack',
+    company: 'Dataweb Tecnologia',
+    highlight: 'Evolução interna até dev full stack no ERP (.NET / Angular).',
   },
   {
     period: 'Set 2022 — Dez 2022',
