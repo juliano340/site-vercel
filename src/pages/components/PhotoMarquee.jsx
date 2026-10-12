@@ -3,22 +3,29 @@ import { useEffect, useRef } from 'react';
 import useScrollProgress from '@/lib/useScrollProgress';
 
 // Backdrop do hero: faixa infinita de fotos atrás do conteúdo.
-// - Track duplicado (2ª metade aria-hidden) → loop sem emenda
-// - Loop automático linear e calmo (40s; 120s com prefers-reduced-motion)
-// - O scroll dá um giro extra no carrossel (acelera pela velocidade) e,
-//   ao parar de rolar, ele desacelera de volta ao ritmo calmo
-// - Deslocamento leve ligado ao progresso do scroll
-// - Camada decorativa: o texto vive acima, com scrim no meio
+//
+// Desktop (ponteiro fino): "pin" no topo — a página não desce; a rolagem
+// avança o carrossel PIN_ADVANCE de uma volta e só então libera o scroll.
+// Volta ao topo re-arma. Teclado/barra de rolagem passam direto (escape).
+//
+// Mobile: loop calmo + aceleração pela velocidade do scroll (sem pin).
+//
+// prefers-reduced-motion: loop lento (120s, ver globals.css); o pin continua
+// porque é movimento dirigido pelo usuário.
 
 const PHOTOS = [
   { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
+  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
   { src: '/images/profile-about.png', alt: '', position: '48% 34%' },
   { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%' },
-  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
   { src: '/images/ens-3.jpg', alt: '', position: '60% 52%' },
 ];
 
-// Rampa da aceleração: velocidade do scroll (px/s) → multiplicador do loop
+// Pin: quanto de uma volta o scroll avança, e quanta rolagem isso exige
+const PIN_ADVANCE = 1; // 1 = volta completa (baixe pra 0.5/0.6 pra encurtar)
+const PIN_SCROLL_RATIO = 1.2; // múltiplos da altura da viewport
+
+// Aceleração (modo sem pin): velocidade do scroll (px/s) → multiplicador do loop
 const VELOCITY_REF = 800;
 const MAX_RATE = 6;
 const EASE = 0.12;
@@ -41,15 +48,17 @@ const Card = ({ photo, priority }) => (
         sizes="(max-width: 640px) 34vh, 47vh"
         priority={priority}
         className="scale-[1.02] object-cover"
-        style={{ objectPosition: photo.position, opacity: 0.97 }}
+        style={{ objectPosition: photo.position, filter: 'brightness(1.06)' }}
         aria-hidden="true"
       />
     </span>
   </span>
 );
 
-const PhotoMarquee = () => {
+const PhotoMarquee = ({ onPinProgress }) => {
   const trackRef = useRef(null);
+  const progressCb = useRef(onPinProgress);
+  progressCb.current = onPinProgress;
 
   // Deslocamento leve conforme o hero sai de cena (as fotos correm junto do scroll)
   const driftRef = useScrollProgress((progress) => {
@@ -59,24 +68,119 @@ const PhotoMarquee = () => {
     el.style.transform = `translate3d(${(-p * 10).toFixed(2)}vw, 0, 0)`;
   });
 
-  // Scroll acelera o loop; ao parar, a velocidade decai de volta ao ritmo calmo.
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return undefined;
-    if (typeof track.getAnimations !== 'function') return undefined;
 
+    const report = (value) => {
+      if (progressCb.current) progressCb.current(value);
+    };
+    const getAnim = () => {
+      if (typeof track.getAnimations !== 'function') return null;
+      const [anim] = track.getAnimations();
+      return anim || null;
+    };
+
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    // ── Modo pin (desktop): a rolagem avança o carrossel antes de descer ──
+    if (finePointer) {
+      let anim = null;
+      let startTime = 0;
+      let duration = 40000;
+      let progress = 0;
+      let wheelAccum = 0;
+      let pinned = false;
+      let released = false;
+
+      const begin = () => {
+        anim = anim || getAnim();
+        if (!anim) return false;
+        duration = Number(anim.effect?.getTiming?.().duration) || duration;
+        anim.pause();
+        startTime = Number(anim.currentTime) || 0;
+        pinned = true;
+        released = false;
+        wheelAccum = 0;
+        progress = 0;
+        report(0);
+        return true;
+      };
+
+      const finish = () => {
+        pinned = false;
+        released = true;
+        if (anim) {
+          anim.playbackRate = 1;
+          anim.play();
+        }
+        report(null);
+      };
+
+      const advance = (deltaPx) => {
+        wheelAccum += deltaPx;
+        const limit = PIN_SCROLL_RATIO * window.innerHeight;
+        progress = Math.min(1, Math.max(0, wheelAccum / limit));
+        if (anim) {
+          anim.currentTime = (startTime + progress * PIN_ADVANCE * duration) % duration;
+        }
+        report(progress);
+        if (progress >= 1) finish();
+      };
+
+      const onWheel = (event) => {
+        if (released) return;
+        if (!pinned) {
+          if (window.scrollY > 4) return;
+          if (!begin()) return;
+        }
+        event.preventDefault();
+        advance(event.deltaY);
+      };
+
+      const onTouchMove = (event) => {
+        if (released) return;
+        if (!pinned) {
+          if (window.scrollY > 4) return;
+          if (!begin()) return;
+        }
+        event.preventDefault();
+        const y = event.touches[0].clientY;
+        if (onTouchMove.last === undefined) onTouchMove.last = y;
+        advance((onTouchMove.last - y) * 2.2);
+        onTouchMove.last = y;
+      };
+
+      // Escape por teclado/barra de rolagem; re-arma ao voltar pro topo
+      const onScroll = () => {
+        if (pinned && window.scrollY > 4) finish();
+        if (released && window.scrollY <= 4) released = false;
+      };
+
+      window.addEventListener('wheel', onWheel, { passive: false });
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('scroll', onScroll, { passive: true });
+      return () => {
+        window.removeEventListener('wheel', onWheel);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('scroll', onScroll);
+        if (pinned) finish();
+      };
+    }
+
+    // ── Modo sem pin (mobile): acelera conforme a velocidade do scroll ──
     let raf = 0;
     let rate = 1;
     let lastY = window.scrollY;
     let lastT = performance.now();
-    let velocity = 0; // px/s
+    let velocity = 0;
 
     const loop = () => {
       velocity *= DECAY;
       const target = velocity > 30 ? Math.min(MAX_RATE, 1 + velocity / VELOCITY_REF) : 1;
       rate += (target - rate) * EASE;
 
-      const [anim] = track.getAnimations();
+      const anim = getAnim();
       if (anim) anim.playbackRate = rate;
 
       const settled = Math.abs(rate - 1) < 0.02 && velocity < 30;

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import useScrollProgress from '@/lib/useScrollProgress';
-import { useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { HOME_CONTAINER, HOME_LINK, HOME_BUTTON } from '@/lib/homePresentation';
 import PhotoMarquee from '@/pages/components/PhotoMarquee';
 
@@ -17,6 +17,17 @@ const FICHA = [
 
 const HeroSectionView = () => {
   const ref = useRef(null);
+  const [pinProgress, setPinProgress] = useState(null);
+
+  // Progresso do "pin" do carrossel (0..1) ou null quando liberado.
+  // Throttle por delta pra não re-renderizar a cada pixel de rolagem.
+  const handlePinProgress = useCallback((value) => {
+    setPinProgress((prev) => {
+      if (value === null) return prev === null ? prev : null;
+      if (prev !== null && Math.abs(value - prev) < 0.02 && value < 1) return prev;
+      return value;
+    });
+  }, []);
 
   useScrollProgress((progress) => {
     const el = ref.current;
@@ -29,16 +40,26 @@ const HeroSectionView = () => {
   return (
     <section aria-labelledby="home-title" className="relative flex min-h-[80vh] flex-col justify-center overflow-hidden bg-background text-primary lg:min-h-[calc(100vh-5rem)]">
       {/* ── Fotos correndo atrás do conteúdo (movimento lento e contínuo) ── */}
-      <PhotoMarquee />
+      <PhotoMarquee onPinProgress={handlePinProgress} />
 
       {/* ── Scrim: escurece onde o texto vive sem apagar as fotos ── */}
+      {/* Mobile: texto ocupa a largura toda → escurecimento mais forte */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-10"
+        className="absolute inset-0 z-10 lg:hidden"
         style={{
           background:
-            'linear-gradient(180deg, rgba(18,18,18,0.95) 0%, rgba(18,18,18,0.55) 22%, rgba(18,18,18,0.5) 65%, rgba(18,18,18,0.97) 100%), ' +
-            'linear-gradient(95deg, rgba(18,18,18,0.96) 0%, rgba(18,18,18,0.86) 26%, rgba(18,18,18,0.45) 55%, rgba(18,18,18,0.2) 78%, rgba(18,18,18,0.4) 100%)',
+            'linear-gradient(180deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.66) 20%, rgba(18,18,18,0.64) 70%, rgba(18,18,18,0.96) 100%)',
+        }}
+      />
+      {/* Desktop: fotos mais visíveis à direita, texto escuro à esquerda */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-10 hidden lg:block"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(18,18,18,0.86) 0%, rgba(18,18,18,0.3) 22%, rgba(18,18,18,0.26) 65%, rgba(18,18,18,0.9) 100%), ' +
+            'linear-gradient(95deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.62) 26%, rgba(18,18,18,0.2) 55%, rgba(18,18,18,0.05) 78%, rgba(18,18,18,0.12) 100%)',
         }}
       />
       {/* Glow da marca por cima, bem discreto */}
@@ -126,6 +147,30 @@ const HeroSectionView = () => {
             ))}
           </dl>
         </div>
+      </div>
+
+      {/* ── Pista do pin: rolagem gira o carrossel antes de descer ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-3"
+        style={{
+          opacity: pinProgress === null ? 0 : Math.max(0, 1 - pinProgress),
+          transition: 'opacity 300ms var(--motion-ease-cinematic)',
+        }}
+      >
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]" style={{ color: 'var(--color-dim)' }}>
+          role para girar
+        </span>
+        <span className="block h-[2px] w-40 overflow-hidden rounded-full" style={{ background: 'var(--color-border)' }}>
+          <span
+            className="block h-full rounded-full"
+            style={{
+              width: `${Math.round((pinProgress || 0) * 100)}%`,
+              background: 'var(--color-accent)',
+              transition: 'width 120ms linear',
+            }}
+          />
+        </span>
       </div>
     </section>
   );
