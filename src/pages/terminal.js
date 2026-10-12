@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import { useRouter } from 'next/router';
 
 const REQUIRED_COMMAND = 'npm start';
@@ -291,13 +291,12 @@ const TerminalPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Terminal de Inicializacao | Juliano</title>
-        <meta
-          name="description"
-          content="Landing imersiva em formato de terminal para iniciar o portfolio com npm start."
-        />
-      </Head>
+      <SEO
+        title="Terminal de Inicializacao"
+        description="Landing imersiva em formato de terminal para iniciar o portfolio com npm start."
+        path="/terminal"
+        noindex
+      />
 
       <main className="relative min-h-[100svh] overflow-hidden bg-[#0a120c] text-[#9df4b8]">
         <div className="grid-pattern pointer-events-none absolute inset-0 opacity-40" />

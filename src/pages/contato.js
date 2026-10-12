@@ -1,3 +1,4 @@
+import SEO from '@/pages/components/SEO';
 import { useState } from 'react';
 import Breadcrumb from './components/Breadcrumb';
 
@@ -98,6 +99,11 @@ const Contato = () => {
       className="relative min-h-screen overflow-x-hidden py-12"
       style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
     >
+      <SEO
+        title="Contato"
+        description="Fale com Juliano Pereira (@juliano340): orçamentos, projetos e parcerias. Desenvolvedor full stack — Next.js, TypeScript e IA aplicada."
+        path="/contato"
+      />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Breadcrumb paths={[{ label: 'Home', href: '/' }, { label: 'Contato', href: '/contato' }]} />
 

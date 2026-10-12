@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Breadcrumb from './components/Breadcrumb';
 
 const EXPERIENCES = [
@@ -71,18 +71,13 @@ const SKILL_GROUPS = [
 const Sobre = () => {
   return (
     <>
-      <Head>
-        <title>Sobre | Juliano340</title>
-        <meta
-          name="description"
-          content="Trajetória de Juliano Pereira (@juliano340) — desenvolvedor full stack: experiência profissional, stack e formação."
-        />
-        <link rel="canonical" href="https://www.juliano340.com/sobre" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Sobre | Juliano340" />
-        <meta property="og:description" content="Experiência profissional, stack e formação de Juliano Pereira — desenvolvedor full stack." />
-        <meta property="og:url" content="https://www.juliano340.com/sobre" />
-      </Head>
+      <SEO
+        title="Sobre"
+        description="Trajetória de Juliano Pereira (@juliano340) — desenvolvedor full stack: experiência profissional, stack e formação."
+        path="/sobre"
+        image="/og/sobre.png"
+        type="profile"
+      />
 
       <main className="bg-background text-primary">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

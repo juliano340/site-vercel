@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Link from 'next/link';
 
 const faqs = [
@@ -37,13 +37,11 @@ const faqs = [
 const RunLabSuportePage = () => {
   return (
     <>
-      <Head>
-        <title>RunLab - Central de Suporte</title>
-        <meta
-          name="description"
-          content="Central de suporte oficial do RunLab com orientacoes de backup, exportacao JSON, importacao e FAQ."
-        />
-      </Head>
+      <SEO
+        title="RunLab — Central de Suporte"
+        description="Central de suporte oficial do RunLab com orientacoes de backup, exportacao JSON, importacao e FAQ."
+        path="/runlab/suporte"
+      />
 
       <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <section className="relative overflow-hidden border-b border-green-100 dark:border-green-900/40">

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import SEO from '@/pages/components/SEO';
 import Breadcrumb from '../components/Breadcrumb';
 import { getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
 import { calculateReadingTimeFromBlocks } from '@/lib/readingTime';
@@ -369,19 +370,24 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
         { label: pageTitle, href: '#' },
     ];
 
+    const tags = post.properties?.Tags?.multi_select?.map(t => t.name) || [];
+
+    const postImageUrl = `/api/og?title=${encodeURIComponent(pageTitle)}&tag=${encodeURIComponent(tags[0] || '')}&date=${encodeURIComponent(post.created_time || '')}`;
+
     return (
         <>
+            <SEO
+                title={`${pageTitle} | @JULIANO340`}
+                description={metaDescription}
+                path={`/blog/${slug}`}
+                type="article"
+                image={postImageUrl}
+                imageAlt={pageTitle}
+                publishedTime={post.created_time}
+                modifiedTime={post.last_edited_time}
+                tags={tags}
+            />
             <Head>
-                <title>{`${pageTitle} | @JULIANO340`}</title>
-                <meta name="description"        content={metaDescription} />
-                <link rel="canonical"           href={canonical} />
-                <meta property="og:type"        content="article" />
-                <meta property="og:title"       content={pageTitle} />
-                <meta property="og:description" content={metaDescription} />
-                <meta property="og:url"         content={canonical} />
-                <meta name="twitter:card"       content="summary_large_image" />
-                <meta name="twitter:title"      content={pageTitle} />
-                <meta name="twitter:description" content={metaDescription} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{

@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Link from 'next/link';
 
 const LandingRunLab = () => {
@@ -71,10 +71,11 @@ const LandingRunLab = () => {
 
   return (
     <>
-      <Head>
-        <title>RunLab - Seu Parceiro de Corridas</title>
-        <meta name="description" content="RunLab - App para registrar suas corridas. Estatísticas, GPS e muito mais. Grátis e 100% offline." />
-      </Head>
+      <SEO
+        title="RunLab — Seu Parceiro de Corridas"
+        description="RunLab - App para registrar suas corridas. Estatísticas, GPS e muito mais. Grátis e 100% offline."
+        path="/runlab"
+      />
 
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
 

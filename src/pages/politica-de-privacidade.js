@@ -1,16 +1,14 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Link from 'next/link';
 
 const PoliticaDePrivacidade = () => {
   return (
     <>
-      <Head>
-        <title>Política de Privacidade | Juliano340</title>
-        <meta
-          name="description"
-          content="Política de Privacidade do site juliano340.com sobre uso de cookies, Meta Pixel, Google Analytics e Google Ads."
-        />
-      </Head>
+      <SEO
+        title="Política de Privacidade"
+        description="Política de Privacidade do site juliano340.com sobre uso de cookies, Meta Pixel, Google Analytics e Google Ads."
+        path="/politica-de-privacidade"
+      />
 
       <main
         className="min-h-screen px-4 py-12 sm:px-6 lg:px-8"

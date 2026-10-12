@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -15,10 +15,11 @@ const PrivacidadeRunLab = () => {
 
   return (
     <>
-      <Head>
-        <title>Política de Privacidade - RunLab</title>
-        <meta name="description" content="Política de Privacidade do RunLab - App de registro de corridas" />
-      </Head>
+      <SEO
+        title="Política de Privacidade — RunLab"
+        description="Política de Privacidade do RunLab - App de registro de corridas"
+        path="/privacidade-runlab"
+      />
 
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">

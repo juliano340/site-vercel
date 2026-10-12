@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/pages/components/SEO';
 import Container from '@/pages/components/ds/DsContainer';
 import { SectionHeader } from '@/pages/components/ds/DsSectionHeader';
 import { Button, IconButton } from '@/pages/components/ds/DsButton';
@@ -26,10 +26,12 @@ const LabSection = ({ title, children }) => (
 
 const DesignSystemPage = () => (
   <>
-    <Head>
-      <title>Design System Lab | Juliano</title>
-      <meta name="robots" content="noindex, nofollow" />
-    </Head>
+    <SEO
+      title="Design System Lab"
+      description="Referência interna de design system do site."
+      path="/design-system"
+      noindex
+    />
     <main className="bg-background text-primary">
       <Container>
         <div className="py-12">

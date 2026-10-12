@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getBlocks, getDatabase, getUserDetails } from '../lib/notion';
 import Link from 'next/link';
+import SEO from '@/pages/components/SEO';
 import Breadcrumb from './components/Breadcrumb';
 import { calculateReadingTimeFromBlocks } from '@/lib/readingTime';
 
@@ -249,6 +250,12 @@ const Blog = ({ posts, generatedAt }) => {
             className="min-h-screen"
             style={{ background: 'var(--color-background)', color: 'var(--color-text)' }}
         >
+            <SEO
+                title="Blog"
+                description="Insights práticos, tendências e análises para quem constrói negócios na nova economia digital."
+                path="/blog"
+                image="/og/blog.png"
+            />
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
                 <Breadcrumb paths={breadcrumbPaths} />
 
