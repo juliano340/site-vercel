@@ -10,7 +10,7 @@ export const SITE_LOCALE = 'pt_BR';
 export const TWITTER_HANDLE = '@JULIANO340';
 
 export const DEFAULT_DESCRIPTION =
-  'Desenvolvedor full stack. Construo MVPs, sistemas e sites com Next.js, TypeScript e IA aplicada — do conceito ao deploy.';
+  'IA aplicada com processo de qualidade real — ISO 25010, CMMI, PSP e TDD. Do suporte em produção (Sicredi, Bling ERP) ao código, do conceito ao deploy.';
 
 // 1200x630 é o tamanho ideal para Open Graph e Twitter summary_large_image.
 // Uma única imagem PNG serve o site inteiro (gerada por scripts/generate-og.mjs).

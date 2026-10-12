@@ -150,7 +150,7 @@ export const getOgElement = () =>
         ['Desenvolvedor', 'Full Stack'].map((line) => h('div', { key: line, style: { display: 'flex' } }, line))
       ),
 
-      h(Terminal, { label: '~/juliano340 deploy --role=full-stack --since=2006' })
+      h(Terminal, { label: '~/juliano340 ship --stack=next+ia --gate=iso25010' })
     ),
 
     // ── Rodapé ──

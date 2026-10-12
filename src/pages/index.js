@@ -21,7 +21,7 @@ const IndexGatePage = () => {
       <SEO
         title="Juliano Pereira | Dev Full Stack — IA e qualidade de software"
         seoTitle="Desenvolvedor Full Stack em Porto Alegre | Juliano Pereira"
-        description="Desenvolvedor full stack. Construo MVPs, sistemas e sites com Next.js, TypeScript e IA aplicada — do conceito ao deploy, com comunicação direta."
+        description="IA aplicada com processo de qualidade real — ISO 25010, CMMI, PSP e TDD. Do suporte em produção (Sicredi, Bling ERP) ao código, do conceito ao deploy."
         path={HOME_PATH}
         noindex
       />

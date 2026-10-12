@@ -72,7 +72,8 @@ const Sobre = () => {
   return (
     <>
       <SEO
-        title="Sobre"
+        title="Juliano Pereira | Sobre, stack e trajetória"
+        seoTitle="Sobre — Juliano Pereira | Desenvolvedor Full Stack em Porto Alegre"
         description="Trajetória de Juliano Pereira (@juliano340) — desenvolvedor full stack: experiência profissional, stack e formação."
         path="/sobre"
         type="profile"
