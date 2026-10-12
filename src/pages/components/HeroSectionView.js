@@ -43,13 +43,14 @@ const HeroSectionView = () => {
       <PhotoMarquee onPinProgress={handlePinProgress} />
 
       {/* ── Scrim: escurece onde o texto vive sem apagar as fotos ── */}
-      {/* Mobile: texto ocupa a largura toda → escurecimento mais forte */}
+      {/* Mobile: texto ocupa a largura toda → base mais escura + peso à esquerda */}
       <div
         aria-hidden="true"
         className="absolute inset-0 z-10 lg:hidden"
         style={{
           background:
-            'linear-gradient(180deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.66) 20%, rgba(18,18,18,0.64) 70%, rgba(18,18,18,0.96) 100%)',
+            'linear-gradient(180deg, rgba(18,18,18,0.94) 0%, rgba(18,18,18,0.76) 18%, rgba(18,18,18,0.74) 72%, rgba(18,18,18,0.96) 100%), ' +
+            'linear-gradient(105deg, rgba(18,18,18,0.6) 0%, rgba(18,18,18,0.34) 55%, rgba(18,18,18,0.12) 100%)',
         }}
       />
       {/* Desktop: fotos mais visíveis à direita, texto escuro à esquerda */}
@@ -103,8 +104,8 @@ const HeroSectionView = () => {
 
           {/* Assinatura em terminal — amarra com a página /terminal */}
           <p
-            className="mt-5 flex font-mono text-xs sm:text-sm"
-            style={{ color: 'var(--color-dim)', animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' }}
+            className="mt-5 flex font-mono text-xs text-[var(--color-muted)] sm:text-sm lg:text-[var(--color-dim)]"
+            style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' }}
             aria-label="Terminal: deploy com papel de desenvolvedor full stack, desde 2006"
           >
             <span aria-hidden="true" style={{ color: 'var(--color-accent)' }}>$&nbsp;</span>
@@ -114,26 +115,28 @@ const HeroSectionView = () => {
           </p>
 
           <p
-            className="ds-body-lg mt-6 max-w-xl text-muted"
+            className="ds-body-lg mt-6 max-w-xl text-primary/90 lg:text-muted"
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.55s both' }}
           >
             Tiro ideias do papel com código que sobrevive à produção — Next.js, TypeScript
             e o olhar de QA que aprendi dentro de ERPs e sistemas críticos.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7 sm:gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
             <a href="#portfolio" className={`${HOME_BUTTON} group`}>
               Ver projetos
               <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
-            <Link href="/contato" legacyBehavior><a className={HOME_LINK}>Fale comigo</a></Link>
-            <Link href="/sobre" legacyBehavior><a className={HOME_LINK}>Currículo</a></Link>
+            <div className="flex items-center justify-center gap-7 sm:justify-start">
+              <Link href="/contato" legacyBehavior><a className={HOME_LINK}>Fale comigo</a></Link>
+              <Link href="/sobre" legacyBehavior><a className={HOME_LINK}>Currículo</a></Link>
+            </div>
           </div>
 
           {/* Ficha em mono — o dado frio que dá contexto */}
           <dl
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em]"
-            style={{ color: 'var(--color-dim)', animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' }}
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--color-muted)] lg:text-[var(--color-dim)]"
+            style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' }}
           >
             {FICHA.map(({ label, live }) => (
               <div key={label} className="flex items-center gap-2">

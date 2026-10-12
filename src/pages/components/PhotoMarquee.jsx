@@ -90,8 +90,8 @@ const PhotoMarquee = ({ onPinProgress }) => {
       let duration = 40000;
       let progress = 0;
       let wheelAccum = 0;
-      let pinned = false;
-      let released = false;
+      // idle: no topo e ainda armado · pinned: girando com a rolagem · released: já desceu
+      let mode = 'idle';
 
       const begin = () => {
         anim = anim || getAnim();
@@ -99,17 +99,17 @@ const PhotoMarquee = ({ onPinProgress }) => {
         duration = Number(anim.effect?.getTiming?.().duration) || duration;
         anim.pause();
         startTime = Number(anim.currentTime) || 0;
-        pinned = true;
-        released = false;
+        mode = 'pinned';
         wheelAccum = 0;
         progress = 0;
         report(0);
         return true;
       };
 
-      const finish = () => {
-        pinned = false;
-        released = true;
+      const resume = (nextMode) => {
+        mode = nextMode;
+        wheelAccum = 0;
+        progress = 0;
         if (anim) {
           anim.playbackRate = 1;
           anim.play();
@@ -119,19 +119,25 @@ const PhotoMarquee = ({ onPinProgress }) => {
 
       const advance = (deltaPx) => {
         wheelAccum += deltaPx;
+        // Rolou de volta pro zero (gesto pra cima): solta e volta a girar sozinho
+        if (wheelAccum <= 0) {
+          resume('idle');
+          return;
+        }
         const limit = PIN_SCROLL_RATIO * window.innerHeight;
         progress = Math.min(1, Math.max(0, wheelAccum / limit));
         if (anim) {
           anim.currentTime = (startTime + progress * PIN_ADVANCE * duration) % duration;
         }
         report(progress);
-        if (progress >= 1) finish();
+        if (progress >= 1) resume('released');
       };
 
       const onWheel = (event) => {
-        if (released) return;
-        if (!pinned) {
+        if (mode === 'released') return;
+        if (mode === 'idle') {
           if (window.scrollY > 4) return;
+          if (event.deltaY <= 0) return; // só engata girando pra baixo
           if (!begin()) return;
         }
         event.preventDefault();
@@ -139,8 +145,8 @@ const PhotoMarquee = ({ onPinProgress }) => {
       };
 
       const onTouchMove = (event) => {
-        if (released) return;
-        if (!pinned) {
+        if (mode === 'released') return;
+        if (mode === 'idle') {
           if (window.scrollY > 4) return;
           if (!begin()) return;
         }
@@ -153,8 +159,8 @@ const PhotoMarquee = ({ onPinProgress }) => {
 
       // Escape por teclado/barra de rolagem; re-arma ao voltar pro topo
       const onScroll = () => {
-        if (pinned && window.scrollY > 4) finish();
-        if (released && window.scrollY <= 4) released = false;
+        if (mode === 'pinned' && window.scrollY > 4) resume('released');
+        if (mode === 'released' && window.scrollY <= 4) mode = 'idle';
       };
 
       window.addEventListener('wheel', onWheel, { passive: false });
@@ -164,7 +170,7 @@ const PhotoMarquee = ({ onPinProgress }) => {
         window.removeEventListener('wheel', onWheel);
         window.removeEventListener('touchmove', onTouchMove);
         window.removeEventListener('scroll', onScroll);
-        if (pinned) finish();
+        if (mode === 'pinned') resume('idle');
       };
     }
 
