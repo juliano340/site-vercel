@@ -12,7 +12,7 @@ const Custom404 = () => {
       <SEO
         title="Página não encontrada"
         description="A página que você está procurando não existe."
-        path="/404"
+        path={null}
         noindex
       />
       <p className="ds-label mb-3">Erro 404</p>

@@ -14,6 +14,7 @@ export default async function handler(req, res) {
 
     const urls = [
       { loc: 'https://www.juliano340.com/home', priority: '1.0', changefreq: 'daily' },
+      { loc: 'https://www.juliano340.com/sobre', priority: '0.8', changefreq: 'monthly' },
       { loc: 'https://www.juliano340.com/blog', priority: '0.9', changefreq: 'daily' },
       { loc: 'https://www.juliano340.com/contato', priority: '0.5', changefreq: 'monthly' },
       { loc: 'https://www.juliano340.com/links', priority: '0.5', changefreq: 'monthly' },

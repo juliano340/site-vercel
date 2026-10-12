@@ -12,7 +12,6 @@ const HomePage = () => {
         title="Juliano340 | Desenvolvedor Full Stack — Next.js, TypeScript e IA"
         description="Desenvolvedor full stack. Construo MVPs, sistemas e sites com Next.js, TypeScript e IA aplicada — do conceito ao deploy, com comunicação direta."
         path="/home"
-        image="/og/default.png"
       />
       <main id="home-content" tabIndex={-1}>
         <HeroSectionView />

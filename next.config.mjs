@@ -7,11 +7,6 @@ const nextConfig = {
     // Geração estática sequencial (1 worker) para respeitar o rate limit da API da Notion
     cpus: 1,
     optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect', 'prismjs'],
-    // Garante que fontes e fallback da API de OG dinâmica sejam incluídos
-    // no bundle traced (serverless/standalone).
-    outputFileTracingIncludes: {
-      '/api/og': ['./src/assets/fonts/**/*', './public/og/*'],
-    },
   },
   // Timeout maior para absorver retries com backoff contra a API da Notion
   staticPageGenerationTimeout: 300,

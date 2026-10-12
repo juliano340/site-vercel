@@ -5,6 +5,7 @@ import SEO from '@/pages/components/SEO';
 import Breadcrumb from '../components/Breadcrumb';
 import { getPublishedPosts, getPage, getBlocks } from '../../lib/notion';
 import { calculateReadingTimeFromBlocks } from '@/lib/readingTime';
+import { OG_IMAGE_URL, absoluteUrl, SITE_URL } from '@/lib/seo';
 
 const AUTHOR_NAME   = 'Juliano Pereira';
 const AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/87342139?v=4';
@@ -315,9 +316,9 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
     const firstParagraph = blocks?.find(b => b.type === 'paragraph')?.paragraph?.rich_text?.map(t => t?.text?.content || '').join(' ') || '';
     const metaDescription = repairText(descRaw || firstParagraph).slice(0, 160) || 'Artigo sobre tecnologia, empreendedorismo e IA.';
 
-    const canonical      = `https://www.juliano340.com/blog/${slug}`;
+    const canonical      = absoluteUrl(`/blog/${slug}`);
     const readingTime    = calculateReadingTimeFromBlocks(blocks);
-    const shareUrl       = typeof window !== 'undefined' ? window.location.href : `https://www.juliano340.com/blog/${slug}`;
+    const shareUrl       = typeof window !== 'undefined' ? window.location.href : canonical;
     const shareTitle     = encodeURIComponent(pageTitle);
     const tableOfContents = extractTableOfContents(blocks);
 
@@ -372,19 +373,16 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
 
     const tags = post.properties?.Tags?.multi_select?.map(t => t.name) || [];
 
-    const postImageUrl = `/api/og?title=${encodeURIComponent(pageTitle)}&tag=${encodeURIComponent(tags[0] || '')}&date=${encodeURIComponent(post.created_time || '')}`;
-
     return (
         <>
             <SEO
-                title={`${pageTitle} | @JULIANO340`}
+                title={pageTitle}
                 description={metaDescription}
                 path={`/blog/${slug}`}
                 type="article"
-                image={postImageUrl}
-                imageAlt={pageTitle}
                 publishedTime={post.created_time}
                 modifiedTime={post.last_edited_time}
+                section={tags[0]}
                 tags={tags}
             />
             <Head>
@@ -401,13 +399,13 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                             author: {
                                 '@type': 'Person',
                                 name: AUTHOR_NAME,
-                                url: 'https://www.juliano340.com',
+                                url: SITE_URL,
                             },
                             mainEntityOfPage: {
                                 '@type': 'WebPage',
                                 '@id': canonical,
                             },
-                            image: `https://picsum.photos/seed/${post.id}/1200/600`,
+                            image: OG_IMAGE_URL,
                             publisher: {
                                 '@type': 'Person',
                                 name: AUTHOR_NAME,

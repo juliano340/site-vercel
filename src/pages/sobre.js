@@ -75,8 +75,12 @@ const Sobre = () => {
         title="Sobre"
         description="Trajetória de Juliano Pereira (@juliano340) — desenvolvedor full stack: experiência profissional, stack e formação."
         path="/sobre"
-        image="/og/sobre.png"
         type="profile"
+        profile={{
+          firstName: 'Juliano',
+          lastName: 'Pereira',
+          username: '/sobre',
+        }}
       />
 
       <main className="bg-background text-primary">
