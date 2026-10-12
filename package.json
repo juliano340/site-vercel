@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node --import ./scripts/og-load-register.mjs scripts/generate-og.mjs || echo '⚠ og: imagens estáticas mantidas (fallback commitado)'",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "og": "node --import ./scripts/og-load-register.mjs scripts/generate-og.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
