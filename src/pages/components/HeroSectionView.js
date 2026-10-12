@@ -38,7 +38,7 @@ const HeroSectionView = () => {
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative flex min-h-[80vh] flex-col justify-center overflow-hidden bg-background text-primary lg:min-h-[calc(100vh-5rem)]">
+    <section aria-labelledby="home-title" className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden bg-background text-primary lg:min-h-[calc(100vh-5rem)]">
       {/* ── Fotos correndo atrás do conteúdo (movimento lento e contínuo) ── */}
       <PhotoMarquee onPinProgress={handlePinProgress} />
 

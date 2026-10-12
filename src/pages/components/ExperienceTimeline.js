@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import SmartImage from '@/pages/components/SmartImage';
 import Reveal from '@/pages/components/Reveal';
 import SectionHeader from '@/pages/components/SectionHeader';
-import useScrollProgress from '@/lib/useScrollProgress';
 import { HOME_CONTAINER } from '@/lib/homePresentation';
 
 // Versão resumida e profissional da trajetória (detalhes completos em /sobre).
@@ -47,54 +46,149 @@ const FORMACAO = [
   { period: '2019', name: 'MBA Gestão Empresarial e Marketing', place: 'Uninter' },
 ];
 
-// Momento editorial: retrato top-down como "palco" — o espaço negativo
-// carrega a frase. Parallax leve no interior, vinheta para amarrar no fundo.
+// Momento editorial: galeria deslizável com a foto de capa e as demais
+// passando ao lado (swipe no mobile, chevrons no desktop).
+// Scrim e legenda ficam fixos — a foto desliza por baixo.
+const GALLERY = [
+  {
+    src: '/images/workspace-topdown.jpg',
+    alt: 'Juliano visto de cima, sentado numa poltrona de couro com notebook, caderno e café num estúdio amplo e claro',
+    position: '[object-position:70%_44%] sm:[object-position:66%_46%]',
+  },
+  {
+    src: '/images/40b7ebcb-5ac8-47df-9f4f-228afe7d698c.png',
+    alt: 'Retrato profissional de Juliano de camisa verde, sorrindo para a câmera num escritório claro',
+    position: '[object-position:50%_40%] sm:[object-position:50%_42%]',
+  },
+  {
+    src: '/images/ens-2.jpg',
+    alt: 'Juliano trabalhando com o notebook no colo, num salão industrial com janelas grandes',
+    position: '[object-position:54%_70%] sm:[object-position:56%_72%]',
+  },
+  {
+    src: '/images/ens-1.png',
+    alt: 'Juliano sorrindo enquanto trabalha no notebook, escritório claro',
+    position: '[object-position:60%_42%] sm:[object-position:58%_42%]',
+  },
+];
+
+const Chevron = ({ direction }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
+    {direction === 'prev' ? <path d="M15 18l-6-6 6-6" /> : <path d="M9 6l6 6-6 6" />}
+  </svg>
+);
+
 const WorkspacePortrait = () => {
-  const innerRef = useRef(null);
-  useScrollProgress((progress) => {
-    const el = innerRef.current;
-    if (!el) return;
-    const drift = (Math.min(1, Math.max(0, progress)) - 0.5) * -36;
-    el.style.transform = `translate3d(0, ${drift.toFixed(1)}px, 0) scale(1.06)`;
-  });
+  const trackRef = useRef(null);
+  const [index, setIndex] = useState(0);
+
+  const goTo = useCallback((next) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const clamped = Math.max(0, Math.min(GALLERY.length - 1, next));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    track.scrollTo({ left: clamped * track.clientWidth, behavior: reduced ? 'auto' : 'smooth' });
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const current = Math.round(track.scrollLeft / track.clientWidth);
+    setIndex((prev) => (prev === current ? prev : current));
+  }, []);
 
   return (
     <Reveal variant="blur" className="mb-16">
       <figure
-        className="relative aspect-[1/1] overflow-hidden sm:aspect-[16/10]"
+        className="group relative overflow-hidden"
         style={{
           borderRadius: 'var(--radius-md)',
           border: '1px solid rgba(255,255,255,0.08)',
           boxShadow: 'var(--shadow-lift)',
         }}
       >
-        <div ref={innerRef} className="absolute inset-0" style={{ willChange: 'transform' }}>
-          <SmartImage
-            src="/images/workspace-topdown.jpg"
-            alt="Juliano visto de cima, sentado com laptop, caderno e café num estúdio amplo e claro"
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
-            quality={85}
-            className="object-cover [object-position:78%_42%] sm:[object-position:30%_35%]"
+        <div className="relative aspect-[1/1] sm:aspect-[16/10]" style={{ background: 'var(--color-surface-1, #181818)' }}>
+          {/* Trilho deslizável */}
+          <div
+            ref={trackRef}
+            onScroll={handleScroll}
+            tabIndex={0}
+            role="group"
+            aria-label="Galeria de fotos: deslize ou use as setas do teclado"
+            className="no-scrollbar absolute inset-0 flex snap-x snap-mandatory overflow-x-auto"
+          >
+            {GALLERY.map((photo, i) => (
+              <div key={photo.src} className="relative h-full w-full shrink-0 snap-center">
+                <SmartImage
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
+                  quality={85}
+                  priority={i === 0}
+                  className={`${photo.fit || 'object-cover'} ${photo.position}`}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Vinheta nas bordas + gradiente de leitura (fixos sobre o trilho) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(105deg, rgba(18,18,18,0.72) 0%, rgba(18,18,18,0.25) 42%, rgba(18,18,18,0) 62%), radial-gradient(120% 90% at 50% 45%, transparent 62%, rgba(0,0,0,0.38) 100%)',
+            }}
           />
+
+          <figcaption className="pointer-events-none absolute bottom-5 left-5 max-w-[16rem] sm:bottom-auto sm:left-8 sm:top-8 sm:max-w-md">
+            <p className="ds-label mb-2" style={{ color: 'var(--color-accent)' }}>2006 → hoje</p>
+            <p className="text-xl font-bold leading-snug text-primary sm:text-3xl" style={{ textShadow: '0 1px 24px rgba(0,0,0,0.55)' }}>
+              Do primeiro chamado<br />ao deploy.
+            </p>
+          </figcaption>
+
+          {/* Chevrons (desktop): aparecem no hover */}
+          <button
+            type="button"
+            onClick={() => goTo(index - 1)}
+            aria-label="Foto anterior"
+            disabled={index === 0}
+            className="mono-focus-ring absolute left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100 disabled:pointer-events-none disabled:opacity-0 lg:flex"
+            style={{ background: 'rgba(18,18,18,0.55)', backdropFilter: 'blur(6px)' }}
+          >
+            <Chevron direction="prev" />
+          </button>
+          <button
+            type="button"
+            onClick={() => goTo(index + 1)}
+            aria-label="Próxima foto"
+            disabled={index === GALLERY.length - 1}
+            className="mono-focus-ring absolute right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100 disabled:pointer-events-none disabled:opacity-0 lg:flex"
+            style={{ background: 'rgba(18,18,18,0.55)', backdropFilter: 'blur(6px)' }}
+          >
+            <Chevron direction="next" />
+          </button>
+
+          {/* Pills indicadoras */}
+          <div className="absolute bottom-5 right-5 flex items-center gap-2 sm:bottom-8 sm:right-8" role="group" aria-label="Selecionar foto">
+            {GALLERY.map((photo, i) => (
+              <button
+                key={photo.src}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Foto ${i + 1} de ${GALLERY.length}`}
+                aria-current={i === index}
+                className="mono-focus-ring h-1.5 rounded-full transition-all duration-300"
+                style={{
+                  width: i === index ? 18 : 6,
+                  background: i === index ? 'var(--color-accent)' : 'rgba(255,255,255,0.45)',
+                }}
+              />
+            ))}
+          </div>
         </div>
-
-        {/* Vinheta nas bordas + gradiente de leitura no espaço vazio */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(105deg, rgba(18,18,18,0.72) 0%, rgba(18,18,18,0.25) 42%, rgba(18,18,18,0) 62%), radial-gradient(120% 90% at 50% 45%, transparent 62%, rgba(0,0,0,0.38) 100%)',
-          }}
-        />
-
-        <figcaption className="absolute bottom-5 left-5 max-w-[16rem] sm:bottom-auto sm:left-8 sm:top-8 sm:max-w-md">
-          <p className="ds-label mb-2" style={{ color: 'var(--color-accent)' }}>2006 → hoje</p>
-          <p className="text-xl font-bold leading-snug text-primary sm:text-3xl" style={{ textShadow: '0 1px 24px rgba(0,0,0,0.55)' }}>
-            Do primeiro chamado<br />ao deploy.
-          </p>
-        </figcaption>
       </figure>
     </Reveal>
   );

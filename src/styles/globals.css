@@ -329,6 +329,16 @@ body {
         outline-offset: 3px;
     }
 
+/* Trilho de rolagem horizontal sem barra visível (galerias, marquees) */
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 
 /* ═══════════════════════════════════════════════════
    ANIMATIONS

@@ -4,9 +4,9 @@ import useScrollProgress from '@/lib/useScrollProgress';
 
 // Backdrop do hero: faixa infinita de fotos atrás do conteúdo.
 //
-// Desktop (ponteiro fino): "pin" no topo — a página não desce; a rolagem
-// avança o carrossel PIN_ADVANCE de uma volta e só então libera o scroll.
-// Volta ao topo re-arma. Teclado/barra de rolagem passam direto (escape).
+// Desktop (ponteiro fino): "pin" — a página fica presa no topo e a roda
+// injeta VELOCIDADE no carrossel (nunca pausa, nunca salta). Quando a
+// rolagem acumulada completa uma volta, a página é liberada.
 //
 // Mobile: loop calmo + aceleração pela velocidade do scroll (sem pin).
 //
@@ -16,23 +16,24 @@ import useScrollProgress from '@/lib/useScrollProgress';
 const PHOTOS = [
   { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
   { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%' },
+  { src: '/images/retrato-escritorio.png', alt: '', position: '52% 38%' },
   { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
 ];
 
-// Pin: quanto de uma volta o scroll avança, e quanta rolagem isso exige
-const PIN_ADVANCE = 1; // 1 = volta completa (baixe pra 0.5/0.6 pra encurtar)
+// Pin: quanta rolagem acumulada libera a página
 const PIN_SCROLL_RATIO = 1.2; // múltiplos da altura da viewport
 
-// Aceleração (modo sem pin): velocidade do scroll (px/s) → multiplicador do loop
-const VELOCITY_REF = 800;
-const MAX_RATE = 6;
+// Aceleração: impulso da roda/scroll vira multiplicador de velocidade do loop
+const VELOCITY_REF = 320;
+const MAX_RATE = 14;
 const EASE = 0.12;
-const DECAY = 0.9;
+const DECAY = 0.92;
+const WHEEL_PULSE = 60; // deltaY → impulso
 
 const Card = ({ photo, priority }) => (
-  <span className="block h-[52vh] shrink-0 pr-4 sm:h-[72vh] sm:pr-6">
+  <span className="block h-[64vh] shrink-0 pr-4 sm:h-[72vh] sm:pr-6">
     <span
-      className="relative block h-full w-[52vh] overflow-hidden sm:w-[72vh]"
+      className="relative block h-full w-[64vh] overflow-hidden sm:w-[72vh]"
       style={{
         borderRadius: 'var(--radius-md)',
         border: '1px solid rgba(255,255,255,0.04)',
@@ -43,7 +44,7 @@ const Card = ({ photo, priority }) => (
         src={photo.src}
         alt={photo.alt}
         fill
-        sizes="(max-width: 640px) 34vh, 47vh"
+        sizes="(max-width: 640px) 64vh, 72vh"
         priority={priority}
         className="scale-[1.02] object-cover"
         style={{ objectPosition: photo.position, filter: 'brightness(1.06)' }}
@@ -52,6 +53,37 @@ const Card = ({ photo, priority }) => (
     </span>
   </span>
 );
+
+// Motor de velocidade: aplica playbackRate na animação do loop.
+// Sempre contínuo — o loop nunca pausa; a velocidade apenas sobe e desce.
+const createDriver = (track) => {
+  let raf = 0;
+  let rate = 1;
+  let velocity = 0;
+
+  const step = () => {
+    velocity *= DECAY;
+    const target = velocity > 30 ? Math.min(MAX_RATE, 1 + velocity / VELOCITY_REF) : 1;
+    rate += (target - rate) * EASE;
+
+    const [anim] = typeof track.getAnimations === 'function' ? track.getAnimations() : [];
+    if (anim) anim.playbackRate = rate;
+
+    const settled = Math.abs(rate - 1) < 0.02 && velocity < 30;
+    raf = settled ? 0 : window.requestAnimationFrame(step);
+  };
+
+  return {
+    pulse(amount) {
+      velocity = Math.min(velocity + amount, 14000);
+      if (!raf) raf = window.requestAnimationFrame(step);
+    },
+    stop() {
+      if (raf) window.cancelAnimationFrame(raf);
+      raf = 0;
+    },
+  };
+};
 
 const PhotoMarquee = ({ onPinProgress }) => {
   const trackRef = useRef(null);
@@ -73,62 +105,20 @@ const PhotoMarquee = ({ onPinProgress }) => {
     const report = (value) => {
       if (progressCb.current) progressCb.current(value);
     };
-    const getAnim = () => {
-      if (typeof track.getAnimations !== 'function') return null;
-      const [anim] = track.getAnimations();
-      return anim || null;
-    };
-
+    const driver = createDriver(track);
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    // ── Modo pin (desktop): a rolagem avança o carrossel antes de descer ──
+    // ── Desktop: pin que injeta velocidade (sem nunca pausar o loop) ──
     if (finePointer) {
-      let anim = null;
-      let startTime = 0;
-      let duration = 40000;
-      let progress = 0;
+      let mode = 'idle'; // idle · pinned · released
       let wheelAccum = 0;
-      // idle: no topo e ainda armado · pinned: girando com a rolagem · released: já desceu
-      let mode = 'idle';
 
-      const begin = () => {
-        anim = anim || getAnim();
-        if (!anim) return false;
-        duration = Number(anim.effect?.getTiming?.().duration) || duration;
-        anim.pause();
-        startTime = Number(anim.currentTime) || 0;
-        mode = 'pinned';
-        wheelAccum = 0;
-        progress = 0;
-        report(0);
-        return true;
-      };
+      const limit = () => PIN_SCROLL_RATIO * window.innerHeight;
 
-      const resume = (nextMode) => {
+      const reset = (nextMode) => {
         mode = nextMode;
         wheelAccum = 0;
-        progress = 0;
-        if (anim) {
-          anim.playbackRate = 1;
-          anim.play();
-        }
         report(null);
-      };
-
-      const advance = (deltaPx) => {
-        wheelAccum += deltaPx;
-        // Rolou de volta pro zero (gesto pra cima): solta e volta a girar sozinho
-        if (wheelAccum <= 0) {
-          resume('idle');
-          return;
-        }
-        const limit = PIN_SCROLL_RATIO * window.innerHeight;
-        progress = Math.min(1, Math.max(0, wheelAccum / limit));
-        if (anim) {
-          anim.currentTime = (startTime + progress * PIN_ADVANCE * duration) % duration;
-        }
-        report(progress);
-        if (progress >= 1) resume('released');
       };
 
       const onWheel = (event) => {
@@ -136,29 +126,44 @@ const PhotoMarquee = ({ onPinProgress }) => {
         if (mode === 'idle') {
           if (window.scrollY > 4) return;
           if (event.deltaY <= 0) return; // só engata girando pra baixo
-          if (!begin()) return;
+          mode = 'pinned';
+          wheelAccum = 0;
         }
         event.preventDefault();
-        advance(event.deltaY);
+
+        wheelAccum = Math.max(0, wheelAccum + event.deltaY);
+        driver.pulse(Math.abs(event.deltaY) * WHEEL_PULSE);
+        report(Math.min(1, wheelAccum / limit()));
+
+        if (wheelAccum <= 0) reset('idle'); // voltou pra zero: devolve a página
+        else if (wheelAccum >= limit()) reset('released'); // completou: página desce
       };
 
       const onTouchMove = (event) => {
         if (mode === 'released') return;
         if (mode === 'idle') {
           if (window.scrollY > 4) return;
-          if (!begin()) return;
+          mode = 'pinned';
+          wheelAccum = 0;
         }
         event.preventDefault();
         const y = event.touches[0].clientY;
         if (onTouchMove.last === undefined) onTouchMove.last = y;
-        advance((onTouchMove.last - y) * 2.2);
+        const delta = (onTouchMove.last - y) * 2.2;
         onTouchMove.last = y;
+
+        wheelAccum = Math.max(0, wheelAccum + delta);
+        driver.pulse(Math.abs(delta) * WHEEL_PULSE);
+        report(Math.min(1, wheelAccum / limit()));
+
+        if (wheelAccum <= 0) reset('idle');
+        else if (wheelAccum >= limit()) reset('released');
       };
 
       // Escape por teclado/barra de rolagem; re-arma ao voltar pro topo
       const onScroll = () => {
-        if (mode === 'pinned' && window.scrollY > 4) resume('released');
-        if (mode === 'released' && window.scrollY <= 4) mode = 'idle';
+        if (mode === 'pinned' && window.scrollY > 4) reset('released');
+        else if (mode === 'released' && window.scrollY <= 4) reset('idle');
       };
 
       window.addEventListener('wheel', onWheel, { passive: false });
@@ -168,43 +173,28 @@ const PhotoMarquee = ({ onPinProgress }) => {
         window.removeEventListener('wheel', onWheel);
         window.removeEventListener('touchmove', onTouchMove);
         window.removeEventListener('scroll', onScroll);
-        if (mode === 'pinned') resume('idle');
+        driver.stop();
       };
     }
 
-    // ── Modo sem pin (mobile): acelera conforme a velocidade do scroll ──
-    let raf = 0;
-    let rate = 1;
+    // ── Mobile: acelera pela velocidade do scroll (loop sempre ativo) ──
     let lastY = window.scrollY;
     let lastT = performance.now();
-    let velocity = 0;
-
-    const loop = () => {
-      velocity *= DECAY;
-      const target = velocity > 30 ? Math.min(MAX_RATE, 1 + velocity / VELOCITY_REF) : 1;
-      rate += (target - rate) * EASE;
-
-      const anim = getAnim();
-      if (anim) anim.playbackRate = rate;
-
-      const settled = Math.abs(rate - 1) < 0.02 && velocity < 30;
-      raf = settled ? 0 : window.requestAnimationFrame(loop);
-    };
 
     const onScroll = () => {
       const now = performance.now();
       const y = window.scrollY;
       const dt = Math.max(16, now - lastT);
-      velocity = (Math.abs(y - lastY) / dt) * 1000;
+      const speed = (Math.abs(y - lastY) / dt) * 1000; // px/s
+      if (speed > 30) driver.pulse(speed);
       lastY = y;
       lastT = now;
-      if (!raf) raf = window.requestAnimationFrame(loop);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
-      if (raf) window.cancelAnimationFrame(raf);
+      driver.stop();
     };
   }, []);
 
@@ -213,8 +203,8 @@ const PhotoMarquee = ({ onPinProgress }) => {
       aria-hidden="true"
       className="absolute inset-0 z-0 flex items-center overflow-hidden"
       style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
       }}
     >
       <div ref={driftRef} className="w-full" style={{ willChange: 'transform' }}>
