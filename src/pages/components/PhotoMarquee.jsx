@@ -16,7 +16,6 @@ import useScrollProgress from '@/lib/useScrollProgress';
 const PHOTOS = [
   { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
   { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
-  { src: '/images/profile-about.png', alt: '', position: '48% 34%' },
   { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%' },
   { src: '/images/ens-3.jpg', alt: '', position: '60% 52%' },
 ];
