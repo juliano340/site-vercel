@@ -19,7 +19,8 @@ const IndexGatePage = () => {
   return (
     <>
       <SEO
-        title="Juliano340 | Desenvolvedor Full Stack — Next.js, TypeScript e IA"
+        title="Juliano Pereira | Dev Full Stack — IA e qualidade de software"
+        seoTitle="Desenvolvedor Full Stack em Porto Alegre | Juliano Pereira"
         description="Desenvolvedor full stack. Construo MVPs, sistemas e sites com Next.js, TypeScript e IA aplicada — do conceito ao deploy, com comunicação direta."
         path={HOME_PATH}
         noindex

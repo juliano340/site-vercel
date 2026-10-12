@@ -26,8 +26,11 @@ const OG_IMAGE_ALT = `${SITE_NAME} — Desenvolvedor Full Stack`;
 //   path       — canônica do destino; null suprime canonical E og:url.
 //   noindex    — robots noindex/nofollow (não afeta og:url).
 //   profile    — { firstName, lastName, username, gender } para type="profile".
+//   seoTitle   — <title> do Google, quando deve diferir do og:title.
+//                Sem ela, <title> = title + " | Juliano340".
 const SEO = ({
   title,
+  seoTitle,
   description = DEFAULT_DESCRIPTION,
   path = '/',
   type = 'website',
@@ -44,9 +47,13 @@ const SEO = ({
 
   const canonicalUrl = path ? absoluteUrl(path) : null;
 
-  // Sufixo de título: só acrescenta se o título ainda não o mencionar.
-  const hasSuffix = title.toLowerCase().includes(SITE_TITLE_SUFFIX.toLowerCase());
-  const fullTitle = hasSuffix ? title : `${title} | ${SITE_TITLE_SUFFIX}`;
+  // <title> (Google) pode divergir do og:title (redes): o primeiro quer termo
+  // de busca, o segundo quer diferenciação. Sem seoTitle, mantemos o sufixo.
+  const fullTitle =
+    seoTitle ||
+    (title.toLowerCase().includes(SITE_TITLE_SUFFIX.toLowerCase())
+      ? title
+      : `${title} | ${SITE_TITLE_SUFFIX}`);
 
   return (
     <Head>
