@@ -15,9 +15,8 @@ import useScrollProgress from '@/lib/useScrollProgress';
 
 const PHOTOS = [
   { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
-  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
   { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%' },
-  { src: '/images/ens-3.jpg', alt: '', position: '60% 52%' },
+  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
 ];
 
 // Pin: quanto de uma volta o scroll avança, e quanta rolagem isso exige
@@ -33,7 +32,7 @@ const DECAY = 0.9;
 const Card = ({ photo, priority }) => (
   <span className="block h-[52vh] shrink-0 pr-4 sm:h-[72vh] sm:pr-6">
     <span
-      className="relative block h-full w-[38vh] overflow-hidden sm:w-[53vh]"
+      className="relative block h-full w-[52vh] overflow-hidden sm:w-[72vh]"
       style={{
         borderRadius: 'var(--radius-md)',
         border: '1px solid rgba(255,255,255,0.04)',
