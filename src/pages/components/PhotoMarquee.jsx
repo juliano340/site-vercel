@@ -8,10 +8,13 @@ import useScrollProgress from '@/lib/useScrollProgress';
 // injeta VELOCIDADE no carrossel (nunca pausa, nunca salta). Quando a
 // rolagem acumulada completa uma volta, a página é liberada.
 //
-// Mobile: loop calmo + aceleração pela velocidade do scroll (sem pin).
+// Mobile: sem efeitos acoplados ao scroll — apenas o loop calmo girando
+// (40s). A aceleração por scroll causava tranco no toque.
 //
 // prefers-reduced-motion: loop lento (120s, ver globals.css); o pin continua
 // porque é movimento dirigido pelo usuário.
+
+const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 
 const PHOTOS = [
   { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
@@ -90,8 +93,10 @@ const PhotoMarquee = ({ onPinProgress }) => {
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
 
-  // Deslocamento leve conforme o hero sai de cena (as fotos correm junto do scroll)
+  // Deslocamento leve conforme o hero sai de cena (as fotos correm junto do
+  // scroll) — só em ponteiro fino; mobile fica sem parallax.
   const driftRef = useScrollProgress((progress) => {
+    if (!window.matchMedia(FINE_POINTER_QUERY).matches) return;
     const el = driftRef.current;
     if (!el) return;
     const p = Math.min(1, Math.max(0, progress));
@@ -106,7 +111,7 @@ const PhotoMarquee = ({ onPinProgress }) => {
       if (progressCb.current) progressCb.current(value);
     };
     const driver = createDriver(track);
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const finePointer = window.matchMedia(FINE_POINTER_QUERY).matches;
 
     // ── Desktop: pin que injeta velocidade (sem nunca pausar o loop) ──
     if (finePointer) {
@@ -177,25 +182,9 @@ const PhotoMarquee = ({ onPinProgress }) => {
       };
     }
 
-    // ── Mobile: acelera pela velocidade do scroll (loop sempre ativo) ──
-    let lastY = window.scrollY;
-    let lastT = performance.now();
-
-    const onScroll = () => {
-      const now = performance.now();
-      const y = window.scrollY;
-      const dt = Math.max(16, now - lastT);
-      const speed = (Math.abs(y - lastY) / dt) * 1000; // px/s
-      if (speed > 30) driver.pulse(speed);
-      lastY = y;
-      lastT = now;
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      driver.stop();
-    };
+    // ── Mobile: nada além do loop automático (40s) — scroll puro, sem
+    //    aceleração por toque (o tranco que incomodava) ──
+    return undefined;
   }, []);
 
   return (

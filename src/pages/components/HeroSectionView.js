@@ -29,7 +29,10 @@ const HeroSectionView = () => {
     });
   }, []);
 
+  // Conteúdo: translateY + scale + fade conforme o hero sai de cena —
+  // desktop apenas. No mobile o scroll fica nativo, sem acoplamento.
   useScrollProgress((progress) => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const el = ref.current;
     if (!el) return;
     const clamped = Math.min(1, Math.max(0, progress));
