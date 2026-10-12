@@ -60,19 +60,6 @@ const Kicker = ({ children }) =>
     children
   );
 
-const Terminal = ({ label }) =>
-  h('div', {
-    style: {
-      display: 'flex',
-      fontFamily: 'Mono',
-      fontSize: 24,
-      color: DIM,
-    },
-  },
-    h('span', { style: { color: ACCENT, marginRight: 12 } }, '$'),
-    h('span', null, label)
-  );
-
 const Footer = () =>
   h('div', {
     style: {
@@ -148,9 +135,7 @@ export const getOgElement = () =>
         }),
       },
         ['Desenvolvedor', 'Full Stack'].map((line) => h('div', { key: line, style: { display: 'flex' } }, line))
-      ),
-
-      h(Terminal, { label: '~/juliano340 ship --stack=next+ia --gate=iso25010' })
+      )
     ),
 
     // ── Rodapé ──
