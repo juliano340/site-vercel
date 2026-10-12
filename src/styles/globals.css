@@ -344,27 +344,21 @@ body {
     50% { opacity: 0.8; transform: translate3d(0, -4%, 0) scale(1.12); }
 }
 
-@keyframes hero-grid-slide {
-    from { transform: translate2d(0, 0, 0); }
-    to { transform: translate3d(0, -60px, 0); }
-}
-
 .animate-hero-glow-drift {
     animation: hero-glow-drift 12s var(--motion-ease-in-out) infinite;
     will-change: transform, opacity;
 }
 
-.animate-hero-grid-slide {
-    animation: hero-grid-slide 8s var(--motion-ease-standard) infinite alternate;
+/* Marquee: track duplicado, deslocamento de -50% fecha o loop sem emenda.
+   Duração definida inline (backdrop pede movimento lento e calmo). */
+@keyframes marquee-x {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
 }
 
-@keyframes hero-rule-grow {
-    from { transform: scaleY(0); }
-    to { transform: scaleY(1); }
-}
-
-.animate-hero-rule {
-    animation: hero-rule-grow var(--motion-duration-slower) var(--motion-ease-cinematic) 0.9s both;
+.animate-marquee {
+    animation: marquee-x 40s linear infinite;
+    will-change: transform;
 }
 
 .hero-mask {
@@ -420,9 +414,13 @@ body {
     .animate-pulse-opacity,
     .animate-fadeIn,
     .animate-hero-glow-drift,
-    .animate-hero-grid-slide,
     .animate-hero-word-rise,
-    .animate-hero-rule {
+    .animate-marquee {
+        animation: none;
+    }
+
+    /* Sem movimento: o backdrop fica estático (fotos paradas) */
+    .animate-marquee {
         animation: none;
     }
 
