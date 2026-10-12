@@ -414,14 +414,14 @@ body {
     .animate-pulse-opacity,
     .animate-fadeIn,
     .animate-hero-glow-drift,
-    .animate-hero-word-rise,
-    .animate-marquee {
+    .animate-hero-word-rise {
         animation: none;
     }
 
-    /* Sem movimento: o backdrop fica estático (fotos paradas) */
+    /* Sem movimento: o backdrop continua vivo, mas bem mais lento
+       (sem o deslocamento ligado ao scroll, que é desligado no hook). */
     .animate-marquee {
-        animation: none;
+        animation-duration: 120s !important;
     }
 
     .animate-hero-word-rise {

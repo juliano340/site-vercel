@@ -11,20 +11,20 @@ const EXPERIENCES = [
     stack: ['Suporte N1', 'Service Desk', 'E-Proc', 'PPE', 'SEEU'],
   },
   {
-    period: 'Ago 2025 — Dez 2025',
-    role: 'Analista de Suporte Técnico',
-    company: 'LWSA · Bling ERP',
-    description:
-      'Suporte técnico e integração de sistemas no Bling ERP — equipe de integração com lojas virtuais, marketplaces e serviços logísticos.',
-    stack: ['ERP', 'Integrações', 'Marketplaces', 'API REST'],
-  },
-  {
     period: 'Dez 2022 — Jun 2025',
     role: 'Suporte → QA → Programador Full Stack',
     company: 'Dataweb Tecnologia',
     description:
       'Evolução interna em três frentes: comecei no help desk (instalação e configuração), migrei para QA com testes manuais em desktop, web e mobile, e finalizei como dev full-stack no ERP — backend C# (.NET) e frontend TypeScript/Angular.',
     stack: ['Angular', 'TypeScript', 'C# / .NET', 'Firebird', 'Dapper', 'Entity Framework'],
+  },
+  {
+    period: 'Ago 2025 — Dez 2025',
+    role: 'Analista de Suporte Técnico',
+    company: 'LWSA · Bling ERP',
+    description:
+      'Suporte técnico e integração de sistemas no Bling ERP — equipe de integração com lojas virtuais, marketplaces e serviços logísticos.',
+    stack: ['ERP', 'Integrações', 'Marketplaces', 'API REST'],
   },
   {
     period: 'Set 2022 — Dez 2022',
