@@ -17,10 +17,11 @@ import useScrollProgress from '@/lib/useScrollProgress';
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 
 const PHOTOS = [
-  { src: '/images/ens-1.png', alt: '', position: '58% 40%' },
-  { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%' },
-  { src: '/images/retrato-escritorio.png', alt: '', position: '52% 38%' },
-  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%' },
+  { src: '/images/ens-1.png', alt: '', position: '58% 40%', ratio: 1.5 },
+  // Preserve a resolução original da foto horizontal no recorte quadrado.
+  { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%', ratio: 1376 / 768, unoptimized: true },
+  { src: '/images/retrato-escritorio.png', alt: '', position: '52% 38%', ratio: 1122 / 1402 },
+  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%', ratio: 896 / 1200 },
 ];
 
 // Pin: quanta rolagem acumulada libera a página
@@ -34,10 +35,11 @@ const DECAY = 0.92;
 const WHEEL_PULSE = 60; // deltaY → impulso
 
 const Card = ({ photo, priority }) => (
-  <span className="block h-[64vh] shrink-0 pr-4 sm:h-[72vh] sm:pr-6">
+  <span className="block h-full shrink-0 pr-3 lg:h-[72vh] lg:pr-6">
     <span
-      className="relative block h-full w-[64vh] overflow-hidden sm:w-[72vh]"
+      className="relative block h-full w-[calc(var(--hero-photo-height)*var(--photo-ratio))] overflow-hidden lg:w-[72vh]"
       style={{
+        '--photo-ratio': photo.ratio,
         borderRadius: 'var(--radius-md)',
         border: '1px solid rgba(255,255,255,0.04)',
         background: 'var(--color-surface)',
@@ -47,9 +49,10 @@ const Card = ({ photo, priority }) => (
         src={photo.src}
         alt={photo.alt}
         fill
-        sizes="(max-width: 640px) 64vh, 72vh"
+        sizes="(max-width: 1023px) 100vw, 72vh"
         priority={priority}
-        className="scale-[1.02] object-cover"
+        unoptimized={photo.unoptimized}
+        className="object-contain lg:scale-[1.02] lg:object-cover"
         style={{ objectPosition: photo.position, filter: 'brightness(1.06)' }}
         aria-hidden="true"
       />
@@ -190,16 +193,12 @@ const PhotoMarquee = ({ onPinProgress }) => {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 z-0 flex items-center overflow-hidden"
-      style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
-      }}
+      className="absolute inset-x-0 top-4 z-0 flex h-[var(--hero-photo-height)] items-center overflow-hidden lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)]"
     >
-      <div ref={driftRef} className="w-full" style={{ willChange: 'transform' }}>
+      <div ref={driftRef} className="h-full w-full lg:h-auto" style={{ willChange: 'transform' }}>
         <div
           ref={trackRef}
-          className="animate-marquee flex w-max items-center"
+          className="animate-marquee flex h-full w-max items-center lg:h-auto"
           style={{ animationDuration: '40s' }}
         >
           {PHOTOS.map((photo, i) => <Card key={photo.src} photo={photo} priority={i < 2} />)}

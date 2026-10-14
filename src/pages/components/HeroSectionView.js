@@ -41,21 +41,11 @@ const HeroSectionView = () => {
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden bg-background text-primary lg:min-h-[calc(100vh-5rem)]">
+    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-photo-height:clamp(12rem,32svh,18rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
       {/* ── Fotos correndo atrás do conteúdo (movimento lento e contínuo) ── */}
       <PhotoMarquee onPinProgress={handlePinProgress} />
 
       {/* ── Scrim: escurece onde o texto vive sem apagar as fotos ── */}
-      {/* Mobile: texto ocupa a largura toda → base mais escura + peso à esquerda */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-10 lg:hidden"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(18,18,18,0.94) 0%, rgba(18,18,18,0.76) 18%, rgba(18,18,18,0.74) 72%, rgba(18,18,18,0.96) 100%), ' +
-            'linear-gradient(105deg, rgba(18,18,18,0.6) 0%, rgba(18,18,18,0.34) 55%, rgba(18,18,18,0.12) 100%)',
-        }}
-      />
       {/* Desktop: fotos mais visíveis à direita, texto escuro à esquerda */}
       <div
         aria-hidden="true"
@@ -69,7 +59,7 @@ const HeroSectionView = () => {
       {/* Glow da marca por cima, bem discreto */}
       <div
         aria-hidden="true"
-        className="animate-hero-glow-drift pointer-events-none absolute -top-24 left-[8%] z-10 h-[30rem] w-[42rem] max-w-none opacity-30 blur-[110px]"
+        className="animate-hero-glow-drift pointer-events-none absolute -top-24 left-[8%] z-10 hidden h-[30rem] w-[42rem] max-w-none opacity-30 blur-[110px] lg:block"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--accent-rgb), 0.04) 45%, transparent 70%)',
@@ -77,10 +67,14 @@ const HeroSectionView = () => {
       />
 
       {/* ── Conteúdo ──────────────────────────────────────────── */}
-      <div className={`${HOME_CONTAINER} relative z-20 py-16 lg:py-20`}>
+      <div className={`${HOME_CONTAINER} relative z-20 pb-6 pt-[calc(var(--hero-photo-height)+2.5rem)] lg:py-20`}>
         <div ref={ref} style={{ willChange: 'transform, opacity' }}>
+          <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
+            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+            Disponível <span aria-hidden="true" className="text-muted">·</span> Porto Alegre
+          </p>
           <p
-            className="ds-label mb-6 flex items-center gap-3"
+            className="ds-label mb-6 hidden items-center gap-3 lg:flex"
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.05s both' }}
           >
             <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--color-accent)' }} />
@@ -89,8 +83,8 @@ const HeroSectionView = () => {
 
           <h1
             id="home-title"
-            className="ds-display flex flex-col items-start"
-            style={{ fontSize: 'clamp(2.6rem, 6.4vw, 4.4rem)', lineHeight: 1.04, letterSpacing: '-0.025em' }}
+            className="ds-display flex flex-col items-start [--hero-title-size:clamp(1.9rem,9vw,3rem)] lg:[--hero-title-size:clamp(2.6rem,6.4vw,4.4rem)]"
+            style={{ fontSize: 'var(--hero-title-size)', lineHeight: 1.04, letterSpacing: '-0.025em' }}
           >
             {TITLE_ROWS.map((row, i) => (
               <span key={i} className="flex gap-x-[0.28em]">
@@ -107,7 +101,7 @@ const HeroSectionView = () => {
 
           {/* Assinatura em terminal — amarra com a página /terminal */}
           <p
-            className="mt-5 flex font-mono text-xs text-[var(--color-muted)] sm:text-sm lg:text-[var(--color-dim)]"
+            className="mt-5 hidden font-mono text-xs text-[var(--color-muted)] sm:text-sm lg:flex lg:text-[var(--color-dim)]"
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' }}
             aria-label="Terminal: deploy com papel de desenvolvedor full stack, desde 2006"
           >
@@ -118,19 +112,20 @@ const HeroSectionView = () => {
           </p>
 
           <p
-            className="ds-body-lg mt-6 max-w-xl text-primary/90 lg:text-muted"
+            className="ds-body-lg mt-4 max-w-[22rem] text-primary/80 lg:mt-6 lg:max-w-xl lg:text-muted"
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.55s both' }}
           >
-            Tiro ideias do papel com código que sobrevive à produção — Next.js, TypeScript
-            e o olhar de QA que aprendi dentro de ERPs e sistemas críticos.
+            <span className="lg:hidden">Transformo ideias em produtos digitais, com código e qualidade.</span>
+            <span className="hidden lg:inline">Tiro ideias do papel com código que sobrevive à produção — Next.js, TypeScript
+            e o olhar de QA que aprendi dentro de ERPs e sistemas críticos.</span>
           </p>
 
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7 sm:gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
+          <div className="mt-6 flex flex-col gap-2 lg:mt-8 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-7 lg:gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
             <a href="#portfolio" className={`${HOME_BUTTON} group`}>
               Ver projetos
               <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
-            <div className="flex items-center justify-center gap-7 sm:justify-start">
+            <div className="flex items-center justify-start gap-7">
               <Link href="/contato" legacyBehavior><a className={HOME_LINK}>Fale comigo</a></Link>
               <Link href="/sobre" legacyBehavior><a className={HOME_LINK}>Currículo</a></Link>
             </div>
@@ -138,7 +133,7 @@ const HeroSectionView = () => {
 
           {/* Ficha em mono — o dado frio que dá contexto */}
           <dl
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--color-muted)] lg:text-[var(--color-dim)]"
+            className="mt-10 hidden flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--color-muted)] lg:flex lg:text-[var(--color-dim)]"
             style={{ animation: 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' }}
           >
             {FICHA.map(({ label, live }) => (
