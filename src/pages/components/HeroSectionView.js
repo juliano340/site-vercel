@@ -67,8 +67,8 @@ const HeroSectionView = () => {
       />
 
       {/* ── Conteúdo ──────────────────────────────────────────── */}
-      <div className={`${HOME_CONTAINER} relative z-20 pb-6 pt-[calc(var(--hero-photo-height)+2.5rem)] lg:py-20`}>
-        <div ref={ref} style={{ willChange: 'transform, opacity' }}>
+      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-photo-height)+2.5rem)] lg:pointer-events-auto lg:py-20`}>
+        <div ref={ref} className="pointer-events-auto" style={{ willChange: 'transform, opacity' }}>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
             <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             Disponível <span aria-hidden="true" className="text-muted">·</span> Porto Alegre

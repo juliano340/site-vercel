@@ -8,8 +8,8 @@ import useScrollProgress from '@/lib/useScrollProgress';
 // injeta VELOCIDADE no carrossel (nunca pausa, nunca salta). Quando a
 // rolagem acumulada completa uma volta, a página é liberada.
 //
-// Mobile: sem efeitos acoplados ao scroll — apenas o loop calmo girando
-// (40s). A aceleração por scroll causava tranco no toque.
+// Mobile: loop calmo (40s), com arrasto horizontal e impulso ao soltar.
+// A rolagem vertical continua nativa e não altera a velocidade das fotos.
 //
 // prefers-reduced-motion: loop lento (120s, ver globals.css); o pin continua
 // porque é movimento dirigido pelo usuário.
@@ -33,6 +33,13 @@ const MAX_RATE = 14;
 const EASE = 0.12;
 const DECAY = 0.92;
 const WHEEL_PULSE = 60; // deltaY → impulso
+const DRAG_THRESHOLD = 6;
+const MAX_DRAG_SPEED = 1800; // px/s
+const DRAG_SPEED_BLEND = 0.35;
+const DRAG_IDLE_MS = 80;
+const DRAG_DECAY = 0.96;
+const SETTLE_DRAG_SPEED = 2; // px/s
+const FRAME_MS = 1000 / 60;
 
 const Card = ({ photo, priority }) => (
   <span className="block h-full shrink-0 pr-3 lg:h-[72vh] lg:pr-6">
@@ -51,6 +58,7 @@ const Card = ({ photo, priority }) => (
         sizes="(max-width: 1023px) 100vw, 72vh"
         priority={priority}
         unoptimized={photo.unoptimized}
+        draggable={false}
         className="scale-[var(--mobile-scale)] object-cover [--photo-position:var(--mobile-position)] [transform-origin:var(--mobile-position)] lg:origin-center lg:scale-[1.02] lg:[--photo-position:var(--desktop-position)]"
         style={{
           '--mobile-position': photo.mobilePosition,
@@ -98,6 +106,7 @@ const createDriver = (track) => {
 
 const PhotoMarquee = ({ onPinProgress }) => {
   const trackRef = useRef(null);
+  const surfaceRef = useRef(null);
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
 
@@ -190,15 +199,108 @@ const PhotoMarquee = ({ onPinProgress }) => {
       };
     }
 
-    // ── Mobile: nada além do loop automático (40s) — scroll puro, sem
-    //    aceleração por toque (o tranco que incomodava) ──
-    return undefined;
+    // ── Mobile: o dedo controla a fase do loop; o impulso decai ao soltar. ──
+    const surface = surfaceRef.current;
+    const animation = track.getAnimations()[0];
+    if (!surface || !animation) return undefined;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const controller = new AbortController();
+    let gesture = null;
+    let raf = 0;
+
+    const seek = (delta) => {
+      const duration = animation.effect.getTiming().duration;
+      const distance = track.offsetWidth / 2;
+      if (!distance) return;
+      const next = Number(animation.currentTime) + delta * duration / distance;
+      animation.currentTime = ((next % duration) + duration) % duration;
+    };
+
+    const release = (event) => {
+      if (event.type === 'lostpointercapture' && event.target !== surface) return;
+      if (!gesture || event.pointerId !== gesture.id) return;
+      const previous = gesture;
+      gesture = null;
+      if (!previous.dragging) return;
+      if (surface.hasPointerCapture(previous.id)) surface.releasePointerCapture(previous.id);
+
+      // Um breve intervalo antes do pointerup não deve apagar o impulso do gesto.
+      const idleFrames = Math.max(0, event.timeStamp - previous.time - DRAG_IDLE_MS) / FRAME_MS;
+      let speed = event.type === 'pointerup'
+        ? previous.speed * Math.pow(DECAY, idleFrames) : 0;
+      let lastFrame = performance.now();
+      const coast = (now) => {
+        const elapsed = Math.min(now - lastFrame, FRAME_MS * 4);
+        lastFrame = now;
+        if (reducedMotion.matches) speed = 0;
+        speed *= Math.pow(DRAG_DECAY, elapsed / FRAME_MS);
+        if (Math.abs(speed) < SETTLE_DRAG_SPEED) {
+          raf = 0;
+          animation.play();
+          return;
+        }
+        // Um frame de autoplay + impulso: o sentido normal retorna gradualmente.
+        const duration = animation.effect.getTiming().duration;
+        seek(track.offsetWidth / 2 * elapsed / duration - speed * elapsed / 1000);
+        raf = window.requestAnimationFrame(coast);
+      };
+      raf = window.requestAnimationFrame(coast);
+    };
+
+    const onPointerDown = (event) => {
+      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
+      if (!event.isPrimary) {
+        if (gesture) release({ pointerId: gesture.id, type: 'pointercancel' });
+        return;
+      }
+      gesture = { id: event.pointerId, x: event.clientX, y: event.clientY,
+        lastX: event.clientX, time: event.timeStamp, speed: 0, dragging: false };
+    };
+
+    const onPointerMove = (event) => {
+      if (!gesture || gesture.id !== event.pointerId) return;
+      if (!gesture.dragging) {
+        const x = event.clientX - gesture.x;
+        const y = event.clientY - gesture.y;
+        if (Math.max(Math.abs(x), Math.abs(y)) < DRAG_THRESHOLD) return;
+        if (Math.abs(y) >= Math.abs(x)) {
+          gesture = null;
+          return;
+        }
+        gesture.dragging = true;
+        window.cancelAnimationFrame(raf);
+        animation.pause();
+        surface.setPointerCapture(event.pointerId);
+      }
+      const delta = event.clientX - gesture.lastX;
+      const elapsed = Math.max(1, event.timeStamp - gesture.time);
+      const speed = Math.max(-MAX_DRAG_SPEED, Math.min(MAX_DRAG_SPEED, delta / elapsed * 1000));
+      gesture.speed += (speed - gesture.speed) * DRAG_SPEED_BLEND;
+      gesture.lastX = event.clientX;
+      gesture.time = event.timeStamp;
+      seek(-delta);
+    };
+
+    surface.addEventListener('pointerdown', onPointerDown, { signal: controller.signal });
+    surface.addEventListener('pointermove', onPointerMove, { signal: controller.signal });
+    surface.addEventListener('pointerup', release, { signal: controller.signal });
+    surface.addEventListener('pointercancel', release, { signal: controller.signal });
+    surface.addEventListener('lostpointercapture', release, { signal: controller.signal });
+    return () => {
+      controller.abort();
+      window.cancelAnimationFrame(raf);
+      if (gesture && surface.hasPointerCapture(gesture.id)) surface.releasePointerCapture(gesture.id);
+      animation.play();
+      driver.stop();
+    };
   }, []);
 
   return (
     <div
+      ref={surfaceRef}
       aria-hidden="true"
-      className="absolute inset-x-0 top-4 z-0 flex h-[var(--hero-photo-height)] items-center overflow-hidden lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)]"
+      className="absolute inset-x-0 top-4 z-0 flex h-[var(--hero-photo-height)] select-none items-center overflow-hidden [touch-action:pan-y_pinch-zoom] lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_94%,transparent_100%)]"
     >
       <div ref={driftRef} className="h-full w-full lg:h-auto" style={{ willChange: 'transform' }}>
         <div

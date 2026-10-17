@@ -2,6 +2,7 @@
 
 ## 2026-10-17
 
+- Adicionado arrasto horizontal por toque no carrossel mobile, com impulso que desacelera até o ritmo automático; preservados scroll vertical e movimento reduzido.
 - Uniformizados os quadros do carrossel do hero mobile em formato quadrado, com enquadramento individual para preservar rostos e contexto.
 - Aproximada a foto do galpão no mobile; mantidas as imagens atuais, o movimento e os enquadramentos do desktop.
 
