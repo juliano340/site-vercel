@@ -17,11 +17,11 @@ import useScrollProgress from '@/lib/useScrollProgress';
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 
 const PHOTOS = [
-  { src: '/images/ens-1.png', alt: '', position: '58% 40%', ratio: 1.5 },
+  { src: '/images/ens-1.png', alt: '', position: '58% 40%', mobilePosition: '65% 40%' },
   // Preserve a resolução original da foto horizontal no recorte quadrado.
-  { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%', ratio: 1376 / 768, unoptimized: true },
-  { src: '/images/retrato-escritorio.png', alt: '', position: '52% 38%', ratio: 1122 / 1402 },
-  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%', ratio: 896 / 1200 },
+  { src: '/images/workspace-topdown.jpg', alt: '', position: '56% 42%', mobilePosition: '82% 42%', unoptimized: true },
+  { src: '/images/retrato-escritorio.png', alt: '', position: '52% 38%', mobilePosition: '50% 24%' },
+  { src: '/images/ens-2.jpg', alt: '', position: '52% 34%', mobilePosition: '76% 100%', mobileScale: 1.2 },
 ];
 
 // Pin: quanta rolagem acumulada libera a página
@@ -37,9 +37,8 @@ const WHEEL_PULSE = 60; // deltaY → impulso
 const Card = ({ photo, priority }) => (
   <span className="block h-full shrink-0 pr-3 lg:h-[72vh] lg:pr-6">
     <span
-      className="relative block h-full w-[calc(var(--hero-photo-height)*var(--photo-ratio))] overflow-hidden lg:w-[72vh]"
+      className="relative block h-full w-[var(--hero-photo-height)] overflow-hidden lg:w-[72vh]"
       style={{
-        '--photo-ratio': photo.ratio,
         borderRadius: 'var(--radius-md)',
         border: '1px solid rgba(255,255,255,0.04)',
         background: 'var(--color-surface)',
@@ -52,8 +51,14 @@ const Card = ({ photo, priority }) => (
         sizes="(max-width: 1023px) 100vw, 72vh"
         priority={priority}
         unoptimized={photo.unoptimized}
-        className="object-contain lg:scale-[1.02] lg:object-cover"
-        style={{ objectPosition: photo.position, filter: 'brightness(1.06)' }}
+        className="scale-[var(--mobile-scale)] object-cover [--photo-position:var(--mobile-position)] [transform-origin:var(--mobile-position)] lg:origin-center lg:scale-[1.02] lg:[--photo-position:var(--desktop-position)]"
+        style={{
+          '--mobile-position': photo.mobilePosition,
+          '--desktop-position': photo.position,
+          '--mobile-scale': photo.mobileScale || 1,
+          objectPosition: 'var(--photo-position)',
+          filter: 'brightness(1.06)',
+        }}
         aria-hidden="true"
       />
     </span>
