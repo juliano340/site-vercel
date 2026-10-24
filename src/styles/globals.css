@@ -386,6 +386,33 @@ body {
     animation-delay: var(--rise-delay, 0s);
 }
 
+/* Editorial film: um brilho branco → prata atravessa a palavra uma única
+   vez, casado com o rise (--sweep-delay). Depois do sweep, o texto fica
+   no branco sólido — nada de gradiente pulsando. */
+@keyframes text-gradient-sweep {
+    from { background-position: 100% 0; }
+    to { background-position: 0% 0; }
+}
+
+.text-gradient-sweep {
+    display: inline-block;
+    background-image: linear-gradient(
+        100deg,
+        #ffffff 0%,
+        #ffffff 42%,
+        rgba(255, 255, 255, 0.55) 50%,
+        #ffffff 58%,
+        #ffffff 100%
+    );
+    background-size: 300% 100%;
+    background-position: 0% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: text-gradient-sweep 1.5s var(--motion-ease-cinematic) var(--sweep-delay, 0s) both;
+}
+
 @keyframes pulse-scale {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -426,6 +453,13 @@ body {
     .animate-hero-glow-drift,
     .animate-hero-word-rise {
         animation: none;
+    }
+
+    .text-gradient-sweep {
+        animation: none;
+        background-image: none;
+        color: var(--color-text);
+        -webkit-text-fill-color: currentColor;
     }
 
     /* Sem movimento: o backdrop continua vivo, mas bem mais lento

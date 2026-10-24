@@ -34,6 +34,18 @@ const nextConfig = {
       },
     ];
   },
+  // Vídeo do hero: nomes versionados (-v1) + cache imutável de 1 ano.
+  // Ao trocar o arquivo, suba a versão no nome e no componente.
+  async headers() {
+    return [
+      {
+        source: '/video/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ];
+  },
   // Configuração de cache (30 segundos = 30000 milissegundos)
   poweredByHeader: false,
   generateEtags: true,

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import useScrollProgress from '@/lib/useScrollProgress';
 import { useCallback, useRef, useState } from 'react';
 import { HOME_CONTAINER, HOME_LINK, HOME_BUTTON } from '@/lib/homePresentation';
-import PhotoMarquee from '@/pages/components/PhotoMarquee';
+import HeroVideoBackdrop from '@/pages/components/HeroVideoBackdrop';
 
 const TITLE_ROWS = [
   [{ text: 'Desenvolvedor', delay: 0.1 }],
@@ -41,33 +41,12 @@ const HeroSectionView = () => {
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-photo-height:clamp(12rem,32svh,18rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
-      {/* ── Fotos correndo atrás do conteúdo (movimento lento e contínuo) ── */}
-      <PhotoMarquee onPinProgress={handlePinProgress} />
-
-      {/* ── Scrim: escurece onde o texto vive sem apagar as fotos ── */}
-      {/* Desktop: fotos mais visíveis à direita, texto escuro à esquerda */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-10 hidden lg:block"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(18,18,18,0.86) 0%, rgba(18,18,18,0.3) 22%, rgba(18,18,18,0.26) 65%, rgba(18,18,18,0.9) 100%), ' +
-            'linear-gradient(95deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.62) 26%, rgba(18,18,18,0.2) 55%, rgba(18,18,18,0.05) 78%, rgba(18,18,18,0.12) 100%)',
-        }}
-      />
-      {/* Glow da marca por cima, bem discreto */}
-      <div
-        aria-hidden="true"
-        className="animate-hero-glow-drift pointer-events-none absolute -top-24 left-[8%] z-10 hidden h-[30rem] w-[42rem] max-w-none opacity-30 blur-[110px] lg:block"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--accent-rgb), 0.04) 45%, transparent 70%)',
-        }}
-      />
+    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-media-height:clamp(11rem,32svh,16rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
+      {/* ── Vídeo: scrub no desktop, loop no mobile (scrim embutido) ── */}
+      <HeroVideoBackdrop onPinProgress={handlePinProgress} />
 
       {/* ── Conteúdo ──────────────────────────────────────────── */}
-      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-photo-height)+2.5rem)] lg:pointer-events-auto lg:py-20`}>
+      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-media-height)+2.75rem)] lg:pointer-events-auto lg:py-20`}>
         <div ref={ref} className="pointer-events-auto" style={{ willChange: 'transform, opacity' }}>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
             <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -91,7 +70,7 @@ const HeroSectionView = () => {
                 {row.map(({ text, delay }) => (
                   <span key={text} className="hero-mask inline-block">
                     <span className="animate-hero-word-rise inline-block text-primary" style={{ '--rise-delay': `${delay}s` }}>
-                      {text}
+                      <span className="text-gradient-sweep" style={{ '--sweep-delay': `${delay + 0.12}s` }}>{text}</span>
                     </span>
                   </span>
                 ))}
@@ -160,7 +139,7 @@ const HeroSectionView = () => {
         }}
       >
         <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]" style={{ color: 'var(--color-dim)' }}>
-          role para girar
+          role para avançar
         </span>
         <span className="block h-[2px] w-40 overflow-hidden rounded-full" style={{ background: 'var(--color-border)' }}>
           <span
