@@ -41,8 +41,7 @@ const HeroSectionView = () => {
   const currentProgressRef = useRef(0);
   const [pinProgress, setPinProgress] = useState(null);
   const [scrubAvailable, setScrubAvailable] = useState(null);
-  const [storySkipped, setStorySkipped] = useState(false);
-  const storyActive = scrubAvailable !== false && !storySkipped;
+  const storyActive = scrubAvailable !== false;
 
   // Progresso do pin → DOM direto (sem re-render por evento de roda):
   // parallax do conteúdo e terminal que se escreve.
@@ -103,20 +102,11 @@ const HeroSectionView = () => {
     });
   }, [applyPinProgress]);
 
-  useEffect(() => {
-    if (!storyActive) return undefined;
-    const onScroll = () => {
-      if (window.scrollY > 4 && currentProgressRef.current < 0.95) setStorySkipped(true);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [storyActive]);
-
   return (
     <section aria-labelledby="home-title" className="relative flex flex-col bg-background text-primary [--hero-media-height:clamp(14rem,42svh,24rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center lg:overflow-hidden">
       <noscript><style>{'[data-hero-final] { visibility: visible !important; } [data-hero-story] { display: none !important; }'}</style></noscript>
       {/* ── Vídeo: scrub no desktop, autoplay uma vez no mobile (scrim embutido) ── */}
-      <HeroVideoBackdrop onPinProgress={handlePinProgress} onScrubAvailable={setScrubAvailable} scrubEnabled={!storySkipped} />
+      <HeroVideoBackdrop onPinProgress={handlePinProgress} onScrubAvailable={setScrubAvailable} />
 
       {storyActive && (
         <div data-hero-story className="pointer-events-none absolute inset-0 z-20 hidden items-center lg:[@media(hover:hover)_and_(pointer:fine)]:flex">
@@ -141,7 +131,7 @@ const HeroSectionView = () => {
       )}
 
       {/* ── Conteúdo: no mobile sobe sobre o degradê do vídeo ──── */}
-      <div data-hero-final className={`${HOME_CONTAINER} pointer-events-none relative z-20 -mt-14 pb-10 lg:pointer-events-auto lg:mt-0 lg:py-20 ${scrubAvailable === null && !storySkipped ? 'lg:[@media(hover:hover)_and_(pointer:fine)]:invisible' : ''}`}>
+      <div data-hero-final className={`${HOME_CONTAINER} pointer-events-none relative z-20 -mt-14 pb-10 lg:pointer-events-auto lg:mt-0 lg:py-20 ${scrubAvailable === null ? 'lg:[@media(hover:hover)_and_(pointer:fine)]:invisible' : ''}`}>
         <div ref={pinRef} className="pointer-events-auto" style={{ willChange: 'transform' }}>
           <div>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
@@ -151,7 +141,7 @@ const HeroSectionView = () => {
           <p
             data-hero-reveal
             className="ds-label mb-6 hidden items-center gap-3 lg:flex"
-            style={{ animation: !scrubAvailable && !storySkipped ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.05s both' : undefined }}
+            style={{ animation: !scrubAvailable ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.05s both' : undefined }}
           >
             <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--color-accent)' }} />
             Porto Alegre, Brasil
@@ -181,7 +171,7 @@ const HeroSectionView = () => {
           <p
             data-hero-reveal
             className="mt-5 hidden font-mono text-xs text-[var(--color-muted)] sm:text-sm lg:flex lg:text-[var(--color-dim)]"
-            style={{ animation: !scrubAvailable && !storySkipped ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' : undefined }}
+            style={{ animation: !scrubAvailable ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' : undefined }}
             aria-label="Terminal: deploy com papel de desenvolvedor full stack, desde 2006"
           >
             <span
@@ -198,14 +188,14 @@ const HeroSectionView = () => {
           <p
             data-hero-reveal
             className="ds-body-lg mt-4 max-w-[22rem] text-primary/80 lg:mt-6 lg:max-w-xl lg:text-muted"
-            style={{ animation: !scrubAvailable && !storySkipped ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.55s both' : undefined }}
+            style={{ animation: !scrubAvailable ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.55s both' : undefined }}
           >
             <span className="lg:hidden">Transformo ideias em produtos digitais, com código e qualidade.</span>
             <span className="hidden lg:inline">Tiro ideias do papel com código que sobrevive à produção — Next.js, TypeScript
             e o olhar de QA que aprendi dentro de ERPs e sistemas críticos.</span>
           </p>
 
-          <div data-hero-reveal className="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-7 lg:gap-y-3" style={{ animation: !scrubAvailable && !storySkipped ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' : undefined }}>
+          <div data-hero-reveal className="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-7 lg:gap-y-3" style={{ animation: !scrubAvailable ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' : undefined }}>
             <a href="#portfolio" className={`${HOME_BUTTON} group`}>
               Ver projetos
               <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -220,7 +210,7 @@ const HeroSectionView = () => {
           <dl
             data-hero-reveal
             className="mt-10 hidden flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--color-muted)] lg:flex lg:text-[var(--color-dim)]"
-            style={{ animation: !scrubAvailable && !storySkipped ? 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' : undefined }}
+            style={{ animation: !scrubAvailable ? 'fadeIn 1s var(--motion-ease-cinematic) 0.95s both' : undefined }}
           >
             {FICHA.map(({ label, live }) => (
               <div key={label} className="flex items-center gap-2">

@@ -29,7 +29,7 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     if (!enabled) return undefined;
     if (!window.matchMedia(FINE_POINTER_QUERY).matches) return undefined;
 
-    let mode = 'idle'; // idle · pinned · released
+    let mode = window.scrollY > 4 ? 'released' : 'idle'; // idle · pinned · released
     let accum = 0;
     let progress = 0;
     let touchY;
@@ -115,6 +115,28 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
       advance(Math.max(-MAX_WHEEL_STEP, Math.min(delta, MAX_WHEEL_STEP)));
     };
 
+    const onKeyDown = (event) => {
+      if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target instanceof Element && event.target.closest('input, textarea, select, button, a, [contenteditable="true"], [role="textbox"]')) return;
+      const steps = {
+        ArrowDown: MAX_WHEEL_STEP,
+        ArrowUp: -MAX_WHEEL_STEP,
+        PageDown: window.innerHeight,
+        PageUp: -window.innerHeight,
+        ' ': event.shiftKey ? -window.innerHeight : window.innerHeight,
+        Home: -limit(),
+        End: limit(),
+      };
+      const delta = steps[event.key];
+      if (delta === undefined || mode === 'released') return;
+      if (mode === 'idle') {
+        if (window.scrollY > 4 || delta <= 0) return;
+        engage();
+      }
+      event.preventDefault();
+      advance(delta);
+    };
+
     // Telas de toque com ponteiro fino (notebook com touch): mesmo percurso,
     // mesmo bloqueio — o dedo vira roda.
     const onTouchMove = (event) => {
@@ -136,11 +158,12 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
       advance(delta);
     };
 
-    // Escape por teclado/barra de rolagem. Ao voltar pro topo, o pin re-arma
-    // EXATAMENTE onde o vídeo parou: subir continua rebobinando o plano em vez
-    // de dar um corte para o primeiro frame.
+    // Scroll nativo não interrompe um pin em andamento. Ao voltar ao topo
+    // depois da conclusão, re-arma onde parou para permitir rebobinar.
     const onScroll = () => {
-      if (mode === 'pinned' && window.scrollY > 4) reset('released');
+      if (mode === 'pinned' && window.scrollY > 4) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
       else if (mode === 'released' && window.scrollY <= 4) {
         mode = 'pinned';
         accum = progress * limit();
@@ -149,11 +172,13 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     };
 
     window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('keydown', onKeyDown);
     window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       clearHold();
       window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('scroll', onScroll);
     };

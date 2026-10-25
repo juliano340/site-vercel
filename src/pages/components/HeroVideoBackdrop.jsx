@@ -24,7 +24,6 @@ const END_HOLD = 0.05; // não encosta no último frame (evita rewind no loop)
 const MAX_RATE = 2.4; // segundos de vídeo por segundo real, em ambos sentidos
 // O pin só solta a página com o vídeo assentado no fim (tolerância abaixo).
 const SETTLE_EPSILON = 0.08; // segundos
-const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
 const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = true }) => {
   const videoRef = useRef(null);
@@ -37,7 +36,6 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
   const targetRef = useRef(0);
   const positionRef = useRef(0);
   const rafRef = useRef(0);
-  const settleWaitRef = useRef(0);
   const pinnedRef = useRef(false);
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
@@ -130,19 +128,11 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
   // ainda está rodando — o hero sai de cena "cortando" o plano no meio.
   const canRelease = useCallback(() => {
     const video = videoRef.current;
-    if (!video || !Number.isFinite(video.duration) || video.duration === 0) return true;
+    if (!video || !Number.isFinite(video.duration) || video.duration === 0) return false;
 
     const target = targetRef.current * (video.duration - END_HOLD);
-    if (Math.abs(target - positionRef.current) <= SETTLE_EPSILON) {
-      settleWaitRef.current = 0;
-      return true;
-    }
-    if (!settleWaitRef.current) settleWaitRef.current = performance.now();
-    if (performance.now() - settleWaitRef.current > SETTLE_TIMEOUT) {
-      settleWaitRef.current = 0;
-      return true;
-    }
-    return false;
+    return !video.seeking && video.readyState >= 2
+      && Math.abs(target - video.currentTime) <= SETTLE_EPSILON;
   }, []);
 
   // ── Scrub: glide até o alvo, com teto de velocidade ───────────
@@ -179,14 +169,17 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
     rafRef.current = window.requestAnimationFrame(tick);
   }, []);
 
+  useEffect(() => {
+    if (mode === 'scrub' && visible) runSeek();
+  }, [mode, visible, runSeek]);
+
   const handleProgress = useCallback((value) => {
     targetRef.current = value;
-    if (value < 1) settleWaitRef.current = 0;
     runSeek();
   }, [runSeek]);
 
   usePinScrub({
-    enabled: mode === 'scrub' && visible && !failed && scrubEnabled,
+    enabled: mode === 'scrub' && !failed && scrubEnabled,
     ratio: PIN_RATIO,
     canRelease,
     onEngage: () => {
@@ -198,7 +191,6 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
       handleProgress(value);
     },
     onRelease: ({ completed }) => {
-      settleWaitRef.current = 0;
       pinnedRef.current = false;
       if (completed) progressCb.current?.(1);
       progressCb.current?.(null);
