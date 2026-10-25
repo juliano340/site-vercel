@@ -2,21 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import usePinScrub from '@/lib/usePinScrub';
 
-// Backdrop do hero: vídeo cinematográfico com dois regimes.
-//
-// Desktop (ponteiro fino): scrub — a roda avança o vídeo no lugar de rolar.
-// Mobile: o clipe roda uma vez e congela no último frame; o replay só acontece
-// depois que o hero sai de cena e volta (sem ping-pong, sem inversão).
-// reduced-motion / save-data / rede 2G: só o poster, zero download de vídeo.
-//
-// O poster é o LCP: entra com priority e fica visível até o vídeo ter o
-// primeiro frame decodificado. O vídeo só é baixado depois do load da página.
+// Desktop: scrub pela roda. Mobile: reprodução explícita por toque.
+// Pôster como LCP; no mobile o vídeo só é baixado ao tocar.
 
 const SRC_SCRUB = '/video/hero/hero-scrub-v2.mp4';
 const SRC_ONCE = '/video/hero/hero-once-v2.mp4';
 const POSTER = '/video/hero/hero-poster-v1.webp';
 
-const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
+const FINE_POINTER_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 // O percurso é calibrado por tempo, não por tamanho: 1 viewport de rolagem =
@@ -36,26 +29,21 @@ const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
 const HeroVideoBackdrop = ({ onPinProgress }) => {
   const videoRef = useRef(null);
-  const [mode, setMode] = useState('poster'); // poster · scrub · once
+  const [mode, setMode] = useState('poster'); // poster · scrub · manual
   const [visible, setVisible] = useState(false);
   const [failed, setFailed] = useState(false);
-  // One-shot: depois do fim, o frame parado ganha um push-in lento contínuo
-  // para não ler como vídeo travado. Reseta no replay.
-  const [drift, setDrift] = useState(false);
-  const [inView, setInView] = useState(true);
+  const [playing, setPlaying] = useState(false);
+  const [ended, setEnded] = useState(false);
 
   const targetRef = useRef(0);
   const positionRef = useRef(0);
   const rafRef = useRef(0);
   const settleWaitRef = useRef(0);
-  const inViewRef = useRef(true);
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
 
   // ── Estratégia de mídia (só no cliente) ──────────────────────
-  // reduced-motion desliga o movimento autônomo (one-shot, entradas), mas NÃO
-  // o scrub: ali quem move é a roda do usuário, frame a frame. No toque não há
-  // scrub, então reduced-motion ali fica no poster.
+  // Preferências de movimento e dados impedem o scrub automático.
   useEffect(() => {
     const reduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
     const finePointer = window.matchMedia(FINE_POINTER_QUERY).matches;
@@ -64,15 +52,13 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     const saveData = connection.saveData === true;
     const slowNetwork = typeof connection.effectiveType === 'string'
       && /(^|-)2g$/.test(connection.effectiveType);
-    if (saveData || slowNetwork) return;
-    if (reduced && !finePointer) return;
-
-    setMode(finePointer ? 'scrub' : 'once');
+    if (!finePointer) setMode('manual');
+    else if (!reduced && !saveData && !slowNetwork) setMode('scrub');
   }, []);
 
   // ── Carregamento preguiçoso: nunca compete com o primeiro paint ──
   useEffect(() => {
-    if (mode === 'poster') return undefined;
+    if (mode !== 'scrub') return undefined;
     const video = videoRef.current;
     if (!video) return undefined;
 
@@ -82,10 +68,9 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
     const start = () => {
       if (cancelled) return;
-      video.src = mode === 'scrub' ? SRC_SCRUB : SRC_ONCE;
+      video.src = SRC_SCRUB;
       video.preload = 'auto';
       video.load();
-      if (mode === 'once') video.play().catch(() => {});
     };
 
     const onReady = () => {
@@ -173,7 +158,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   }, [runSeek]);
 
   usePinScrub({
-    enabled: mode === 'scrub' && !failed,
+    enabled: mode === 'scrub' && visible && !failed,
     ratio: PIN_RATIO,
     canRelease,
     onEngage: () => progressCb.current?.(0),
@@ -195,43 +180,42 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     },
   });
 
-  // ── One-shot: pausa fora de vista e só repete depois de sair de cena ──
-  // O replay exige uma saída completa do hero (threshold 0): assim um scroll
-  // curto não reinicia o clipe no meio do movimento.
+  // Pausa fora de vista e ao trocar de aba, sem retomar automaticamente.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || mode !== 'once') return undefined;
-
-    let leftStage = false;
+    if (!video || mode !== 'manual') return undefined;
 
     const observer = new IntersectionObserver(([entry]) => {
-      inViewRef.current = entry.isIntersecting;
-      setInView(entry.isIntersecting);
-
       if (!entry.isIntersecting) {
-        leftStage = true;
         video.pause();
-        return;
       }
-      if (!leftStage) return;
-
-      leftStage = false;
-      setDrift(false);
-      video.currentTime = 0;
-      video.play().catch(() => {});
     }, { threshold: 0 });
     observer.observe(video);
 
     const onVisibility = () => {
       if (document.hidden) video.pause();
-      else if (inViewRef.current && !video.ended) video.play().catch(() => {});
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
+      video.pause();
       observer.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [mode]);
+
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (!video.paused) {
+      video.pause();
+      return;
+    }
+    // Carrega somente após o gesto, mantendo play na mesma chamada para Safari.
+    if (!video.getAttribute('src')) video.src = SRC_ONCE;
+    if (video.ended) video.currentTime = 0;
+    setEnded(false);
+    video.play().catch(() => setPlaying(false));
+  };
 
   const handleError = () => {
     setFailed(true);
@@ -241,8 +225,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
   return (
     <div
-      aria-hidden="true"
-      className="absolute inset-x-4 top-4 z-0 h-[var(--hero-media-height)] overflow-hidden rounded-[var(--radius-md)] bg-background-deep ring-1 ring-white/5 lg:inset-0 lg:h-auto lg:rounded-none lg:ring-0"
+      className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[var(--hero-media-height)] overflow-hidden bg-background lg:inset-0 lg:h-auto"
     >
       <Image
         src={POSTER}
@@ -259,16 +242,19 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
           ref={videoRef}
           muted
           playsInline
-          autoPlay={mode === 'once'}
+          aria-hidden="true"
+          preload="none"
           poster={POSTER}
           disablePictureInPicture
           onError={handleError}
-          onEnded={() => setDrift(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${drift ? 'animate-hero-frame-drift' : ''}`}
+          onLoadedData={() => setVisible(true)}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onEnded={() => { setPlaying(false); setEnded(true); }}
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 motion-reduce:transition-none"
           style={{
             objectPosition: '50% 42%',
             opacity: visible && !failed ? 1 : 0,
-            animationPlayState: inView ? 'running' : 'paused',
           }}
         />
       )}
@@ -293,9 +279,23 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
         className="absolute inset-0 lg:hidden"
         style={{
           background:
-            'linear-gradient(180deg, rgba(18,18,18,0.32) 0%, rgba(18,18,18,0) 24%, rgba(18,18,18,0) 38%, rgba(18,18,18,0.55) 70%, rgba(18,18,18,0.96) 100%)',
+            'linear-gradient(180deg, rgba(18,18,18,0.24) 0%, rgba(18,18,18,0) 28%, rgba(18,18,18,0.15) 46%, rgba(18,18,18,0.8) 76%, var(--color-background) 100%)',
         }}
       />
+      {mode === 'manual' && !failed && (
+        <button
+          type="button"
+          onClick={togglePlayback}
+          aria-label={playing ? 'Pausar vídeo de apresentação' : ended ? 'Rever vídeo de apresentação' : 'Reproduzir vídeo de apresentação'}
+          className="mono-focus-ring pointer-events-auto absolute right-4 top-4 z-30 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-black/60 px-4 text-xs font-medium text-primary backdrop-blur-sm [touch-action:manipulation] active:bg-black/80"
+        >
+          <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3 w-3 shrink-0 fill-current">
+            <path d={playing ? 'M4 3h3v10H4zm5 0h3v10H9z' : 'M4 2.5v11l9-5.5z'} />
+          </svg>
+          {playing ? 'Pausar' : ended ? 'Rever vídeo' : 'Ver vídeo'}
+        </button>
+      )}
+      {failed && <p role="status" className="absolute right-4 top-4 rounded-full bg-black/70 px-4 py-3 text-xs text-primary">Vídeo indisponível</p>}
     </div>
   );
 };

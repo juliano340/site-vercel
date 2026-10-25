@@ -99,6 +99,7 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     };
 
     const onWheel = (event) => {
+      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       if (mode === 'released') return;
       if (mode === 'idle') {
         if (window.scrollY > 4) return;
@@ -110,7 +111,8 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
       // Normaliza o passo: trackpad de alta precisão e roda "uma página"
       // mandam deltas muito diferentes. Sem o clamp, um flick único
       // atravessa o vídeo inteiro e o efeito parece não existir.
-      advance(Math.min(event.deltaY, MAX_WHEEL_STEP));
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1);
+      advance(Math.max(-MAX_WHEEL_STEP, Math.min(delta, MAX_WHEEL_STEP)));
     };
 
     // Telas de toque com ponteiro fino (notebook com touch): mesmo percurso,

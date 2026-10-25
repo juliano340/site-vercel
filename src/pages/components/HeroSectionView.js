@@ -69,11 +69,11 @@ const HeroSectionView = () => {
 
   return (
     <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-media-height:clamp(14rem,42svh,24rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
-      {/* ── Vídeo: scrub no desktop, one-shot no mobile (scrim embutido) ── */}
+      {/* ── Vídeo: scrub no desktop, reprodução por toque no mobile (scrim embutido) ── */}
       <HeroVideoBackdrop onPinProgress={handlePinProgress} />
 
       {/* ── Conteúdo: no mobile sobe sobre o degradê do vídeo ──── */}
-      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-media-height)-3.5rem)] lg:pointer-events-auto lg:py-20`}>
+      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-10 pt-[calc(var(--hero-media-height)-3.5rem)] lg:pointer-events-auto lg:py-20`}>
         <div ref={pinRef} className="pointer-events-auto" style={{ willChange: 'transform' }}>
           <div ref={ref} style={{ willChange: 'transform, opacity' }}>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
@@ -132,14 +132,14 @@ const HeroSectionView = () => {
             e o olhar de QA que aprendi dentro de ERPs e sistemas críticos.</span>
           </p>
 
-          <div className="mt-6 flex flex-col gap-2 lg:mt-8 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-7 lg:gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
+          <div className="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-7 lg:gap-y-3" style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.75s both' }}>
             <a href="#portfolio" className={`${HOME_BUTTON} group`}>
               Ver projetos
               <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
-            <div className="flex items-center justify-start gap-7">
-              <Link href="/contato" legacyBehavior><a className={HOME_LINK}>Fale comigo</a></Link>
-              <Link href="/sobre" legacyBehavior><a className={HOME_LINK}>Currículo</a></Link>
+            <div className="grid grid-cols-2 gap-3 lg:flex lg:items-center lg:gap-7">
+              <Link href="/contato" legacyBehavior><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Fale comigo</a></Link>
+              <Link href="/sobre" legacyBehavior><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Currículo</a></Link>
             </div>
           </div>
 

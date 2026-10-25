@@ -413,22 +413,6 @@ body {
     animation: text-gradient-sweep 1.5s var(--motion-ease-cinematic) var(--sweep-delay, 0s) both;
 }
 
-/* Frame parado do one-shot mobile: um push-in lentíssimo tira a leitura de
-   "vídeo travado" sem tocar em currentTime. Roda no compositor (transform),
-   então não custa decode nem seek. */
-@keyframes hero-frame-drift {
-    from { transform: scale(1); }
-    to { transform: scale(1.06); }
-}
-
-.animate-hero-frame-drift {
-    /* linear de propósito: velocidade constante é o que faz o frame parecer
-       vivo por muito tempo. Com ease-out o zoom acontece quase todo nos
-       primeiros 3 s e depois estaciona — volta a ler como congelado. */
-    animation: hero-frame-drift 26s linear forwards;
-    will-change: transform;
-}
-
 @keyframes pulse-scale {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -467,7 +451,6 @@ body {
     .animate-pulse-opacity,
     .animate-fadeIn,
     .animate-hero-glow-drift,
-    .animate-hero-frame-drift,
     .animate-hero-word-rise {
         animation: none;
     }
