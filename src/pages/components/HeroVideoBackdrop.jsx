@@ -29,7 +29,7 @@ const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
 const HeroVideoBackdrop = ({ onPinProgress }) => {
   const videoRef = useRef(null);
-  const [mode, setMode] = useState('poster'); // poster · scrub · manual
+  const [mode, setMode] = useState('poster'); // poster · opt-in · scrub · manual
   const [visible, setVisible] = useState(false);
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -53,7 +53,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     const slowNetwork = typeof connection.effectiveType === 'string'
       && /(^|-)2g$/.test(connection.effectiveType);
     if (!finePointer) setMode('manual');
-    else if (!reduced && !saveData && !slowNetwork) setMode('scrub');
+    else setMode(reduced || saveData || slowNetwork ? 'opt-in' : 'scrub');
   }, []);
 
   // ── Carregamento preguiçoso: nunca compete com o primeiro paint ──
@@ -237,7 +237,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
         style={{ objectPosition: '50% 42%' }}
       />
 
-      {mode !== 'poster' && (
+      {(mode === 'scrub' || mode === 'manual') && (
         <video
           ref={videoRef}
           muted
@@ -282,17 +282,17 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
             'linear-gradient(180deg, rgba(18,18,18,0.24) 0%, rgba(18,18,18,0) 28%, rgba(18,18,18,0.15) 46%, rgba(18,18,18,0.8) 76%, var(--color-background) 100%)',
         }}
       />
-      {mode === 'manual' && !failed && (
+      {(mode === 'manual' || mode === 'opt-in') && !failed && (
         <button
           type="button"
-          onClick={togglePlayback}
-          aria-label={playing ? 'Pausar vídeo de apresentação' : ended ? 'Rever vídeo de apresentação' : 'Reproduzir vídeo de apresentação'}
+          onClick={mode === 'opt-in' ? () => setMode('scrub') : togglePlayback}
+          aria-label={mode === 'opt-in' ? 'Ativar vídeo no scroll' : playing ? 'Pausar vídeo de apresentação' : ended ? 'Rever vídeo de apresentação' : 'Reproduzir vídeo de apresentação'}
           className="mono-focus-ring pointer-events-auto absolute right-4 top-4 z-30 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-black/60 px-4 text-xs font-medium text-primary backdrop-blur-sm [touch-action:manipulation] active:bg-black/80"
         >
           <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3 w-3 shrink-0 fill-current">
             <path d={playing ? 'M4 3h3v10H4zm5 0h3v10H9z' : 'M4 2.5v11l9-5.5z'} />
           </svg>
-          {playing ? 'Pausar' : ended ? 'Rever vídeo' : 'Ver vídeo'}
+          {mode === 'opt-in' ? 'Ativar vídeo no scroll' : playing ? 'Pausar' : ended ? 'Rever vídeo' : 'Ver vídeo'}
         </button>
       )}
       {failed && <p role="status" className="absolute right-4 top-4 rounded-full bg-black/70 px-4 py-3 text-xs text-primary">Vídeo indisponível</p>}
