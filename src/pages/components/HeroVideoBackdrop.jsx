@@ -5,14 +5,15 @@ import usePinScrub from '@/lib/usePinScrub';
 // Backdrop do hero: vídeo cinematográfico com dois regimes.
 //
 // Desktop (ponteiro fino): scrub — a roda avança o vídeo no lugar de rolar.
-// Mobile: loop mudo em ping-pong (16s, sem emenda), desacoplado do scroll.
+// Mobile: o clipe roda uma vez e congela no último frame; o replay só acontece
+// depois que o hero sai de cena e volta (sem ping-pong, sem inversão).
 // reduced-motion / save-data / rede 2G: só o poster, zero download de vídeo.
 //
 // O poster é o LCP: entra com priority e fica visível até o vídeo ter o
 // primeiro frame decodificado. O vídeo só é baixado depois do load da página.
 
 const SRC_SCRUB = '/video/hero/hero-scrub-v2.mp4';
-const SRC_LOOP = '/video/hero/hero-loop-v2.mp4';
+const SRC_ONCE = '/video/hero/hero-once-v2.mp4';
 const POSTER = '/video/hero/hero-poster-v1.webp';
 
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
@@ -35,9 +36,13 @@ const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
 const HeroVideoBackdrop = ({ onPinProgress }) => {
   const videoRef = useRef(null);
-  const [mode, setMode] = useState('poster'); // poster · scrub · loop
+  const [mode, setMode] = useState('poster'); // poster · scrub · once
   const [visible, setVisible] = useState(false);
   const [failed, setFailed] = useState(false);
+  // One-shot: depois do fim, o frame parado ganha um push-in lento contínuo
+  // para não ler como vídeo travado. Reseta no replay.
+  const [drift, setDrift] = useState(false);
+  const [inView, setInView] = useState(true);
 
   const targetRef = useRef(0);
   const positionRef = useRef(0);
@@ -48,8 +53,8 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   progressCb.current = onPinProgress;
 
   // ── Estratégia de mídia (só no cliente) ──────────────────────
-  // reduced-motion desliga o movimento autônomo (loop, entradas), mas NÃO o
-  // scrub: ali quem move é a roda do usuário, frame a frame. No toque não há
+  // reduced-motion desliga o movimento autônomo (one-shot, entradas), mas NÃO
+  // o scrub: ali quem move é a roda do usuário, frame a frame. No toque não há
   // scrub, então reduced-motion ali fica no poster.
   useEffect(() => {
     const reduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
@@ -62,7 +67,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     if (saveData || slowNetwork) return;
     if (reduced && !finePointer) return;
 
-    setMode(finePointer ? 'scrub' : 'loop');
+    setMode(finePointer ? 'scrub' : 'once');
   }, []);
 
   // ── Carregamento preguiçoso: nunca compete com o primeiro paint ──
@@ -77,10 +82,10 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
     const start = () => {
       if (cancelled) return;
-      video.src = mode === 'scrub' ? SRC_SCRUB : SRC_LOOP;
+      video.src = mode === 'scrub' ? SRC_SCRUB : SRC_ONCE;
       video.preload = 'auto';
       video.load();
-      if (mode === 'loop') video.play().catch(() => {});
+      if (mode === 'once') video.play().catch(() => {});
     };
 
     const onReady = () => {
@@ -190,21 +195,36 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     },
   });
 
-  // ── Economia: pausa o loop fora de vista / com a aba oculta ──
+  // ── One-shot: pausa fora de vista e só repete depois de sair de cena ──
+  // O replay exige uma saída completa do hero (threshold 0): assim um scroll
+  // curto não reinicia o clipe no meio do movimento.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || mode !== 'loop') return undefined;
+    if (!video || mode !== 'once') return undefined;
+
+    let leftStage = false;
 
     const observer = new IntersectionObserver(([entry]) => {
       inViewRef.current = entry.isIntersecting;
-      if (entry.isIntersecting) video.play().catch(() => {});
-      else video.pause();
-    }, { threshold: 0.05 });
+      setInView(entry.isIntersecting);
+
+      if (!entry.isIntersecting) {
+        leftStage = true;
+        video.pause();
+        return;
+      }
+      if (!leftStage) return;
+
+      leftStage = false;
+      setDrift(false);
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }, { threshold: 0 });
     observer.observe(video);
 
     const onVisibility = () => {
       if (document.hidden) video.pause();
-      else if (inViewRef.current) video.play().catch(() => {});
+      else if (inViewRef.current && !video.ended) video.play().catch(() => {});
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
@@ -239,13 +259,17 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
           ref={videoRef}
           muted
           playsInline
-          loop={mode === 'loop'}
-          autoPlay={mode === 'loop'}
+          autoPlay={mode === 'once'}
           poster={POSTER}
           disablePictureInPicture
           onError={handleError}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
-          style={{ objectPosition: '50% 42%', opacity: visible && !failed ? 1 : 0 }}
+          onEnded={() => setDrift(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${drift ? 'animate-hero-frame-drift' : ''}`}
+          style={{
+            objectPosition: '50% 42%',
+            opacity: visible && !failed ? 1 : 0,
+            animationPlayState: inView ? 'running' : 'paused',
+          }}
         />
       )}
 
@@ -263,12 +287,13 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
         className="absolute inset-0 hidden lg:block"
         style={{ background: 'radial-gradient(120% 90% at 50% 42%, transparent 42%, rgba(0,0,0,0.42) 100%)' }}
       />
-      {/* Mobile: faixa respira; só as bordas escurecem */}
+      {/* Mobile: scrim do topo (menu) + degradê forte na base, onde o texto
+          entra sobre o vídeo — o frame vira fundo do bloco, não player. */}
       <div
         className="absolute inset-0 lg:hidden"
         style={{
           background:
-            'linear-gradient(180deg, rgba(18,18,18,0.32) 0%, rgba(18,18,18,0) 28%, rgba(18,18,18,0) 64%, rgba(18,18,18,0.52) 100%)',
+            'linear-gradient(180deg, rgba(18,18,18,0.32) 0%, rgba(18,18,18,0) 24%, rgba(18,18,18,0) 38%, rgba(18,18,18,0.55) 70%, rgba(18,18,18,0.96) 100%)',
         }}
       />
     </div>

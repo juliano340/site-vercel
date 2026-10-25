@@ -15,39 +15,67 @@ const FICHA = [
   { label: 'TS · Next · QA', live: false },
 ];
 
+// Camadas ligadas ao progresso do pin — tudo derivado de `progress`, nunca
+// de evento. Assim subir a roda desfaz exatamente o que descer fez.
+const PIN_PARALLAX = 28; // px que o conteúdo sobe ao longo do percurso
+const TERMINAL_IN = [0.02, 0.42]; // faixa em que o comando se "escreve"
+const STEP_MARKS = 3; // marcos do stepper (a barra vira 3 segmentos)
+
+const clamp01 = (value) => Math.min(1, Math.max(0, value));
+const ramp = (value, from, to) => clamp01((value - from) / (to - from));
+
 const HeroSectionView = () => {
   const ref = useRef(null);
+  const pinRef = useRef(null);
+  const terminalRef = useRef(null);
   const [pinProgress, setPinProgress] = useState(null);
 
-  // Progresso do "pin" do carrossel (0..1) ou null quando liberado.
+  // Progresso do pin → DOM direto (sem re-render por evento de roda):
+  // parallax do conteúdo e terminal que se escreve.
+  const applyPinProgress = useCallback((value) => {
+    const pin = pinRef.current;
+    if (pin) pin.style.transform = `translate3d(0, ${(-PIN_PARALLAX * value).toFixed(1)}px, 0)`;
+
+    const terminal = terminalRef.current;
+    if (terminal) {
+      const written = ramp(value, TERMINAL_IN[0], TERMINAL_IN[1]);
+      terminal.style.clipPath = `inset(0 ${((1 - written) * 100).toFixed(2)}% 0 0)`;
+    }
+  }, []);
+
+  // Progresso do "pin" do vídeo (0..1) ou null quando liberado.
   // Throttle por delta pra não re-renderizar a cada pixel de rolagem.
   const handlePinProgress = useCallback((value) => {
+    if (value !== null) applyPinProgress(value);
     setPinProgress((prev) => {
       if (value === null) return prev === null ? prev : null;
       if (prev !== null && Math.abs(value - prev) < 0.02 && value < 1) return prev;
       return value;
     });
-  }, []);
+  }, [applyPinProgress]);
 
   // Conteúdo: translateY + scale + fade conforme o hero sai de cena —
   // desktop apenas. No mobile o scroll fica nativo, sem acoplamento.
   useScrollProgress((progress) => {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const el = ref.current;
-    if (!el) return;
     const clamped = Math.min(1, Math.max(0, progress));
-    el.style.transform = `translate3d(0, ${clamped * 40}px, 0) scale(${1 - clamped * 0.03})`;
-    el.style.opacity = `${1 - clamped * 0.9}`;
+
+    const el = ref.current;
+    if (el) {
+      el.style.transform = `translate3d(0, ${clamped * 40}px, 0) scale(${1 - clamped * 0.03})`;
+      el.style.opacity = `${1 - clamped * 0.9}`;
+    }
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-media-height:clamp(11rem,32svh,16rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
-      {/* ── Vídeo: scrub no desktop, loop no mobile (scrim embutido) ── */}
+    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-media-height:clamp(14rem,42svh,24rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
+      {/* ── Vídeo: scrub no desktop, one-shot no mobile (scrim embutido) ── */}
       <HeroVideoBackdrop onPinProgress={handlePinProgress} />
 
-      {/* ── Conteúdo ──────────────────────────────────────────── */}
-      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-media-height)+2.75rem)] lg:pointer-events-auto lg:py-20`}>
-        <div ref={ref} className="pointer-events-auto" style={{ willChange: 'transform, opacity' }}>
+      {/* ── Conteúdo: no mobile sobe sobre o degradê do vídeo ──── */}
+      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-6 pt-[calc(var(--hero-media-height)-3.5rem)] lg:pointer-events-auto lg:py-20`}>
+        <div ref={pinRef} className="pointer-events-auto" style={{ willChange: 'transform' }}>
+          <div ref={ref} style={{ willChange: 'transform, opacity' }}>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">
             <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             Disponível <span aria-hidden="true" className="text-muted">·</span> Porto Alegre
@@ -84,8 +112,13 @@ const HeroSectionView = () => {
             style={{ animation: 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' }}
             aria-label="Terminal: deploy com papel de desenvolvedor full stack, desde 2006"
           >
-            <span aria-hidden="true" style={{ color: 'var(--color-accent)' }}>$&nbsp;</span>
-            <span aria-hidden="true">
+            <span
+              ref={terminalRef}
+              aria-hidden="true"
+              className="inline-block"
+              style={{ clipPath: 'inset(0 100% 0 0)', willChange: 'clip-path' }}
+            >
+              <span style={{ color: 'var(--color-accent)' }}>$&nbsp;</span>
               ~/juliano340 <span style={{ color: 'var(--color-muted)' }}>deploy</span> --role=<span style={{ color: 'var(--color-text)' }}>full-stack</span> --since=<span style={{ color: 'var(--color-text)' }}>2006</span>
             </span>
           </p>
@@ -126,30 +159,45 @@ const HeroSectionView = () => {
               </div>
             ))}
           </dl>
+          </div>
         </div>
       </div>
 
-      {/* ── Pista do pin: rolagem gira o carrossel antes de descer ── */}
+      {/* ── Stepper do pin: 3 marcos, cada um enche na sua faixa ── */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-3"
         style={{
-          opacity: pinProgress === null ? 0 : Math.max(0, 1 - pinProgress),
+          opacity: pinProgress === null ? 0 : 1,
           transition: 'opacity 300ms var(--motion-ease-cinematic)',
         }}
       >
-        <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]" style={{ color: 'var(--color-dim)' }}>
+        <span
+          className="font-mono text-[0.65rem] uppercase tracking-[0.2em]"
+          style={{ color: 'var(--color-dim)', opacity: Math.max(0, 1 - (pinProgress || 0) * 3) }}
+        >
           role para avançar
         </span>
-        <span className="block h-[2px] w-40 overflow-hidden rounded-full" style={{ background: 'var(--color-border)' }}>
-          <span
-            className="block h-full rounded-full"
-            style={{
-              width: `${Math.round((pinProgress || 0) * 100)}%`,
-              background: 'var(--color-accent)',
-              transition: 'width 120ms linear',
-            }}
-          />
+        <span className="flex items-center gap-1.5">
+          {Array.from({ length: STEP_MARKS }, (_, i) => {
+            const local = clamp01(((pinProgress || 0) - i / STEP_MARKS) * STEP_MARKS);
+            return (
+              <span
+                key={i}
+                className="block h-[2px] w-12 overflow-hidden rounded-full"
+                style={{ background: 'var(--color-border)' }}
+              >
+                <span
+                  className="block h-full rounded-full"
+                  style={{
+                    width: `${local * 100}%`,
+                    background: 'var(--color-accent)',
+                    transition: 'width 120ms linear',
+                  }}
+                />
+              </span>
+            );
+          })}
         </span>
       </div>
     </section>
