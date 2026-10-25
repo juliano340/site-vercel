@@ -26,10 +26,8 @@ const MAX_RATE = 2.4; // segundos de vídeo por segundo real, em ambos sentidos
 const SETTLE_EPSILON = 0.08; // segundos
 const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
-const HeroVideoBackdrop = ({ onPinProgress }) => {
+const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = true }) => {
   const videoRef = useRef(null);
-  const mediaRef = useRef(null);
-  const shadeRef = useRef(null);
   const [mode, setMode] = useState('poster'); // poster · scrub · manual · once
   const [visible, setVisible] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -44,34 +42,10 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
 
-  // Sticky nativo segura o vídeo; apenas o contraste acompanha a rolagem.
   useEffect(() => {
-    const media = mediaRef.current;
-    const shade = shadeRef.current;
-    if (!media || !shade) return undefined;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      if (window.innerWidth >= 1024) {
-        shade.style.opacity = '0';
-        return;
-      }
-      const top = parseFloat(window.getComputedStyle(media).top) || 0;
-      const distance = Math.max(0, top - media.parentElement.getBoundingClientRect().top);
-      shade.style.opacity = `${Math.min(0.8, distance / media.offsetHeight)}`;
-    };
-    const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-    };
-  }, []);
+    if (mode === 'poster' && !failed) return;
+    onScrubAvailable?.(mode === 'scrub' && !failed);
+  }, [mode, failed, onScrubAvailable]);
 
   // ── Estratégia de mídia (só no cliente) ──────────────────────
   // O vídeo fica ativo por padrão; acompanha a troca entre mobile e desktop.
@@ -212,7 +186,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   }, [runSeek]);
 
   usePinScrub({
-    enabled: mode === 'scrub' && visible && !failed,
+    enabled: mode === 'scrub' && visible && !failed && scrubEnabled,
     ratio: PIN_RATIO,
     canRelease,
     onEngage: () => {
@@ -223,12 +197,15 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
       pinnedRef.current = true;
       handleProgress(value);
     },
-    onRelease: () => {
+    onRelease: ({ completed }) => {
       settleWaitRef.current = 0;
       pinnedRef.current = false;
+      if (completed) progressCb.current?.(1);
       progressCb.current?.(null);
     },
     onReset: () => {
+      // O pin já foi liberado: o seek não reportará mais o frame inicial.
+      progressCb.current?.(0);
       progressCb.current?.(null);
       targetRef.current = 0;
       positionRef.current = 0;
@@ -283,8 +260,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
   return (
     <div
-      ref={mediaRef}
-      className="pointer-events-none sticky top-[var(--nav-height,5rem)] z-0 h-[var(--hero-media-height)] shrink-0 overflow-hidden bg-background lg:absolute lg:inset-0 lg:h-auto"
+      className="pointer-events-none relative z-0 h-[var(--hero-media-height)] shrink-0 overflow-hidden bg-background lg:absolute lg:inset-0 lg:h-auto"
     >
       <Image
         src={POSTER}
@@ -342,7 +318,6 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
             'linear-gradient(180deg, rgba(18,18,18,0.24) 0%, rgba(18,18,18,0) 28%, rgba(18,18,18,0.15) 46%, rgba(18,18,18,0.8) 76%, var(--color-background) 100%)',
         }}
       />
-      <div ref={shadeRef} aria-hidden="true" className="absolute inset-0 bg-background opacity-0 lg:hidden" />
       {(mode === 'manual' || mode === 'once') && !failed && (
         <button
           type="button"
