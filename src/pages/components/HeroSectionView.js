@@ -103,11 +103,6 @@ const HeroSectionView = () => {
     });
   }, [applyPinProgress]);
 
-  const skipStory = () => {
-    setStorySkipped(true);
-    window.requestAnimationFrame(() => document.getElementById('home-title')?.focus({ preventScroll: true }));
-  };
-
   useEffect(() => {
     if (!storyActive) return undefined;
     const onScroll = () => {
@@ -142,7 +137,6 @@ const HeroSectionView = () => {
               </div>
             ))}
           </div>
-          {currentProgressRef.current < 0.95 && <button type="button" onClick={skipStory} className="mono-focus-ring pointer-events-auto absolute right-8 top-8 min-h-11 px-3 text-xs text-muted hover:text-primary">Pular para apresentação <span aria-hidden="true">↗</span></button>}
         </div>
       )}
 
