@@ -2,15 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import usePinScrub from '@/lib/usePinScrub';
 
-// Desktop: scrub pela roda. Mobile: reprodução explícita por toque.
-// Pôster como LCP; no mobile o vídeo só é baixado ao tocar.
+// Desktop: scrub pela roda. Mobile: autoplay silencioso, uma vez, com controles.
+// Pôster como LCP; economia de dados mantém reprodução por toque no mobile.
 
 const SRC_SCRUB = '/video/hero/hero-scrub-v2.mp4';
 const SRC_ONCE = '/video/hero/hero-once-v2.mp4';
 const POSTER = '/video/hero/hero-poster-v1.webp';
 
 const FINE_POINTER_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 // O percurso é calibrado por tempo, não por tamanho: 1 viewport de rolagem =
 // ~2,3 s de vídeo. Percurso curto demais faz cada notch da roda valer 12+
@@ -29,7 +28,9 @@ const SETTLE_TIMEOUT = 2000; // trava de segurança, em ms
 
 const HeroVideoBackdrop = ({ onPinProgress }) => {
   const videoRef = useRef(null);
-  const [mode, setMode] = useState('poster'); // poster · opt-in · scrub · manual
+  const mediaRef = useRef(null);
+  const shadeRef = useRef(null);
+  const [mode, setMode] = useState('poster'); // poster · scrub · manual · once
   const [visible, setVisible] = useState(false);
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -39,26 +40,67 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   const positionRef = useRef(0);
   const rafRef = useRef(0);
   const settleWaitRef = useRef(0);
+  const pinnedRef = useRef(false);
   const progressCb = useRef(onPinProgress);
   progressCb.current = onPinProgress;
 
-  // ── Estratégia de mídia (só no cliente) ──────────────────────
-  // Preferências de movimento e dados impedem o scrub automático.
+  // Sticky nativo segura o vídeo; apenas o contraste acompanha a rolagem.
   useEffect(() => {
-    const reduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-    const finePointer = window.matchMedia(FINE_POINTER_QUERY).matches;
+    const media = mediaRef.current;
+    const shade = shadeRef.current;
+    if (!media || !shade) return undefined;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (window.innerWidth >= 1024) {
+        shade.style.opacity = '0';
+        return;
+      }
+      const top = parseFloat(window.getComputedStyle(media).top) || 0;
+      const distance = Math.max(0, top - media.parentElement.getBoundingClientRect().top);
+      shade.style.opacity = `${Math.min(0.8, distance / media.offsetHeight)}`;
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, []);
 
+  // ── Estratégia de mídia (só no cliente) ──────────────────────
+  // O vídeo fica ativo por padrão; acompanha a troca entre mobile e desktop.
+  useEffect(() => {
+    const finePointer = window.matchMedia(FINE_POINTER_QUERY);
     const connection = navigator.connection || navigator.mozConnection || {};
-    const saveData = connection.saveData === true;
-    const slowNetwork = typeof connection.effectiveType === 'string'
-      && /(^|-)2g$/.test(connection.effectiveType);
-    if (!finePointer) setMode('manual');
-    else setMode(reduced || saveData || slowNetwork ? 'opt-in' : 'scrub');
+    const updateMode = () => {
+      const saveData = connection.saveData === true;
+      const slowNetwork = typeof connection.effectiveType === 'string'
+        && /(^|-)2g$/.test(connection.effectiveType);
+      setVisible(false);
+      setPlaying(false);
+      setEnded(false);
+      setFailed(false);
+      targetRef.current = 0;
+      positionRef.current = 0;
+      pinnedRef.current = false;
+      progressCb.current?.(0);
+      progressCb.current?.(null);
+      setMode(finePointer.matches ? 'scrub' : saveData || slowNetwork ? 'manual' : 'once');
+    };
+    updateMode();
+    finePointer.addEventListener('change', updateMode);
+    return () => finePointer.removeEventListener('change', updateMode);
   }, []);
 
   // ── Carregamento preguiçoso: nunca compete com o primeiro paint ──
   useEffect(() => {
-    if (mode !== 'scrub') return undefined;
+    if (mode !== 'scrub' && mode !== 'once') return undefined;
     const video = videoRef.current;
     if (!video) return undefined;
 
@@ -68,9 +110,17 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
     const start = () => {
       if (cancelled) return;
-      video.src = SRC_SCRUB;
+      if (mode === 'once' && video.getAttribute('src')) return;
+      video.src = mode === 'scrub' ? SRC_SCRUB : SRC_ONCE;
       video.preload = 'auto';
       video.load();
+      if (mode === 'once') {
+        const rect = video.getBoundingClientRect();
+        if (!document.hidden && rect.bottom > 0 && rect.top < window.innerHeight) {
+          video.muted = true;
+          video.play().catch(() => setPlaying(false));
+        }
+      }
     };
 
     const onReady = () => {
@@ -88,16 +138,16 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
       }
     };
 
-    if (document.readyState === 'complete') schedule();
-    else window.addEventListener('load', schedule, { once: true });
+    // Não espera imagens de outras seções nem scripts externos terminarem.
+    schedule();
 
     return () => {
       cancelled = true;
       video.removeEventListener('loadeddata', onReady);
-      window.removeEventListener('load', schedule);
       if (idleId) window.cancelIdleCallback?.(idleId);
       if (timeoutId) window.clearTimeout(timeoutId);
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
     };
   }, [mode]);
 
@@ -138,7 +188,10 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
       const target = targetRef.current * (video.duration - END_HOLD);
       const delta = target - positionRef.current;
-      if (Math.abs(delta) < SEEK_EPSILON) return;
+      if (Math.abs(delta) < SEEK_EPSILON) {
+        if (pinnedRef.current) progressCb.current?.(targetRef.current);
+        return;
+      }
 
       // Mesmo teto para avançar e voltar; o ease só suaviza a chegada.
       const maxStep = MAX_RATE * dt;
@@ -146,6 +199,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
       positionRef.current = Math.min(video.duration, Math.max(0, positionRef.current + step));
       video.currentTime = positionRef.current;
+      if (pinnedRef.current) progressCb.current?.(positionRef.current / (video.duration - END_HOLD));
       rafRef.current = window.requestAnimationFrame(tick);
     };
     rafRef.current = window.requestAnimationFrame(tick);
@@ -161,13 +215,17 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
     enabled: mode === 'scrub' && visible && !failed,
     ratio: PIN_RATIO,
     canRelease,
-    onEngage: () => progressCb.current?.(0),
+    onEngage: () => {
+      pinnedRef.current = true;
+      progressCb.current?.(0);
+    },
     onProgress: (value) => {
-      progressCb.current?.(value);
+      pinnedRef.current = true;
       handleProgress(value);
     },
     onRelease: () => {
       settleWaitRef.current = 0;
+      pinnedRef.current = false;
       progressCb.current?.(null);
     },
     onReset: () => {
@@ -183,7 +241,7 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
   // Pausa fora de vista e ao trocar de aba, sem retomar automaticamente.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || mode !== 'manual') return undefined;
+    if (!video || (mode !== 'manual' && mode !== 'once')) return undefined;
 
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) {
@@ -225,7 +283,8 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[var(--hero-media-height)] overflow-hidden bg-background lg:inset-0 lg:h-auto"
+      ref={mediaRef}
+      className="pointer-events-none sticky top-[var(--nav-height,5rem)] z-0 h-[var(--hero-media-height)] shrink-0 overflow-hidden bg-background lg:absolute lg:inset-0 lg:h-auto"
     >
       <Image
         src={POSTER}
@@ -237,8 +296,9 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
         style={{ objectPosition: '50% 42%' }}
       />
 
-      {(mode === 'scrub' || mode === 'manual') && (
+      {(mode === 'scrub' || mode === 'manual' || mode === 'once') && (
         <video
+          key={mode}
           ref={videoRef}
           muted
           playsInline
@@ -282,17 +342,18 @@ const HeroVideoBackdrop = ({ onPinProgress }) => {
             'linear-gradient(180deg, rgba(18,18,18,0.24) 0%, rgba(18,18,18,0) 28%, rgba(18,18,18,0.15) 46%, rgba(18,18,18,0.8) 76%, var(--color-background) 100%)',
         }}
       />
-      {(mode === 'manual' || mode === 'opt-in') && !failed && (
+      <div ref={shadeRef} aria-hidden="true" className="absolute inset-0 bg-background opacity-0 lg:hidden" />
+      {(mode === 'manual' || mode === 'once') && !failed && (
         <button
           type="button"
-          onClick={mode === 'opt-in' ? () => setMode('scrub') : togglePlayback}
-          aria-label={mode === 'opt-in' ? 'Ativar vídeo no scroll' : playing ? 'Pausar vídeo de apresentação' : ended ? 'Rever vídeo de apresentação' : 'Reproduzir vídeo de apresentação'}
+          onClick={togglePlayback}
+          aria-label={playing ? 'Pausar vídeo de apresentação' : ended ? 'Rever vídeo de apresentação' : 'Reproduzir vídeo de apresentação'}
           className="mono-focus-ring pointer-events-auto absolute right-4 top-4 z-30 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-black/60 px-4 text-xs font-medium text-primary backdrop-blur-sm [touch-action:manipulation] active:bg-black/80"
         >
           <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3 w-3 shrink-0 fill-current">
             <path d={playing ? 'M4 3h3v10H4zm5 0h3v10H9z' : 'M4 2.5v11l9-5.5z'} />
           </svg>
-          {mode === 'opt-in' ? 'Ativar vídeo no scroll' : playing ? 'Pausar' : ended ? 'Rever vídeo' : 'Ver vídeo'}
+          {playing ? 'Pausar' : ended ? 'Rever vídeo' : 'Ver vídeo'}
         </button>
       )}
       {failed && <p role="status" className="absolute right-4 top-4 rounded-full bg-black/70 px-4 py-3 text-xs text-primary">Vídeo indisponível</p>}

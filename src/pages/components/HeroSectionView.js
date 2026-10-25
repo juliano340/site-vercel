@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import useScrollProgress from '@/lib/useScrollProgress';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { HOME_CONTAINER, HOME_LINK, HOME_BUTTON } from '@/lib/homePresentation';
 import HeroVideoBackdrop from '@/pages/components/HeroVideoBackdrop';
 
@@ -17,7 +17,9 @@ const FICHA = [
 
 // Camadas ligadas ao progresso do pin — tudo derivado de `progress`, nunca
 // de evento. Assim subir a roda desfaz exatamente o que descer fez.
-const PIN_PARALLAX = 28; // px que o conteúdo sobe ao longo do percurso
+const PIN_PARALLAX = 120; // percurso máximo; limitado pelo espaço até o topo
+const PIN_PARALLAX_REDUCED = 72;
+const PIN_TOP_GAP = 24;
 const TERMINAL_IN = [0.02, 0.42]; // faixa em que o comando se "escreve"
 const STEP_MARKS = 3; // marcos do stepper (a barra vira 3 segmentos)
 
@@ -28,13 +30,25 @@ const HeroSectionView = () => {
   const ref = useRef(null);
   const pinRef = useRef(null);
   const terminalRef = useRef(null);
+  const pinTravelRef = useRef(0);
+  const currentProgressRef = useRef(0);
   const [pinProgress, setPinProgress] = useState(null);
 
   // Progresso do pin → DOM direto (sem re-render por evento de roda):
   // parallax do conteúdo e terminal que se escreve.
-  const applyPinProgress = useCallback((value) => {
+  const applyPinProgress = useCallback((value, measure = false) => {
+    currentProgressRef.current = value;
     const pin = pinRef.current;
-    if (pin) pin.style.transform = `translate3d(0, ${(-PIN_PARALLAX * value).toFixed(1)}px, 0)`;
+    if (pin) {
+      if (measure || value === 0) {
+        const contentTop = pin.parentElement.getBoundingClientRect().top + pin.offsetTop;
+        const heroTop = pin.closest('section').getBoundingClientRect().top;
+        const maxTravel = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? PIN_PARALLAX_REDUCED : PIN_PARALLAX;
+        pinTravelRef.current = Math.min(maxTravel, Math.max(0, contentTop - heroTop - PIN_TOP_GAP));
+      }
+      pin.style.transform = `translate3d(0, ${(-pinTravelRef.current * value).toFixed(1)}px, 0)`;
+    }
 
     const terminal = terminalRef.current;
     if (terminal) {
@@ -42,6 +56,12 @@ const HeroSectionView = () => {
       terminal.style.clipPath = `inset(0 ${((1 - written) * 100).toFixed(2)}% 0 0)`;
     }
   }, []);
+
+  useEffect(() => {
+    const onResize = () => applyPinProgress(currentProgressRef.current, true);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, [applyPinProgress]);
 
   // Progresso do "pin" do vídeo (0..1) ou null quando liberado.
   // Throttle por delta pra não re-renderizar a cada pixel de rolagem.
@@ -68,12 +88,12 @@ const HeroSectionView = () => {
   });
 
   return (
-    <section aria-labelledby="home-title" className="relative flex flex-col overflow-hidden bg-background text-primary [--hero-media-height:clamp(14rem,42svh,24rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center">
-      {/* ── Vídeo: scrub no desktop, reprodução por toque no mobile (scrim embutido) ── */}
+    <section aria-labelledby="home-title" className="relative flex flex-col bg-background text-primary [--hero-media-height:clamp(14rem,42svh,24rem)] lg:min-h-[calc(100vh-5rem)] lg:justify-center lg:overflow-hidden">
+      {/* ── Vídeo: scrub no desktop, autoplay uma vez no mobile (scrim embutido) ── */}
       <HeroVideoBackdrop onPinProgress={handlePinProgress} />
 
       {/* ── Conteúdo: no mobile sobe sobre o degradê do vídeo ──── */}
-      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 pb-10 pt-[calc(var(--hero-media-height)-3.5rem)] lg:pointer-events-auto lg:py-20`}>
+      <div className={`${HOME_CONTAINER} pointer-events-none relative z-20 -mt-14 pb-10 lg:pointer-events-auto lg:mt-0 lg:py-20`}>
         <div ref={pinRef} className="pointer-events-auto" style={{ willChange: 'transform' }}>
           <div ref={ref} style={{ willChange: 'transform, opacity' }}>
           <p className="mb-4 flex items-center gap-2 text-xs font-medium text-primary/80 lg:hidden">

@@ -23,10 +23,10 @@ const FeaturedProject = () => {
   return (
     <section id="featured-project" aria-labelledby="featured-title" className="scroll-mt-6 bg-surface text-primary">
       <div className={`${HOME_CONTAINER} py-20 sm:py-24`}>
-        <div className="flex justify-end">
+        <div className="mb-8 flex flex-col items-start gap-3 lg:mb-12 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
+          <SectionHeader number="01" label="Projeto em destaque" title={project.title} className="!mb-0" />
           <a href="#portfolio" className={`${HOME_LINK} text-muted`}>Todos os projetos</a>
         </div>
-        <SectionHeader number="01" label="Projeto em destaque" title={project.title} />
         <span id="featured-title" className="sr-only">{project.title}</span>
 
         <div className="grid items-center gap-8 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
