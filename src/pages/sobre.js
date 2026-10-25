@@ -1,5 +1,6 @@
 import SEO from '@/pages/components/SEO';
-import Breadcrumb from './components/Breadcrumb';
+import Breadcrumb from '@/pages/components/Breadcrumb';
+import SmartImage from '@/pages/components/SmartImage';
 
 const EXPERIENCES = [
   {
@@ -60,14 +61,6 @@ const EXPERIENCES = [
   },
 ];
 
-const SKILL_GROUPS = [
-  { label: 'IA & Produtividade', items: ['OpenCode', 'Claude', 'MCP / Tool Use', 'RAG'] },
-  { label: 'QA & Testes', items: ['Playwright', 'Vitest', 'Testes de API', 'TDD · BDD'] },
-  { label: 'Frontend', items: ['Angular', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
-  { label: 'Backend & Dados', items: ['NestJS', 'Node.js', 'Prisma', 'TypeORM', 'PostgreSQL', 'SQLite'] },
-  { label: 'DevOps & Infra', items: ['Docker', 'Vercel', 'VPS Linux', 'Nginx', 'PM2', 'CI/CD'] },
-];
-
 const Sobre = () => {
   return (
     <>
@@ -88,20 +81,55 @@ const Sobre = () => {
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <Breadcrumb paths={[{ label: 'Home', href: '/' }, { label: 'Sobre', href: '/sobre' }]} />
 
-          <header className="mb-12 mt-6 max-w-2xl">
-            <p className="ds-label mb-3">Currículo</p>
-            <h1 className="ds-h1">Sobre mim</h1>
-          </header>
+          <header
+            className="mb-16 mt-6 overflow-hidden"
+            style={{
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-surface)',
+            }}
+          >
+            <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_340px]">
+              <div className="p-6 sm:p-8 lg:p-10">
+                <p className="ds-label mb-3">Currículo</p>
+                <h1 className="ds-h1">Sobre mim</h1>
+                <p className="ds-body-lg mt-5 max-w-xl text-muted">
+                  Sou graduado em <strong className="text-primary">Sistemas para Internet</strong> pela
+                  <strong className="text-primary"> Unisinos</strong> e pós-graduando em
+                  <strong className="text-primary"> Engenharia de Qualidade e Teste de Software</strong> na
+                  <strong className="text-primary"> PUC Minas</strong>. Tenho experiência prática com front-end,
+                  back-end, testes e suporte técnico — e gosto de transformar ideias em soluções digitais funcionais.
+                </p>
 
-          <div className="mb-16 max-w-3xl">
-            <p className="ds-body-lg text-muted">
-              Sou graduado em <strong className="text-primary">Sistemas para Internet</strong> pela
-              <strong className="text-primary"> Unisinos</strong> e pós-graduando em
-              <strong className="text-primary"> Engenharia de Qualidade e Teste de Software</strong> na
-              <strong className="text-primary"> PUC Minas</strong>. Tenho experiência prática com front-end, back-end,
-              testes e suporte técnico — e gosto de transformar ideias em soluções digitais funcionais.
-            </p>
-          </div>
+                <ul className="mt-6 flex flex-wrap gap-2" aria-label="Áreas de atuação">
+                  {['Full Stack', 'QA & Testes', 'IA & Produtividade'].map((area) => (
+                    <li key={area} className="mono-tag">{area}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div
+                className="relative min-h-[300px] overflow-hidden sm:min-h-[340px] lg:min-h-0"
+                style={{ borderLeft: '1px solid rgba(255,255,255,0.05)' }}
+              >
+                <SmartImage
+                  src="/images/retrato-escritorio.png"
+                  alt="Retrato de Juliano Pereira, desenvolvedor full stack, sorrindo em um escritório claro"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 340px"
+                  quality={85}
+                  priority
+                  className="object-cover [object-position:50%_26%]"
+                />
+                {/* No mobile a foto entra abaixo do texto: fade no topo para fundir com o card */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 lg:hidden"
+                  style={{ background: 'linear-gradient(to bottom, #181818 0%, rgba(24,24,24,0) 16%)' }}
+                />
+              </div>
+            </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(300px,1fr)]">
             <div>
@@ -154,22 +182,6 @@ const Sobre = () => {
                     <p className="text-sm text-muted">Uninter</p>
                   </li>
                 </ol>
-              </div>
-
-              <div>
-                <h2 className="ds-h3 mb-6 text-primary">Stack</h2>
-                <dl className="space-y-6">
-                  {SKILL_GROUPS.map((group) => (
-                    <div key={group.label}>
-                      <dt className="text-xs font-bold uppercase tracking-[0.07em] text-muted">{group.label}</dt>
-                      <dd className="mt-3 flex flex-wrap gap-2">
-                        {group.items.map((item) => (
-                          <span key={item} className="mono-tag">{item}</span>
-                        ))}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
               </div>
             </aside>
           </div>
