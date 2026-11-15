@@ -15,6 +15,15 @@ import { useEffect, useRef } from 'react';
 //                           consumidor terminar o que estava fazendo
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 
+// Enquanto o pin está engatado o documento não pode rolar. Sem isto, arrastar
+// a barra de rolagem nativa move o scrollY por fora da roda — o hook corrigia
+// depois com scrollTo(0), brigando com o navegador a cada frame (piscar +
+// conteúdo passando por cima do vídeo). A trava deixa a barra inerte; a calha
+// é reservada no CSS (scrollbar-gutter) pra não deslocar o layout.
+const LOCK_CLASS = 'pin-locked';
+const lockScroll = () => document.documentElement.classList.add(LOCK_CLASS);
+const unlockScroll = () => document.documentElement.classList.remove(LOCK_CLASS);
+
 // Teto por evento de roda. Um notch comum do Windows manda 100; trackpads
 // mandam dezenas de eventos pequenos. O que não pode é um evento de 1000+
 // consumir o percurso inteiro de uma vez.
@@ -54,6 +63,7 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     const reset = (nextMode, completed = false) => {
       const wasPinned = mode === 'pinned';
       clearHold();
+      unlockScroll();
       mode = nextMode;
       accum = 0;
       if (!wasPinned) return;
@@ -64,6 +74,7 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     const engage = () => {
       mode = 'pinned';
       accum = 0;
+      lockScroll();
       callbacks.current.onEngage?.();
     };
 
@@ -158,15 +169,19 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
       advance(delta);
     };
 
-    // Scroll nativo não interrompe um pin em andamento. Ao voltar ao topo
-    // depois da conclusão, re-arma onde parou para permitir rebobinar.
+    // Scroll nativo não interrompe um pin em andamento: com a trava ativa,
+    // qualquer scrollY > 0 veio de fora (âncora, foco, Ctrl+F, bfcache). Nesse
+    // caso o pin devolve o controle em vez de puxar a página de volta ao topo.
+    // Ao voltar ao topo depois da conclusão, re-arma onde parou para permitir
+    // rebobinar.
     const onScroll = () => {
       if (mode === 'pinned' && window.scrollY > 4) {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        reset('released', false);
       }
       else if (mode === 'released' && window.scrollY <= 4) {
         mode = 'pinned';
         accum = progress * limit();
+        lockScroll();
         report(progress);
       }
     };
@@ -177,6 +192,7 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       clearHold();
+      unlockScroll();
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('touchmove', onTouchMove);

@@ -152,6 +152,19 @@
 html {
     scroll-behavior: smooth;
     background: var(--color-background);
+    /* Reserva a calha da barra: o lock do pin do hero some com a barra de
+       rolagem sem deslocar o layout. Também evita shift entre páginas curtas
+       e longas. Em overlay scrollbars (macOS/iOS) a calha é 0. */
+    scrollbar-gutter: stable;
+}
+
+/* Pin do hero: enquanto o vídeo é scrubado pela roda, o documento não rola.
+   A barra do navegador fica inerte em vez de disputar o scroll com o pin
+   (era o que causava o piscar ao arrastar a barra no meio do percurso). */
+html.pin-locked,
+html.pin-locked body {
+    overflow: hidden;
+    overscroll-behavior: none;
 }
 
 body {
