@@ -57,12 +57,12 @@ const Heatmap = ({ calendar }) => {
   const weeks = Array.isArray(calendar?.weeks) ? calendar.weeks : [];
 
   return (
-    <div>
+    <div className="min-w-0">
       <div
         role="img"
         tabIndex={0}
         aria-label={`Mapa de contribuições no GitHub nos últimos 12 meses: ${total} contribuições no total.`}
-        className="mono-focus-ring no-scrollbar overflow-x-auto pb-1"
+        className="mono-focus-ring no-scrollbar w-full min-w-0 overflow-x-auto pb-1"
       >
         <div
           aria-hidden="true"
@@ -115,8 +115,8 @@ const Heatmap = ({ calendar }) => {
 
 const Skeleton = () => (
   <div aria-hidden="true" className="p-4 sm:p-5">
-    <div className="grid gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
-      <div className="grid grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
+      <div className="grid min-w-0 grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
         {[0, 1, 2].map((item) => (
           <div key={item} className="lg:flex lg:items-center lg:justify-between lg:gap-3 lg:border-b lg:border-white/10 lg:py-2 lg:last:border-0">
             <div className="h-8 w-16 rounded-sm bg-white/[0.06] motion-safe:animate-pulse" />
@@ -125,7 +125,7 @@ const Skeleton = () => (
         ))}
       </div>
 
-      <div>
+      <div className="min-w-0">
         <div className="h-[109px] w-full max-w-[845px] rounded-sm bg-white/[0.05] motion-safe:animate-pulse" />
         <div className="mt-4 h-3 w-52 max-w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse" />
       </div>
@@ -184,7 +184,7 @@ const GitHubActivity = () => {
 
         <Reveal variant="blur">
           <div
-            className="relative overflow-hidden border"
+            className="relative w-full min-w-0 overflow-hidden border"
             style={{
               background: 'var(--color-surface-alt)',
               borderColor: 'var(--color-border)',
@@ -225,14 +225,14 @@ const GitHubActivity = () => {
 
             {status === 'ready' && (
               <div className="p-4 sm:p-5">
-                <div className="grid gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
-                  <ul className="grid grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
+                  <ul className="grid min-w-0 grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
                     <Stat label="Contribuições (12m)" value={stats.contributions} />
                     <Stat label="Repos públicos" value={stats.publicRepos} />
                     <Stat label="Seguidores" value={stats.followers} />
                   </ul>
 
-                  <div>
+                  <div className="min-w-0">
                     {hasCalendar ? (
                       <Heatmap calendar={calendar} />
                     ) : (
