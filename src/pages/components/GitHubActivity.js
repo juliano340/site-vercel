@@ -26,7 +26,6 @@ const levelFor = (count) => {
 };
 
 const numberFormatter = new Intl.NumberFormat('pt-BR');
-const relativeFormatter = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
 
 const formatNumber = (value) => (typeof value === 'number' ? numberFormatter.format(value) : '—');
 
@@ -36,27 +35,12 @@ const formatDay = (iso) => {
   return Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('pt-BR');
 };
 
-const formatWhen = (iso) => {
-  if (!iso) return '';
-  const timestamp = new Date(iso).getTime();
-  if (Number.isNaN(timestamp)) return '';
-
-  const diffDays = Math.round((timestamp - Date.now()) / 86_400_000);
-  if (Math.abs(diffDays) < 1) return 'hoje';
-  if (Math.abs(diffDays) < 30) return relativeFormatter.format(diffDays, 'day');
-
-  const diffMonths = Math.round(diffDays / 30);
-  if (Math.abs(diffMonths) < 12) return relativeFormatter.format(diffMonths, 'month');
-
-  return new Date(timestamp).toLocaleDateString('pt-BR');
-};
-
 const Stat = ({ label, value }) => (
-  <li>
-    <p className="font-mono text-2xl font-bold leading-none text-primary sm:text-3xl">
+  <li className="lg:flex lg:items-baseline lg:justify-between lg:gap-3 lg:border-b lg:border-white/10 lg:py-2 lg:first:pt-0 lg:last:border-0 lg:last:pb-0">
+    <p className="font-mono text-2xl font-bold leading-none text-primary sm:text-3xl lg:text-2xl">
       {formatNumber(value)}
     </p>
-    <p className="mt-2 text-[0.65rem] font-bold uppercase leading-tight tracking-[0.07em] text-muted">
+    <p className="mt-2 text-[0.65rem] font-bold uppercase leading-tight tracking-[0.07em] text-muted lg:mt-0 lg:max-w-[6rem] lg:text-right">
       {label}
     </p>
   </li>
@@ -85,8 +69,8 @@ const Heatmap = ({ calendar }) => {
           className="grid w-max"
           style={{
             gridAutoFlow: 'column',
-            gridTemplateRows: 'repeat(7, 10px)',
-            gridAutoColumns: '10px',
+            gridTemplateRows: 'repeat(7, 13px)',
+            gridAutoColumns: '13px',
             gap: '3px',
           }}
         >
@@ -99,8 +83,8 @@ const Heatmap = ({ calendar }) => {
                 key={`${weekIndex}-${dayIndex}`}
                 title={day ? `${day.count} contribuições em ${formatDay(day.date)}` : undefined}
                 style={{
-                  width: 10,
-                  height: 10,
+                  width: 13,
+                  height: 13,
                   borderRadius: 2,
                   background: LEVEL_COLORS[levelFor(day?.count)],
                 }}
@@ -129,69 +113,21 @@ const Heatmap = ({ calendar }) => {
   );
 };
 
-const CommitList = ({ commits }) => {
-  if (!commits.length) {
-    return (
-      <p className="mt-4 text-sm leading-relaxed text-muted">
-        Nenhum commit público recente. O histórico completo está no GitHub.
-      </p>
-    );
-  }
-
-  return (
-    <ol className="mt-4 space-y-4">
-      {commits.map((commit) => (
-        <li key={commit.url}>
-          <a
-            href={commit.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mono-focus-ring group block"
-          >
-            <span className="flex items-baseline justify-between gap-3 text-xs text-muted">
-              <span className="min-w-0 truncate font-mono">{commit.repo}</span>
-              {commit.date && (
-                <time dateTime={commit.date} className="shrink-0">
-                  {formatWhen(commit.date)}
-                </time>
-              )}
-            </span>
-            <span className="mt-1 line-clamp-2 text-sm leading-relaxed text-primary transition-colors duration-200 group-hover:text-accent">
-              {commit.message}
-            </span>
-            <span className="mt-1 block font-mono text-[0.65rem] text-muted">
-              {String(commit.sha || '').slice(0, 7)}
-            </span>
-          </a>
-        </li>
-      ))}
-    </ol>
-  );
-};
-
 const Skeleton = () => (
-  <div aria-hidden="true" className="p-5 sm:p-7">
-    <div className="grid grid-cols-3 gap-3 border-b pb-5" style={{ borderColor: 'var(--color-border)' }}>
-      {[0, 1, 2].map((item) => (
-        <div key={item}>
-          <div className="h-8 w-16 rounded-sm bg-white/[0.06] motion-safe:animate-pulse" />
-          <div className="mt-2 h-3 w-24 max-w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse" />
-        </div>
-      ))}
-    </div>
-
-    <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.65fr)_minmax(260px,1fr)]">
-      <div>
-        <div className="h-[88px] w-full max-w-[686px] rounded-sm bg-white/[0.05] motion-safe:animate-pulse" />
-        <div className="mt-4 h-3 w-52 max-w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse" />
-      </div>
-      <div className="space-y-4">
-        {[0, 1, 2, 3, 4].map((item) => (
-          <div key={item}>
-            <div className="h-3 w-28 rounded-sm bg-white/[0.05] motion-safe:animate-pulse" />
-            <div className="mt-2 h-4 w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse" />
+  <div aria-hidden="true" className="p-4 sm:p-5">
+    <div className="grid gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
+      <div className="grid grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+        {[0, 1, 2].map((item) => (
+          <div key={item} className="lg:flex lg:items-center lg:justify-between lg:gap-3 lg:border-b lg:border-white/10 lg:py-2 lg:last:border-0">
+            <div className="h-8 w-16 rounded-sm bg-white/[0.06] motion-safe:animate-pulse" />
+            <div className="mt-2 h-3 w-24 max-w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse lg:mt-0" />
           </div>
         ))}
+      </div>
+
+      <div>
+        <div className="h-[109px] w-full max-w-[845px] rounded-sm bg-white/[0.05] motion-safe:animate-pulse" />
+        <div className="mt-4 h-3 w-52 max-w-full rounded-sm bg-white/[0.04] motion-safe:animate-pulse" />
       </div>
     </div>
   </div>
@@ -229,7 +165,6 @@ const GitHubActivity = () => {
   const calendar = data?.calendar || null;
   const hasCalendar = Boolean(calendar && Array.isArray(calendar.weeks) && calendar.weeks.length);
   const stats = data?.stats || {};
-  const commits = Array.isArray(data?.recentCommits) ? data.recentCommits : [];
   const githubProfile = profileUrl(data?.username);
 
   return (
@@ -244,7 +179,7 @@ const GitHubActivity = () => {
           number="03"
           label="GitHub"
           title="Atividade recente"
-          description="Contribuições e commits públicos dos últimos 12 meses — o código aberto também conta a história."
+          description="O ritmo de código dos últimos 12 meses, direto do GitHub — consistência também conta a história."
         />
 
         <Reveal variant="blur">
@@ -287,14 +222,14 @@ const GitHubActivity = () => {
             )}
 
             {status === 'ready' && (
-              <div className="p-5 sm:p-7">
-                <ul className="grid grid-cols-3 gap-3 border-b pb-5" style={{ borderColor: 'var(--color-border)' }}>
-                  <Stat label="Contribuições (12m)" value={stats.contributions} />
-                  <Stat label="Repos públicos" value={stats.publicRepos} />
-                  <Stat label="Seguidores" value={stats.followers} />
-                </ul>
+              <div className="p-4 sm:p-5">
+                <div className="grid gap-6 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
+                  <ul className="grid grid-cols-3 gap-3 border-b border-white/10 pb-4 lg:flex lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+                    <Stat label="Contribuições (12m)" value={stats.contributions} />
+                    <Stat label="Repos públicos" value={stats.publicRepos} />
+                    <Stat label="Seguidores" value={stats.followers} />
+                  </ul>
 
-                <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.65fr)_minmax(260px,1fr)]">
                   <div>
                     {hasCalendar ? (
                       <Heatmap calendar={calendar} />
@@ -325,15 +260,10 @@ const GitHubActivity = () => {
                       </div>
                     )}
                   </div>
-
-                  <div>
-                    <h3 className="ds-label">Últimos commits</h3>
-                    <CommitList commits={commits} />
-                  </div>
                 </div>
 
                 <div
-                  className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t pt-5"
+                  className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t pt-4"
                   style={{ borderColor: 'var(--color-border)' }}
                 >
                   <p className="text-xs text-muted">Dados públicos, atualizados a cada hora.</p>
@@ -341,10 +271,10 @@ const GitHubActivity = () => {
                     href={githubProfile}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mono-focus-ring mono-button-secondary min-h-11 px-5"
+                    className="mono-focus-ring mono-button-secondary min-h-10 px-4 text-xs"
                   >
                     <GitHubIcon />
-                    Ver perfil no GitHub<span className="sr-only"> (nova aba)</span>
+                    Ver perfil<span className="sr-only"> no GitHub (nova aba)</span>
                   </a>
                 </div>
               </div>
