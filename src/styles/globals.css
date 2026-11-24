@@ -352,6 +352,33 @@ body {
     display: none;
 }
 
+/* Equalizador do widget "Ouvindo agora" (Spotify). Três barras que pulsam
+   como um player tocando; estáticas quando o usuário pede menos movimento. */
+.eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.eq span {
+    width: 2px;
+    border-radius: 1px;
+    background: var(--color-accent);
+    transform-origin: bottom;
+    animation: eq-bounce 900ms var(--motion-ease-in-out) infinite;
+}
+
+.eq span:nth-child(1) { height: 45%; animation-delay: -220ms; }
+.eq span:nth-child(2) { height: 100%; animation-delay: -460ms; }
+.eq span:nth-child(3) { height: 70%; animation-delay: -110ms; }
+
+@keyframes eq-bounce {
+    0%, 100% { transform: scaleY(0.45); }
+    50% { transform: scaleY(1); }
+}
+
 
 /* ═══════════════════════════════════════════════════
    ANIMATIONS
@@ -377,6 +404,41 @@ body {
 @keyframes marquee-x {
     from { transform: translate3d(0, 0, 0); }
     to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Card do projeto em destaque: movimento de câmera quando entra em cena.
+   O zoom (interno) enquadra o centro do print; só depois o wrapper desce,
+   revelando o miolo do produto. Duas etapas, um gesto só. */
+.featured-camera {
+    transform: translate3d(0, 0, 0);
+    transition: transform 1500ms var(--motion-ease-cinematic) 900ms;
+    will-change: transform;
+}
+
+.featured-camera-zoom {
+    transform: scale(1);
+    transform-origin: 50% 44%;
+    transition: transform 1400ms var(--motion-ease-cinematic);
+    will-change: transform;
+}
+
+.featured-camera.is-in {
+    transform: translate3d(0, -7%, 0);
+}
+
+.featured-camera.is-in .featured-camera-zoom {
+    transform: scale(1.16);
+}
+
+/* Telas estreitas: menos amplitude, o card ocupa a largura toda. */
+@media (max-width: 1023px) {
+    .featured-camera.is-in {
+        transform: translate3d(0, -4%, 0);
+    }
+
+    .featured-camera.is-in .featured-camera-zoom {
+        transform: scale(1.12);
+    }
 }
 
 .animate-marquee {
@@ -483,6 +545,18 @@ body {
 
     .animate-hero-word-rise {
         transform: translate3d(0, 0, 0);
+    }
+
+    .eq span {
+        animation: none;
+    }
+
+    /* Sem movimento: o print fica inteiro, enquadrado, sem a câmera. */
+    .featured-camera,
+    .featured-camera-zoom,
+    .featured-camera.is-in,
+    .featured-camera.is-in .featured-camera-zoom {
+        transform: none;
     }
 
     *,
