@@ -1,22 +1,17 @@
 import SmartImage from '@/pages/components/SmartImage';
 import Reveal from '@/pages/components/Reveal';
 import SectionHeader from '@/pages/components/SectionHeader';
-import useScrollProgress from '@/lib/useScrollProgress';
-import { useRef } from 'react';
+import useInView from '@/lib/useInView';
 import projects, { FEATURED_PROJECT_TITLE } from '@/lib/projects';
 import { HOME_CONTAINER, HOME_LINK } from '@/lib/homePresentation';
 
 const FeaturedProject = () => {
   const project = projects.find(({ title }) => title === FEATURED_PROJECT_TITLE) || projects[0];
-  const imageRef = useRef(null);
 
-  // Parallax leve: a imagem anda 6% dentro do frame conforme a seção cruza a viewport.
-  useScrollProgress((progress) => {
-    const el = imageRef.current;
-    if (!el) return;
-    const drift = (Math.min(1, Math.max(0, progress)) - 0.5) * -48; // ±24px
-    el.style.transform = `translate3d(0, ${drift.toFixed(1)}px, 0)`;
-  });
+  // Movimento de câmera no print: o zoom enquadra o centro do site e só
+  // depois a imagem desce para mostrar o miolo do produto. As duas etapas
+  // ficam em elementos aninhados e são coreografadas pelo CSS.
+  const [frameRef, inView] = useInView({ threshold: 0.35 });
 
   if (!project) return null;
 
@@ -32,6 +27,7 @@ const FeaturedProject = () => {
         <div className="grid items-center gap-8 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
           <Reveal variant="blur">
             <a
+              ref={frameRef}
               href={project.projectUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -42,16 +38,18 @@ const FeaturedProject = () => {
                 boxShadow: 'var(--shadow-lift)',
               }}
             >
-              <div className="overflow-hidden" style={{ borderRadius: 'inherit' }} ref={imageRef}>
-                <SmartImage
-                  src={project.imageUrl}
-                  alt={`Página inicial do ${project.title}`}
-                  width={1280}
-                  height={800}
-                  sizes="(max-width: 1023px) 100vw, 760px"
-                  priority
-                  className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.015]"
-                />
+              <div className={`featured-camera ${inView ? 'is-in' : ''}`} style={{ borderRadius: 'inherit' }}>
+                <div className="featured-camera-zoom">
+                  <SmartImage
+                    src={project.imageUrl}
+                    alt={`Página inicial do ${project.title}`}
+                    width={1280}
+                    height={800}
+                    sizes="(max-width: 1023px) 100vw, 760px"
+                    priority
+                    className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.015]"
+                  />
+                </div>
               </div>
             </a>
           </Reveal>

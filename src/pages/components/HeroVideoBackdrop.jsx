@@ -16,14 +16,31 @@ const FINE_POINTER_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer:
 // frames e o vídeo nunca "acompanha" a mão. Ao mudar a duração do clipe,
 // recalibre: PIN_RATIO = duração / 2,3.
 const PIN_RATIO = 2.25; // 5,2 s / 2,25 ≈ 2,3 s de vídeo por viewport
-const SEEK_EASE = 0.1; // aproximação por frame até o alvo
 const SEEK_EPSILON = 0.02; // segundos
 const END_HOLD = 0.05; // não encosta no último frame (evita rewind no loop)
 // Mesmo teto nos dois sentidos: voltar tem que gastar o mesmo esforço de
 // rolagem que avançar, senão o vídeo "descola" da roda na subida.
-const MAX_RATE = 2.4; // segundos de vídeo por segundo real, em ambos sentidos
-// O pin só solta a página com o vídeo assentado no fim (tolerância abaixo).
-const SETTLE_EPSILON = 0.08; // segundos
+// 1.8 = o clipe nunca corre mais de 1,8x o tempo real (antes 2,4x, que
+// pulava frames e embolava o plano). Descer mais deixa o fim arrastado;
+// subir encurta a leitura do movimento.
+const MAX_RATE = 1.8; // segundos de vídeo por segundo real, em ambos sentidos
+// A roda pode pedir 0,3 s de vídeo de uma vez; seguir isso em um frame fazia
+// o clipe disparar. O glide agora tem aceleração limitada e chega ao teto em
+// ~0,23 s: flick forte vira movimento de câmera, não corte seco de frames.
+const MAX_ACCEL = 8; // s/s² de aceleração e frenagem
+const GLIDE_TIME = 0.24; // s — tempo nominal para percorrer o que falta
+// O pin só solta a página com o vídeo assentado no fim. A janela é folgada de
+// propósito: com o glide mais lento, esperar o frame final colado deixava a
+// roda morta por centenas de ms. Os últimos ~8 frames terminam de tocar
+// enquanto a página já começa a sair.
+const SETTLE_EPSILON = 0.35; // segundos
+// Distância a partir da qual o reset do pin corta direto para o frame 0 em vez
+// de rebobinar: Home/End/troca de modo pedem salto; inércia da roda, não.
+const RESET_SNAP_DISTANCE = 0.6; // segundos
+
+// Tempo máximo que o glide aceita esperar um seek antes de reescrever a
+// posição (proteção contra seek pendurado que nunca dispara `seeked`).
+const SEEK_STALL = 250; // ms
 
 const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = true }) => {
   const videoRef = useRef(null);
@@ -35,6 +52,7 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
 
   const targetRef = useRef(0);
   const positionRef = useRef(0);
+  const velocityRef = useRef(0);
   const rafRef = useRef(0);
   const pinnedRef = useRef(false);
   const progressCb = useRef(onPinProgress);
@@ -60,6 +78,7 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
       setFailed(false);
       targetRef.current = 0;
       positionRef.current = 0;
+      velocityRef.current = 0;
       pinnedRef.current = false;
       progressCb.current?.(0);
       progressCb.current?.(null);
@@ -98,6 +117,7 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
     const onReady = () => {
       if (cancelled) return;
       positionRef.current = video.currentTime || 0;
+      velocityRef.current = 0;
       setVisible(true);
     };
     video.addEventListener('loadeddata', onReady);
@@ -141,28 +161,52 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
   const runSeek = useCallback(() => {
     if (rafRef.current) return;
     let lastFrame = performance.now();
+    let lastWrite = 0;
 
     const tick = (now) => {
       rafRef.current = 0;
       const video = videoRef.current;
       if (!video || !Number.isFinite(video.duration) || video.duration === 0) return;
 
-      const dt = Math.min(0.05, Math.max(0.008, (now - lastFrame) / 1000));
+      // Teto generoso: uma aba estrangulada (rAF a 1 fps) fazia cada tick valer
+      // 0,05 s e o vídeo rastejava enquanto o alvo já estava longe — o pin
+      // ficava segurando a página esperando um frame que nunca chegava.
+      const dt = Math.min(0.1, Math.max(0.008, (now - lastFrame) / 1000));
       lastFrame = now;
 
       const target = targetRef.current * (video.duration - END_HOLD);
       const delta = target - positionRef.current;
       if (Math.abs(delta) < SEEK_EPSILON) {
+        velocityRef.current = 0;
         if (pinnedRef.current) progressCb.current?.(targetRef.current);
         return;
       }
 
-      // Mesmo teto para avançar e voltar; o ease só suaviza a chegada.
-      const maxStep = MAX_RATE * dt;
-      const step = Math.max(-maxStep, Math.min(maxStep, delta * SEEK_EASE));
+      // Velocidade desejada: fechar o que falta em GLIDE_TIME, limitada pelo
+      // teto. Ela puxa o vídeo para o alvo e freia sozinha na chegada.
+      const wanted = Math.max(-MAX_RATE, Math.min(MAX_RATE, delta / GLIDE_TIME));
+      // Aceleração limitada: a roda não arranca o vídeo em velocidade máxima
+      // nem o para de uma vez. É o que segura o flick abrupto.
+      const maxAccel = MAX_ACCEL * dt;
+      velocityRef.current += Math.max(-maxAccel, Math.min(maxAccel, wanted - velocityRef.current));
 
-      positionRef.current = Math.min(video.duration, Math.max(0, positionRef.current + step));
-      video.currentTime = positionRef.current;
+      let next = positionRef.current + velocityRef.current * dt;
+      // Nunca passa do alvo: evita overshoot quando o dt abre (aba em segundo
+      // plano) e garante que a parada seja exatamente no frame pedido.
+      if ((delta > 0 && next > target) || (delta < 0 && next < target)) {
+        next = target;
+        velocityRef.current = 0;
+      }
+
+      positionRef.current = Math.min(video.duration, Math.max(0, next));
+      // Só escreve quando o seek anterior terminou. Escrever a cada frame com um
+      // seek em voo faz o Chrome descartar o pendente (medido: 7,6 ms de mediana,
+      // mas 1 em 10 passa de 12 ms) e o quadro chega em blocos — o "binário".
+      // A posição continua integrando; quando o seek fecha, escreve a mais nova.
+      if (!video.seeking || now - lastWrite > SEEK_STALL) {
+        video.currentTime = positionRef.current;
+        lastWrite = now;
+      }
       if (pinnedRef.current) progressCb.current?.(positionRef.current / (video.duration - END_HOLD));
       rafRef.current = window.requestAnimationFrame(tick);
     };
@@ -182,6 +226,13 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
     enabled: mode === 'scrub' && !failed && scrubEnabled,
     ratio: PIN_RATIO,
     canRelease,
+    // O pin retoma daqui quando a página volta ao topo — o frame que está na
+    // tela, não o último progresso que a roda pediu.
+    getProgress: () => {
+      const video = videoRef.current;
+      if (!video || !Number.isFinite(video.duration) || video.duration <= END_HOLD) return 0;
+      return positionRef.current / (video.duration - END_HOLD);
+    },
     onEngage: () => {
       pinnedRef.current = true;
       progressCb.current?.(0);
@@ -200,9 +251,18 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
       progressCb.current?.(0);
       progressCb.current?.(null);
       targetRef.current = 0;
-      positionRef.current = 0;
+      // Não reposiciona à força quando o reset chega no meio do glide de volta:
+      // o salto seco (ex.: 0,24 s → 0 em um frame) aparecia como "pulo" e
+      // ressaltava a câmera de um plano perto para o plano aberto. O runSeek
+      // fecha o retorno com o mesmo teto de velocidade da descida.
+      // Só corta quando a distância é grande demais para ser inércia (Home,
+      // End, troca de modo) — aí o salto é intencional.
       const video = videoRef.current;
-      if (video && video.readyState >= 1) video.currentTime = 0;
+      if (video && positionRef.current > RESET_SNAP_DISTANCE) {
+        positionRef.current = 0;
+        velocityRef.current = 0;
+        if (video.readyState >= 1) video.currentTime = 0;
+      }
       runSeek();
     },
   });

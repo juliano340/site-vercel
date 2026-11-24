@@ -29,10 +29,15 @@ const unlockScroll = () => document.documentElement.classList.remove(LOCK_CLASS)
 // consumir o percurso inteiro de uma vez.
 const MAX_WHEEL_STEP = 120;
 const HOLD_POLL = 60; // ms entre checagens enquanto a página está presa no fim
+// Teto do "segura no fim": se o consumidor não conseguir assentar (frame lento,
+// aba estrangulada, seek pendurado), a página é liberada de qualquer forma. Um
+// pin que nunca solta deixa a roda morta e a página parece congelada — pior
+// que sair do plano um frame antes do fim.
+const MAX_HOLD = 700; // ms
 
-const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProgress, onRelease, onReset }) => {
-  const callbacks = useRef({ onEngage, onProgress, onRelease, onReset, canRelease });
-  callbacks.current = { onEngage, onProgress, onRelease, onReset, canRelease };
+const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, getProgress, onEngage, onProgress, onRelease, onReset }) => {
+  const callbacks = useRef({ onEngage, onProgress, onRelease, onReset, canRelease, getProgress });
+  callbacks.current = { onEngage, onProgress, onRelease, onReset, canRelease, getProgress };
 
   useEffect(() => {
     if (!enabled) return undefined;
@@ -84,9 +89,11 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
     const holdAtEnd = () => {
       report(1);
       if (holdTimer) return;
+      let waited = 0;
       const check = () => {
         holdTimer = 0;
-        if (!mayRelease()) {
+        waited += HOLD_POLL;
+        if (!mayRelease() && waited < MAX_HOLD) {
           holdTimer = window.setTimeout(check, HOLD_POLL);
           return;
         }
@@ -180,9 +187,15 @@ const usePinScrub = ({ ratio = 1.4, enabled = true, canRelease, onEngage, onProg
       }
       else if (mode === 'released' && window.scrollY <= 4) {
         mode = 'pinned';
-        accum = progress * limit();
+        // Retoma de onde o vídeo está de verdade, não do progresso guardado.
+        // Os dois podem divergir (reload, remontagem, seek que não terminou) e
+        // aí o primeiro giro arrancava o clipe do frame 0 direto para o fim —
+        // era o "salto de tela" no retorno ao topo.
+        const resume = callbacks.current.getProgress;
+        const value = typeof resume === 'function' ? Number(resume()) : progress;
+        accum = (Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0) * limit();
         lockScroll();
-        report(progress);
+        report(accum / limit());
       }
     };
 
