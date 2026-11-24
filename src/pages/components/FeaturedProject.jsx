@@ -46,7 +46,6 @@ const FeaturedProject = () => {
                     width={1280}
                     height={800}
                     sizes="(max-width: 1023px) 100vw, 760px"
-                    priority
                     className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.015]"
                   />
                 </div>

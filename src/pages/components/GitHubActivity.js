@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Reveal from '@/pages/components/Reveal';
 import SectionHeader from '@/pages/components/SectionHeader';
@@ -136,8 +136,26 @@ const Skeleton = () => (
 const GitHubActivity = () => {
   const [status, setStatus] = useState('loading');
   const [data, setData] = useState(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return undefined;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setShouldLoad(true);
+      observer.disconnect();
+    }, { rootMargin: '400px 0px' });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad) return undefined;
+
     const controller = new AbortController();
     let cancelled = false;
 
@@ -160,7 +178,7 @@ const GitHubActivity = () => {
       cancelled = true;
       controller.abort();
     };
-  }, []);
+  }, [shouldLoad]);
 
   const calendar = data?.calendar || null;
   const hasCalendar = Boolean(calendar && Array.isArray(calendar.weeks) && calendar.weeks.length);
@@ -169,6 +187,7 @@ const GitHubActivity = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="github"
       aria-label="Atividade recente no GitHub"
       className="scroll-mt-6 py-20 text-primary sm:py-24"

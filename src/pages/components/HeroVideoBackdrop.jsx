@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import usePinScrub from '@/lib/usePinScrub';
 
-// Desktop: scrub pela roda. Mobile: autoplay silencioso, uma vez, com controles.
-// Pôster como LCP; economia de dados mantém reprodução por toque no mobile.
+// Desktop: scrub pela roda. Mobile: pôster como LCP e reprodução manual.
+// O vídeo só entra depois de um gesto, evitando competir com a primeira pintura.
 
 const SRC_SCRUB = '/video/hero/hero-scrub-v2.mp4';
 const SRC_ONCE = '/video/hero/hero-once-v2.mp4';
@@ -67,11 +67,7 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
   // O vídeo fica ativo por padrão; acompanha a troca entre mobile e desktop.
   useEffect(() => {
     const finePointer = window.matchMedia(FINE_POINTER_QUERY);
-    const connection = navigator.connection || navigator.mozConnection || {};
     const updateMode = () => {
-      const saveData = connection.saveData === true;
-      const slowNetwork = typeof connection.effectiveType === 'string'
-        && /(^|-)2g$/.test(connection.effectiveType);
       setVisible(false);
       setPlaying(false);
       setEnded(false);
@@ -82,7 +78,7 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
       pinnedRef.current = false;
       progressCb.current?.(0);
       progressCb.current?.(null);
-      setMode(finePointer.matches ? 'scrub' : saveData || slowNetwork ? 'manual' : 'once');
+      setMode(finePointer.matches ? 'scrub' : 'manual');
     };
     updateMode();
     finePointer.addEventListener('change', updateMode);
@@ -332,7 +328,6 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
           playsInline
           aria-hidden="true"
           preload="none"
-          poster={POSTER}
           disablePictureInPicture
           onError={handleError}
           onLoadedData={() => setVisible(true)}

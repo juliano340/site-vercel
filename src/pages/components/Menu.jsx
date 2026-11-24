@@ -166,7 +166,7 @@ export default function Menu() {
                                         const active = isActive(item.href);
                                         return (
                                             <li key={item.name}>
-                                                <Link href={item.href} legacyBehavior>
+                                                <Link href={item.href} legacyBehavior prefetch={false}>
                                                     <a
                                                         className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
                                                         style={{
@@ -211,7 +211,7 @@ export default function Menu() {
                         <ul className="flex items-center gap-1">
                             {navItems.map((item) => (
                                 <li key={item.name}>
-                                    <Link href={item.href} legacyBehavior>
+                                    <Link href={item.href} legacyBehavior prefetch={false}>
                                         <a
                                             className="mono-focus-ring relative px-4 py-2 transition-all duration-300 flex items-center gap-2"
                                             style={{ ...linkStyle(isActive(item.href)) }}
@@ -235,7 +235,7 @@ export default function Menu() {
 
                         {/* CTA Button */}
                         <div className="flex items-center gap-3">
-                            <Link href="/contato" legacyBehavior>
+                            <Link href="/contato" legacyBehavior prefetch={false}>
                                 <a className="mono-focus-ring mono-button-primary flex items-center gap-2">
                                     <span>Fale Comigo</span>
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

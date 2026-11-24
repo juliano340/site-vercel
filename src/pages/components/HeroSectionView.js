@@ -201,8 +201,8 @@ const HeroSectionView = () => {
               <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
             <div className="grid grid-cols-2 gap-3 lg:flex lg:items-center lg:gap-7">
-              <Link href="/contato" legacyBehavior><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Fale comigo</a></Link>
-              <Link href="/sobre" legacyBehavior><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Currículo</a></Link>
+              <Link href="/contato" legacyBehavior prefetch={false}><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Fale comigo</a></Link>
+              <Link href="/sobre" legacyBehavior prefetch={false}><a className={`${HOME_LINK} justify-center rounded-full border border-subtle px-4 text-primary/80 [touch-action:manipulation] active:bg-surface lg:justify-start lg:rounded-none lg:border-0 lg:px-0 lg:text-primary`}>Currículo</a></Link>
             </div>
           </div>
 

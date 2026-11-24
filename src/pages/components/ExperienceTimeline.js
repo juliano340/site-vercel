@@ -125,7 +125,6 @@ const WorkspacePortrait = () => {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1152px"
                   quality={85}
-                  priority={i === 0}
                   className={`${photo.fit || 'object-cover'} ${photo.position}`}
                 />
               </div>

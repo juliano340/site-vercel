@@ -6,9 +6,16 @@ import useNowPlaying from '@/lib/useNowPlaying';
 // fica acima do botão de voltar ao topo e se recolhe quando o rodapé entra em
 // cena (lá o player do Spotify já está à vista). Clicar abre a faixa.
 const SpotifyNowPlaying = () => {
-  const { track } = useNowPlaying();
+  const [enabled, setEnabled] = useState(false);
+  const { track } = useNowPlaying({ enabled });
   const [dismissed, setDismissed] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+
+  useEffect(() => {
+    if (!window.matchMedia('(min-width: 640px)').matches) return undefined;
+    const timer = window.setTimeout(() => setEnabled(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const footer = document.querySelector('footer');

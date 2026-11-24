@@ -64,6 +64,7 @@ const CookieConsentModal = ({ enabled = true }) => {
           <div className="flex items-center gap-2 flex-shrink-0">
             <Link
               href="/politica-de-privacidade"
+              prefetch={false}
               className="inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] rounded-full transition-all duration-200"
               style={{
                 background:     'transparent',

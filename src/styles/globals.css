@@ -488,6 +488,21 @@ body {
     animation: text-gradient-sweep 1.5s var(--motion-ease-cinematic) var(--sweep-delay, 0s) both;
 }
 
+/* No mobile, o texto aparece imediato. Animar background-position não é
+   composto e segura o Speed Index/LCP em redes lentas. */
+@media (max-width: 1023px) {
+    .animate-hero-word-rise,
+    .text-gradient-sweep {
+        animation: none;
+    }
+
+    .text-gradient-sweep {
+        background-image: none;
+        color: var(--color-text);
+        -webkit-text-fill-color: currentColor;
+    }
+}
+
 @keyframes pulse-scale {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
