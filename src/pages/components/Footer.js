@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import SpotifyCard from './SpotifyCard';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -189,6 +190,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Trilha sonora — o player do Spotify só monta depois do clique */}
+        <SpotifyCard />
 
         {/* Divider */}
         <div className="mb-8" style={{ borderTop: '1px solid var(--color-border)' }}></div>

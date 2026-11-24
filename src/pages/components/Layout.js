@@ -1,6 +1,7 @@
 import React from 'react';
 import Menu from './Menu';
 import Footer from './Footer';
+import SpotifyNowPlaying from './SpotifyNowPlaying';
 import { useRouter } from 'next/router';
 
 const Layout = ({ children }) => {
@@ -20,6 +21,7 @@ const Layout = ({ children }) => {
       <Menu />
       {children}
       <Footer />
+      <SpotifyNowPlaying />
     </>
   );
 };

@@ -21,6 +21,13 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        // Capa do "Ouvindo agora" (Spotify)
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   compiler: {
