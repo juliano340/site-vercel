@@ -131,6 +131,7 @@ export default function Menu() {
                                     color: 'var(--color-muted)',
                                 }}
                                 aria-expanded={isOpen}
+                                aria-controls="mobile-navigation"
                                 aria-label="Toggle menu"
                             >
                                 <div className="w-5 h-4 flex flex-col justify-between">
@@ -142,7 +143,12 @@ export default function Menu() {
                         </div>
 
                         {/* Mobile Dropdown Menu */}
-                        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
+                        <div
+                          id="mobile-navigation"
+                          aria-hidden={!isOpen}
+                          inert={isOpen ? undefined : ''}
+                          className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}
+                        >
                             <div
                                 className="p-2"
                                 style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)' }}

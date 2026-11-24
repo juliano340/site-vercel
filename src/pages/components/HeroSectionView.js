@@ -174,8 +174,8 @@ const HeroSectionView = () => {
             data-hero-reveal
             className="mt-5 hidden font-mono text-xs text-[var(--color-muted)] sm:text-sm lg:flex lg:text-[var(--color-dim)]"
             style={{ animation: !scrubAvailable ? 'fadeIn 0.8s var(--motion-ease-cinematic) 0.45s both' : undefined }}
-            aria-label="Terminal: deploy com papel de desenvolvedor full stack, desde 2006"
           >
+            <span className="sr-only">Juliano Pereira, desenvolvedor full stack desde 2006.</span>
             <span
               ref={terminalRef}
               aria-hidden="true"

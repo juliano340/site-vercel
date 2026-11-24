@@ -129,6 +129,7 @@ const Portfolio = () => {
                     href={project.projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Ao vivo — ${project.title} (nova aba)`}
                     className="inline-flex min-h-6 items-center text-muted underline-offset-4 hover:text-primary hover:underline"
                   >
                     Ao vivo<span className="sr-only"> (nova aba)</span>
@@ -137,6 +138,7 @@ const Portfolio = () => {
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Código — ${project.title} (nova aba)`}
                     className="inline-flex min-h-6 items-center text-muted underline-offset-4 hover:text-primary hover:underline"
                   >
                     Código<span className="sr-only"> (nova aba)</span>
