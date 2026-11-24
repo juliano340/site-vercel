@@ -46,6 +46,8 @@ const HeroSectionView = () => {
   // Progresso do pin → DOM direto (sem re-render por evento de roda):
   // parallax do conteúdo e terminal que se escreve.
   const applyPinProgress = useCallback((value, measure = false) => {
+    if (window.matchMedia('(max-width: 1023px)').matches) return;
+
     currentProgressRef.current = value;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const narrative = storyActive && window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;

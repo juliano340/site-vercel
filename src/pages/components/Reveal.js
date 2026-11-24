@@ -40,13 +40,13 @@ const Reveal = ({
   threshold,
   rootMargin,
 }) => {
-  const [ref, isVisible] = useInView({ threshold, rootMargin });
+  const [ref, isVisible] = useInView({ threshold, rootMargin, instantOnMobile: true });
   const v = VARIANT_STYLES[variant] || VARIANT_STYLES.up;
 
   return (
     <div
       ref={ref}
-      className={className}
+      className={`${className} max-lg:!transform-none max-lg:!filter-none max-lg:!opacity-100`}
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translate(0, 0)' : v.hidden,

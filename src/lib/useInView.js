@@ -5,13 +5,20 @@ import { useEffect, useRef, useState } from 'react';
 // rootMargin default keeps reveals around 12% into the viewport so
 // taller (desktop) windows reveal on scroll, not all at page load.
 const DEFAULT_ROOT_MARGIN = '0px 0px -12% 0px';
-const useInView = ({ threshold = 0.05, rootMargin = DEFAULT_ROOT_MARGIN, once = true } = {}) => {
+const useInView = ({ threshold = 0.05, rootMargin = DEFAULT_ROOT_MARGIN, once = true, instantOnMobile = false } = {}) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
+
+    // Em mobile o conteúdo já nasce visível; evita dezenas de observers e
+    // trabalho de hidratação sem ganho visual.
+    if (instantOnMobile && window.matchMedia('(max-width: 1023px)').matches) {
+      setIsVisible(true);
+      return undefined;
+    }
 
     // Under prefers-reduced-motion the observer keeps running: content
     // still enters as sections cross into view, just without motion —
@@ -32,7 +39,7 @@ const useInView = ({ threshold = 0.05, rootMargin = DEFAULT_ROOT_MARGIN, once = 
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, once]);
+  }, [threshold, rootMargin, once, instantOnMobile]);
 
   return [ref, isVisible];
 };
