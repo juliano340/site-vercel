@@ -124,7 +124,7 @@ const Portfolio = () => {
                 </button>
                 </Reveal>
 
-                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 pb-2 text-sm">
                   <a
                     href={project.projectUrl}
                     target="_blank"
