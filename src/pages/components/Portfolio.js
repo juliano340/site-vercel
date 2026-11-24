@@ -92,7 +92,7 @@ const Portfolio = () => {
           ))}
         </nav>
 
-        <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project, index) => {
             const projectImages = getProjectImages(project);
             const primaryImage = projectImages[0];
