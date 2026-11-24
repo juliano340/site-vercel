@@ -1,5 +1,5 @@
 import SEO from '@/pages/components/SEO';
-import HeroSectionView from '@/pages/components/HeroSectionView';
+import HeroExperiment from '@/pages/components/HeroExperiment';
 import FeaturedProject from '@/pages/components/FeaturedProject';
 import Portfolio from '@/pages/components/Portfolio';
 import GitHubActivity from '@/pages/components/GitHubActivity';
@@ -16,7 +16,7 @@ const HomePage = () => {
         path="/home"
       />
       <main id="home-content" tabIndex={-1}>
-        <HeroSectionView />
+        <HeroExperiment />
         <FeaturedProject />
         <Portfolio />
         <GitHubActivity />

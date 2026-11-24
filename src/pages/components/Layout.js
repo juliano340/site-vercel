@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 const Layout = ({ children }) => {
   const router = useRouter();
   const noLayoutRoutes = ['/', '/links', '/terminal'];
+  const hideGlobalMenu = router.pathname === '/home';
 
   if (noLayoutRoutes.includes(router.pathname)) {
     return (
@@ -18,7 +19,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Menu />
+      {!hideGlobalMenu && <Menu />}
       {children}
       <Footer />
       <SpotifyNowPlaying />
