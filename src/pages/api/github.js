@@ -108,7 +108,39 @@ const extractRecentCommits = (events) => {
     .slice(0, MAX_COMMITS);
 };
 
+const fetchSearchCommits = async () => {
+  const query = encodeURIComponent(`author:${USERNAME}`);
+  const response = await fetch(
+    `${GITHUB_API}/search/commits?q=${query}&sort=author-date&order=desc&per_page=${MAX_COMMITS}`,
+    {
+      headers: authHeaders(),
+      signal: AbortSignal.timeout(8000),
+    }
+  );
+  if (!response.ok) return [];
+
+  try {
+    const json = await response.json();
+    if (!Array.isArray(json?.items)) return [];
+
+    return json.items.map((item) => ({
+      repo: item.repository?.full_name || '',
+      message: truncate(item.commit?.message?.split('\n')[0], MESSAGE_MAX) || 'Commit sem mensagem',
+      sha: item.sha,
+      url: item.html_url || `https://github.com/${item.repository?.full_name}/commit/${item.sha}`,
+      date: item.commit?.author?.date || null,
+    })).filter((commit) => commit.repo && commit.sha && commit.url);
+  } catch {
+    return [];
+  }
+};
+
 const fetchRecentCommits = async () => {
+  // A API de busca devolve mensagens e links; /events/public atualmente omite
+  // payload.commits com frequência. Eventos ficam como fallback.
+  const search = await fetchSearchCommits();
+  if (search.length > 0) return search;
+
   const events = await fetchRestJson(
     `/users/${encodeURIComponent(USERNAME)}/events/public?per_page=100`
   );
