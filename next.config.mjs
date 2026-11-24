@@ -8,6 +8,8 @@ const nextConfig = {
     // Geração estática sequencial (1 worker) para respeitar o rate limit da API da Notion
     cpus: 1,
     optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect', 'prismjs'],
+    // Inline do CSS crítico no Pages Router para reduzir o bloqueio de pintura.
+    optimizeCss: true,
   },
   // Timeout maior para absorver retries com backoff contra a API da Notion
   staticPageGenerationTimeout: 300,
