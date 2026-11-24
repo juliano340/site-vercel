@@ -2,6 +2,7 @@ import SEO from '@/pages/components/SEO';
 import HeroSectionView from '@/pages/components/HeroSectionView';
 import FeaturedProject from '@/pages/components/FeaturedProject';
 import Portfolio from '@/pages/components/Portfolio';
+import GitHubActivity from '@/pages/components/GitHubActivity';
 import ExperienceTimeline from '@/pages/components/ExperienceTimeline';
 import CtaSection from '@/pages/components/CtaSection';
 
@@ -18,6 +19,7 @@ const HomePage = () => {
         <HeroSectionView />
         <FeaturedProject />
         <Portfolio />
+        <GitHubActivity />
         <ExperienceTimeline />
         <CtaSection />
       </main>

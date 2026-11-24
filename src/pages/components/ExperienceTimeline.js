@@ -198,7 +198,7 @@ const ExperienceTimeline = () => (
   <section id="percurso" aria-labelledby="percurso-title" className="py-20 text-primary sm:py-24" style={{ background: 'var(--color-background-deep)' }}>
     <div className={HOME_CONTAINER}>
       <SectionHeader
-        number="03"
+        number="04"
         label="Percurso"
         title="Experiência & formação"
         description="Quase 20 anos entre suporte, QA e desenvolvimento — uma trajetória de evolução constante."

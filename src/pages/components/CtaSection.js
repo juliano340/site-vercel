@@ -25,7 +25,7 @@ const CtaSection = () => {
                     border: '1px solid rgba(var(--accent-rgb), 0.2)',
                   }}
                 >
-                  04
+                  05
                 </span>
                 Próximo passo
               </p>
