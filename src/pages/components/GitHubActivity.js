@@ -175,24 +175,26 @@ const GitHubActivity = () => {
       style={{ background: 'var(--color-surface)' }}
     >
       <div className={HOME_CONTAINER}>
-        <SectionHeader
-          number="03"
-          label="GitHub"
-          title="Atividade recente"
-          description="O ritmo de código dos últimos 12 meses, direto do GitHub — consistência também conta a história."
-        />
+        <div className="mb-12 flex items-start justify-between gap-8">
+          <SectionHeader
+            number="03"
+            label="GitHub"
+            title="Atividade recente"
+            description="O ritmo de código dos últimos 12 meses, direto do GitHub — consistência também conta a história."
+            className="!mb-0"
+          />
+          <GitHubIcon className="mt-2 hidden h-24 w-24 shrink-0 text-white/[0.1] sm:block lg:h-32 lg:w-32" />
+        </div>
 
         <Reveal variant="blur">
           <div
-            className="relative w-full min-w-0 overflow-hidden border"
+            className="w-full min-w-0 overflow-hidden border"
             style={{
               background: 'var(--color-surface-alt)',
               borderColor: 'var(--color-border)',
               borderRadius: 'var(--radius-md)',
             }}
           >
-            <GitHubIcon className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 text-white/[0.035]" />
-
             {status === 'loading' && (
               <>
                 <p className="sr-only" role="status">
