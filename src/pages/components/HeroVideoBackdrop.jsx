@@ -315,6 +315,8 @@ const HeroVideoBackdrop = ({ onPinProgress, onScrubAvailable, scrubEnabled = tru
         alt=""
         fill
         priority
+        decoding="sync"
+        quality={70}
         sizes="100vw"
         className="object-cover"
         style={{ objectPosition: '50% 42%' }}
