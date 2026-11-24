@@ -104,7 +104,6 @@ const Portfolio = () => {
                     type="button"
                     onClick={() => openProjectModal(project)}
                     className="mono-focus-ring group block h-full w-full text-left"
-                    aria-label={`Abrir detalhes de ${project.title}`}
                   >
                     <div className="relative overflow-hidden bg-surface transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-overlay" style={{ aspectRatio: '16/9', borderRadius: 'var(--radius-sm)', boxShadow: '0 0 0 1px rgba(var(--accent-rgb), 0.06)' }}>
                     <Image
@@ -130,7 +129,7 @@ const Portfolio = () => {
                     href={project.projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted underline-offset-4 hover:text-primary hover:underline"
+                    className="inline-flex min-h-6 items-center text-muted underline-offset-4 hover:text-primary hover:underline"
                   >
                     Ao vivo<span className="sr-only"> (nova aba)</span>
                   </a>
@@ -138,7 +137,7 @@ const Portfolio = () => {
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted underline-offset-4 hover:text-primary hover:underline"
+                    className="inline-flex min-h-6 items-center text-muted underline-offset-4 hover:text-primary hover:underline"
                   >
                     Código<span className="sr-only"> (nova aba)</span>
                   </a>

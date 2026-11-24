@@ -171,7 +171,7 @@ const WorkspacePortrait = () => {
           </button>
 
           {/* Pills indicadoras */}
-          <div className="absolute bottom-5 right-5 flex items-center gap-2 sm:bottom-8 sm:right-8" role="group" aria-label="Selecionar foto">
+          <div className="absolute bottom-5 right-5 flex items-center gap-0 sm:bottom-8 sm:right-8" role="group" aria-label="Selecionar foto">
             {GALLERY.map((photo, i) => (
               <button
                 key={photo.src}
@@ -179,12 +179,17 @@ const WorkspacePortrait = () => {
                 onClick={() => goTo(i)}
                 aria-label={`Foto ${i + 1} de ${GALLERY.length}`}
                 aria-current={i === index}
-                className="mono-focus-ring h-1.5 rounded-full transition-all duration-300"
-                style={{
-                  width: i === index ? 18 : 6,
-                  background: i === index ? 'var(--color-accent)' : 'rgba(255,255,255,0.45)',
-                }}
-              />
+                className="mono-focus-ring relative flex h-6 w-6 items-center justify-center"
+              >
+                <span
+                  aria-hidden="true"
+                  className="block h-1.5 rounded-full transition-all duration-300"
+                  style={{
+                    width: i === index ? 18 : 6,
+                    background: i === index ? 'var(--color-accent)' : 'rgba(255,255,255,0.45)',
+                  }}
+                />
+              </button>
             ))}
           </div>
         </div>
