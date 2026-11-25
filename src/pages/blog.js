@@ -335,13 +335,12 @@ const Blog = ({ posts, generatedAt }) => {
                                         >
                                             Novidades
                                         </p>
-                                        <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
-                                            <a
-                                                className="block text-2xl sm:text-3xl md:text-4xl xl:text-4xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity line-clamp-3"
-                                                style={{ color: 'var(--color-text)', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
-                                            >
-                                                {getPostTitle(currentPost)}
-                                            </a>
+                                        <Link
+                                            href={`/blog/${getPostSlug(currentPost)}`}
+                                            className="block text-2xl sm:text-3xl md:text-4xl xl:text-4xl font-extrabold leading-[1.1] hover:opacity-90 transition-opacity line-clamp-3"
+                                            style={{ color: 'var(--color-text)', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
+                                        >
+                                            {getPostTitle(currentPost)}
                                         </Link>
 
                                         <p
@@ -377,15 +376,14 @@ const Blog = ({ posts, generatedAt }) => {
                                             <span className="mx-2">·</span>
                                             <span>⏱️ {currentPost.readingTime || 1} min</span>
                                         </div>
-                                        <Link href={`/blog/${getPostSlug(currentPost)}`} legacyBehavior>
-                                            <a
-                                                className="inline-flex items-center justify-center px-5 py-2.5 font-extrabold text-xs uppercase tracking-[0.1em] rounded-full transition-all duration-200 hover:scale-105"
-                                                style={{ background: 'var(--btn-bg)', color: 'var(--btn-text)' }}
-                                                onMouseEnter={e => { e.currentTarget.style.background = 'var(--btn-hover)'; }}
-                                                onMouseLeave={e => { e.currentTarget.style.background = 'var(--btn-bg)'; }}
-                                            >
-                                                Ler artigo completo →
-                                            </a>
+                                        <Link
+                                            href={`/blog/${getPostSlug(currentPost)}`}
+                                            className="inline-flex items-center justify-center px-5 py-2.5 font-extrabold text-xs uppercase tracking-[0.1em] rounded-full transition-all duration-200 hover:scale-105"
+                                            style={{ background: 'var(--btn-bg)', color: 'var(--btn-text)' }}
+                                            onMouseEnter={e => { e.currentTarget.style.background = 'var(--btn-hover)'; }}
+                                            onMouseLeave={e => { e.currentTarget.style.background = 'var(--btn-bg)'; }}
+                                        >
+                                            Ler artigo completo →
                                         </Link>
                                     </div>
                                 </div>
@@ -449,13 +447,12 @@ const Blog = ({ posts, generatedAt }) => {
                                                     className="py-3"
                                                     style={{ borderBottom: '1px solid var(--color-border)' }}
                                                 >
-                                                    <Link href={`/blog/${slug}`} legacyBehavior>
-                                                        <a
-                                                            className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
-                                                            style={{ color: 'var(--color-text)', textDecoration: 'none' }}
-                                                        >
-                                                            {getPostTitle(post)}
-                                                        </a>
+                                                    <Link
+                                                        href={`/blog/${slug}`}
+                                                        className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
+                                                        style={{ color: 'var(--color-text)', textDecoration: 'none' }}
+                                                    >
+                                                        {getPostTitle(post)}
                                                     </Link>
                                                     <p className="text-xs mt-1" style={{ color: 'var(--color-muted-dim)' }}>
                                                         {getPostDate(post).toLocaleDateString('pt-BR')}
@@ -490,13 +487,12 @@ const Blog = ({ posts, generatedAt }) => {
                                             className="w-full h-44"
                                         />
                                         <div className="p-4 flex flex-col flex-1">
-                                            <Link href={`/blog/${slug}`} legacyBehavior>
-                                                <a
-                                                    className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
-                                                    style={{ color: 'var(--color-text)', textDecoration: 'none' }}
-                                                >
-                                                    {getPostTitle(post)}
-                                                </a>
+                                            <Link
+                                                href={`/blog/${slug}`}
+                                                className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
+                                                style={{ color: 'var(--color-text)', textDecoration: 'none' }}
+                                            >
+                                                {getPostTitle(post)}
                                             </Link>
                                             <p
                                                 className="text-sm mt-2 line-clamp-3 flex-1"
@@ -659,13 +655,12 @@ const Blog = ({ posts, generatedAt }) => {
                                                         ))}
                                                     </div>
                                                 )}
-                                                <Link href={`/blog/${slug}`} legacyBehavior>
-                                                    <a
-                                                        className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
-                                                        style={{ color: 'var(--color-text)', textDecoration: 'none' }}
-                                                    >
-                                                        {getPostTitle(post)}
-                                                    </a>
+                                                <Link
+                                                    href={`/blog/${slug}`}
+                                                    className="text-base font-bold leading-snug hover:opacity-80 line-clamp-2 min-h-[2.75rem] transition-opacity"
+                                                    style={{ color: 'var(--color-text)', textDecoration: 'none' }}
+                                                >
+                                                    {getPostTitle(post)}
                                                 </Link>
                                                 <p
                                                     className="text-sm mt-2 line-clamp-3 flex-1"

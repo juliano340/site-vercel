@@ -105,19 +105,18 @@ export default function Menu() {
                     <div className="sm:hidden py-4">
                         <div className="flex items-center justify-between">
                             {/* Logo */}
-                            <Link href="/home" legacyBehavior>
-                                <a
-                                    className="mono-focus-ring"
-                                    style={{
-                                        fontWeight: 700,
-                                        color: 'var(--color-text)',
-                                        fontSize: '1.25rem',
-                                        letterSpacing: '-0.01em',
-                                        textDecoration: 'none',
-                                    }}
-                                >
-                                    Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
-                                </a>
+                            <Link
+                                href="/home"
+                                className="mono-focus-ring"
+                                style={{
+                                    fontWeight: 700,
+                                    color: 'var(--color-text)',
+                                    fontSize: '1.25rem',
+                                    letterSpacing: '-0.01em',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
                             </Link>
 
                             {/* Hamburger Button */}
@@ -158,20 +157,20 @@ export default function Menu() {
                                         const active = isActive(item.href);
                                         return (
                                             <li key={item.name}>
-                                                <Link href={item.href} legacyBehavior prefetch={false}>
-                                                    <a
-                                                        className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
-                                                        style={{
-                                                            borderRadius: 'var(--radius-sm)',
-                                                            ...linkStyle(active),
-                                                            background: active ? 'rgba(255, 255, 255, 0.07)' : 'transparent',
-                                                        }}
-                                                    >
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                                                        </svg>
-                                                        <span>{item.name}</span>
-                                                    </a>
+                                                <Link
+                                                    href={item.href}
+                                                    prefetch={false}
+                                                    className="mono-focus-ring flex items-center gap-3 px-4 py-3 transition-colors duration-200"
+                                                    style={{
+                                                        borderRadius: 'var(--radius-sm)',
+                                                        ...linkStyle(active),
+                                                        background: active ? 'rgba(255, 255, 255, 0.07)' : 'transparent',
+                                                    }}
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                                                    </svg>
+                                                    <span>{item.name}</span>
                                                 </Link>
                                             </li>
                                         );
@@ -184,42 +183,41 @@ export default function Menu() {
                     {/* Desktop Menu */}
                     <div className="hidden sm:flex items-center justify-between py-4">
                         {/* Logo */}
-                        <Link href="/home" legacyBehavior>
-                            <a
-                                className="mono-focus-ring"
-                                style={{
-                                    fontWeight: 700,
-                                    color: 'var(--color-text)',
-                                    fontSize: '1.5rem',
-                                    letterSpacing: '-0.01em',
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
-                            </a>
+                        <Link
+                            href="/home"
+                            className="mono-focus-ring"
+                            style={{
+                                fontWeight: 700,
+                                color: 'var(--color-text)',
+                                fontSize: '1.5rem',
+                                letterSpacing: '-0.01em',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            Juliano Pereira<span style={{ color: 'var(--color-accent)' }}>.</span>
                         </Link>
 
                         {/* Navigation Links */}
                         <ul className="flex items-center gap-1">
                             {navItems.map((item) => (
                                 <li key={item.name}>
-                                    <Link href={item.href} legacyBehavior prefetch={false}>
-                                        <a
-                                            className="mono-focus-ring relative px-4 py-2 transition-all duration-300 flex items-center gap-2"
-                                            style={{ ...linkStyle(isActive(item.href)) }}
-                                            onMouseEnter={(e) => {
-                                                if (!isActive(item.href)) {
-                                                    e.currentTarget.style.color = 'var(--color-text)';
-                                                }
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                if (!isActive(item.href)) {
-                                                    e.currentTarget.style.color = 'var(--color-muted)';
-                                                }
-                                            }}
-                                        >
-                                            <span>{item.name}</span>
-                                        </a>
+                                    <Link
+                                        href={item.href}
+                                        prefetch={false}
+                                        className="mono-focus-ring relative px-4 py-2 transition-all duration-300 flex items-center gap-2"
+                                        style={{ ...linkStyle(isActive(item.href)) }}
+                                        onMouseEnter={(e) => {
+                                            if (!isActive(item.href)) {
+                                                e.currentTarget.style.color = 'var(--color-text)';
+                                            }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (!isActive(item.href)) {
+                                                e.currentTarget.style.color = 'var(--color-muted)';
+                                            }
+                                        }}
+                                    >
+                                        <span>{item.name}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -227,13 +225,11 @@ export default function Menu() {
 
                         {/* CTA Button */}
                         <div className="flex items-center gap-3">
-                            <Link href="/contato" legacyBehavior prefetch={false}>
-                                <a className="mono-focus-ring mono-button-primary flex items-center gap-2">
-                                    <span>Fale Comigo</span>
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
-                                </a>
+                            <Link href="/contato" prefetch={false} className="mono-focus-ring mono-button-primary flex items-center gap-2">
+                                <span>Fale Comigo</span>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
                             </Link>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="pt-br" className="dark" style={{ backgroundColor: '#121212' }}>
+      <Html lang="pt-br" className="dark" data-scroll-behavior="smooth" style={{ backgroundColor: '#121212' }}>
         <Head>
           <meta charSet="UTF-8" />
           <link rel="icon" href="/favicon.png" type="image/png" />

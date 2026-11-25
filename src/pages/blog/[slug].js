@@ -423,13 +423,12 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
 
                     {/* Back link */}
                     <div className="mb-5">
-                        <Link href="/blog" legacyBehavior>
-                            <a
-                                className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
-                                style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
-                            >
-                                ← Voltar ao blog
-                            </a>
+                        <Link
+                            href="/blog"
+                            className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
+                            style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
+                        >
+                            ← Voltar ao blog
                         </Link>
                     </div>
 
@@ -482,10 +481,8 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                             <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
                                                 {AUTHOR_NAME}
                                             </p>
-                                            <Link href="/contato" legacyBehavior>
-                                                <a className="text-xs font-medium" style={{ color: 'var(--color-muted)', textDecoration: 'none' }}>
-                                                    Enviar email
-                                                </a>
+                                            <Link href="/contato" className="text-xs font-medium" style={{ color: 'var(--color-muted)', textDecoration: 'none' }}>
+                                                Enviar email
                                             </Link>
                                         </div>
                                         <div className="flex flex-wrap items-center gap-3 text-xs" style={{ color: 'var(--color-muted)' }}>
@@ -561,29 +558,27 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                     {/* Prev / Next navigation */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                                         {prevPost && (
-                                            <Link href={`/blog/${prevPost.slug}`} legacyBehavior>
-                                                <a
-                                                    className="p-4 transition-all duration-200"
-                                                    style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
-                                                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
-                                                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
-                                                >
-                                                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>← Post anterior</span>
-                                                    <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{prevPost.title}</p>
-                                                </a>
+                                            <Link
+                                                href={`/blog/${prevPost.slug}`}
+                                                className="p-4 transition-all duration-200"
+                                                style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
+                                                onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
+                                                onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
+                                            >
+                                                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>← Post anterior</span>
+                                                <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{prevPost.title}</p>
                                             </Link>
                                         )}
                                         {nextPost && (
-                                            <Link href={`/blog/${nextPost.slug}`} legacyBehavior>
-                                                <a
-                                                    className={`p-4 transition-all duration-200 ${!prevPost ? 'sm:col-start-2' : ''}`}
-                                                    style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
-                                                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
-                                                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
-                                                >
-                                                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>Próximo post →</span>
-                                                    <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{nextPost.title}</p>
-                                                </a>
+                                            <Link
+                                                href={`/blog/${nextPost.slug}`}
+                                                className={`p-4 transition-all duration-200 ${!prevPost ? 'sm:col-start-2' : ''}`}
+                                                style={{ background: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)', textDecoration: 'none' }}
+                                                onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-surface-raised)'; }}
+                                                onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-surface-alt)'; }}
+                                            >
+                                                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted-dim)' }}>Próximo post →</span>
+                                                <p className="font-semibold mt-1 line-clamp-2 text-sm" style={{ color: 'var(--color-text)' }}>{nextPost.title}</p>
                                             </Link>
                                         )}
                                     </div>
@@ -699,18 +694,18 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                         <SidebarTitle>🏷️ Tags</SidebarTitle>
                                         <div className="flex flex-wrap gap-2">
                                             {post.properties.Tags.multi_select.map(tag => (
-                                                <Link key={tag.name} href={`/blog?tag=${tag.name}`} legacyBehavior>
-                                                    <a
-                                                        className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
-                                                        style={{
-                                                            background: 'var(--chip-bg)',
-                                                            border:     '1px solid var(--chip-border)',
-                                                            color:      'var(--chip-text)',
-                                                            textDecoration: 'none',
-                                                        }}
-                                                    >
-                                                        {tag.name}
-                                                    </a>
+                                                <Link
+                                                    key={tag.name}
+                                                    href={`/blog?tag=${tag.name}`}
+                                                    className="text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200"
+                                                    style={{
+                                                        background: 'var(--chip-bg)',
+                                                        border:     '1px solid var(--chip-border)',
+                                                        color:      'var(--chip-text)',
+                                                        textDecoration: 'none',
+                                                    }}
+                                                >
+                                                    {tag.name}
                                                 </Link>
                                             ))}
                                         </div>
@@ -724,11 +719,12 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                         <ul className="space-y-3">
                                             {relatedPosts.map((p, i) => (
                                                 <li key={i}>
-                                                    <Link href={`/blog/${p.slug}`} legacyBehavior>
-                                            <a className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
-                                                style={{ color: 'var(--color-text)', textDecoration: 'none' }}>
-                                                            {p.title}
-                                                        </a>
+                                                    <Link
+                                                        href={`/blog/${p.slug}`}
+                                                        className="text-sm font-semibold leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
+                                                        style={{ color: 'var(--color-text)', textDecoration: 'none' }}
+                                                    >
+                                                        {p.title}
                                                     </Link>
                                                     <p className="text-xs mt-0.5" style={{ color: 'var(--color-muted-dim)' }}>
                                                         {p.readingTime || 1} min de leitura
@@ -749,13 +745,12 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                                 className="py-2.5"
                                                 style={{ borderBottom: '1px solid var(--color-border)' }}
                                             >
-                                                <Link href={`/blog/${p.slug}`} legacyBehavior>
-                                                    <a
-                                                        className="text-sm leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
-                                                        style={{ color: 'var(--color-text)', textDecoration: 'none' }}
-                                                    >
-                                                        {p.title}
-                                                    </a>
+                                                <Link
+                                                    href={`/blog/${p.slug}`}
+                                                    className="text-sm leading-snug hover:opacity-75 line-clamp-2 transition-opacity"
+                                                    style={{ color: 'var(--color-text)', textDecoration: 'none' }}
+                                                >
+                                                    {p.title}
                                                 </Link>
                                                 <p className="text-xs mt-0.5" style={{ color: 'var(--color-muted-dim)' }}>
                                                     {p.readingTime || 1} min de leitura
@@ -778,17 +773,16 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
                                     <p className="text-xs mb-4" style={{ color: 'var(--color-muted)' }}>
                                         Receba novidades sobre tecnologia e IA diretamente no seu email.
                                     </p>
-                                    <Link href="/contato" legacyBehavior>
-                                        <a
-                                            className="inline-flex w-full items-center justify-center px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.1em] transition-colors"
-                                            style={{
-                                                background:     'var(--btn-bg)',
-                                                color:          'var(--btn-text)',
-                                                textDecoration: 'none',
-                                            }}
-                                        >
-                                            Assinar
-                                        </a>
+                                    <Link
+                                        href="/contato"
+                                        className="inline-flex w-full items-center justify-center px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.1em] transition-colors"
+                                        style={{
+                                            background:     'var(--btn-bg)',
+                                            color:          'var(--btn-text)',
+                                            textDecoration: 'none',
+                                        }}
+                                    >
+                                        Assinar
                                     </Link>
                                 </div>
                             </div>
@@ -797,13 +791,12 @@ const Post = ({ post, blocks, prevPost, nextPost, relatedPosts, recentPosts }) =
 
                     {/* Back link bottom */}
                     <div className="mt-8 text-center">
-                        <Link href="/blog" legacyBehavior>
-                            <a
-                                className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
-                                style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
-                            >
-                                ← Voltar ao blog
-                            </a>
+                        <Link
+                            href="/blog"
+                            className="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-70"
+                            style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
+                        >
+                            ← Voltar ao blog
                         </Link>
                     </div>
                 </div>

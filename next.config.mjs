@@ -2,19 +2,21 @@
 const nextConfig = {
   distDir: process.env.NEXT_DIST_DIR || '.next',
   reactStrictMode: true,
-  swcMinify: true,
   output: 'standalone',
   experimental: {
     // Geração estática sequencial (1 worker) para respeitar o rate limit da API da Notion
     cpus: 1,
-    optimizePackageImports: ['@notionhq/client', 'three', 'react-typing-effect', 'prismjs'],
-    // Inline do CSS crítico no Pages Router para reduzir o bloqueio de pintura.
-    optimizeCss: true,
+    optimizePackageImports: ['@notionhq/client', 'three', 'prismjs'],
+    // Inline do CSS no HTML — mantém o objetivo do antigo optimizeCss
+    // (CSS crítico) sem depender do critters.
+    inlineCss: true,
   },
   // Timeout maior para absorver retries com backoff contra a API da Notion
   staticPageGenerationTimeout: 300,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Next 16 só permite q=75 por padrão; preserva as quality usadas no site.
+    qualities: [70, 75, 85],
     deviceSizes: [640, 750, 828, 1080, 1200],
     remotePatterns: [
       {

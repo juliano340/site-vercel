@@ -255,10 +255,8 @@ const ExperienceTimeline = () => (
           </Reveal>
 
           <Reveal delay={0.2} variant="right" className="mt-10">
-            <Link href="/sobre" legacyBehavior>
-              <a className="mono-focus-ring inline-flex min-h-11 items-center gap-2 text-sm font-bold hover:underline underline-offset-4">
-                Trajetória completa →
-              </a>
+            <Link href="/sobre" className="mono-focus-ring inline-flex min-h-11 items-center gap-2 text-sm font-bold hover:underline underline-offset-4">
+              Trajetória completa →
             </Link>
           </Reveal>
         </div>

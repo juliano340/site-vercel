@@ -46,10 +46,8 @@ const CtaSection = () => {
 
           <Reveal delay={0.24} variant="right">
             <div className="flex flex-col gap-3">
-              <Link href="/contato" legacyBehavior>
-                <a className="mono-focus-ring mono-button-primary min-h-12 px-6 py-3">
-                  Começar meu projeto
-                </a>
+              <Link href="/contato" className="mono-focus-ring mono-button-primary min-h-12 px-6 py-3">
+                Começar meu projeto
               </Link>
               <a
                 href="https://github.com/juliano340"

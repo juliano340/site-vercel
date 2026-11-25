@@ -113,19 +113,19 @@ const Footer = () => {
             </h4>
             <nav className="grid gap-2">
               {quickLinks.map((link) => (
-                <Link key={link.name} href={link.href} legacyBehavior>
-                  <a
-                    className="mono-focus-ring inline-flex items-center justify-center px-4 py-1.5 font-medium transition-colors duration-300"
-                    style={{
-                      color: 'var(--color-muted)',
-                      textDecoration: 'none',
-                      fontSize: '0.875rem',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.textDecoration = 'underline'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.textDecoration = 'none'; }}
-                  >
-                    {link.name}
-                  </a>
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="mono-focus-ring inline-flex items-center justify-center px-4 py-1.5 font-medium transition-colors duration-300"
+                  style={{
+                    color: 'var(--color-muted)',
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.textDecoration = 'underline'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)'; e.currentTarget.style.textDecoration = 'none'; }}
+                >
+                  {link.name}
                 </Link>
               ))}
             </nav>
@@ -169,23 +169,22 @@ const Footer = () => {
                 </svg>
                 Brasil
               </div>
-              <Link href="/blog" legacyBehavior>
-                <a
-                  className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-1.5 transition-colors duration-200 md:justify-end"
-                  style={{
-                    color: 'var(--color-text)',
-                    textDecoration: 'none',
-                    fontSize: '0.875rem',
-                    fontWeight: 700,
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                  Visite o Blog
-                </a>
+              <Link
+                href="/blog"
+                className="mono-focus-ring flex items-center justify-center gap-2 px-4 py-1.5 transition-colors duration-200 md:justify-end"
+                style={{
+                  color: 'var(--color-text)',
+                  textDecoration: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: 700,
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Visite o Blog
               </Link>
             </div>
           </div>
@@ -206,20 +205,19 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center gap-4" style={{ fontSize: '0.75rem', color: 'var(--color-muted)' }}>
-            <Link href="/terminal" legacyBehavior>
-              <a
-                className="mono-focus-ring font-mono uppercase tracking-[0.16em] transition-colors duration-200"
-                style={{
-                  fontSize: '0.65rem',
-                  color: 'var(--color-muted-dim)',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; }}
-                title="Modo dev — easter egg"
-              >
-                &gt; /terminal
-              </a>
+            <Link
+              href="/terminal"
+              className="mono-focus-ring font-mono uppercase tracking-[0.16em] transition-colors duration-200"
+              style={{
+                fontSize: '0.65rem',
+                color: 'var(--color-muted-dim)',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted-dim)'; }}
+              title="Modo dev — easter egg"
+            >
+              &gt; /terminal
             </Link>
             <span className="flex items-center gap-2">
               Feito com

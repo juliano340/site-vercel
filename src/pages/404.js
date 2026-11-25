@@ -20,8 +20,8 @@ const Custom404 = () => {
       <p className="ds-body mt-4" style={{ color: 'var(--color-muted)' }}>
         Desculpe, a página que você está procurando não existe.
       </p>
-      <Link href="/home" legacyBehavior>
-        <a className="mono-focus-ring mono-button-primary mt-8 min-h-12 px-6 py-3">Voltar para a Home</a>
+      <Link href="/home" className="mono-focus-ring mono-button-primary mt-8 min-h-12 px-6 py-3">
+        Voltar para a Home
       </Link>
     </div>
   );
